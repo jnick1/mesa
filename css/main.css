@@ -6,5 +6,89 @@ and open the template in the editor.
 /* 
     Created on : Feb 15, 2016, 2:58:28 AM
     Author     : Jacob
+    These buttons were generated using CSSButtonGenerator.com
 */
+.action-btn-wrapper {
+	-moz-box-shadow:inset -1px -1px 12px 1px #ca3b2b;
+	-webkit-box-shadow:inset -1px -1px 12px 1px #ca3b2b;
+	box-shadow:inset -1px -1px 12px 1px #ca3b2b;
+	background-color:#da4b38;
+	-webkit-border-top-left-radius:8px;
+	-moz-border-radius-topleft:8px;
+	border-top-left-radius:8px;
+	-webkit-border-top-right-radius:8px;
+	-moz-border-radius-topright:8px;
+	border-top-right-radius:8px;
+	-webkit-border-bottom-right-radius:8px;
+	-moz-border-radius-bottomright:8px;
+	border-bottom-right-radius:8px;
+	-webkit-border-bottom-left-radius:8px;
+	-moz-border-radius-bottomleft:8px;
+	border-bottom-left-radius:8px;
+	text-indent:0px;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:14px;
+	font-weight:bold;
+	font-style:normal;
+	height:33px;
+	line-height:33px;
+	width:93px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #5e5e5e;
+}.action-btn-wrapper:hover {
+	background-color:#c73828;
+}.action-btn-wrapper:active {
+	position:relative;
+	top:1px;
+}
 
+.ne-btn-wrapper {
+	-moz-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
+	-webkit-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
+	box-shadow:inset -1px -1px 12px 1px #f1f1f1;
+	background-color:#f3f3f3;
+	-webkit-border-top-left-radius:8px;
+	-moz-border-radius-topleft:8px;
+	border-top-left-radius:8px;
+	-webkit-border-top-right-radius:8px;
+	-moz-border-radius-topright:8px;
+	border-top-right-radius:8px;
+	-webkit-border-bottom-right-radius:8px;
+	-moz-border-radius-bottomright:8px;
+	border-bottom-right-radius:8px;
+	-webkit-border-bottom-left-radius:8px;
+	-moz-border-radius-bottomleft:8px;
+	border-bottom-left-radius:8px;
+	text-indent:0px;
+	border:1px solid #d5d5d5;
+	display:inline-block;
+	color:#222222;
+	font-family:Arial;
+	font-size:14px;
+	font-weight:bold;
+	font-style:normal;
+	height:33px;
+	line-height:33px;
+	width:93px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #b8b8b8;
+}.ne-btn-wrapper:hover {
+	background-color:#ededed;
+}.ne-btn-wrapper:active {
+	position:relative;
+	top:1px;
+}
+
+.section-container {
+    border-bottom: 1px solid #ebebeb;
+    padding: 16px;
+    margin: 4px 0px 4px 0px;
+}
+
+.gen-btn-wrapper {
+    margin: 0px 4px 0px 4px;
+}

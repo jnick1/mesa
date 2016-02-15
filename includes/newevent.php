@@ -15,6 +15,19 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
-        
+        <div id="ne-wpg">
+            <div id="ne-top-buttons" class="section-container">
+                <div class="gen-btn-wrapper action-btn-wrapper">
+                    <div id="ne-btn-send" tabindex="1" style="-moz-user-select: none;" role="button">
+                        SEND
+                    </div>
+                </div>
+                <div class="gen-btn-wrapper ne-btn-wrapper">
+                    <div id="ne-btn-reset" tabindex="2" style="-moz-user-select: none;" role="button">
+                        Reset
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
