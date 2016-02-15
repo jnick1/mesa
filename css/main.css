@@ -8,23 +8,33 @@ and open the template in the editor.
     Author     : Jacob
     These buttons were generated using CSSButtonGenerator.com
 */
+.section-container {
+    border-bottom: 1px solid #ebebeb;
+    padding: 16px;
+    margin: 4px 0px 4px 0px;
+}
+
+.gen-btn-wrapper {
+    margin: 0px 4px 0px 4px;
+}
+
 .action-btn-wrapper {
 	-moz-box-shadow:inset -1px -1px 12px 1px #ca3b2b;
 	-webkit-box-shadow:inset -1px -1px 12px 1px #ca3b2b;
 	box-shadow:inset -1px -1px 12px 1px #ca3b2b;
 	background-color:#da4b38;
-	-webkit-border-top-left-radius:8px;
-	-moz-border-radius-topleft:8px;
-	border-top-left-radius:8px;
-	-webkit-border-top-right-radius:8px;
-	-moz-border-radius-topright:8px;
-	border-top-right-radius:8px;
-	-webkit-border-bottom-right-radius:8px;
-	-moz-border-radius-bottomright:8px;
-	border-bottom-right-radius:8px;
-	-webkit-border-bottom-left-radius:8px;
-	-moz-border-radius-bottomleft:8px;
-	border-bottom-left-radius:8px;
+	-webkit-border-top-left-radius:2px;
+	-moz-border-radius-topleft:2px;
+	border-top-left-radius:2px;
+	-webkit-border-top-right-radius:2px;
+	-moz-border-radius-topright:2px;
+	border-top-right-radius:2px;
+	-webkit-border-bottom-right-radius:2px;
+	-moz-border-radius-bottomright:2px;
+	border-bottom-right-radius:2px;
+	-webkit-border-bottom-left-radius:2px;
+	-moz-border-radius-bottomleft:2px;
+	border-bottom-left-radius:2px;
 	text-indent:0px;
 	display:inline-block;
 	color:#ffffff;
@@ -38,9 +48,11 @@ and open the template in the editor.
 	text-decoration:none;
 	text-align:center;
 	text-shadow:1px 1px 0px #5e5e5e;
-}.action-btn-wrapper:hover {
+}
+.action-btn-wrapper:hover {
 	background-color:#c73828;
-}.action-btn-wrapper:active {
+}
+.action-btn-wrapper:active {
 	position:relative;
 	top:1px;
 }
@@ -50,18 +62,18 @@ and open the template in the editor.
 	-webkit-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
 	box-shadow:inset -1px -1px 12px 1px #f1f1f1;
 	background-color:#f3f3f3;
-	-webkit-border-top-left-radius:8px;
-	-moz-border-radius-topleft:8px;
-	border-top-left-radius:8px;
-	-webkit-border-top-right-radius:8px;
-	-moz-border-radius-topright:8px;
-	border-top-right-radius:8px;
-	-webkit-border-bottom-right-radius:8px;
-	-moz-border-radius-bottomright:8px;
-	border-bottom-right-radius:8px;
-	-webkit-border-bottom-left-radius:8px;
-	-moz-border-radius-bottomleft:8px;
-	border-bottom-left-radius:8px;
+	-webkit-border-top-left-radius:2px;
+	-moz-border-radius-topleft:2px;
+	border-top-left-radius:2px;
+	-webkit-border-top-right-radius:2px;
+	-moz-border-radius-topright:2px;
+	border-top-right-radius:2px;
+	-webkit-border-bottom-right-radius:2px;
+	-moz-border-radius-bottomright:2px;
+	border-bottom-right-radius:2px;
+	-webkit-border-bottom-left-radius:2px;
+	-moz-border-radius-bottomleft:2px;
+	border-bottom-left-radius:2px;
 	text-indent:0px;
 	border:1px solid #d5d5d5;
 	display:inline-block;
@@ -76,19 +88,12 @@ and open the template in the editor.
 	text-decoration:none;
 	text-align:center;
 	text-shadow:1px 1px 0px #b8b8b8;
-}.ne-btn-wrapper:hover {
+}
+.ne-btn-wrapper:hover {
 	background-color:#ededed;
-}.ne-btn-wrapper:active {
+}
+.ne-btn-wrapper:active {
 	position:relative;
 	top:1px;
 }
 
-.section-container {
-    border-bottom: 1px solid #ebebeb;
-    padding: 16px;
-    margin: 4px 0px 4px 0px;
-}
-
-.gen-btn-wrapper {
-    margin: 0px 4px 0px 4px;
-}
