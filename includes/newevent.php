@@ -12,6 +12,8 @@ and open the template in the editor.
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/main.css"; ?>">
+        <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-2.2.0.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
@@ -27,6 +29,9 @@ and open the template in the editor.
                         Reset
                     </div>
                 </div>
+            </div>
+            <div id="ne-evt-title" class="section-container">
+                <input class="textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled Event">
             </div>
         </div>
     </body>
