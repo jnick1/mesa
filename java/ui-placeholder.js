@@ -12,6 +12,6 @@ $(document).ready(function() {
 
     $('.ui-placeholder').blur(
     function(){
-        $(this).attr("placeholder", "Untitled Event");
+        $(this).attr("placeholder", "Untitled event");
     });
 });

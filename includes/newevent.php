@@ -18,6 +18,9 @@ and open the template in the editor.
     </head>
     <body>
         <div id="ne-wpg">
+            <?php
+            include $homedir."includes/pageassembly/header.php";
+            ?>
             <div id="ne-top-buttons" class="section-container">
                 <div class="gen-btn-wrapper action-btn-wrapper">
                     <div id="ne-btn-send" tabindex="1" style="-moz-user-select: none;" role="button">
@@ -31,7 +34,10 @@ and open the template in the editor.
                 </div>
             </div>
             <div id="ne-evt-title" class="section-container">
-                <input class="textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled Event">
+                <input tabindex="3" id="ne-event-title-input" class="textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event">
+            </div>
+            <div id="ne-evt-time" class="section-container">
+                
             </div>
         </div>
     </body>

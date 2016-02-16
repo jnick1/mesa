@@ -18,6 +18,21 @@ and open the template in the editor.
     font-weight: bold;
     border-bottom: none;
 }
+#ne-event-title-input {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+#ne-header-link {
+    font-size: 24px;
+    color: #da4b38;
+    text-decoration: none;
+    font-weight: bold;
+}
+#ne-header-title {
+    border-bottom: none;
+    padding-bottom: 0px;
+}
 
 .section-container {
     border-bottom: 1px solid #ebebeb;
