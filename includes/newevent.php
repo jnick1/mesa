@@ -37,7 +37,27 @@ and open the template in the editor.
                 <input tabindex="3" id="ne-event-title-input" class="textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event">
             </div>
             <div id="ne-evt-time" class="section-container">
-                
+                <div>
+                    <span>
+                        <span>
+                            <input class="textinput" title="From date">
+                        </span>
+                        <span>
+                            <input class="textinput" title="From time">
+                        </span>
+                    </span>
+                    <span>
+                        <span>
+                            <input class="textinput" title="To time">
+                        </span>
+                        <span>
+                            <input class="textinput" title="To date">
+                        </span>
+                    </span>
+                </div>
+                <div>
+                    
+                </div>
             </div>
         </div>
     </body>
