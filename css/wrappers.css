@@ -47,6 +47,10 @@ and open the template in the editor.
 	top:1px;
 }
 
+.all-btn-wrapper {
+    margin: 0px 4px 0px 4px;
+}
+
 .gen-btn-wrapper {
 	-moz-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
 	-webkit-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
@@ -86,8 +90,3 @@ and open the template in the editor.
 	position:relative;
 	top:1px;
 }
-
-.all-btn-wrapper {
-    margin: 0px 4px 0px 4px;
-}
-

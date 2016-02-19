@@ -8,3 +8,24 @@ and open the template in the editor.
     Author     : Jacob
     These buttons were generated using CSSButtonGenerator.com
 */
+
+.details-header {
+    text-align: right;
+}
+
+#details-table th {
+    padding-right: 10px;
+    vertical-align: middle;
+}
+#details-table td {
+    
+}
+#details-table td, #details-table th{
+    padding-bottom: 10px;
+}
+
+#wpg {
+    width: 100%;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+}

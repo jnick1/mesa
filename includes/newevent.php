@@ -20,7 +20,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
-        <div id="ne-wpg">
+        <div id="wpg">
             <?php
             include $homedir."includes/pageassembly/header.php";
             ?>
@@ -37,7 +37,7 @@ and open the template in the editor.
                 </div>
             </div>
             <div id="ne-evt-title">
-                <input tabindex="3" id="ne-event-title-input" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event">
+                <input tabindex="3" id="ne-evt-title-input" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event">
             </div>
             <div id="ne-evt-time" class="ne-section-container">
                 <div>
@@ -71,53 +71,55 @@ and open the template in the editor.
                     
                 </div>
                 <div id="ne-details">
-                    <table>
+                    <table id="details-table">
                         <tbody>
                             <tr>
-                                <th>
+                                <th class="details-header">
                                     Where
                                 </th>
-                                <td>
+                                <td class="details-data">
                                     <input class="ui-textinput">
                                 </td>
                             </tr>
                             <tr>
-                                <th>
+                                <th class="details-header">
                                     Calendar
                                 </th>
-                                <td>
+                                <td class="details-data">
                                     <select>
                                         <?php
-                                            //
+                                            // insert code for list of calendars here (must echo <option>[CALDENDAR NAME]</option> as output)
                                         ?>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <th>
+                                <th class="details-header">
                                     Description
                                 </th>
-                                <td>
+                                <td class="details-data">
                                     <textarea>
                                         
                                     </textarea>
                                 </td>
                             </tr>
                             <tr>
-                                <th>
+                                <th class="details-header">
                                     Event color
                                 </th>
-                                <td>
+                                <td class="details-data">
                                     
                                 </td>
                             </tr>
                             <tr>
-                                <th>
+                                <th class="details-header">
                                     Show me as
                                 </th>
-                                <td>
-                                    <input type="radio">
-                                    <input type="radio">
+                                <td class="details-data">
+                                    <input class="ui-radiobtn" id="ne-evt-avail" type="radio" name="availability" value="available">
+                                    <label for="ne-evt-avail" >Available</label>
+                                    <input class="ui-radiobtn" id="ne-evt-busy" type="radio" name="availability" value="busy" checked>
+                                    <label for="ne-evt-busy" >Busy</label>
                                 </td>
                             </tr>
                         </tbody>

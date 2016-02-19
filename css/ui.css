@@ -8,6 +8,15 @@ and open the template in the editor.
     Author     : Jacob
 */
 
+
+.ui-cboxinput {
+    
+} /*empty*/
+
+.ui-date, .ui-time {
+    width: 65px;
+}
+
 .ui-placeholder {
     color: #888;
 }
@@ -24,13 +33,6 @@ and open the template in the editor.
 .ui-placeholder::-moz-placeholder:focus {
     
 }
-
-.ui-date, .ui-time {
-    width: 65px;
-}
-.ui-cboxinput {
-    
-} /*empty*/
 
 .ui-textinput {
     padding: 5px;

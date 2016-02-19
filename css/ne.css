@@ -8,23 +8,50 @@ and open the template in the editor.
     Author     : Jacob
 */
 
+.ne-evt-ipt-wrapper {
+    
+}
+
+.ne-label {
+    
+} /*empty*/
+
 .ne-section-container {
     border-bottom: 1px solid #ebebeb;
     padding: 16px;
     margin: 4px 0px 4px 0px;
 }
-.ne-evt-ipt-wrapper {
+
+#ne-btn-reset {
     
-}
-.ne-label {
+} /*empty*/
+#ne-btn-send {
     
 } /*empty*/
 
-#ne-wpg {
-    width: 800px;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
+#ne-details {
+    max-width: 930px;
+    min-width: 600px;
 }
+
+#ne-evt-repeatbox {
+    
+} /*empty*/
+#ne-evt-repeatbox-label {
+    
+} /*empty*/
+#ne-evt-time {
+    
+} /*empty*/
+#ne-evt-time-endgroup {
+    
+} /*empty*/
+#ne-evt-time-startgroup {
+    
+} /*empty*/
+#ne-evt-time-to {
+    
+} /*empty*/
 #ne-evt-title {
     font-size: 16px;
     font-weight: bold;
@@ -32,12 +59,17 @@ and open the template in the editor.
     padding-left: 16px;
     padding-top: 16px;
 }
-#ne-event-title-input {
+#ne-evt-title-input {
     width: 450px;
     font-size: 16px;
     font-weight: bold;
     color: #000000;
 }
+
+#ne-guests {
+    
+} /*empty*/
+
 #ne-header-link {
     font-size: 24px;
     color: #da4b38;
@@ -48,36 +80,7 @@ and open the template in the editor.
     border-bottom: none;
     padding-bottom: 0px;
 }
-#ne-evt-time-startgroup {
-    
-} /*empty*/
-#ne-evt-time-endgroup {
-    
-} /*empty*/
-#ne-btn-reset {
-    
-} /*empty*/
-#ne-btn-send {
-    
-} /*empty*/
-#ne-details {
-    
-} /*empty*/
-#ne-evt-repeatbox {
-    
-} /*empty*/
-#ne-evt-repeatbox-label {
-    
-} /*empty*/
-#ne-evt-time {
-    
-} /*empty*/
-#ne-evt-time-to {
-    
-} /*empty*/
-#ne-guests {
-    
-} /*empty*/
+
 #ne-top-buttons {
     
 } /*empty*/
