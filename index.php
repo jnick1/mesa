@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>Meeting and Event Scheduling Assistants</title>
     </head>
     <body>
         <?php
