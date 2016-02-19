@@ -1,0 +1,13 @@
+{
+    "name": "vendor/c-s-e280-m-e-s-a",
+    "description": "Description of project CSE280_MESA.",
+    "authors": [
+        {
+            "name": "willpthompson",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "google/apiclient": "dev-master"
+    }
+}
