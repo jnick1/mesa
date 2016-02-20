@@ -3,7 +3,15 @@
     "description": "Description of project CSE280_MESA.",
     "authors": [
         {
-            "name": "willpthompson",
+            "name": "William Thompson",
+            "email": "your@email.here"
+        },
+        {
+            "name": "Jacob Nick",
+            "email": "your@email.here"
+        },
+        {
+            "name": "Sierra Rush",
             "email": "your@email.here"
         }
     ],

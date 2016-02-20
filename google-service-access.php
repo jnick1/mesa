@@ -14,6 +14,8 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) { //Check if 
   $optParams = array('orderBy' => "startTime");
   $events_list = $event_service->events->listEvents('primary'); //Gets all events in player's calendar
   echo json_encode($events_list); //Output Json results, temporary
+  session_unset();
+  session_destroy();
 } else {
   $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php';
   header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL)); //Redirect to ask user authentication
