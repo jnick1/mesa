@@ -17,7 +17,7 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) { //Check if 
   session_unset();
   session_destroy();
 } else {
-  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php';
+  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/mesa/oauth2callback.php'; //Assumes mesa will be in a folder mesa, can be changed
   header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL)); //Redirect to ask user authentication
 }
 ?>
