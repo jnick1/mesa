@@ -1,4 +1,4 @@
-<div id="ne-header-title" class="section-container">
+<div id="ne-header-title">
     <a id="ne-header-link" href="<?php echo $homedir."index.php"; ?>">
         MESA
     </a>

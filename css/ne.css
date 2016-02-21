@@ -8,19 +8,27 @@ and open the template in the editor.
     Author     : Jacob
 */
 
-.ne-evt-ipt-wrapper {
+/*====================================*/
+/*==========|    Classes   |==========*/
+/*====================================*/
+
+.ne-ipt-wrapper {
     
-}
+} /*empty*/
 
 .ne-label {
     
 } /*empty*/
 
-.ne-section-container {
+.ne-container-section {
     border-bottom: 1px solid #ebebeb;
     padding: 16px;
     margin: 4px 0px 4px 0px;
 }
+
+/*====================================*/
+/*==========|     ID's     |==========*/
+/*====================================*/
 
 #ne-btn-reset {
     
@@ -29,47 +37,64 @@ and open the template in the editor.
     
 } /*empty*/
 
-#ne-details {
-    max-width: 930px;
-    min-width: 600px;
+#ne-container-details {
+    border-spacing: 0;
+    max-width: 600px;
 }
 
+#ne-details {
+/*    max-width: 930px;
+    min-width: 600px;*/
+}
+
+#ne-evt-avail {
+    
+} /*empty*/
+#ne-evt-available {
+    
+} /*empty*/
+#ne-evt-busy {
+    
+} /*empty*/
+#ne-evt-calendar {
+    
+} /*empty*/
+#ne-evt-date-end {
+    
+} /*empty*/
+#ne-evt-date-start {
+    
+} /*empty*/
+#ne-evt-description {
+    width: 100%;
+}
 #ne-evt-repeatbox {
     
 } /*empty*/
-#ne-evt-repeatbox-label {
+#ne-evt-time-end {
     
 } /*empty*/
-#ne-evt-time {
-    
-} /*empty*/
-#ne-evt-time-endgroup {
-    
-} /*empty*/
-#ne-evt-time-startgroup {
-    
-} /*empty*/
-#ne-evt-time-to {
+#ne-evt-time-start {
     
 } /*empty*/
 #ne-evt-title {
-    font-size: 16px;
-    font-weight: bold;
-    border-bottom: none;
-    padding-left: 16px;
-    padding-top: 16px;
-}
-#ne-evt-title-input {
-    width: 450px;
+    width: 100%;
+    max-width: 450px;
     font-size: 16px;
     font-weight: bold;
     color: #000000;
+}
+#ne-evt-where {
+    width: 98.5%;
 }
 
 #ne-guests {
     
 } /*empty*/
 
+#ne-header {
+    
+} /*empty*/
 #ne-header-link {
     font-size: 24px;
     color: #da4b38;
@@ -78,9 +103,35 @@ and open the template in the editor.
 }
 #ne-header-title {
     border-bottom: none;
-    padding-bottom: 0px;
 }
 
-#ne-top-buttons {
+#ne-label-repeatbox {
     
 } /*empty*/
+
+#ne-top-buttons {
+    padding-top: 16px;
+}
+#ne-top-repeat {
+    padding-top: 16px;
+}
+#ne-top-time {
+    
+} /*empty*/
+#ne-top-timegroup {
+    padding-top: 16px;
+}
+#ne-top-time-endgroup {
+    
+} /*empty*/
+#ne-top-time-startgroup {
+    
+} /*empty*/
+#ne-top-time-to {
+    
+} /*empty*/
+#ne-top-title {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: none;
+}

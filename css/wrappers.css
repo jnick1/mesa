@@ -8,7 +8,11 @@ and open the template in the editor.
     Author     : Jacob
 */
 
-.action-btn-wrapper {
+/*====================================*/
+/*==========|    Classes   |==========*/
+/*====================================*/
+
+.wrapper-btn-action {
 	-moz-box-shadow:inset -1px -1px 12px 1px #ca3b2b;
 	-webkit-box-shadow:inset -1px -1px 12px 1px #ca3b2b;
 	box-shadow:inset -1px -1px 12px 1px #ca3b2b;
@@ -39,19 +43,19 @@ and open the template in the editor.
 	text-align:center;
 	text-shadow:1px 1px 0px #5e5e5e;
 }
-.action-btn-wrapper:hover {
+.wrapper-btn-action:hover {
 	background-color:#c73828;
 }
-.action-btn-wrapper:active {
+.wrapper-btn-action:active {
 	position:relative;
 	top:1px;
 }
 
-.all-btn-wrapper {
+.wrapper-btn-all {
     margin: 0px 4px 0px 4px;
 }
 
-.gen-btn-wrapper {
+.wrapper-btn-general {
 	-moz-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
 	-webkit-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
 	box-shadow:inset -1px -1px 12px 1px #f1f1f1;
@@ -83,10 +87,10 @@ and open the template in the editor.
 	text-align:center;
 	text-shadow:1px 1px 0px #b8b8b8;
 }
-.gen-btn-wrapper:hover {
+.wrapper-btn-general:hover {
 	background-color:#ededed;
 }
-.gen-btn-wrapper:active {
+.wrapper-btn-general:active {
 	position:relative;
 	top:1px;
 }

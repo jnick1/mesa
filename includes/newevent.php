@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <?php
 $homedir = "../";
+//$dateformat_start = date("m/d/Y");
+//$dateformat_end = date("m/d/Y");
+//$timeformat_start = ""; //date("g:ia", ceil(time()/(30*60))*(30*60)."")
+//$timeformat_end = ""; //date("g:ia", ceil((time()+3600)/(30*60))*(30*60)."")
 ?>
 
 <!--
@@ -16,57 +20,62 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ne.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-2.2.0.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ui_placeholder.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/buttons.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
+        
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
         <div id="wpg">
-            <?php
-            include $homedir."includes/pageassembly/header.php";
-            ?>
-            <div id="ne-top-buttons" class="ne-section-container">
-                <div class="all-btn-wrapper action-btn-wrapper">
-                    <div id="ne-btn-send" tabindex="1" style="-moz-user-select: none;" role="button">
-                        SEND
+            <div id="ne-header" class="ne-container-section">
+                <?php
+                include $homedir."includes/pageassembly/header.php";
+                ?>
+                <div id="ne-top-buttons">
+                    <div class="wrapper-btn-all wrapper-btn-action">
+                        <div id="ne-btn-send" tabindex="1" style="-moz-user-select: none;" role="button" onclick="send_evt_request()">
+                            SEND
+                        </div>
                     </div>
-                </div>
-                <div class="all-btn-wrapper gen-btn-wrapper">
-                    <div id="ne-btn-reset" tabindex="2" style="-moz-user-select: none;" role="button">
-                        Reset
+                    <div class="wrapper-btn-all wrapper-btn-general">
+                        <div id="ne-btn-reset" tabindex="2" style="-moz-user-select: none;" role="button" onclick="reset_evt_request()">
+                            Reset
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="ne-evt-title">
-                <input tabindex="3" id="ne-evt-title-input" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event">
-            </div>
-            <div id="ne-evt-time" class="ne-section-container">
-                <div>
-                    <span id="ne-evt-time-startgroup">
-                        <span class="ne-evt-ipt-wrapper">
-                            <input class="ui-textinput ui-date" title="From date">
+            <div id="ne-top-time" class="ne-container-section">
+                <div id="ne-top-title">
+                <input tabindex="3" id="ne-evt-title" name="ne-evt-title" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event">
+                </div>
+                <div id="ne-top-timegroup">
+                    <span id="ne-top-time-startgroup">
+                        <span class="ne-ipt-wrapper">
+                            <input id="ne-evt-date-start" name="ne-evt-date-start" class="ui-textinput ui-date" title="From date">
                         </span>
-                        <span class="ne-evt-ipt-wrapper">
-                            <input class="ui-textinput ui-time" title="From time">
+                        <span class="ne-ipt-wrapper">
+                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time" title="From time">
                         </span>
                     </span>
-                    <span id="ne-evt-time-to">
+                    <span id="ne-top-time-to">
                         to
                     </span>
-                    <span id="ne-evt-time-endgroup">
-                        <span class="ne-evt-ipt-wrapper">
-                            <input class="ui-textinput ui-time" title="To time">
+                    <span id="ne-top-time-endgroup">
+                        <span class="ne-ipt-wrapper">
+                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time" title="To time">
                         </span>
-                        <span class="ne-evt-ipt-wrapper">
-                            <input class="ui-textinput ui-date" title="To date">
+                        <span class="ne-ipt-wrapper">
+                            <input id="ne-evt-date-end" name="ne-evt-date-end" class="ui-textinput ui-date" title="To date">
                         </span>
                     </span>
                 </div>
-                <div>
-                    <input id="ne-evt-repeatbox" class="ui-cboxinput" type="checkbox">
-                    <label id="ne-evt-repeatbox-label" class="ne-label" for="ne-evt-repeatbox">Repeat</label>
+                <div id="ne-top-repeat">
+                    <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-cboxinput" type="checkbox">
+                    <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat</label>
                 </div>
             </div>
-            <div class="ne-section-container">
+            <div class="ne-container-section" id="ne-container-details">
                 <div id="ne-guests">
                     
                 </div>
@@ -74,19 +83,19 @@ and open the template in the editor.
                     <table id="details-table">
                         <tbody>
                             <tr>
-                                <th class="details-header">
+                                <th>
                                     Where
                                 </th>
-                                <td class="details-data">
-                                    <input class="ui-textinput">
+                                <td>
+                                    <input class="ui-textinput" id="ne-evt-where" name="ne-evt-where">
                                 </td>
                             </tr>
                             <tr>
-                                <th class="details-header">
+                                <th>
                                     Calendar
                                 </th>
-                                <td class="details-data">
-                                    <select>
+                                <td>
+                                    <select class="" id="ne-evt-calendar" name="ne-evt-calendar">
                                         <?php
                                             // insert code for list of calendars here (must echo <option>[CALDENDAR NAME]</option> as output)
                                         ?>
@@ -94,31 +103,31 @@ and open the template in the editor.
                                 </td>
                             </tr>
                             <tr>
-                                <th class="details-header">
+                                <th>
                                     Description
                                 </th>
-                                <td class="details-data">
-                                    <textarea>
+                                <td>
+                                    <textarea class="" id="ne-evt-description" name="ne-evt-description">
                                         
                                     </textarea>
                                 </td>
                             </tr>
                             <tr>
-                                <th class="details-header">
+                                <th>
                                     Event color
                                 </th>
-                                <td class="details-data">
+                                <td>
                                     
                                 </td>
                             </tr>
                             <tr>
-                                <th class="details-header">
+                                <th>
                                     Show me as
                                 </th>
-                                <td class="details-data">
-                                    <input class="ui-radiobtn" id="ne-evt-avail" type="radio" name="availability" value="available">
+                                <td>
+                                    <input class="ui-radiobtn" id="ne-evt-available ne-evt-avail" type="radio" name="ne-evt-avail" value="available">
                                     <label for="ne-evt-avail" >Available</label>
-                                    <input class="ui-radiobtn" id="ne-evt-busy" type="radio" name="availability" value="busy" checked>
+                                    <input class="ui-radiobtn" id="ne-evt-busy ne-evt-avail" type="radio" name="ne-evt-avail" value="busy" checked>
                                     <label for="ne-evt-busy" >Busy</label>
                                 </td>
                             </tr>
@@ -127,6 +136,96 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+<!--        <div style="top: 188px; visibility: visible; left: 30px; display: block;" class="dpi-popup">
+            <div class="dp-monthtablediv monthtableSpace">
+                <table class="dp-monthtable" role="presentation" style="-moz-user-select:none;-webkit-user-select:none;" cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr class="dp-cell dp-heading" id=":3iheader">
+                            <td id=":3iprev" class="dp-cell dp-prev">«</td>
+                            <td colspan="5" id=":3icur" class="dp-cell dp-cur">February 2016</td>
+                            <td id=":3inext" class="dp-cell dp-next">»</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="dp-monthtable monthtableBody" summary="February 2016" id=":3itbl" style="-moz-user-select:none;-webkit-user-select:none;" cellpadding="0" cellspacing="0">
+                    <colgroup span="7"></colgroup>
+                    <tbody>
+                        <tr class="dp-days">
+                            <th scope="col" class="dp-cell dp-dayh dp-cell dp-weekendh" title="Sunday">S</th>
+                            <th scope="col" class="dp-cell dp-dayh" title="Monday">M</th>
+                            <th scope="col" class="dp-cell dp-dayh" title="Tuesday">T</th>
+                            <th scope="col" class="dp-cell dp-dayh" title="Wednesday">W</th>
+                            <th scope="col" class="dp-cell dp-dayh" title="Thursday">T</th>
+                            <th scope="col" class="dp-cell dp-dayh" title="Friday">F</th>
+                            <th scope="col" class="dp-cell dp-dayh dp-cell dp-weekendh" title="Saturday">S</th>
+                        </tr>
+                        <tr style="cursor:pointer" id=":3irow_0">
+                            <td id=":3iday_23608" class="dp-cell dp-weekend dp-offmonth dp-day-left ">24</td>
+                            <td id=":3iday_23609" class="dp-cell dp-weekday dp-offmonth ">25</td>
+                            <td id=":3iday_23610" class="dp-cell dp-weekday dp-offmonth ">26</td>
+                            <td id=":3iday_23611" class="dp-cell dp-weekday dp-offmonth">27</td>
+                            <td id=":3iday_23612" class="dp-cell dp-weekday dp-offmonth ">28</td>
+                            <td id=":3iday_23613" class="dp-cell dp-weekday dp-offmonth ">29</td>
+                            <td id=":3iday_23614" class="dp-cell dp-weekend dp-offmonth dp-day-right ">30</td>
+                        </tr>
+                        <tr style="cursor:pointer" id=":3irow_1">
+                            <td id=":3iday_23615" class="dp-cell dp-weekend dp-offmonth dp-day-left ">31</td>
+                            <td id=":3iday_23617" class="dp-cell dp-weekday dp-onmonth ">1</td>
+                            <td id=":3iday_23618" class="dp-cell dp-weekday dp-onmonth ">2</td>
+                            <td id=":3iday_23619" class="dp-cell dp-weekday dp-onmonth">3</td>
+                            <td id=":3iday_23620" class="dp-cell dp-weekday dp-onmonth ">4</td>
+                            <td id=":3iday_23621" class="dp-cell dp-weekday dp-onmonth ">5</td>
+                            <td id=":3iday_23622" class="dp-cell dp-weekend dp-onmonth dp-day-right ">6</td>
+                        </tr>
+                        <tr style="cursor:pointer" id=":3irow_2">
+                            <td id=":3iday_23623" class="dp-cell dp-weekend dp-onmonth dp-day-left ">7</td>
+                            <td id=":3iday_23624" class="dp-cell dp-weekday dp-onmonth ">8</td>
+                            <td id=":3iday_23625" class="dp-cell dp-weekday dp-onmonth ">9</td>
+                            <td id=":3iday_23626" class="dp-cell dp-weekday dp-onmonth ">10</td>
+                            <td id=":3iday_23627" class="dp-cell dp-weekday dp-onmonth">11</td>
+                            <td id=":3iday_23628" class="dp-cell dp-weekday dp-onmonth ">12</td>
+                            <td id=":3iday_23629" class="dp-cell dp-weekend dp-onmonth dp-day-right ">13</td>
+                        </tr>
+                        <tr style="cursor:pointer" id=":3irow_3">
+                            <td id=":3iday_23630" class="dp-cell dp-weekend dp-onmonth dp-day-left ">14</td>
+                            <td id=":3iday_23631" class="dp-cell dp-weekday dp-onmonth ">15</td>
+                            <td id=":3iday_23632" class="dp-cell dp-weekday dp-onmonth ">16</td>
+                            <td id=":3iday_23633" class="dp-cell dp-weekday dp-onmonth ">17</td>
+                            <td id=":3iday_23634" class="dp-cell dp-weekday dp-onmonth ">18</td>
+                            <td id=":3iday_23635" class="dp-cell dp-weekday dp-onmonth ">19</td>
+                            <td id=":3iday_23636" class="dp-cell dp-weekend-selected dp-today-selected dp-onmonth-selected dp-day-right ">20</td>
+                        </tr>
+                        <tr style="cursor:pointer" id=":3irow_4">
+                            <td id=":3iday_23637" class="dp-cell dp-weekend dp-onmonth dp-day-left ">21</td>
+                            <td id=":3iday_23638" class="dp-cell dp-weekday dp-onmonth ">22</td>
+                            <td id=":3iday_23639" class="dp-cell dp-weekday dp-onmonth ">23</td>
+                            <td id=":3iday_23640" class="dp-cell dp-weekday dp-onmonth ">24</td>
+                            <td id=":3iday_23641" class="dp-cell dp-weekday dp-onmonth">25</td>
+                            <td id=":3iday_23642" class="dp-cell dp-weekday dp-onmonth ">26</td>
+                            <td id=":3iday_23643" class="dp-cell dp-weekend dp-onmonth dp-day-right ">27</td>
+                        </tr>
+                        <tr style="cursor:pointer" id=":3irow_5">
+                            <td id=":3iday_23644" class="dp-cell dp-weekend dp-onmonth dp-day-left ">28</td>
+                            <td id=":3iday_23645" class="dp-cell dp-weekday dp-onmonth ">29</td>
+                            <td id=":3iday_23649" class="dp-cell dp-weekday dp-offmonth ">1</td>
+                            <td id=":3iday_23650" class="dp-cell dp-weekday dp-offmonth ">2</td>
+                            <td id=":3iday_23651" class="dp-cell dp-weekday dp-offmonth">3</td>
+                            <td id=":3iday_23652" class="dp-cell dp-weekday dp-offmonth ">4</td>
+                            <td id=":3iday_23653" class="dp-cell dp-weekend dp-offmonth dp-day-right ">5</td>
+                        </tr>
+                        <tr style="cursor:pointer" id=":3irow_6">
+                            <td id=":3iday_23654" class="dp-cell dp-weekend dp-offmonth dp-day-left ">6</td>
+                            <td id=":3iday_23655" class="dp-cell dp-weekday dp-offmonth ">7</td>
+                            <td id=":3iday_23656" class="dp-cell dp-weekday dp-offmonth ">8</td>
+                            <td id=":3iday_23657" class="dp-cell dp-weekday dp-offmonth ">9</td>
+                            <td id=":3iday_23658" class="dp-cell dp-weekday dp-offmonth">10</td>
+                            <td id=":3iday_23659" class="dp-cell dp-weekday dp-offmonth ">11</td>
+                            <td id=":3iday_23660" class="dp-cell dp-weekend dp-offmonth dp-day-right ">12</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>-->
 <!--        <div style="top: 17px; -moz-user-select: none; left: 119.35px;" class="goog-container goog-container-vertical">
             <div id=":37" style="-moz-user-select: none;" class="goog-control">12:00am</div>
             <div id=":38" style="-moz-user-select: none;" class="goog-control">12:30am</div>

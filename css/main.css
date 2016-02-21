@@ -9,16 +9,23 @@ and open the template in the editor.
     These buttons were generated using CSSButtonGenerator.com
 */
 
-.details-header {
-    text-align: right;
-}
+/*====================================*/
+/*==========|    Classes   |==========*/
+/*====================================*/
+
+
+
+/*====================================*/
+/*==========|     ID's     |==========*/
+/*====================================*/
 
 #details-table th {
     padding-right: 10px;
     vertical-align: middle;
+    text-align: right;
 }
 #details-table td {
-    
+    width: 100%;
 }
 #details-table td, #details-table th{
     padding-bottom: 10px;
