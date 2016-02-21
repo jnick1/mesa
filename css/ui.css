@@ -21,6 +21,10 @@ and open the template in the editor.
     margin-right: 4px;
 }
 
+.ui-dropdown {
+    cursor: pointer;
+}
+
 .ui-placeholder {
     color: #888;
 }
@@ -36,6 +40,10 @@ and open the template in the editor.
 }
 .ui-placeholder::-moz-placeholder:focus {
     
+}
+
+.ui-radiobtn {
+    cursor: pointer;
 }
 
 .ui-textinput {

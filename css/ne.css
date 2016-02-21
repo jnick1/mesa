@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 /*====================================*/
-/*==========|    Classes   |==========*/
+/*========|      Classes     |========*/
 /*====================================*/
 
 .ne-ipt-wrapper {
@@ -27,7 +27,7 @@ and open the template in the editor.
 }
 
 /*====================================*/
-/*==========|     ID's     |==========*/
+/*========|       ID's       |========*/
 /*====================================*/
 
 #ne-btn-reset {
@@ -47,9 +47,6 @@ and open the template in the editor.
     min-width: 600px;*/
 }
 
-#ne-evt-avail {
-    
-} /*empty*/
 #ne-evt-available {
     
 } /*empty*/
@@ -67,9 +64,24 @@ and open the template in the editor.
 } /*empty*/
 #ne-evt-description {
     width: 100%;
+    resize: none;
+    overflow: hidden;
+    font-family: inherit;
+    padding: 3px;
 }
-#ne-evt-repeatbox {
+#ne-evt-notifications {
     
+} /*empty*/
+#ne-evt-notifications-time {
+    padding: 1.5px;
+    width: 2em;
+    text-align: right;
+} /*empty*/
+#ne-evt-notifications-timetype {
+    
+} /*empty*/
+#ne-evt-repeatbox {
+    cursor: pointer;
 } /*empty*/
 #ne-evt-time-end {
     

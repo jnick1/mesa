@@ -13,11 +13,30 @@ and open the template in the editor.
 /*==========|    Classes   |==========*/
 /*====================================*/
 
-
+.details-eventcolors {
+    height: 14px;
+    width: 14px;
+    cursor: pointer;
+    border: 1px solid black;
+    margin: 0px 1px;
+    display: inline-block;
+}
+.details-eventcolors-selected {
+    
+} /*empty*/
 
 /*====================================*/
 /*==========|     ID's     |==========*/
 /*====================================*/
+
+#details-color-separator {
+    background-color: #ababab;
+    height: 16px;
+    margin: 0 5px;
+    width: 1px;
+    vertical-align: top;
+    display: inline-block;
+}
 
 #details-table th {
     padding-right: 10px;

@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <?php
 $homedir = "../";
-//$dateformat_start = date("m/d/Y");
-//$dateformat_end = date("m/d/Y");
-//$timeformat_start = ""; //date("g:ia", ceil(time()/(30*60))*(30*60)."")
-//$timeformat_end = ""; //date("g:ia", ceil((time()+3600)/(30*60))*(30*60)."")
 ?>
 
 <!--
@@ -19,10 +15,12 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/wrappers.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ne.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/colors.php"; ?>">
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-2.2.0.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/ui_placeholder.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/buttons.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/textarea-resize.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
@@ -87,7 +85,7 @@ and open the template in the editor.
                                     Where
                                 </th>
                                 <td>
-                                    <input class="ui-textinput" id="ne-evt-where" name="ne-evt-where">
+                                    <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput">
                                 </td>
                             </tr>
                             <tr>
@@ -95,7 +93,7 @@ and open the template in the editor.
                                     Calendar
                                 </th>
                                 <td>
-                                    <select class="" id="ne-evt-calendar" name="ne-evt-calendar">
+                                    <select id="ne-evt-calendar" name="ne-evt-calendar" class="ui-dropdown">
                                         <?php
                                             // insert code for list of calendars here (must echo <option>[CALDENDAR NAME]</option> as output)
                                         ?>
@@ -107,9 +105,7 @@ and open the template in the editor.
                                     Description
                                 </th>
                                 <td>
-                                    <textarea class="" id="ne-evt-description" name="ne-evt-description">
-                                        
-                                    </textarea>
+                                    <textarea id="ne-evt-description" name="ne-evt-description" class="ui-textinput" rows="3"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -117,7 +113,37 @@ and open the template in the editor.
                                     Event color
                                 </th>
                                 <td>
-                                    
+                                    <div id="ne-evt-color-default" name="ne-evt-color-default" class="details-eventcolors details-eventcolors-selected" title="default"></div>
+                                    <div id="details-color-separator"></div>
+                                    <div id="ne-evt-color-boldblue" name="ne-evt-color-boldblue" class="details-eventcolors" title="bold blue"></div>
+                                    <div id="ne-evt-color-blue" name="ne-evt-color-blue" class="details-eventcolors" title="blue"></div>
+                                    <div id="ne-evt-color-turquoise" name="ne-evt-color-turquoise" class="details-eventcolors" title="turquoise"></div>
+                                    <div id="ne-evt-color-green" name="ne-evt-color-green" class="details-eventcolors" title="green"></div>
+                                    <div id="ne-evt-color-boldgreen" name="ne-evt-color-boldgreen" class="details-eventcolors" title="boldgreen"></div>
+                                    <div id="ne-evt-color-yellow" name="ne-evt-color-yellow" class="details-eventcolors" title="yellow"></div>
+                                    <div id="ne-evt-color-orange" name="ne-evt-color-orange" class="details-eventcolors" title="orange"></div>
+                                    <div id="ne-evt-color-red" name="ne-evt-color-red" class="details-eventcolors" title="red"></div>
+                                    <div id="ne-evt-color-boldred" name="ne-evt-color-boldred" class="details-eventcolors" title="boldred"></div>
+                                    <div id="ne-evt-color-purple" name="ne-evt-color-purple" class="details-eventcolors" title="purple"></div>
+                                    <div id="ne-evt-color-gray" name="ne-evt-color-gray" class="details-eventcolors" title="gray"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Notifications
+                                </th>
+                                <td>
+                                    <select id="ne-evt-notifications" name="ne-evt-notifications" class="ui-dropdown">
+                                        <option value="1">Pop-up</option>
+                                        <option value="3">Email</option>
+                                    </select>
+                                    <input id="ne-evt-notifications-time" name="ne-evt-notifications-time" class="ui-textinput" value="30">
+                                    <select id="ne-evt-notifications-timetype" name="ne-evt-notifications-timetype" class="ui-dropdown">
+                                        <option value="60">minutes</option>
+                                        <option value="3600">hours</option>
+                                        <option value="86400">days</option>
+                                        <option value="604800">weeks</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -125,9 +151,9 @@ and open the template in the editor.
                                     Show me as
                                 </th>
                                 <td>
-                                    <input class="ui-radiobtn" id="ne-evt-available ne-evt-avail" type="radio" name="ne-evt-avail" value="available">
+                                    <input class="ui-radiobtn" id="ne-evt-available" type="radio" name="ne-evt-avail" value="available">
                                     <label for="ne-evt-avail" >Available</label>
-                                    <input class="ui-radiobtn" id="ne-evt-busy ne-evt-avail" type="radio" name="ne-evt-avail" value="busy" checked>
+                                    <input class="ui-radiobtn" id="ne-evt-busy" type="radio" name="ne-evt-avail" value="busy" checked>
                                     <label for="ne-evt-busy" >Busy</label>
                                 </td>
                             </tr>
