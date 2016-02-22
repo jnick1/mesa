@@ -33,4 +33,4 @@ $(document).ready(function init () {
     text.focus();
     text.select();
     resize();
-})
+});

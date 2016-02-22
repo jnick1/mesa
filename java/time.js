@@ -53,4 +53,98 @@ $(document).ready(function client_time(){
     $("#ne-evt-date-start").val(date_start_month + "/" + date_start_day + "/" + date_start_year);
     $("#ne-evt-date-end").val(date_end_month + "/" + date_end_day + "/" + date_end_year);
 
-})
+});
+
+/*
+ * <?php
+    for($i=0;$i<48;$i++){
+        $time = date("g:ia", strtotime((floor($i/2)).":".(($i%2)*30)));
+        echo "<div class=\"ui-dropdown-item\">".$time."</div>";
+    }
+    ?>
+ * 
+ */
+
+//$(document).ready(function end_time(){
+//    $(".ui-dropdown-item").click(function(){
+//        $("#details-dropdown-timeend-panel").html(function(){
+//            
+//        });
+//    });
+//    
+//    
+//});
+
+$(document).ready(function set_start_time(){
+    $(".ui-dropdown-item").click(function() {
+        $("#ne-evt-time-start").val($(this).html());
+        function hide(event) {
+
+        // In some cases we don't hide them
+        var targetGroup = event ? $(event.target).parents().addBack() : null;
+
+        // Are we clicking anywhere in a jq-dropdown?
+        if (targetGroup && targetGroup.is('.jq-dropdown')) {
+            // Is it a jq-dropdown menu?
+            if (targetGroup.is('.jq-dropdown-menu')) {
+                // Did we click on an option? If so close it.
+                if (!targetGroup.is('A')) return;
+            } else {
+                // Nope, it's a panel. Leave it open.
+                return;
+            }
+        }
+
+        // Hide any jq-dropdown that may be showing
+        $(document).find('.jq-dropdown:visible').each(function () {
+            var jqDropdown = $(this);
+            jqDropdown
+                .hide()
+                .removeData('jq-dropdown-trigger')
+                .trigger('hide', { jqDropdown: jqDropdown });
+        });
+
+        // Remove all jq-dropdown-open classes
+        $(document).find('.jq-dropdown-open').removeClass('jq-dropdown-open');
+
+    };
+    $(document).on('click.ui-dropdown-item', hide("jq-dropdown"));
+    });
+});
+
+$(document).ready(function set_end_time(){
+    $(".ui-dropdown-item").click(function() {
+        $("#ne-evt-time-start").val($(this).html());
+        function hide(event) {
+
+        // In some cases we don't hide them
+        var targetGroup = event ? $(event.target).parents().addBack() : null;
+
+        // Are we clicking anywhere in a jq-dropdown?
+        if (targetGroup && targetGroup.is('.jq-dropdown')) {
+            // Is it a jq-dropdown menu?
+            if (targetGroup.is('.jq-dropdown-menu')) {
+                // Did we click on an option? If so close it.
+                if (!targetGroup.is('A')) return;
+            } else {
+                // Nope, it's a panel. Leave it open.
+                return;
+            }
+        }
+
+        // Hide any jq-dropdown that may be showing
+        $(document).find('.jq-dropdown:visible').each(function () {
+            var jqDropdown = $(this);
+            jqDropdown
+                .hide()
+                .removeData('jq-dropdown-trigger')
+                .trigger('hide', { jqDropdown: jqDropdown });
+        });
+
+        // Remove all jq-dropdown-open classes
+        $(document).find('.jq-dropdown-open').removeClass('jq-dropdown-open');
+
+    };
+    $(document).on('click.ui-dropdown-item', hide("jq-dropdown"));
+    });
+});

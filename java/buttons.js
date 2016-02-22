@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-
-function reset_evt_request(){
-    alert("Placeholder");
-}
-function send_evt_request(){
-    alert("Placeholder");
-}
+$(document).ready(function (){
+    $("#ne-btn-reset").click(function reset_evt_request(){
+        alert("Placeholder");
+    });
+    $("#ne-btn-send").click(function send_evt_request(){
+        alert("Placeholder");
+    });
+});

@@ -13,6 +13,10 @@ and open the template in the editor.
 /*==========|    Classes   |==========*/
 /*====================================*/
 
+.details-dropdown-timestart-item {
+    
+} /*empty*/
+
 .details-eventcolors {
     height: 14px;
     width: 14px;
@@ -24,6 +28,16 @@ and open the template in the editor.
 .details-eventcolors-selected {
     
 } /*empty*/
+
+.details-notifications-x {
+    cursor: pointer;
+}
+
+.details-separator {
+    border-top: 1px solid #ccc;
+    height: 1px;
+    margin-bottom: 10px;
+}
 
 /*====================================*/
 /*==========|     ID's     |==========*/
@@ -50,8 +64,19 @@ and open the template in the editor.
     padding-bottom: 10px;
 }
 
+#details-dropdown-timeend {
+    
+} /*empty*/
+#details-dropdown-timeend-panel {
+    
+} /*empty*/
+#details-dropdown-timestart {
+    
+} /*empty*/
+
 #wpg {
     width: 100%;
     font-size: 14px;
     font-family: Arial, sans-serif;
 }
+

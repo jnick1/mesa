@@ -21,8 +21,13 @@ and open the template in the editor.
     margin-right: 4px;
 }
 
-.ui-dropdown {
-    cursor: pointer;
+.ui-dropdown-item {
+    cursor: default;
+    padding-bottom: 2px;
+    padding-left: 8px;
+}
+.ui-dropdown-item:hover {
+    background-color: #f2f2f2;
 }
 
 .ui-placeholder {
@@ -43,6 +48,10 @@ and open the template in the editor.
 }
 
 .ui-radiobtn {
+    cursor: pointer;
+}
+
+.ui-select {
     cursor: pointer;
 }
 
