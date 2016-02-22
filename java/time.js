@@ -65,15 +65,14 @@ $(document).ready(function client_time(){
  * 
  */
 
-//$(document).ready(function end_time(){
-//    $(".ui-dropdown-item").click(function(){
-//        $("#details-dropdown-timeend-panel").html(function(){
-//            
-//        });
-//    });
-//    
-//    
-//});
+$(document).ready(function end_time(){
+    $(".ui-dropdown-item").click(function(){
+        var end_time_html = "";
+        $("#details-dropdown-timeend-panel").html();
+    });
+    
+    
+});
 
 $(document).ready(function set_start_time(){
     $(".ui-dropdown-item").click(function() {

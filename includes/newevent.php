@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 $homedir = "../";
+$ti = 1;
 ?>
 
 <!--
@@ -16,13 +17,17 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ne.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/colors.php"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/notifications.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery.dropdown.css"; ?>">
+        
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-2.2.0.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/buttons.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/textarea-resize.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/colors-selector.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
@@ -34,12 +39,12 @@ and open the template in the editor.
                 ?>
                 <div id="ne-top-buttons">
                     <div class="wrapper-btn-all wrapper-btn-action">
-                        <div id="ne-btn-send" tabindex="1" style="-moz-user-select: none;" role="button">
+                        <div id="ne-btn-send" style="-moz-user-select: none;" role="button"<?php echo " tabindex=\"".$ti++."\"";?>>
                             SEND
                         </div>
                     </div>
                     <div class="wrapper-btn-all wrapper-btn-general">
-                        <div id="ne-btn-reset" tabindex="2" style="-moz-user-select: none;" role="button">
+                        <div id="ne-btn-reset" style="-moz-user-select: none;" role="button"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Reset
                         </div>
                     </div>
@@ -47,15 +52,15 @@ and open the template in the editor.
             </div>
             <div id="ne-top-time" class="ne-container-section">
                 <div id="ne-top-title">
-                <input tabindex="3" id="ne-evt-title" name="ne-evt-title" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event">
+                <input id="ne-evt-title" name="ne-evt-title" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event"<?php echo " tabindex=\"".$ti++."\"";?>>
                 </div>
                 <div id="ne-top-timegroup">
                     <span id="ne-top-time-startgroup">
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-date-start" name="ne-evt-date-start" class="ui-textinput ui-date" title="From date">
+                            <input id="ne-evt-date-start" name="ne-evt-date-start" class="ui-textinput ui-date" title="From date"<?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time" title="From time" data-jq-dropdown="#details-dropdown-timestart">
+                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time" title="From time" data-jq-dropdown="#details-dropdown-timestart"<?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                     </span>
                     <span id="ne-top-time-to">
@@ -63,15 +68,15 @@ and open the template in the editor.
                     </span>
                     <span id="ne-top-time-endgroup">
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time" title="To time" data-jq-dropdown="#details-dropdown-timeend">
+                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time" title="To time" data-jq-dropdown="#details-dropdown-timeend"<?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-date-end" name="ne-evt-date-end" class="ui-textinput ui-date" title="To date">
+                            <input id="ne-evt-date-end" name="ne-evt-date-end" class="ui-textinput ui-date" title="To date"<?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                     </span>
                 </div>
                 <div id="ne-top-repeat">
-                    <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-cboxinput" type="checkbox">
+                    <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-cboxinput" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                     <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat</label>
                 </div>
             </div>
@@ -87,7 +92,7 @@ and open the template in the editor.
                                     Where
                                 </th>
                                 <td>
-                                    <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput">
+                                    <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
                                 </td>
                             </tr>
                             <tr>
@@ -95,7 +100,7 @@ and open the template in the editor.
                                     Calendar
                                 </th>
                                 <td>
-                                    <select id="ne-evt-calendar" name="ne-evt-calendar" class="ui-select">
+                                    <select id="ne-evt-calendar" name="ne-evt-calendar" class="ui-select"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         <?php
                                             // insert code for list of calendars here (must echo <option>[CALDENDAR NAME]</option> as output)
                                         ?>
@@ -107,7 +112,7 @@ and open the template in the editor.
                                     Description
                                 </th>
                                 <td>
-                                    <textarea id="ne-evt-description" name="ne-evt-description" class="ui-textinput" rows="3"></textarea>
+                                    <textarea id="ne-evt-description" name="ne-evt-description" class="ui-textinput" rows="3"<?php echo " tabindex=\"".$ti++."\"";?>></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -140,20 +145,34 @@ and open the template in the editor.
                                     Notifications
                                 </th>
                                 <td>
-                                    <select id="ne-evt-notifications" name="ne-evt-notifications" class="ui-dropdown">
-                                        <option value="1">Pop-up</option>
-                                        <option value="3">Email</option>
-                                    </select>
-                                    <input id="ne-evt-notifications-time" name="ne-evt-notifications-time" class="ui-textinput" value="30">
-                                    <select id="ne-evt-notifications-timetype" name="ne-evt-notifications-timetype" class="ui-dropdown">
-                                        <option value="60">minutes</option>
-                                        <option value="3600">hours</option>
-                                        <option value="86400">days</option>
-                                        <option value="604800">weeks</option>
-                                    </select>
-                                    <span class="details-notifications-x">
-                                        <img src="<?php echo $homedir."files/images/notificationsX.php"; ?>" alt="X" title="Remove notification">
-                                    </span>
+                                    <div>
+                                        <div id="details-notifications-none" class="details-notifications details-notifications-hidden">
+                                            No notifications set
+                                        </div>
+                                        <?php
+                                        for($i=1;$i<=5;$i++){
+                                            $notificationsInsert = ""
+                                                    ."<div id=\"details-notifications-$i\" class=\"details-notifications".($i>1?" details-notifications-hidden":"")."\">\n"
+                                                    ."    <select id=\"ne-evt-notifications-$i\" name=\"ne-evt-notifications-$i\" class=\"ui-dropdown\">\n"
+                                                    ."        <option value=\"1\">Pop-up</option>\n"
+                                                    ."        <option value=\"3\">Email</option>\n"
+                                                    ."    </select>\n"
+                                                    ."    <input id=\"ne-evt-notifications-time-$i\" name=\"ne-evt-notifications-time-$i\" class=\"ui-textinput\" value=\"30\">\n"
+                                                    ."    <select id=\"ne-evt-notifications-timetype-$i\" name=\"ne-evt-notifications-timetype-$i\" class=\"ui-dropdown\">\n"
+                                                    ."        <option value=\"60\">minutes</option>\n"
+                                                    ."        <option value=\"3600\">hours</option>\n"
+                                                    ."        <option value=\"86400\">days</option>\n"
+                                                    ."        <option value=\"604800\">weeks</option>\n"
+                                                    ."    </select>\n"
+                                                    ."    <div id=\"details-notifications-x-$i\" class=\"details-notifications-x\" title=\"Remove notification\"></div>\n"
+                                                    ."</div>\n";
+                                            echo $notificationsInsert;
+                                        }
+                                        ?>
+                                    </div>
+                                    <div id="details-notifications-add" class="details-notifications">
+                                        <span id="details-notifications-addlink"<?php echo " tabindex=\"".$ti++."\"";?>>Add a notification</span>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
@@ -166,9 +185,9 @@ and open the template in the editor.
                                     Show me as
                                 </th>
                                 <td>
-                                    <input class="ui-radiobtn" id="ne-evt-available" type="radio" name="ne-evt-avail" value="available">
+                                    <input id="ne-evt-available" class="ui-radiobtn" type="radio" name="ne-evt-avail" value="available"<?php echo " tabindex=\"".$ti++."\"";?>>
                                     <label for="ne-evt-avail" >Available</label>
-                                    <input class="ui-radiobtn" id="ne-evt-busy" type="radio" name="ne-evt-avail" value="busy" checked>
+                                    <input id="ne-evt-busy" class="ui-radiobtn" type="radio" name="ne-evt-avail" value="busy" checked<?php echo " tabindex=\"".$ti++."\"";?>>
                                     <label for="ne-evt-busy" >Busy</label>
                                 </td>
                             </tr>

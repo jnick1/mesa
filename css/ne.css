@@ -21,7 +21,7 @@ and open the template in the editor.
 } /*empty*/
 
 .ne-container-section {
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #ccc;
     padding: 16px;
     margin: 4px 0px 4px 0px;
 }
@@ -39,13 +39,13 @@ and open the template in the editor.
 
 #ne-container-details {
     border-spacing: 0;
+    border-bottom: none;
     max-width: 600px;
 }
 
 #ne-details {
-/*    max-width: 930px;
-    min-width: 600px;*/
-}
+    
+} /*empty*/
 
 #ne-evt-available {
     
@@ -69,15 +69,59 @@ and open the template in the editor.
     font-family: inherit;
     padding: 3px;
 }
-#ne-evt-notifications {
+#ne-evt-notifications-1 {
     
 } /*empty*/
-#ne-evt-notifications-time {
+#ne-evt-notifications-2 {
+    
+} /*empty*/
+#ne-evt-notifications-3 {
+    
+} /*empty*/
+#ne-evt-notifications-4 {
+    
+} /*empty*/
+#ne-evt-notifications-5 {
+    
+} /*empty*/
+#ne-evt-notifications-time-1 {
     padding: 1.5px;
     width: 2em;
     text-align: right;
+}
+#ne-evt-notifications-time-2 {
+    padding: 1.5px;
+    width: 2em;
+    text-align: right;
+}
+#ne-evt-notifications-time-3 {
+    padding: 1.5px;
+    width: 2em;
+    text-align: right;
+}
+#ne-evt-notifications-time-4 {
+    padding: 1.5px;
+    width: 2em;
+    text-align: right;
+}
+#ne-evt-notifications-time-5 {
+    padding: 1.5px;
+    width: 2em;
+    text-align: right;
+}
+#ne-evt-notifications-timetype-1 {
+    
 } /*empty*/
-#ne-evt-notifications-timetype {
+#ne-evt-notifications-timetype-2 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-3 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-4 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-5 {
     
 } /*empty*/
 #ne-evt-repeatbox {

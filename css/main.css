@@ -29,8 +29,17 @@ and open the template in the editor.
     
 } /*empty*/
 
+.details-notifications {
+    margin-bottom: 5px;
+}
+.details-notifications-hidden {
+    display: none;
+}
 .details-notifications-x {
     cursor: pointer;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
 }
 
 .details-separator {
@@ -52,18 +61,6 @@ and open the template in the editor.
     display: inline-block;
 }
 
-#details-table th {
-    padding-right: 10px;
-    vertical-align: middle;
-    text-align: right;
-}
-#details-table td {
-    width: 100%;
-}
-#details-table td, #details-table th{
-    padding-bottom: 10px;
-}
-
 #details-dropdown-timeend {
     
 } /*empty*/
@@ -73,6 +70,43 @@ and open the template in the editor.
 #details-dropdown-timestart {
     
 } /*empty*/
+
+#details-notifications-1 {
+    
+} /*empty*/
+#details-notifications-2 {
+    
+} /*empty*/
+#details-notifications-3 {
+    
+} /*empty*/
+#details-notifications-4 {
+    
+} /*empty*/
+#details-notifications-5 {
+    
+} /*empty*/
+#details-notifications-add {
+    
+} /*empty*/
+#details-notifications-addlink {
+    color: #15c;
+    text-decoration: underline;
+    text-decoration-color: #15c;
+    cursor: pointer;
+}
+
+#details-table th {
+    padding-right: 10px;
+    vertical-align: top;
+    text-align: right;
+}
+#details-table td {
+    width: 100%;
+}
+#details-table td, #details-table th{
+    padding-bottom: 10px;
+}
 
 #wpg {
     width: 100%;
