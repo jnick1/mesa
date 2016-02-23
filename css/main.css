@@ -35,6 +35,11 @@ and open the template in the editor.
 .details-notifications-hidden {
     display: none;
 }
+.details-notifications-remindertime {
+    padding: 1.5px !important;
+    width: 2em;
+    text-align: right;
+}
 .details-notifications-x {
     cursor: pointer;
     display: inline-block;
@@ -87,14 +92,35 @@ and open the template in the editor.
     
 } /*empty*/
 #details-notifications-add {
-    
-} /*empty*/
+    margin-bottom: 5px;
+}
 #details-notifications-addlink {
     color: #15c;
     text-decoration: underline;
     text-decoration-color: #15c;
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
+#details-notifications-none {
+    margin-bottom: 5px;
+    color: gray;
+}
+#details-notifications-x-1 {
+    
+} /*empty*/
+#details-notifications-x-2 {
+    
+} /*empty*/
+#details-notifications-x-3 {
+    
+} /*empty*/
+#details-notifications-x-4 {
+    
+} /*empty*/
+#details-notifications-x-5 {
+    
+} /*empty*/
 
 #details-table th {
     padding-right: 10px;

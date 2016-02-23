@@ -145,32 +145,26 @@ and open the template in the editor.
                                     Notifications
                                 </th>
                                 <td>
-                                    <div>
-                                        <div id="details-notifications-none" class="details-notifications details-notifications-hidden">
+                                    <div id="wrapper-notifications">
+                                        <div id="details-notifications-none" class="details-notifications-hidden">
                                             No notifications set
                                         </div>
-                                        <?php
-                                        for($i=1;$i<=5;$i++){
-                                            $notificationsInsert = ""
-                                                    ."<div id=\"details-notifications-$i\" class=\"details-notifications".($i>1?" details-notifications-hidden":"")."\">\n"
-                                                    ."    <select id=\"ne-evt-notifications-$i\" name=\"ne-evt-notifications-$i\" class=\"ui-dropdown\">\n"
-                                                    ."        <option value=\"1\">Pop-up</option>\n"
-                                                    ."        <option value=\"3\">Email</option>\n"
-                                                    ."    </select>\n"
-                                                    ."    <input id=\"ne-evt-notifications-time-$i\" name=\"ne-evt-notifications-time-$i\" class=\"ui-textinput\" value=\"30\">\n"
-                                                    ."    <select id=\"ne-evt-notifications-timetype-$i\" name=\"ne-evt-notifications-timetype-$i\" class=\"ui-dropdown\">\n"
-                                                    ."        <option value=\"60\">minutes</option>\n"
-                                                    ."        <option value=\"3600\">hours</option>\n"
-                                                    ."        <option value=\"86400\">days</option>\n"
-                                                    ."        <option value=\"604800\">weeks</option>\n"
-                                                    ."    </select>\n"
-                                                    ."    <div id=\"details-notifications-x-$i\" class=\"details-notifications-x\" title=\"Remove notification\"></div>\n"
-                                                    ."</div>\n";
-                                            echo $notificationsInsert;
-                                        }
-                                        ?>
+                                        <div id="details-notifications-1" class="details-notifications">
+                                            <select id="ne-evt-notifications-1" name="ne-evt-notifications-1" class="ui-select" title="Notification type">
+                                                <option value="1">Pop-up</option>
+                                                <option value="3">Email</option>
+                                            </select>
+                                            <input id="ne-evt-notifications-time-1" name="ne-evt-notifications-time-1" class="details-notifications-remindertime ui-textinput" value="30" title="Reminder time">
+                                            <select id="ne-evt-notifications-timetype-1" name="ne-evt-notifications-timetype-1" class="ui-select" title="Reminder time">
+                                                <option value="60">minutes</option>
+                                                <option value="3600">hours</option>
+                                                <option value="86400">days</option>
+                                                <option value="604800">weeks</option>
+                                            </select>
+                                            <div id="details-notifications-x-1" class="details-notifications-x" title="Remove notification"></div>
+                                        </div>
                                     </div>
-                                    <div id="details-notifications-add" class="details-notifications">
+                                    <div id="details-notifications-add">
                                         <span id="details-notifications-addlink"<?php echo " tabindex=\"".$ti++."\"";?>>Add a notification</span>
                                     </div>
                                 </td>
