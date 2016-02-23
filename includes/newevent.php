@@ -53,7 +53,7 @@ and open the template in the editor.
             </div>
             <div id="ne-top-time" class="ne-container-section">
                 <div id="ne-top-title">
-                <input id="ne-evt-title" name="ne-evt-title" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event"<?php echo " tabindex=\"".$ti++."\"";?>>
+                    <input id="ne-evt-title" name="ne-evt-title" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event"<?php echo " tabindex=\"".$ti++."\"";?>>
                 </div>
                 <div id="ne-top-timegroup">
                     <span id="ne-top-time-startgroup">
@@ -93,7 +93,7 @@ and open the template in the editor.
                                     Where
                                 </th>
                                 <td>
-                                    <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput" placeholder="Enter a location"<?php echo " tabindex=\"".$ti++."\"";?>>
                                 </td>
                             </tr>
                             <tr>
