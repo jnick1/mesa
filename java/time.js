@@ -55,27 +55,22 @@ $(document).ready(function client_time(){
 
 });
 
-/*
- * <?php
-    for($i=0;$i<48;$i++){
-        $time = date("g:ia", strtotime((floor($i/2)).":".(($i%2)*30)));
-        echo "<div class=\"ui-dropdown-item\">".$time."</div>";
-    }
-    ?>
- * 
- */
-
 $(document).ready(function end_time(){
-    $(".ui-dropdown-item").click(function(){
+    $("#ne-evt-time-end").click(function(){
         var end_time_html = "";
-        $("#details-dropdown-timeend-panel").html();
+        for(var i=0;i<48;i++){
+            var flr = Math.floor(i/2);
+            var time = (i<24?(flr===0?"12":flr):(flr-12===0?"12":flr-12))+":"+(i%2===0?"0":"")+((i%2)*30)+(i<24?"am":"pm");
+            end_time_html += "<div class=\"ui-dropdown-item details-dropdown-timeend-item\">"+time+"</div>\n";
+        }
+        $("#details-dropdown-timeend-panel").html(end_time_html);
     });
     
     
 });
 
 $(document).ready(function set_start_time(){
-    $(".ui-dropdown-item").click(function() {
+    $(document).on("click", ".details-dropdown-timestart-item", function() {
         $("#ne-evt-time-start").val($(this).html());
         function hide(event) {
 
@@ -107,13 +102,13 @@ $(document).ready(function set_start_time(){
         $(document).find('.jq-dropdown-open').removeClass('jq-dropdown-open');
 
     };
-    $(document).on('click.ui-dropdown-item', hide("jq-dropdown"));
+    $(document).on("click", ".ui-dropdown-item", hide("jq-dropdown"));
     });
 });
 
 $(document).ready(function set_end_time(){
-    $(".ui-dropdown-item").click(function() {
-        $("#ne-evt-time-start").val($(this).html());
+    $(document).on("click", ".details-dropdown-timeend-item", function() {
+        $("#ne-evt-time-end").val($(this).html());
         function hide(event) {
 
         // In some cases we don't hide them
@@ -144,6 +139,6 @@ $(document).ready(function set_end_time(){
         $(document).find('.jq-dropdown-open').removeClass('jq-dropdown-open');
 
     };
-    $(document).on('click.ui-dropdown-item', hide("jq-dropdown"));
+    $(document).on("click", ".ui-dropdown-item", hide("jq-dropdown"));
     });
 });

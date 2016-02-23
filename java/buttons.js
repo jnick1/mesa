@@ -6,7 +6,7 @@
 
 $(document).ready(function (){
     $("#ne-btn-reset").click(function reset_evt_request(){
-        alert("Placeholder");
+        location.reload(true);
     });
     $("#ne-btn-send").click(function send_evt_request(){
         alert("Placeholder");

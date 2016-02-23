@@ -16,6 +16,9 @@ and open the template in the editor.
 .details-dropdown-timestart-item {
     
 } /*empty*/
+.details-dropdown-timeend-item {
+    
+} /*empty*/
 
 .details-eventcolors {
     height: 14px;
@@ -51,6 +54,13 @@ and open the template in the editor.
     border-top: 1px solid #ccc;
     height: 1px;
     margin-bottom: 10px;
+}
+
+.details-visibility-info {
+    font-size: 11px;
+}
+.details-visibility-info-hidden {
+    display: none;
 }
 
 /*====================================*/
@@ -95,13 +105,8 @@ and open the template in the editor.
     margin-bottom: 5px;
 }
 #details-notifications-addlink {
-    color: #15c;
-    text-decoration: underline;
-    text-decoration-color: #15c;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-}
+    
+} /*empty*/
 #details-notifications-none {
     margin-bottom: 5px;
     color: gray;

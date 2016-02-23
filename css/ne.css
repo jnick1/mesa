@@ -126,6 +126,15 @@ and open the template in the editor.
     font-weight: bold;
     color: #000000;
 }
+#ne-evt-visibility-default {
+    
+} /*empty*/
+#ne-evt-visibility-public {
+    
+} /*empty*/
+#ne-evt-visibility-private {
+    
+} /*empty*/
 #ne-evt-where {
     width: 98.5%;
 }

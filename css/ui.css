@@ -51,6 +51,19 @@ and open the template in the editor.
     cursor: pointer;
 }
 
+.ui-revisitablelink {
+    color: #15c;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    outline: none;
+}
+.ui-revisitablelink:hover {
+    text-decoration: underline;
+    text-decoration-color: #15c;
+}
+
 .ui-select {
     cursor: pointer;
 }

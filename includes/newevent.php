@@ -28,6 +28,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/textarea-resize.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/colors-selector.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/visibility.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
@@ -165,7 +166,7 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                     <div id="details-notifications-add">
-                                        <span id="details-notifications-addlink"<?php echo " tabindex=\"".$ti++."\"";?>>Add a notification</span>
+                                        <span id="details-notifications-addlink" class="ui-revisitablelink" <?php echo " tabindex=\"".$ti++."\"";?>>Add a notification</span>
                                     </div>
                                 </td>
                             </tr>
@@ -179,10 +180,40 @@ and open the template in the editor.
                                     Show me as
                                 </th>
                                 <td>
-                                    <input id="ne-evt-available" class="ui-radiobtn" type="radio" name="ne-evt-avail" value="available"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    <label for="ne-evt-avail" >Available</label>
-                                    <input id="ne-evt-busy" class="ui-radiobtn" type="radio" name="ne-evt-avail" value="busy" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <input id="ne-evt-available" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="available"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <label for="ne-evt-available" >Available</label>
+                                    <input id="ne-evt-busy" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="busy" checked<?php echo " tabindex=\"".$ti++."\"";?>>
                                     <label for="ne-evt-busy" >Busy</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Visibility
+                                </th>
+                                <td>
+                                    <input id="ne-evt-visibility-default" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="default" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <label for="ne-evt-visibility-default" >Calendar Default</label>
+                                    <input id="ne-evt-visibility-public" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="public"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <label for="ne-evt-visibility-public" >Public</label>
+                                    <input id="ne-evt-visibility-private" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="private"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <label for="ne-evt-visibility-private" >Private</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <td>
+                                    <div>
+                                        <span id="details-visibility-info-default" class="details-visibility-info">
+                                            By default this event will follow the <span id="goog-sharing-settings" class="ui-revisitablelink">sharing settings</span> of this calendar: event details will be visible to anyone who can see details of other events in this calendar.
+                                        </span>
+                                        <span id="details-visibility-info-public" class="details-visibility-info details-visibility-info-hidden">
+                                            Making this event public will expose all event details to anyone who has access to this calendar, even if they can't see details of other events.
+                                        </span>
+                                        <span id="details-visibility-info-private" class="details-visibility-info details-visibility-info-hidden">
+                                            Making this event private will hide all event details from anyone who has access to this calendar, unless they have "Make changes to events" level of access or higher.
+                                        </span>
+                                        <a href="https://support.google.com/calendar?p=event_visibility&amp;hl=en" class="ui-revisitablelink details-visibility-info" target="_blank">Learn more</a>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
