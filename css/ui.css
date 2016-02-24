@@ -33,19 +33,6 @@ and open the template in the editor.
 .ui-placeholder {
     color: #888;
 }
-.ui-placeholder::-moz-placeholder {
-    content: "Untitled Event";
-    font-weight: bold;
-    font-size: 16px;
-}
-.ui-placeholder::-webkit-input-placeholder {
-    content: "Untitled Event";
-    font-weight: bold;
-    font-size: 16px;
-}
-.ui-placeholder::-moz-placeholder:focus {
-    
-}
 
 .ui-radiobtn {
     cursor: pointer;

@@ -55,22 +55,20 @@ $(document).ready(function client_time(){
 
 });
 
-$(document).ready(function end_time(){
+$(document).ready(function generate_end_times(){
     $("#ne-evt-time-end").click(function(){
         var end_time_html = "";
         for(var i=0;i<48;i++){
             var flr = Math.floor(i/2);
             var time = (i<24?(flr===0?"12":flr):(flr-12===0?"12":flr-12))+":"+(i%2===0?"0":"")+((i%2)*30)+(i<24?"am":"pm");
-            end_time_html += "<div class=\"ui-dropdown-item details-dropdown-timeend-item\">"+time+"</div>\n";
+            end_time_html += "<div class=\"ui-dropdown-item ne-dropdown-timeend-item\">"+time+"</div>\n";
         }
-        $("#details-dropdown-timeend-panel").html(end_time_html);
+        $("#ne-dropdown-timeend-panel").html(end_time_html);
     });
-    
-    
 });
 
 $(document).ready(function set_start_time(){
-    $(document).on("click", ".details-dropdown-timestart-item", function() {
+    $(document).on("click", ".ne-dropdown-timestart-item", function() {
         $("#ne-evt-time-start").val($(this).html());
         function hide(event) {
 
@@ -107,7 +105,7 @@ $(document).ready(function set_start_time(){
 });
 
 $(document).ready(function set_end_time(){
-    $(document).on("click", ".details-dropdown-timeend-item", function() {
+    $(document).on("click", ".ne-dropdown-timeend-item", function() {
         $("#ne-evt-time-end").val($(this).html());
         function hide(event) {
 

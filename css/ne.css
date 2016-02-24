@@ -12,6 +12,27 @@ and open the template in the editor.
 /*========|      Classes     |========*/
 /*====================================*/
 
+.ne-container-section {
+    border-bottom: 1px solid #ccc;
+    padding: 16px;
+    margin: 4px 0px 4px 0px;
+}
+.ne-container-inline {
+    display: inline-block;
+}
+
+.ne-dropdown-timestart-item {
+    
+} /*empty*/
+.ne-dropdown-timeend-item {
+    
+} /*empty*/
+
+.ne-guests-header {
+    font-weight: bold;
+    
+}
+
 .ne-ipt-wrapper {
     
 } /*empty*/
@@ -19,12 +40,6 @@ and open the template in the editor.
 .ne-label {
     
 } /*empty*/
-
-.ne-container-section {
-    border-bottom: 1px solid #ccc;
-    padding: 16px;
-    margin: 4px 0px 4px 0px;
-}
 
 /*====================================*/
 /*========|       ID's       |========*/
@@ -39,11 +54,27 @@ and open the template in the editor.
 
 #ne-container-details {
     border-spacing: 0;
-    border-bottom: none;
-    max-width: 600px;
+    width: 100%;
+    float: left;
+    max-width: 850px;
+}
+#ne-container-guests {
+    float: right;
+    padding: 0;
+    vertical-align: top;
 }
 
 #ne-details {
+    padding-right: 300px;
+}
+
+#ne-dropdown-timeend {
+    
+} /*empty*/
+#ne-dropdown-timeend-panel {
+    
+} /*empty*/
+#ne-dropdown-timestart {
     
 } /*empty*/
 
@@ -140,8 +171,23 @@ and open the template in the editor.
 }
 
 #ne-guests {
+    width: 250px;
+}
+#ne-guests-addbutton {
     
 } /*empty*/
+#ne-guests-addbutton-wrapper {
+    font-size: 11px;
+    height: 27px;
+    min-width: 54px;
+    margin-left: 2px;
+}
+#ne-guests-emailinput {
+    padding: 1px;
+}
+#ne-guests-inputzone {
+    padding-left: 10px;
+}
 
 #ne-header {
     

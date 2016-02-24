@@ -13,13 +13,6 @@ and open the template in the editor.
 /*==========|    Classes   |==========*/
 /*====================================*/
 
-.details-dropdown-timestart-item {
-    
-} /*empty*/
-.details-dropdown-timeend-item {
-    
-} /*empty*/
-
 .details-eventcolors {
     height: 14px;
     width: 14px;
@@ -75,16 +68,6 @@ and open the template in the editor.
     vertical-align: top;
     display: inline-block;
 }
-
-#details-dropdown-timeend {
-    
-} /*empty*/
-#details-dropdown-timeend-panel {
-    
-} /*empty*/
-#details-dropdown-timestart {
-    
-} /*empty*/
 
 #details-notifications-1 {
     
@@ -142,6 +125,7 @@ and open the template in the editor.
 
 #wpg {
     width: 100%;
+    min-width: 600px;
     font-size: 14px;
     font-family: Arial, sans-serif;
 }

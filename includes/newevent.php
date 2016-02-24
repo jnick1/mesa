@@ -40,12 +40,12 @@ and open the template in the editor.
                 ?>
                 <div id="ne-top-buttons">
                     <div class="wrapper-btn-all wrapper-btn-action">
-                        <div id="ne-btn-send" style="-moz-user-select: none;" role="button"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <div id="ne-btn-send" title="Send calendar access request to all guests"<?php echo " tabindex=\"".$ti++."\"";?>>
                             SEND
                         </div>
                     </div>
                     <div class="wrapper-btn-all wrapper-btn-general">
-                        <div id="ne-btn-reset" style="-moz-user-select: none;" role="button"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <div id="ne-btn-reset" title="Reset all event settings to default"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Reset
                         </div>
                     </div>
@@ -61,7 +61,7 @@ and open the template in the editor.
                             <input id="ne-evt-date-start" name="ne-evt-date-start" class="ui-textinput ui-date" title="From date"<?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time" title="From time" data-jq-dropdown="#details-dropdown-timestart"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time" title="From time" data-jq-dropdown="#ne-dropdown-timestart"<?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                     </span>
                     <span id="ne-top-time-to">
@@ -69,7 +69,7 @@ and open the template in the editor.
                     </span>
                     <span id="ne-top-time-endgroup">
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time" title="To time" data-jq-dropdown="#details-dropdown-timeend"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time" title="To time" data-jq-dropdown="#ne-dropdown-timeend"<?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                         <span class="ne-ipt-wrapper">
                             <input id="ne-evt-date-end" name="ne-evt-date-end" class="ui-textinput ui-date" title="To date"<?php echo " tabindex=\"".$ti++."\"";?>>
@@ -81,9 +81,25 @@ and open the template in the editor.
                     <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat</label>
                 </div>
             </div>
-            <div class="ne-container-section" id="ne-container-details">
-                <div id="ne-guests">
-                    
+            <div id="ne-container-details" class="ne-container-section">
+                <div id="ne-container-guests">
+                    <div id="ne-guests">
+                        <div id="ne-guests-inputzone">
+                            <div class="ne-guests-header">
+                                Add guests
+                            </div>
+                            <div>
+                                <div class="ne-container-inline">
+                                    <input id="ne-guests-emailinput" class="ui-textinput" placeholder="Enter guest email addresses" title="Enter guest email addresses"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                </div>
+                                <div id="ne-guests-addbutton-wrapper" class="wrapper-btn-all wrapper-btn-general ne-container-inline">
+                                    <div id="ne-guests-addbutton"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Add
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="ne-details">
                     <table id="details-table">
@@ -311,18 +327,18 @@ and open the template in the editor.
                 </table>
             </div>
         </div>-->
-        <div id="details-dropdown-timestart" class="jq-dropdown jq-dropdown-scroll">
+        <div id="ne-dropdown-timestart" class="jq-dropdown jq-dropdown-scroll">
             <div class="jq-dropdown-panel">
                 <?php
                 for($i=0;$i<48;$i++){
                     $time = date("g:ia", strtotime((floor($i/2)).":".(($i%2)*30)));
-                    echo "<div class=\"ui-dropdown-item details-dropdown-timestart-item\">".$time."</div>";
+                    echo "<div class=\"ui-dropdown-item ne-dropdown-timestart-item\">".$time."</div>";
                 }
                 ?>
             </div>
         </div>
-        <div id="details-dropdown-timeend" class="jq-dropdown jq-dropdown-scroll">
-            <div id="details-dropdown-timeend-panel" class="jq-dropdown-panel">
+        <div id="ne-dropdown-timeend" class="jq-dropdown jq-dropdown-scroll">
+            <div id="ne-dropdown-timeend-panel" class="jq-dropdown-panel">
                 <?php //using javascript to fill in here based on current value in #ne-evt-time-start ?>
             </div>
         </div>
