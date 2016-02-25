@@ -30,7 +30,7 @@ $(document).ready(function init () {
     observe(text, 'drop',    delayedResize);
     observe(text, 'keydown', delayedResize);
 
-    text.focus();
-    text.select();
+//    text.focus(); //these lines were active in the original code, but I don't see any changed functionality
+//    text.select(); //with them commented out, and since they annoyed me, I'm leaving them like this.
     resize();
 });

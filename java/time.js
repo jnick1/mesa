@@ -140,3 +140,40 @@ $(document).ready(function set_end_time(){
     $(document).on("click", ".ui-dropdown-item", hide("jq-dropdown"));
     });
 });
+
+$(function(){
+    $("#ne-evt-date-start").datepicker({ dateformat: "m/dd/yy"});
+    $("#ne-evt-date-end").datepicker({ dateformat: "m/dd/yy"});
+});
+
+ function time_confliction(){
+    var datestart = $("#ne-evt-date-start").val() + " " + $("#ne-evt-time-start").val();
+    var dateend = $("#ne-evt-date-end").val() + " " + $("#ne-evt-time-end").val();
+    
+    var regex = /(\d{1,2})\/(\d{2})\/(\d{4})\s+(\d{1,2}):(\d{2})([a|p]m)/;
+    
+    var outstart = datestart.match(regex);
+    var outend = dateend.match(regex);
+    
+    var finalend = new Date(
+            parseInt(outend[3]), parseInt(outend[1]-1), 
+            parseInt(outend[2]), (parseInt(outend[4])+(outend[6]==="pm"?12:0)),
+            parseInt(outend[5]),0);
+    var finalstart = new Date(
+            parseInt(outstart[3]), parseInt(outstart[1]-1), 
+            parseInt(outstart[2]), (parseInt(outstart[4])+(outstart[6]==="pm"?12:0)),
+            parseInt(outstart[5]),0);
+            
+    if(finalend<finalstart) {
+        $("#ne-evt-date-end").addClass("ne-time-conflict");
+        $("#ne-evt-time-end").addClass("ne-time-conflict");
+    } else {
+        $("#ne-evt-date-end").removeClass("ne-time-conflict");
+        $("#ne-evt-time-end").removeClass("ne-time-conflict");
+    }
+}
+
+$(document).on("change", "#ne-evt-date-end", time_confliction);
+//$("#ne-evt-time-end").bind("change", function(){
+    //alert("hello world");
+//});

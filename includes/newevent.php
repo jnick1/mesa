@@ -18,10 +18,17 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/colors.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/notifications.php"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/datepicker.css"; ?>">
+        
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery.dropdown.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery-ui.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery-ui.structure.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery-ui.theme.css"; ?>">
         
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-2.2.0.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-ui.js"?>"></script>
+        
         <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/buttons.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
@@ -29,6 +36,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/colors-selector.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/visibility.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/guest.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
@@ -77,14 +85,14 @@ and open the template in the editor.
                     </span>
                 </div>
                 <div id="ne-top-repeat">
-                    <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-cboxinput" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                    <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                     <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat</label>
                 </div>
             </div>
             <div id="ne-container-details" class="ne-container-section">
                 <div id="ne-container-guests">
                     <div id="ne-guests">
-                        <div id="ne-guests-inputzone">
+                        <div class="ne-guests-container">
                             <div class="ne-guests-header">
                                 Add guests
                             </div>
@@ -97,6 +105,36 @@ and open the template in the editor.
                                         Add
                                     </div>
                                 </div>
+                                <div id="ne-guests-guestaddedtext" class="ne-container-inline">
+                                    Guest added
+                                </div>
+                            </div>
+                            <div class="ui-separator"></div>
+                        </div>
+                        <div>
+                            
+                        </div>
+                        <div class="ne-guests-container">
+                            <div class="ne-guests-header">
+                                Guests can
+                            </div>
+                            <div>
+                                <label class="ne-guests-container-checkbox ui-unselectabletext">
+                                    <input id="ne-evt-guests-modifyevent" name="guestsettings" value="modifyevent" type="checkbox" class="ui-checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    modify event
+                                </label>
+                                <label class="ne-guests-container-checkbox ui-unselectabletext">
+                                    <input id="ne-evt-guests-inviteothers" name="guestsettings" value="inviteothers" type="checkbox" class="ui-checkbox" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    invite others
+                                </label>
+                                <label class="ne-guests-container-checkbox ui-unselectabletext">
+                                    <input id="ne-evt-guests-seeguestlist" name="guestsettings" value="seeguestlist" type="checkbox" class="ui-checkbox" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    see guest list
+                                </label>
+                            </div>
+                            <div id="ne-guests-invitewarning" class="ui-smallfont">
+                                Guests may be able to view the guest list if changes to this event are made via a 3rd-party client. 
+                                <a href="https://support.google.com/calendar/bin/answer.py?answer=3046349&amp;hl=en" target="_blank">Learn more</a>
                             </div>
                         </div>
                     </div>
@@ -134,7 +172,7 @@ and open the template in the editor.
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <div class="details-separator"></div>
+                                    <div class="ui-separator"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -188,7 +226,7 @@ and open the template in the editor.
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <div class="details-separator"></div>
+                                    <div class="ui-separator"></div>
                                 </td>
                             </tr>
                             <tr>
@@ -219,16 +257,16 @@ and open the template in the editor.
                                 <th></th>
                                 <td>
                                     <div>
-                                        <span id="details-visibility-info-default" class="details-visibility-info">
+                                        <span id="details-visibility-info-default" class="ui-smallfont">
                                             By default this event will follow the <span id="goog-sharing-settings" class="ui-revisitablelink">sharing settings</span> of this calendar: event details will be visible to anyone who can see details of other events in this calendar.
                                         </span>
-                                        <span id="details-visibility-info-public" class="details-visibility-info details-visibility-info-hidden">
+                                        <span id="details-visibility-info-public" class="ui-smallfont details-visibility-info-hidden">
                                             Making this event public will expose all event details to anyone who has access to this calendar, even if they can't see details of other events.
                                         </span>
-                                        <span id="details-visibility-info-private" class="details-visibility-info details-visibility-info-hidden">
+                                        <span id="details-visibility-info-private" class="ui-smallfont details-visibility-info-hidden">
                                             Making this event private will hide all event details from anyone who has access to this calendar, unless they have "Make changes to events" level of access or higher.
                                         </span>
-                                        <a href="https://support.google.com/calendar?p=event_visibility&amp;hl=en" class="ui-revisitablelink details-visibility-info" target="_blank">Learn more</a>
+                                        <a href="https://support.google.com/calendar?p=event_visibility&amp;hl=en" class="ui-revisitablelink ui-smallfont" target="_blank">Learn more</a>
                                     </div>
                                 </td>
                             </tr>

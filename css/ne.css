@@ -28,9 +28,14 @@ and open the template in the editor.
     
 } /*empty*/
 
+.ne-guests-container {
+    padding-left: 10px;
+}
+.ne-guests-container-checkbox {
+    display: block;
+}
 .ne-guests-header {
     font-weight: bold;
-    
 }
 
 .ne-ipt-wrapper {
@@ -40,6 +45,10 @@ and open the template in the editor.
 .ne-label {
     
 } /*empty*/
+
+.ne-time-conflict {
+    background-color: #fff0f0 !important;
+}
 
 /*====================================*/
 /*========|       ID's       |========*/
@@ -100,6 +109,15 @@ and open the template in the editor.
     font-family: inherit;
     padding: 3px;
 }
+#ne-evt-guests-inviteothers {
+    
+} /*empty*/
+#ne-evt-guests-modifyevent {
+    
+} /*empty*/
+#ne-evt-guests-seeguestlist {
+    
+} /*empty*/
 #ne-evt-notifications-1 {
     
 } /*empty*/
@@ -178,6 +196,8 @@ and open the template in the editor.
 } /*empty*/
 #ne-guests-addbutton-wrapper {
     font-size: 11px;
+    position: relative;
+    vertical-align: top;
     height: 27px;
     min-width: 54px;
     margin-left: 2px;
@@ -185,8 +205,16 @@ and open the template in the editor.
 #ne-guests-emailinput {
     padding: 1px;
 }
-#ne-guests-inputzone {
-    padding-left: 10px;
+#ne-guests-guestaddedtext {
+    font-weight: bold;
+    font-size: .85em;
+    opacity: 0;
+    color: #080;
+}
+#ne-guests-invitewarning {
+    display: none;
+    padding-top: 5px;
+    padding-left: 30px;
 }
 
 #ne-header {

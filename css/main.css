@@ -43,15 +43,6 @@ and open the template in the editor.
     height: 10px;
 }
 
-.details-separator {
-    border-top: 1px solid #ccc;
-    height: 1px;
-    margin-bottom: 10px;
-}
-
-.details-visibility-info {
-    font-size: 11px;
-}
 .details-visibility-info-hidden {
     display: none;
 }
