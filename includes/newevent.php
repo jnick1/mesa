@@ -134,7 +134,7 @@ and open the template in the editor.
                             </div>
                             <div id="ne-guests-invitewarning" class="ui-smallfont">
                                 Guests may be able to view the guest list if changes to this event are made via a 3rd-party client. 
-                                <a href="https://support.google.com/calendar/bin/answer.py?answer=3046349&amp;hl=en" target="_blank">Learn more</a>
+                                <a href="https://support.google.com/calendar/bin/answer.py?answer=3046349&amp;hl=en" class="ui-revisitablelink" target="_blank">Learn more</a>
                             </div>
                         </div>
                     </div>
@@ -256,17 +256,17 @@ and open the template in the editor.
                             <tr>
                                 <th></th>
                                 <td>
-                                    <div>
-                                        <span id="details-visibility-info-default" class="ui-smallfont">
+                                    <div class="ui-smallfont">
+                                        <span id="details-visibility-info-default">
                                             By default this event will follow the <span id="goog-sharing-settings" class="ui-revisitablelink">sharing settings</span> of this calendar: event details will be visible to anyone who can see details of other events in this calendar.
                                         </span>
-                                        <span id="details-visibility-info-public" class="ui-smallfont details-visibility-info-hidden">
+                                        <span id="details-visibility-info-public" class="details-visibility-info-hidden">
                                             Making this event public will expose all event details to anyone who has access to this calendar, even if they can't see details of other events.
                                         </span>
-                                        <span id="details-visibility-info-private" class="ui-smallfont details-visibility-info-hidden">
+                                        <span id="details-visibility-info-private" class="details-visibility-info-hidden">
                                             Making this event private will hide all event details from anyone who has access to this calendar, unless they have "Make changes to events" level of access or higher.
                                         </span>
-                                        <a href="https://support.google.com/calendar?p=event_visibility&amp;hl=en" class="ui-revisitablelink ui-smallfont" target="_blank">Learn more</a>
+                                        <a href="https://support.google.com/calendar?p=event_visibility&amp;hl=en" class="ui-revisitablelink" target="_blank">Learn more</a>
                                     </div>
                                 </td>
                             </tr>
