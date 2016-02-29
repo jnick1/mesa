@@ -47,6 +47,18 @@ and open the template in the editor.
     display: none;
 }
 
+.wpg-header-errordisplay-bodywrapper {
+    padding: 5px;
+}
+.wpg-header-errordisplay-icon {
+    float: left;
+    margin-right: .3em;
+}
+
+.wpg-nodisplay {
+    display: none;
+}
+
 /*====================================*/
 /*==========|     ID's     |==========*/
 /*====================================*/
@@ -120,4 +132,24 @@ and open the template in the editor.
     font-size: 14px;
     font-family: Arial, sans-serif;
 }
-
+#wpg-header {
+    
+} /*empty*/
+#wpg-header-errordisplay {
+    margin-top: 8px;
+}
+#wpg-header-errordisplay-errorwrapper {
+    
+} /*empty*/
+#wpg-header-errordisplay-warningwrapper {
+    margin-top: 8px;
+}
+#wpg-header-link {
+    font-size: 24px;
+    color: #da4b38;
+    text-decoration: none;
+    font-weight: bold;
+}
+#wpg-header-title {
+    border-bottom: none;
+}

@@ -4,6 +4,24 @@
  * and open the template in the editor.
  */
 
+//set datepickers
+$(function(){
+    $("#ne-evt-date-start").datepicker({ dateformat: "m/dd/yy"});
+    $("#ne-evt-date-end").datepicker({ dateformat: "m/dd/yy"});
+});
+
+function time_parser(string){
+    //format is mm/dd/yyyy h(h):mm[a/p]m
+    var regex = /(\d{1,2})\/(\d{2})\/(\d{4})\s+(\d{1,2}):(\d{2})([ap]m)/;
+    var outstart = string.match(regex);
+    var output = new Date(
+            parseInt(outstart[3]), parseInt(outstart[1]-1), 
+            parseInt(outstart[2]), (((outstart[4]==="12" && outstart[6]==="am")?0:parseInt(outstart[4]))+(outstart[6]==="pm"?12:0)),
+            parseInt(outstart[5]),0);
+            
+    return output;
+}
+
 $(document).ready(function client_time(){
     var time = Math.floor(Date.now()/1000);
     var UTS_start = Math.ceil(time/(30*60))*(30*60);
@@ -55,8 +73,23 @@ $(document).ready(function client_time(){
 
 });
 
-$(document).ready(function generate_end_times(){
-    $("#ne-evt-time-end").click(function(){
+$(document).on("click", ".ne-dropdown-timestart-item", function duration_maintenance(){
+    
+    var start = time_parser($("#ne-evt-date-start").val() + " " + $("#ne-evt-time-start").val());
+    var end = time_parser($("#ne-evt-date-end").val() + " " + $("#ne-evt-time-end").val());
+    var diff = end.getTime()-start.getTime();
+    
+    var newstart = time_parser($("#ne-evt-date-start").val() + " " + $(this).html());
+    var newend = new Date(newstart.getTime()+diff);
+    
+    var newendtext = (newend.getHours()>12?newend.getHours()-12:newend.getHours()===0?"12":newend.getHours())+":"+(newend.getMinutes()<10?"0"+newend.getMinutes():newend.getMinutes())+(newend.getHours()>=12?"pm":"am");
+    var newenddate = (newend.getMonth()+1)+"/"+(newend.getDate()<10?"0"+newend.getDate():newend.getDate())+"/"+newend.getFullYear();
+    
+    $("#ne-evt-time-end").val(newendtext);
+    $("#ne-evt-date-end").val(newenddate);
+});
+
+$(document).on("click", "#ne-evt-time-end", function generate_end_times(){
         var end_time_html = "";
         for(var i=0;i<48;i++){
             var flr = Math.floor(i/2);
@@ -65,12 +98,12 @@ $(document).ready(function generate_end_times(){
         }
         $("#ne-dropdown-timeend-panel").html(end_time_html);
     });
-});
-
-$(document).ready(function set_start_time(){
-    $(document).on("click", ".ne-dropdown-timestart-item", function() {
-        $("#ne-evt-time-start").val($(this).html());
-        function hide(event) {
+  
+$(document).on("click", ".ne-dropdown-timestart-item", function set_start_time() {
+    
+    
+    $("#ne-evt-time-start").val($(this).html());
+    function hide(event) {
 
         // In some cases we don't hide them
         var targetGroup = event ? $(event.target).parents().addBack() : null;
@@ -100,12 +133,11 @@ $(document).ready(function set_start_time(){
         $(document).find('.jq-dropdown-open').removeClass('jq-dropdown-open');
 
     };
-    $(document).on("click", ".ui-dropdown-item", hide("jq-dropdown"));
+    $(document).on("click", ".ne-dropdown-timestart-item", hide("jq-dropdown"));
+    
     });
-});
 
-$(document).ready(function set_end_time(){
-    $(document).on("click", ".ne-dropdown-timeend-item", function() {
+$(document).on("click", ".ne-dropdown-timeend-item", function set_end_time() {
         $("#ne-evt-time-end").val($(this).html());
         function hide(event) {
 
@@ -137,43 +169,18 @@ $(document).ready(function set_end_time(){
         $(document).find('.jq-dropdown-open').removeClass('jq-dropdown-open');
 
     };
-    $(document).on("click", ".ui-dropdown-item", hide("jq-dropdown"));
+    $(document).on("click", ".ne-dropdown-timeend-item", hide("jq-dropdown"));
     });
-});
 
-$(function(){
-    $("#ne-evt-date-start").datepicker({ dateformat: "m/dd/yy"});
-    $("#ne-evt-date-end").datepicker({ dateformat: "m/dd/yy"});
-});
-
- function time_confliction(){
-    var datestart = $("#ne-evt-date-start").val() + " " + $("#ne-evt-time-start").val();
-    var dateend = $("#ne-evt-date-end").val() + " " + $("#ne-evt-time-end").val();
-    
-    var regex = /(\d{1,2})\/(\d{2})\/(\d{4})\s+(\d{1,2}):(\d{2})([a|p]m)/;
-    
-    var outstart = datestart.match(regex);
-    var outend = dateend.match(regex);
-    
-    var finalend = new Date(
-            parseInt(outend[3]), parseInt(outend[1]-1), 
-            parseInt(outend[2]), (parseInt(outend[4])+(outend[6]==="pm"?12:0)),
-            parseInt(outend[5]),0);
-    var finalstart = new Date(
-            parseInt(outstart[3]), parseInt(outstart[1]-1), 
-            parseInt(outstart[2]), (parseInt(outstart[4])+(outstart[6]==="pm"?12:0)),
-            parseInt(outstart[5]),0);
+$(document).on("change", "#ne-evt-date-end", function time_confliction(){
+    var end = time_parser($("#ne-evt-date-end").val() + " " + $("#ne-evt-time-end").val());
+    var start = time_parser($("#ne-evt-date-start").val() + " " + $("#ne-evt-time-start").val());
             
-    if(finalend<finalstart) {
+    if(end<start) {
         $("#ne-evt-date-end").addClass("ne-time-conflict");
         $("#ne-evt-time-end").addClass("ne-time-conflict");
     } else {
         $("#ne-evt-date-end").removeClass("ne-time-conflict");
         $("#ne-evt-time-end").removeClass("ne-time-conflict");
     }
-}
-
-$(document).on("change", "#ne-evt-date-end", time_confliction);
-//$("#ne-evt-time-end").bind("change", function(){
-    //alert("hello world");
-//});
+});

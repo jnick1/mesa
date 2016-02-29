@@ -2,6 +2,11 @@
 <?php
 $homedir = "../";
 $ti = 1;
+
+//these should get their values from a failed attempt at a POST request
+$errors = [];
+$warnings = [];
+
 ?>
 
 <!--
@@ -37,6 +42,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/visibility.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/guest.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/validation.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
@@ -275,96 +281,6 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-<!--        <div style="top: 188px; visibility: visible; left: 30px; display: block;" class="dpi-popup">
-            <div class="dp-monthtablediv monthtableSpace">
-                <table class="dp-monthtable" role="presentation" style="-moz-user-select:none;-webkit-user-select:none;" cellpadding="0" cellspacing="0">
-                    <tbody>
-                        <tr class="dp-cell dp-heading" id=":3iheader">
-                            <td id=":3iprev" class="dp-cell dp-prev">«</td>
-                            <td colspan="5" id=":3icur" class="dp-cell dp-cur">February 2016</td>
-                            <td id=":3inext" class="dp-cell dp-next">»</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="dp-monthtable monthtableBody" summary="February 2016" id=":3itbl" style="-moz-user-select:none;-webkit-user-select:none;" cellpadding="0" cellspacing="0">
-                    <colgroup span="7"></colgroup>
-                    <tbody>
-                        <tr class="dp-days">
-                            <th scope="col" class="dp-cell dp-dayh dp-cell dp-weekendh" title="Sunday">S</th>
-                            <th scope="col" class="dp-cell dp-dayh" title="Monday">M</th>
-                            <th scope="col" class="dp-cell dp-dayh" title="Tuesday">T</th>
-                            <th scope="col" class="dp-cell dp-dayh" title="Wednesday">W</th>
-                            <th scope="col" class="dp-cell dp-dayh" title="Thursday">T</th>
-                            <th scope="col" class="dp-cell dp-dayh" title="Friday">F</th>
-                            <th scope="col" class="dp-cell dp-dayh dp-cell dp-weekendh" title="Saturday">S</th>
-                        </tr>
-                        <tr style="cursor:pointer" id=":3irow_0">
-                            <td id=":3iday_23608" class="dp-cell dp-weekend dp-offmonth dp-day-left ">24</td>
-                            <td id=":3iday_23609" class="dp-cell dp-weekday dp-offmonth ">25</td>
-                            <td id=":3iday_23610" class="dp-cell dp-weekday dp-offmonth ">26</td>
-                            <td id=":3iday_23611" class="dp-cell dp-weekday dp-offmonth">27</td>
-                            <td id=":3iday_23612" class="dp-cell dp-weekday dp-offmonth ">28</td>
-                            <td id=":3iday_23613" class="dp-cell dp-weekday dp-offmonth ">29</td>
-                            <td id=":3iday_23614" class="dp-cell dp-weekend dp-offmonth dp-day-right ">30</td>
-                        </tr>
-                        <tr style="cursor:pointer" id=":3irow_1">
-                            <td id=":3iday_23615" class="dp-cell dp-weekend dp-offmonth dp-day-left ">31</td>
-                            <td id=":3iday_23617" class="dp-cell dp-weekday dp-onmonth ">1</td>
-                            <td id=":3iday_23618" class="dp-cell dp-weekday dp-onmonth ">2</td>
-                            <td id=":3iday_23619" class="dp-cell dp-weekday dp-onmonth">3</td>
-                            <td id=":3iday_23620" class="dp-cell dp-weekday dp-onmonth ">4</td>
-                            <td id=":3iday_23621" class="dp-cell dp-weekday dp-onmonth ">5</td>
-                            <td id=":3iday_23622" class="dp-cell dp-weekend dp-onmonth dp-day-right ">6</td>
-                        </tr>
-                        <tr style="cursor:pointer" id=":3irow_2">
-                            <td id=":3iday_23623" class="dp-cell dp-weekend dp-onmonth dp-day-left ">7</td>
-                            <td id=":3iday_23624" class="dp-cell dp-weekday dp-onmonth ">8</td>
-                            <td id=":3iday_23625" class="dp-cell dp-weekday dp-onmonth ">9</td>
-                            <td id=":3iday_23626" class="dp-cell dp-weekday dp-onmonth ">10</td>
-                            <td id=":3iday_23627" class="dp-cell dp-weekday dp-onmonth">11</td>
-                            <td id=":3iday_23628" class="dp-cell dp-weekday dp-onmonth ">12</td>
-                            <td id=":3iday_23629" class="dp-cell dp-weekend dp-onmonth dp-day-right ">13</td>
-                        </tr>
-                        <tr style="cursor:pointer" id=":3irow_3">
-                            <td id=":3iday_23630" class="dp-cell dp-weekend dp-onmonth dp-day-left ">14</td>
-                            <td id=":3iday_23631" class="dp-cell dp-weekday dp-onmonth ">15</td>
-                            <td id=":3iday_23632" class="dp-cell dp-weekday dp-onmonth ">16</td>
-                            <td id=":3iday_23633" class="dp-cell dp-weekday dp-onmonth ">17</td>
-                            <td id=":3iday_23634" class="dp-cell dp-weekday dp-onmonth ">18</td>
-                            <td id=":3iday_23635" class="dp-cell dp-weekday dp-onmonth ">19</td>
-                            <td id=":3iday_23636" class="dp-cell dp-weekend-selected dp-today-selected dp-onmonth-selected dp-day-right ">20</td>
-                        </tr>
-                        <tr style="cursor:pointer" id=":3irow_4">
-                            <td id=":3iday_23637" class="dp-cell dp-weekend dp-onmonth dp-day-left ">21</td>
-                            <td id=":3iday_23638" class="dp-cell dp-weekday dp-onmonth ">22</td>
-                            <td id=":3iday_23639" class="dp-cell dp-weekday dp-onmonth ">23</td>
-                            <td id=":3iday_23640" class="dp-cell dp-weekday dp-onmonth ">24</td>
-                            <td id=":3iday_23641" class="dp-cell dp-weekday dp-onmonth">25</td>
-                            <td id=":3iday_23642" class="dp-cell dp-weekday dp-onmonth ">26</td>
-                            <td id=":3iday_23643" class="dp-cell dp-weekend dp-onmonth dp-day-right ">27</td>
-                        </tr>
-                        <tr style="cursor:pointer" id=":3irow_5">
-                            <td id=":3iday_23644" class="dp-cell dp-weekend dp-onmonth dp-day-left ">28</td>
-                            <td id=":3iday_23645" class="dp-cell dp-weekday dp-onmonth ">29</td>
-                            <td id=":3iday_23649" class="dp-cell dp-weekday dp-offmonth ">1</td>
-                            <td id=":3iday_23650" class="dp-cell dp-weekday dp-offmonth ">2</td>
-                            <td id=":3iday_23651" class="dp-cell dp-weekday dp-offmonth">3</td>
-                            <td id=":3iday_23652" class="dp-cell dp-weekday dp-offmonth ">4</td>
-                            <td id=":3iday_23653" class="dp-cell dp-weekend dp-offmonth dp-day-right ">5</td>
-                        </tr>
-                        <tr style="cursor:pointer" id=":3irow_6">
-                            <td id=":3iday_23654" class="dp-cell dp-weekend dp-offmonth dp-day-left ">6</td>
-                            <td id=":3iday_23655" class="dp-cell dp-weekday dp-offmonth ">7</td>
-                            <td id=":3iday_23656" class="dp-cell dp-weekday dp-offmonth ">8</td>
-                            <td id=":3iday_23657" class="dp-cell dp-weekday dp-offmonth ">9</td>
-                            <td id=":3iday_23658" class="dp-cell dp-weekday dp-offmonth">10</td>
-                            <td id=":3iday_23659" class="dp-cell dp-weekday dp-offmonth ">11</td>
-                            <td id=":3iday_23660" class="dp-cell dp-weekend dp-offmonth dp-day-right ">12</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>-->
         <div id="ne-dropdown-timestart" class="jq-dropdown jq-dropdown-scroll">
             <div class="jq-dropdown-panel">
                 <?php

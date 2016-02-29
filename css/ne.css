@@ -217,25 +217,12 @@ and open the template in the editor.
     padding-left: 30px;
 }
 
-#ne-header {
-    
-} /*empty*/
-#ne-header-link {
-    font-size: 24px;
-    color: #da4b38;
-    text-decoration: none;
-    font-weight: bold;
-}
-#ne-header-title {
-    border-bottom: none;
-}
-
 #ne-label-repeatbox {
     
 } /*empty*/
 
 #ne-top-buttons {
-    padding-top: 16px;
+    margin-top: 16px;
 }
 #ne-top-repeat {
     padding-top: 16px;
