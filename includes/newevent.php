@@ -6,6 +6,7 @@ $ti = 1;
 //these should get their values from a failed attempt at a POST request
 $errors = [];
 $warnings = [];
+$notifications = [];
 
 ?>
 
@@ -17,13 +18,15 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
+        <link rel="icon" type="image/png" href="<?php echo $homedir;?>favicon.png" sizes="128x128">
+        
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/main.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/wrappers.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ne.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/colors.php"; ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/notifications.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/datepicker.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/images.php"; ?>">
         
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery.dropdown.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery-ui.css"; ?>">
@@ -222,7 +225,7 @@ and open the template in the editor.
                                                 <option value="86400">days</option>
                                                 <option value="604800">weeks</option>
                                             </select>
-                                            <div id="details-notifications-x-1" class="details-notifications-x" title="Remove notification"></div>
+                                            <div id="details-notifications-x-1" class="details-notifications-x goog-icon goog-icon-x-small" title="Remove notification"></div>
                                         </div>
                                     </div>
                                     <div id="details-notifications-add">
@@ -264,6 +267,7 @@ and open the template in the editor.
                                 <td>
                                     <div class="ui-smallfont">
                                         <span id="details-visibility-info-default">
+                                            <div class="goog-icon goog-icon-notifications-x"></div>
                                             By default this event will follow the <span id="goog-sharing-settings" class="ui-revisitablelink">sharing settings</span> of this calendar: event details will be visible to anyone who can see details of other events in this calendar.
                                         </span>
                                         <span id="details-visibility-info-public" class="details-visibility-info-hidden">

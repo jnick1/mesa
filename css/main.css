@@ -41,6 +41,7 @@ and open the template in the editor.
     display: inline-block;
     width: 10px;
     height: 10px;
+    background-repeat: no-repeat;
 }
 
 .details-visibility-info-hidden {
@@ -135,6 +136,9 @@ and open the template in the editor.
 #wpg-header {
     
 } /*empty*/
+#wpg-header-error {
+    
+} /*empty*/
 #wpg-header-errordisplay {
     margin-top: 8px;
 }
@@ -144,6 +148,12 @@ and open the template in the editor.
 #wpg-header-errordisplay-warningwrapper {
     margin-top: 8px;
 }
+#wpg-header-errordisplay-infowrapper {
+    margin-top: 8px;
+}
+#wpg-header-info {
+    
+} /*empty*/
 #wpg-header-link {
     font-size: 24px;
     color: #da4b38;
@@ -151,5 +161,8 @@ and open the template in the editor.
     font-weight: bold;
 }
 #wpg-header-title {
-    border-bottom: none;
-}
+    
+} /*empty*/
+#wpg-header-warning {
+    
+} /*empty*/

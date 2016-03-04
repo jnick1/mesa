@@ -7,51 +7,51 @@
 
 $(document).ready(function selection_editor(){
     $("#ne-evt-color-default").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-boldblue").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-blue").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-turquoise").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-green").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-boldgreen").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-yellow").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-orange").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-red").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-boldred").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-purple").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
     $("#ne-evt-color-gray").click(function(){
-        $(".details-eventcolors-selected").removeClass("details-eventcolors-selected");
-        $(this).addClass("details-eventcolors-selected");
+        $(".goog-icon goog-icon-checkmark-white").removeClass("goog-icon goog-icon-checkmark-white");
+        $(this).addClass("goog-icon goog-icon-checkmark-white");
     });
 });
