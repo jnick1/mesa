@@ -12,15 +12,6 @@ and open the template in the editor.
 /*========|      Classes     |========*/
 /*====================================*/
 
-.ne-container-section {
-    border-bottom: 1px solid #ccc;
-    padding: 16px;
-    margin: 4px 0px 4px 0px;
-}
-.ne-container-inline {
-    display: inline-block;
-}
-
 .ne-dropdown-timestart-item {
     
 } /*empty*/
@@ -34,9 +25,39 @@ and open the template in the editor.
 .ne-guests-container-checkbox {
     display: block;
 }
-.ne-guests-header {
-    font-weight: bold;
+.ne-guests-guestdata {
+    
+} /*empty*/
+.ne-guests-guestdata-content {
+    width: 100%;
 }
+
+.ne-guest-delete {
+    float: right;
+    margin: 4px 0;
+    cursor: pointer;
+}
+.ne-guest-name {
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    color: #222;
+    font-weight: bold;
+    font-size: 12px;
+}
+.ne-guest-name-wrapper {
+    padding: 2.5px 4px 3px 4px;
+}
+.ne-guest-required {
+    cursor: pointer;
+}
+.ne-guest-response-icon {
+    
+} /*empty*/
+.ne-guest-response-icon-wrapper {
+    width: 14px;
+    height: 14px;
+} /*empty*/
 
 .ne-ipt-wrapper {
     
@@ -54,12 +75,16 @@ and open the template in the editor.
 /*========|       ID's       |========*/
 /*====================================*/
 
+#ne-btn-email {
+    float: right;
+    cursor: pointer;
+}
 #ne-btn-reset {
-    
-} /*empty*/
+    cursor: pointer;
+}
 #ne-btn-send {
-    
-} /*empty*/
+    cursor: pointer;
+}
 
 #ne-container-details {
     border-spacing: 0;
@@ -202,20 +227,42 @@ and open the template in the editor.
     min-width: 54px;
     margin-left: 2px;
 }
+#ne-guests-container-list {
+    
+} /*empty*/
 #ne-guests-emailinput {
     padding: 1px;
 }
 #ne-guests-guestaddedtext {
     font-weight: bold;
     font-size: .85em;
-    opacity: 0;
-    color: #080;
+    color: #fff;
 }
+#ne-guests-header {
+    
+} /*empty*/
 #ne-guests-invitewarning {
     display: none;
     padding-top: 5px;
     padding-left: 30px;
 }
+#ne-guests-legend {
+    margin: 10px 0;
+}
+#ne-guests-list {
+    
+} /*empty*/
+#ne-guests-repsonses {
+    color: #888;
+    margin-top: 5px;
+}
+#ne-guests-table {
+    margin-top: 10px;
+    margin-bottom: 1px;
+}
+#ne-guests-table-body {
+    
+} /*empty*/
 
 #ne-label-repeatbox {
     

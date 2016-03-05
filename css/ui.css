@@ -16,6 +16,15 @@ and open the template in the editor.
     
 } /*empty*/
 
+.ui-container-section {
+    border-bottom: 1px solid #ccc;
+    padding: 16px;
+    margin: 4px 0px 4px 0px;
+}
+.ui-container-inline {
+    display: inline-block;
+}
+
 .ui-date, .ui-time {
     width: 65px;
     margin-right: 4px;
@@ -28,6 +37,10 @@ and open the template in the editor.
 }
 .ui-dropdown-item:hover {
     background-color: #f2f2f2;
+}
+
+.ui-header {
+    font-weight: bold;
 }
 
 .ui-placeholder {
@@ -67,6 +80,7 @@ and open the template in the editor.
 
 .ui-smallfont {
     font-size: 11px;
+    font-weight: normal;
 }
 
 .ui-textinput {
@@ -91,6 +105,7 @@ and open the template in the editor.
 .ui-unselectabletext {
     -moz-user-select: none;
     -webkit-user-select: none;
+    cursor: default;
 }
 
 /*====================================*/

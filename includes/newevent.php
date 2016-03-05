@@ -20,38 +20,39 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <link rel="icon" type="image/png" href="<?php echo $homedir;?>favicon.png" sizes="128x128">
         
-        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/main.css"; ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/wrappers.css"; ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ne.css"; ?>">
-        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/colors.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/datepicker.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/goog.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/images.php"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/main.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ne.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/wrappers.css"; ?>">
         
-        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery.dropdown.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery-ui.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery-ui.structure.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery-ui.theme.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."java/jquery/jquery.dropdown.css"; ?>">
         
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-2.2.0.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-ui.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         
-        <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/buttons.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/textarea-resize.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/colors-selector.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/visibility.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/guest.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/textarea-resize.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/validation.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/visibility.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
         <div id="wpg">
-            <div id="ne-header" class="ne-container-section">
+            <div id="ne-header" class="ui-container-section">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
                 ?>
@@ -68,7 +69,7 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-            <div id="ne-top-time" class="ne-container-section">
+            <div id="ne-top-time" class="ui-container-section">
                 <div id="ne-top-title">
                     <input id="ne-evt-title" name="ne-evt-title" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event"<?php echo " tabindex=\"".$ti++."\"";?>>
                 </div>
@@ -98,33 +99,77 @@ and open the template in the editor.
                     <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat</label>
                 </div>
             </div>
-            <div id="ne-container-details" class="ne-container-section">
+            <div id="ne-container-details" class="ui-container-section">
                 <div id="ne-container-guests">
                     <div id="ne-guests">
                         <div class="ne-guests-container">
-                            <div class="ne-guests-header">
+                            <div class="ui-header">
                                 Add guests
                             </div>
                             <div>
-                                <div class="ne-container-inline">
+                                <div class="ui-container-inline">
                                     <input id="ne-guests-emailinput" class="ui-textinput" placeholder="Enter guest email addresses" title="Enter guest email addresses"<?php echo " tabindex=\"".$ti++."\"";?>>
                                 </div>
-                                <div id="ne-guests-addbutton-wrapper" class="wrapper-btn-all wrapper-btn-general ne-container-inline">
+                                <div id="ne-guests-addbutton-wrapper" class="wrapper-btn-all wrapper-btn-general ui-container-inline">
                                     <div id="ne-guests-addbutton"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Add
                                     </div>
                                 </div>
-                                <div id="ne-guests-guestaddedtext" class="ne-container-inline">
+                                <div id="ne-guests-guestaddedtext" class="ui-container-inline ui-unselectabletext">
                                     Guest added
                                 </div>
                             </div>
                             <div class="ui-separator"></div>
                         </div>
-                        <div>
-                            
+                        <div id="ne-guests-container-list" class="ne-guests-container">
+                            <div id="ne-guests-legend" class="ui-smallfont">
+                                Click the <div class="goog-icon goog-icon-guest-required ui-container-inline"></div> icons below to mark as optional.
+                            </div>
+                            <div id="ne-guests-list">
+                                <div id="ne-guests-header" class="ui-header">
+                                    Guests
+                                    <div id="ne-btn-email" class="ui-container-inline">
+                                        <div class="ui-container-inline goog-icon goog-icon-gmail"></div>
+                                        <span class="ui-smallfont ui-unselectabletext">
+                                            Send calendar request
+                                        </span>
+                                    </div>
+                                </div>
+                                <div id="ne-guests-repsonses" class="ui-smallfont">
+                                    <?php
+                                    //retrieve info from database
+                                    $guestsYes = 0;
+                                    $guestsMaybe = 0;
+                                    $guestsNo = 0;
+                                    $guestsWaiting = 0;
+                                    echo "Yes: $guestsYes, Maybe: $guestsMaybe, No: $guestsNo, Awaiting: $guestsWaiting";
+                                    ?>
+                                </div>
+                                <div id="ne-guests-table">
+                                    <div id="ne-guests-table-body">
+                                        <div id="user@gmail.com" class="ne-evt-guest" required="true" title="user@gmail.com">
+                                            <div class="ne-guests-guestdata">
+                                                <div class="ne-guests-guestdata-content ui-container-inline">
+                                                    <span class="goog-icon goog-icon-guest-required ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
+                                                    <div class="ui-container-inline ne-guest-response-icon-wrapper">
+                                                        <div class="ne-guest-response-icon"></div>
+                                                    </div>
+                                                    <div class="ui-container-inline ne-guest-name-wrapper">
+                                                        <span class="ne-guest-name ui-unselectabletext">user@gmail.com</span>
+                                                    </div>
+                                                    <div class="ui-container-inline ne-guest-delete">
+                                                        <div class="goog-icon goog-icon-x-small" title="Remove this guest from the event"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-separator"></div>
                         </div>
                         <div class="ne-guests-container">
-                            <div class="ne-guests-header">
+                            <div class="ui-header">
                                 Guests can
                             </div>
                             <div>
@@ -189,7 +234,7 @@ and open the template in the editor.
                                     Event color
                                 </th>
                                 <td>
-                                    <div id="ne-evt-color-default" name="ne-evt-color-default" class="details-eventcolors details-eventcolors-selected" title="default"></div>
+                                    <div id="ne-evt-color-default" name="ne-evt-color-default" class="details-eventcolors details-eventcolors-selected" title="default"><div class="goog-icon goog-icon-colors-checkmark-white"></div></div>
                                     <div id="details-color-separator"></div>
                                     <div id="ne-evt-color-boldblue" name="ne-evt-color-boldblue" class="details-eventcolors" title="bold blue"></div>
                                     <div id="ne-evt-color-blue" name="ne-evt-color-blue" class="details-eventcolors" title="blue"></div>

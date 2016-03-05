@@ -4,7 +4,7 @@
             Mesa Organizer
         </a>
     </div>
-    <div id="wpg-header-errordisplay" class="ui-widget<?php if(count($errors)==0 && count($warnings)==0 & count($notifications)==0){echo " wpg-nodisplay";}?>">
+    <div id="wpg-header-errordisplay" class="ui-widget">
         
         <?php
         /*This section is designed to be an easy way to display errors and warnings to the user.
@@ -17,10 +17,10 @@
         <div id="wpg-header-errordisplay-errorwrapper" class="ui-state-error ui-corner-all wpg-header-errordisplay-bodywrapper<?php if(count($errors)==0){echo " wpg-nodisplay";}?>">
             <span id="wpg-header-error">
                 <?php
-                $errorFlavor = "<span class=\"ui-icon ui-icon-alert wpg-header-errordisplay-icon\"></span>\n<b>Alert: </b>";
+                $errorFlavor = "<div><span class=\"ui-icon ui-icon-alert wpg-header-errordisplay-icon\"></span>\n<b>Alert: </b>";
                 
                 for($i=0;$i<count($errors);$i++){
-                    echo $errorFlavor.$errors[$i]."\n";
+                    echo $errorFlavor.$errors[$i]."</div>";
                 }
                 ?>
             </span>
@@ -29,10 +29,10 @@
             <span id="wpg-header-warning">
                 <?php
                 
-                $warningFlavor = "<span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Warning: </b>";
+                $warningFlavor = "<div><span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Warning: </b>";
                 
                 for($i=0;$i<count($warnings);$i++){
-                    echo $warningFlavor.$warnings[$i]."\n";
+                    echo $warningFlavor.$warnings[$i]."</div>";
                 }
                 ?>
             </span>
@@ -41,10 +41,10 @@
             <span id="wpg-header-info">
                 <?php
                 
-                $infoFlavor = "<span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Notification: </b>";
+                $infoFlavor = "<div><span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Notification: </b>";
                 
                 for($i=0;$i<count($notifications);$i++){
-                    echo $infoFlavor.$notifications[$i]."\n";
+                    echo $infoFlavor.$notifications[$i]."</div>";
                 }
                 ?>
             </span>

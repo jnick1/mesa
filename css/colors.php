@@ -35,9 +35,3 @@ foreach($colors as $name => $color) {
     echo $header.$name.$background.$color.$end;
     echo $header.$name.$border.$color.$end;
 }
-
-echo ".details-eventcolors-selected {\n"
-        . "background-image: url(\"".$homedir."files/images/colorscheckmark.php\");\n"
-        . "background-repeat: no-repeat;\n"
-        . "background-position: center;\n"
-        . "}\n";
