@@ -12,7 +12,7 @@ $(function(){
 
 function time_parser(string){
     //format is mm/dd/yyyy h(h):mm[a/p]m
-    var regex = /(\d{1,2})\/(\d{2})\/(\d{4})\s+(\d{1,2}):(\d{2})([ap]m)/;
+    var regex = /(\d{2})\/(\d{2})\/(\d{4})\s+(\d{1,2}):(\d{2})([ap]m)/;
     var outstart = string.match(regex);
     var output = new Date(
             parseInt(outstart[3]), parseInt(outstart[1]-1), 
@@ -41,6 +41,11 @@ $(document).ready(function client_time(){
     var hours_start = time_start.getHours();
     var hours_end = time_end.getHours();
     var minutes = time_start.getMinutes();
+    
+    date_start_month<10?date_start_month="0"+date_start_month:"";
+    date_end_month<10?date_end_month="0"+date_end_month:"";
+    date_start_day<10?date_start_day="0"+date_start_day:"";
+    date_end_day<10?date_end_day="0"+date_end_day:"";
 
     var suffix_start = "am";
     var suffix_end = "am";
@@ -83,7 +88,7 @@ $(document).on("click", ".ne-dropdown-timestart-item", function duration_mainten
     var newend = new Date(newstart.getTime()+diff);
     
     var newendtext = (newend.getHours()>12?newend.getHours()-12:newend.getHours()===0?"12":newend.getHours())+":"+(newend.getMinutes()<10?"0"+newend.getMinutes():newend.getMinutes())+(newend.getHours()>=12?"pm":"am");
-    var newenddate = (newend.getMonth()+1)+"/"+(newend.getDate()<10?"0"+newend.getDate():newend.getDate())+"/"+newend.getFullYear();
+    var newenddate = ((newend.getMonth()+1)<10?("0"+(newend.getMonth()+1)):(newend.getMonth()+1))+"/"+(newend.getDate()<10?"0"+newend.getDate():newend.getDate())+"/"+newend.getFullYear();
     
     $("#ne-evt-time-end").val(newendtext);
     $("#ne-evt-date-end").val(newenddate);
@@ -100,8 +105,6 @@ $(document).on("click", "#ne-evt-time-end", function generate_end_times(){
     });
   
 $(document).on("click", ".ne-dropdown-timestart-item", function set_start_time() {
-    
-    
     $("#ne-evt-time-start").val($(this).html());
     function hide(event) {
 
@@ -138,8 +141,8 @@ $(document).on("click", ".ne-dropdown-timestart-item", function set_start_time()
     });
 
 $(document).on("click", ".ne-dropdown-timeend-item", function set_end_time() {
-        $("#ne-evt-time-end").val($(this).html());
-        function hide(event) {
+    $("#ne-evt-time-end").val($(this).html());
+    function hide(event) {
 
         // In some cases we don't hide them
         var targetGroup = event ? $(event.target).parents().addBack() : null;
@@ -182,5 +185,19 @@ $(document).on("change", "#ne-evt-date-end", function time_confliction(){
     } else {
         $("#ne-evt-date-end").removeClass("ne-time-conflict");
         $("#ne-evt-time-end").removeClass("ne-time-conflict");
+    }
+});
+
+$(document).on("keydown", "#ne-evt-time-start", function(e){
+    var code = e.which;
+    if(code===13||code===9){
+        generate_end_times();
+    }
+});
+
+$(document).on("keyup", "#ne-evt-time-end", function(e){
+    var code = e.which;
+    if(code===13||code===9){
+        generate_end_times();
     }
 });
