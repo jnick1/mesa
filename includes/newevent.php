@@ -130,7 +130,7 @@ and open the template in the editor.
                                     Guests
                                     <div id="ne-btn-email" class="ui-container-inline">
                                         <div class="ui-container-inline goog-icon goog-icon-gmail"></div>
-                                        <span class="ui-smallfont ui-unselectabletext">
+                                        <span class="ui-smallfont">
                                             Send calendar request
                                         </span>
                                     </div>
@@ -147,14 +147,14 @@ and open the template in the editor.
                                 </div>
                                 <div id="ne-guests-table">
                                     <div id="ne-guests-table-body">
-                                        <div id="user@gmail.com" class="ne-evt-guest" required="true" title="user@gmail.com">
+                                        <div id="user@gmail.com" class="ne-evt-guest" data-required="true" title="user@gmail.com">
                                             <div class="ne-guests-guestdata">
                                                 <div class="ne-guests-guestdata-content ui-container-inline">
                                                     <span class="goog-icon goog-icon-guest-required ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
                                                     <div class="ui-container-inline ne-guest-response-icon-wrapper">
                                                         <div class="ne-guest-response-icon"></div>
                                                     </div>
-                                                    <div class="ui-container-inline ne-guest-name-wrapper">
+                                                    <div id="user@gmail.com@display" class="ne-guest-name-wrapper ui-container-inline">
                                                         <span class="ne-guest-name ui-unselectabletext">user@gmail.com</span>
                                                     </div>
                                                     <div class="ui-container-inline ne-guest-delete">

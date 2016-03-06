@@ -47,6 +47,7 @@ and open the template in the editor.
 }
 .ne-guest-name-wrapper {
     padding: 2.5px 4px 3px 4px;
+    width: calc(100% - 65px);
 }
 .ne-guest-required {
     cursor: pointer;
