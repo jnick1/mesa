@@ -36,8 +36,7 @@ function guest_conflict(){
     }
     return false;
 }
-
-$(document).on("click", "#ne-guests-addbutton", function add_guest(){
+function add_guest(){
     var email = $("#ne-guests-emailinput").val();
     if(email!=="" && validate_email(email)){
         if($("#ne-guests-container-list").hasClass("wpg-nodisplay")){
@@ -73,6 +72,35 @@ $(document).on("click", "#ne-guests-addbutton", function add_guest(){
         $("#wpg-header-warning").append("<div><span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Warning: </b>Invalid email address supplied; please enter a valid email.</div>");
         $("#wpg-header-errordisplay-warningwrapper").removeClass("wpg-nodisplay");
     }
+}
+
+$(document).on("click", "#ne-guests-addbutton", add_guest());
+
+$(document).on("click", ".ne-guest-delete", function remove_guest(){
+    $(this).parents(".ne-evt-guest").remove();
+    if($("#ne-guests-table-body").html().trim()===""){
+        $("#ne-guests-container-list").addClass("wpg-nodisplay");
+    }
+});
+
+$(document).on("click", ".ne-guest-required", function change_required(){
+    if($(this).hasClass("goog-icon-guest-required")){
+        $(this).removeClass("goog-icon-guest-required");
+        $(this).addClass("goog-icon-guest-optional");
+        $(this).parents(".ne-evt-guest").attr("data-required", "false");
+    } else if($(this).hasClass("goog-icon-guest-optional")){
+        $(this).removeClass("goog-icon-guest-optional");
+        $(this).addClass("goog-icon-guest-required");
+        $(this).parents(".ne-evt-guest").attr("data-required", "true");
+    }
+});
+
+$(document).on("keyup", "#ne-guests-emailinput", function(e){ 
+    var code = e.which;
+    if(code===13)e.preventDefault();
+    if(code===32||code===13||code===188||code===186){
+        add_guest();
+    }
 });
 
 function see_guest_list_checked(){
@@ -99,22 +127,3 @@ function modify_event_checked(){
 }
 $(document).on("click", "#ne-evt-guests-modifyevent", modify_event_checked);
 $(document).ready(modify_event_checked);
-
-$(document).on("click", ".ne-guest-delete", function remove_guest(){
-    $(this).parents(".ne-evt-guest").remove();
-    if($("#ne-guests-table-body").html().trim()===""){
-        $("#ne-guests-container-list").addClass("wpg-nodisplay");
-    }
-});
-
-$(document).on("click", ".ne-guest-required", function change_required(){
-    if($(this).hasClass("goog-icon-guest-required")){
-        $(this).removeClass("goog-icon-guest-required");
-        $(this).addClass("goog-icon-guest-optional");
-        $(this).parents(".ne-evt-guest").attr("data-required", "false");
-    } else if($(this).hasClass("goog-icon-guest-optional")){
-        $(this).removeClass("goog-icon-guest-optional");
-        $(this).addClass("goog-icon-guest-required");
-        $(this).parents(".ne-evt-guest").attr("data-required", "true");
-    }
-});
