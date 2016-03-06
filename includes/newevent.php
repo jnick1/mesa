@@ -147,14 +147,15 @@ and open the template in the editor.
                                 </div>
                                 <div id="ne-guests-table">
                                     <div id="ne-guests-table-body">
-                                        <div id="user@gmail.com" class="ne-evt-guest" data-required="true" title="user@gmail.com">
+                                        <?php // will need to pull user email from login info into this section?>
+                                        <div id="<?php?>user@gmail.com" class="ne-evt-guest" data-required="true" title="user@gmail.com">
                                             <div class="ne-guests-guestdata">
                                                 <div class="ne-guests-guestdata-content ui-container-inline">
                                                     <span class="goog-icon goog-icon-guest-required ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
                                                     <div class="ui-container-inline ne-guest-response-icon-wrapper">
                                                         <div class="ne-guest-response-icon"></div>
                                                     </div>
-                                                    <div id="user@gmail.com@display" class="ne-guest-name-wrapper ui-container-inline">
+                                                    <div id="<?php?>user@gmail.com@display" class="ne-guest-name-wrapper ui-container-inline">
                                                         <span class="ne-guest-name ui-unselectabletext">user@gmail.com</span>
                                                     </div>
                                                     <div class="ui-container-inline ne-guest-delete">
