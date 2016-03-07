@@ -357,23 +357,13 @@ and open the template in the editor.
     margin-bottom: 15px;
 }
 #ne-repeat-dialogbox {
-    position: fixed;
     min-width: 400px;
     top: calc(50% - 200px);
     left: calc(50% - 200px);
-    
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #acacac;
-    color: #222;
-    font-size: 14px;
-    font-family: Arial, sans-serif;
-    
-    -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    -ms-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
+#ne-repeat-edit {
+    
+} /*empty*/
 #ne-repeat-header {
     font-size: 16px;
     padding: 10px 15px;
@@ -382,6 +372,9 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-repeat-summary {
+    
+} /*empty*/
+#ne-repeat-summary-display {
     
 } /*empty*/
 #ne-repeat-table-0 {

@@ -127,3 +127,7 @@ function modify_event_checked(){
 }
 $(document).on("click", "#ne-evt-guests-modifyevent", modify_event_checked);
 $(document).ready(modify_event_checked);
+
+$(document).on("click", "#ne-btn-email", function(){
+    alert("Placeholder");
+});

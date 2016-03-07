@@ -97,7 +97,9 @@ and open the template in the editor.
                 </div>
                 <div id="ne-top-repeat">
                     <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                    <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat</label>
+                    <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat...</label>
+                    <span id="ne-repeat-summary-display" class="ui-header wpg-nodisplay">Daily</span>
+                    <span id="ne-repeat-edit" class="ui-revisitablelink wpg-nodisplay">Edit</span>
                 </div>
             </div>
             <div id="ne-container-details" class="ui-container-section">
@@ -348,7 +350,7 @@ and open the template in the editor.
             </div>
         </div>
         <div id="ne-repeat-wrapper" class="ui-popup">
-            <div id="ne-repeat-dialogbox">
+            <div id="ne-repeat-dialogbox" class="ui-dialogbox">
                 <div id="ne-repeat-header">
                     <span class="ui-header">Repeat</span>
                     <span id="ne-repeat-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
