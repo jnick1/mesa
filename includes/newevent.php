@@ -42,6 +42,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/colors-selector.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/guest.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/repeat.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/textarea-resize.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
@@ -195,7 +196,7 @@ and open the template in the editor.
                     </div>
                 </div>
                 <div id="ne-details">
-                    <table id="details-table">
+                    <table class="ui-table">
                         <tbody>
                             <tr>
                                 <th>
@@ -344,6 +345,159 @@ and open the template in the editor.
         <div id="ne-dropdown-timeend" class="jq-dropdown jq-dropdown-scroll">
             <div id="ne-dropdown-timeend-panel" class="jq-dropdown-panel">
                 <?php //using javascript to fill in here based on current value in #ne-evt-time-start ?>
+            </div>
+        </div>
+        <div id="ne-repeat-wrapper" class="ui-popup">
+            <div id="ne-repeat-dialogbox">
+                <div id="ne-repeat-header">
+                    <span class="ui-header">Repeat</span>
+                    <span id="ne-repeat-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="ne-repeat-table-wrapper">
+                    <table class="ui-table">
+                        <tbody>
+                            <tr id="ne-repeat-table-0">
+                                <th>
+                                    Repeats:
+                                </th>
+                                <td>
+                                    <select id="ne-evt-repeat-repeats" name="ne-evt-repeat-repeats" class="ui-select"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <option value="0">Daily</option>
+                                        <option value="1">Every weekday (Monday to Friday)</option>
+                                        <option value="2">Every Monday, Wednesday, and Friday</option>
+                                        <option value="3">Every Tuesday and Thursday</option>
+                                        <option value="4">Weekly</option>
+                                        <option value="5">Monthly</option>
+                                        <option value="6">Yearly</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="ne-repeat-table-1">
+                                <th>
+                                    Repeat every:
+                                </th>
+                                <td>
+                                    <select id="ne-evt-repeat-repeatevery" name="ne-evt-repeat-repeatevery" class="ui-select"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <?php
+                                        for($i=1;$i<=30;$i++){
+                                            echo "<option value=\"$i\">$i</option>\n";
+                                        }
+                                        ?>
+                                    </select>
+                                    <span id="ne-repeat-repeatevery-label">
+                                        days
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr id="ne-repeat-table-2" class="wpg-nodisplay">
+                                <th>
+                                    Repeats on:
+                                </th>
+                                <td>
+                                    <div>
+                                        <span class="ui-container-inline">
+                                            <input id="ne-evt-repeat-repeatson-0" name="ne-evt-repeat-repeatson-0" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Sunday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <label for="ne-evt-repeat-repeatson-0" class="ne-repeat-repeatson-label" title="Sunday">S</label>
+                                        </span>
+                                        <span class="ui-container-inline">
+                                            <input id="ne-evt-repeat-repeatson-1" name="ne-evt-repeat-repeatson-1" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Monday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <label for="ne-evt-repeat-repeatson-1" class="ne-repeat-repeatson-label" title="Monday">M</label>
+                                        </span>
+                                        <span class="ui-container-inline">
+                                            <input id="ne-evt-repeat-repeatson-2" name="ne-evt-repeat-repeatson-2" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Tuesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <label for="ne-evt-repeat-repeatson-2" class="ne-repeat-repeatson-label" title="Tuesday">T</label>
+                                        </span>
+                                        <span class="ui-container-inline">
+                                            <input id="ne-evt-repeat-repeatson-3" name="ne-evt-repeat-repeatson-3" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Wednesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <label for="ne-evt-repeat-repeatson-3" class="ne-repeat-repeatson-label" title="Wednesday">W</label>
+                                        </span>
+                                        <span class="ui-container-inline">
+                                            <input id="ne-evt-repeat-repeatson-4" name="ne-evt-repeat-repeatson-4" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Thursday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <label for="ne-evt-repeat-repeatson-4" class="ne-repeat-repeatson-label" title="Thursday">T</label>
+                                        </span>
+                                        <span class="ui-container-inline">
+                                            <input id="ne-evt-repeat-repeatson-5" name="ne-evt-repeat-repeatson-5" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Friday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <label for="ne-evt-repeat-repeatson-5" class="ne-repeat-repeatson-label" title="Friday">F</label>
+                                        </span>
+                                        <span class="ui-container-inline">
+                                            <input id="ne-evt-repeat-repeatson-6" name="ne-evt-repeat-repeatson-6" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Saturday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <label for="ne-evt-repeat-repeatson-6" class="ne-repeat-repeatson-label" title="Saturday">S</label>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="ne-repeat-table-3" class="wpg-nodisplay">
+                                <th>
+                                    Repeat by:
+                                </th>
+                                <td>
+                                    <span>
+                                        <input id="ne-evt-repeat-repeatby-dayofmonth" name="ne-evt-repeat-repeatby" title="Repeat by day of the month" type="radio" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <label for="ne-evt-repeat-repeatby-dayofmonth" title="Repeat by day of the month">day of the month</label>
+                                    </span>
+                                    <span>
+                                        <input id="ne-evt-repeat-repeatby-dayofweek" name="ne-evt-repeat-repeatby" title="Repeat by day of the week" type="radio"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <label for="ne-evt-repeat-repeatby-dayofweek" title="Repeat by day of the week">day of the week</label>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr id="ne-repeat-table-4">
+                                <th>
+                                    Starts on:
+                                </th>
+                                <td>
+                                    <input id="ne-evt-repeat-startson" name="ne-evt-repeat-startson" class="" type="text" disabled<?php echo " tabindex=\"".$ti++."\"";?>>
+                                </td>
+                            </tr>
+                            <tr id="ne-repeat-table-5">
+                                <th>
+                                    Ends:
+                                </th>
+                                <td>
+                                    <span class="ui-container-block">
+                                        <input id="ne-evt-endson-never" name="ne-evt-endson" title="Ends never" type="radio" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <label for="ne-evt-endson-never" title="Ends never">Never</label>
+                                    </span>
+                                    <span class="ui-container-block">
+                                        <input id="ne-evt-endson-after" name="ne-evt-endson" title="Ends after a number of occurrences" type="radio"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <label for="ne-evt-endson-after" title="Ends after a number of occurrences">
+                                            After 
+                                            <input id="ne-evt-endson-occurances" name="ne-evt-endson-occurances" class="ui-textinput" size="3" title="Occurrences" disabled<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                            occurrences
+                                        </label>
+                                    </span>
+                                    <span class="ui-container-block">
+                                        <input id="ne-evt-endson-on" name="ne-evt-endson" title="Ends on a specified date" type="radio"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <label for="ne-evt-endson-on" title="Ends on a specified date">
+                                            On 
+                                            <input id="ne-evt-endson-date" name="ne-evt-endson-date" class="ui-textinput" size="10" title="Specified date" disabled<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        </label>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr id="ne-repeat-table-6">
+                                <th>
+                                    Summary:
+                                </th>
+                                <td id="ne-repeat-summary" class="ui-header">
+                                    Daily
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="ne-repeat-btns">
+                    <div class="wrapper-btn-general wrapper-btn-all">
+                        <div id="ne-repeat-btn-done" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Done
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all">
+                        <div id="ne-repeat-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

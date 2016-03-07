@@ -6,8 +6,8 @@
 
 //set datepickers
 $(function(){
-    $("#ne-evt-date-start").datepicker({ dateformat: "m/dd/yy"});
-    $("#ne-evt-date-end").datepicker({ dateformat: "m/dd/yy"});
+    $("#ne-evt-date-start").datepicker({ dateformat: "mm/dd/yy"});
+    $("#ne-evt-date-end").datepicker({ dateformat: "mm/dd/yy"});
 });
 
 function time_parser(string){

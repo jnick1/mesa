@@ -26,6 +26,11 @@ and open the template in the editor.
     height: 10px;
     background-position: -215px -51px;
 }
+.goog-icon-x-medium {
+    width: 13px;
+    height: 13px;
+    background-position: -228px -48px;
+}
 .goog-icon-guest-required {
     width: 14px;
     height: 14px;

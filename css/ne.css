@@ -12,12 +12,19 @@ and open the template in the editor.
 /*========|      Classes     |========*/
 /*====================================*/
 
+.ne-dropdown-repeat-repeatevery-item {
+    
+} /*empty*/
 .ne-dropdown-timestart-item {
     
 } /*empty*/
 .ne-dropdown-timeend-item {
     
 } /*empty*/
+
+.ne-evt-guest {
+    
+}
 
 .ne-guests-container {
     padding-left: 10px;
@@ -67,6 +74,16 @@ and open the template in the editor.
 .ne-label {
     
 } /*empty*/
+
+.ne-repeat-repeatson-checkbox {
+    margin-right: 0;
+    margin-left: 0;
+    border-spacing: 0;
+}
+.ne-repeat-repeatson-label {
+    padding-right: 5px;
+    border-spacing: 0;
+}
 
 .ne-time-conflict {
     background-color: #fff0f0 !important;
@@ -135,6 +152,21 @@ and open the template in the editor.
     font-family: inherit;
     padding: 3px;
 }
+#ne-evt-endson-after {
+    
+} /*empty*/
+#ne-evt-endson-date {
+    padding: 2px;
+}
+#ne-evt-endson-never {
+    
+} /*empty*/
+#ne-evt-endson-occurances {
+    padding: 2px;
+}
+#ne-evt-endson-on {
+    
+} /*empty*/
 #ne-evt-guests-inviteothers {
     
 } /*empty*/
@@ -163,12 +195,16 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-evt-notifications-time-2 {
+    
 } /*empty*/
 #ne-evt-notifications-time-3 {
+    
 } /*empty*/
 #ne-evt-notifications-time-4 {
+    
 } /*empty*/
 #ne-evt-notifications-time-5 {
+    
 } /*empty*/
 #ne-evt-notifications-timetype-1 {
     
@@ -187,6 +223,42 @@ and open the template in the editor.
 } /*empty*/
 #ne-evt-repeatbox {
     cursor: pointer;
+} /*empty*/
+#ne-evt-repeat-repeatby-dayofmonth {
+    
+} /*empty*/
+#ne-evt-repeat-repeatby-dayofweek {
+    
+} /*empty*/
+#ne-evt-repeat-repeatevery {
+    
+} /*empty*/
+#ne-evt-repeat-repeats {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-0 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-1 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-2 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-3 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-4 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-5 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-6 {
+    
+} /*empty*/
+#ne-evt-repeat-startson {
+    width: 100px;
 } /*empty*/
 #ne-evt-time-end {
     
@@ -265,9 +337,88 @@ and open the template in the editor.
     
 } /*empty*/
 
+#ne-header {
+    
+} /*empty*/
+
 #ne-label-repeatbox {
     
 } /*empty*/
+
+#ne-repeat-btn-cancel {
+    font-size: 11px;
+}
+#ne-repeat-btn-done {
+    font-size: 11px;
+}
+#ne-repeat-btns {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#ne-repeat-dialogbox {
+    position: fixed;
+    min-width: 400px;
+    top: calc(50% - 200px);
+    left: calc(50% - 200px);
+    
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #acacac;
+    color: #222;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    
+    -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    -ms-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+#ne-repeat-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ne-repeat-repeatevery-label {
+    
+} /*empty*/
+#ne-repeat-summary {
+    
+} /*empty*/
+#ne-repeat-table-0 {
+    
+} /*empty*/
+#ne-repeat-table-1 {
+    
+} /*empty*/
+#ne-repeat-table-2 {
+    
+} /*empty*/
+#ne-repeat-table-3 {
+    
+} /*empty*/
+#ne-repeat-table-4 {
+    
+} /*empty*/
+#ne-repeat-table-5 {
+    
+} /*empty*/
+#ne-repeat-table-6 {
+    
+} /*empty*/
+#ne-repeat-table-wrapper {
+    padding: 15px;
+    padding-bottom: 5px;
+}
+#ne-repeat-wrapper {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+#ne-repeat-x {
+    float: right;
+    cursor: pointer;
+}
 
 #ne-top-buttons {
     margin-top: 16px;
