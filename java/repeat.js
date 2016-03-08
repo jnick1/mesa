@@ -6,9 +6,15 @@
 
 var repeatset = false;
 
-$(function(){
+$(function() {
     $("#ne-evt-endson-date").datepicker({ dateformat: "mm/dd/yy"});
 });
+
+$(document).ready(function() {
+    $("#ne-evt-repeatbox").prop("checked", false);
+    repeat_options_reset();
+});
+
 function repeat_options_reset(){
     //reset "Repeats:"
     $("#ne-evt-repeat-repeats").val("0");
@@ -32,24 +38,30 @@ function repeat_options_reset(){
     $("#ne-evt-endson-occurances").prop("disabled", true).val("");
     $("#ne-evt-endson-date").prop("disabled", true).val("");
     //reset "Summary:"
-    generate_summary();
+    $("#ne-repeat-summary").html("Daily");
 }
 function getNth(dat) {
-        var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"],
-            nth  = ["first", "second", "third", "fourth", "last"],
-            d    = dat ? dat instanceof Date ? dat : new Date(dat) : new Date(),
-            date = d.getDate(),
-            day  = d.getDay(),
-            n    = Math.ceil(date / 7);
-        
-        return nth[n-1] + ' ' + days[day];
-    }
-function generate_summary(){
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"];
+    var nth  = ["first", "second", "third", "fourth", "last"];
+    var d    = dat ? dat instanceof Date ? dat : new Date(dat) : new Date();
+    var date = d.getDate();
+    var day  = d.getDay();
+    var n    = Math.ceil(date / 7);
+
+    return nth[n-1] + ' ' + days[day];
+}
+function array_true(elem) {
+    return elem;
+}
+function array_false(elem){
+    return !elem;
+}
+function generate_summary() {
     var summary = "";
     var repeats = parseInt($("#ne-evt-repeat-repeats").val());
     var repeatevery = parseInt($("#ne-evt-repeat-repeatevery").val());
     var startdate = new Date();
-    startdate = time_parser($("#ne-evt-repeat-startson").val()+" 12:00am");
+    startdate = time_parser($("#ne-evt-date-start").val()+" "+$("#ne-evt-time-start").val());
     var repeatson = [];
     for(var i=0;i<7;i++){
         repeatson.push($("#ne-evt-repeat-repeatson-"+i).is(":checked"));
@@ -58,98 +70,24 @@ function generate_summary(){
     var end = $("#ne-evt-endson-never").is(":checked")?"never":$("#ne-evt-endson-after").is(":checked")?"after":"on";
     var occurances = $("#ne-evt-endson-occurances").val();
     var enddate = new Date();
-    enddate = time_parser($("#ne-evt-endson-date").val()+" "+$("#ne-evt-time-end").val());
+    if($("#ne-evt-endson-date").val()!==""){
+        enddate = time_parser($("#ne-evt-endson-date").val()+" "+$("#ne-evt-time-end").val());
+    }
     var parsedenddate = "";
     var parsedstartdate = "";
+    var parsedstartday = "";
     
-    {
-        var month = enddate.getMonth()+1;
-        var date = enddate.getDate();
-        var year = enddate.getFullYear();
-        
-        switch(month){
-            case 1:
-                parsedenddate += "Jan ";
-                break;
-            case 2:
-                parsedenddate += "Feb ";
-                break;
-            case 3:
-                parsedenddate += "Mar ";
-                break;
-            case 4:
-                parsedenddate += "Apr ";
-                break;
-            case 5:
-                parsedenddate += "May ";
-                break;
-            case 6:
-                parsedenddate += "Jun ";
-                break;
-            case 7:
-                parsedenddate += "Jul ";
-                break;
-            case 8:
-                parsedenddate += "Aug ";
-                break;
-            case 9:
-                parsedenddate += "Sep ";
-                break;
-            case 10:
-                parsedenddate += "Oct ";
-                break;
-            case 11:
-                parsedenddate += "Nov ";
-                break;
-            case 12:
-                parsedenddate += "Dec ";
-                break;
-        }
-        parsedenddate += date+", "+year;
+    if($("#ne-evt-endson-date").val()!==""){
+        var months = ["Jan ", "Feb ", "Mar ", "Apr ", "May ", "Jun ", "Jul ", "Aug ", "Sep ", "Oct ", "Nov ", "Dec "];
+        parsedenddate += months[enddate.getMonth()] + enddate.getDate() + ", " + enddate.getFullYear();
     }
-    {
-        var month = startdate.getMonth()+1;
-        var date = startdate.getDate();
-        
-        switch(month){
-            case 1:
-                parsedenddate += "January ";
-                break;
-            case 2:
-                parsedenddate += "February ";
-                break;
-            case 3:
-                parsedenddate += "March ";
-                break;
-            case 4:
-                parsedenddate += "April ";
-                break;
-            case 5:
-                parsedenddate += "May ";
-                break;
-            case 6:
-                parsedenddate += "June ";
-                break;
-            case 7:
-                parsedenddate += "July ";
-                break;
-            case 8:
-                parsedenddate += "August ";
-                break;
-            case 9:
-                parsedenddate += "September ";
-                break;
-            case 10:
-                parsedenddate += "October ";
-                break;
-            case 11:
-                parsedenddate += "November ";
-                break;
-            case 12:
-                parsedenddate += "December ";
-                break;
-        }
-        parsedstartdate += date;
+    if(repeats===6){
+        var months = ["January ", "February ", "March ", "April ", "May ", "June ", "July ", "August ", "September ", "October ", "November ", "December "];
+        parsedstartdate += months[startdate.getMonth()] + startdate.getDate();
+    }
+    if(repeats===4) {
+        var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        parsedstartday = days[startdate.getDay()];
     }
     
     switch(repeats){
@@ -174,6 +112,25 @@ function generate_summary(){
                 summary += "Weekly";
             } else {
                 summary += "Every "+repeatevery+" weeks";
+            }
+            if(repeatson.every(array_true)){
+                summary += " on all days";
+            } else if(repeatson.every(array_false)){
+                summary += " on " + parsedstartday;
+            } else if(!repeatson[0] && repeatson[1] && repeatson[2] && repeatson[3] && repeatson[4] && repeatson[5] && !repeatson[6]) {
+                summary += " on weekdays";
+            } else {
+                var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+                var first = false;
+                summary += " on ";
+                for(var i=0;i<7;i++){
+                    if(repeatson[i] && !first){
+                        first = true;
+                        summary += days[i];
+                    } else if(repeatson[i]){
+                        summary += ", " + days[i];
+                    }
+                }
             }
             break;
         case 5:
@@ -205,7 +162,7 @@ function generate_summary(){
             break;
     }
     
-    $("ne-repeat-summary").val(summary);
+    $("#ne-repeat-summary").html(summary);
 }
 function generate_end_date(){
     var start = new Date();
@@ -260,11 +217,6 @@ function hide_repeat_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect");
     $("#ne-repeat-wrapper").removeClass("ui-popup-active");
 }
-
-$(document).ready(function(){
-    $("#ne-evt-repeatbox").prop("checked", false);
-    repeat_options_reset();
-});
 
 $(document).on("click", "#ne-evt-repeatbox", function(){
     if($("#ne-evt-repeatbox").is(":checked") && !repeatset){
@@ -352,12 +304,12 @@ $(document).on("change", "#ne-evt-repeat-repeats, #ne-evt-repeat-repeatevery, #n
         "#ne-evt-repeat-repeatson-1, #ne-evt-repeat-repeatson-2, #ne-evt-repeat-repeatson-3, #ne-evt-repeat-repeatson-4, "+
         "#ne-evt-repeat-repeatson-5, #ne-evt-repeat-repeatson-6, #ne-evt-repeat-repeatby-dayofmonth, "+
         "#ne-evt-repeat-repeatby-dayofweek, #ne-evt-endson-never, #ne-evt-endson-after, #ne-evt-endson-on, "+
-        "#ne-evt-endson-occurances, #ne-evt-endson-date", generate_summary());
+        "#ne-evt-endson-occurances, #ne-evt-endson-date", generate_summary);
 
 $(document).on("click", "#ne-repeat-btn-done", function(){
     hide_repeat_dialogbox();
     $("#ne-repeat-edit").removeClass("wpg-nodisplay");
-    $("#ne-repeat-summary-display").removeClass("wpg-nodisplay").val($("ne-repeat-summary").val());
+    $("#ne-repeat-summary-display").removeClass("wpg-nodisplay").html($("#ne-repeat-summary").html());
     $("#ne-label-repeatbox").html("Repeat: ");
     repeatset = true;
 });
