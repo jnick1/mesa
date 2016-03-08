@@ -16,13 +16,39 @@ $(document).ready(function() {
 });
 
 function repeat_options_reset(){
+    
+    //this code is included from the function "client_time()" in time.js because without it
+    //it, the code in this function would cause $(document).ready(...) to fail due to
+    //a TypeError. This was caused by an attempt to retrieve the value of #ne-evt-time-start
+    //and #ne-evt-date-start before they had been instantiated. This only occured when first
+    //loading the page, but it would cripple the page. SOOO, this code has been included.
+    var time = new Date(Math.ceil((Math.floor(Date.now()/1000))/(30*60))*(30*60)*1000);
+    
+    var month = time.getMonth()+1;
+    var day = time.getDate();
+    var year = time.getFullYear();
+    
+    var hours = time.getHours();
+    var minutes = time.getMinutes();
+    
+    var suffix = "am";
+    
+    month<10?month="0"+month:"";
+    day<10?day="0"+day:"";
+    hours>=12?(suffix="pm", hours-=12):"";
+    hours===0?hours=12:"";
+    minutes<10?minutes="0"+minutes:"";
+    
+    var time_start = (hours + ":" + minutes + suffix); //hours1 + ":" + minutes + suffix
+    var date_start = (month + "/" + day + "/" + year);
+    
     //reset "Repeats:"
     $("#ne-evt-repeat-repeats").val("0");
     //reset "Repeat every:"
     $("#ne-evt-repeat-repeatevery").val("1");
     //reset "Repeats on:"
     var day = new Date();
-    day = time_parser($("#ne-evt-date-start").val() + " " + $("#ne-evt-time-start").val());
+    day = time_parser(date_start + " " + time_start);
     day = day.getDay();
     
     for(var i=0;i<7;i++){

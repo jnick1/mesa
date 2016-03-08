@@ -74,7 +74,7 @@ function add_guest(){
     }
 }
 
-$(document).on("click", "#ne-guests-addbutton", add_guest());
+$(document).on("click", "#ne-guests-addbutton", add_guest);
 
 $(document).on("click", ".ne-guest-delete", function remove_guest(){
     $(this).parents(".ne-evt-guest").remove();
