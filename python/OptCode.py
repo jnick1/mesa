@@ -69,7 +69,7 @@ if __name__ == "__main__":
             P[i][j] = Attendees
         }
     }
-
+}
 
     List []
     for(i = 0; i<7; i++):
@@ -97,15 +97,40 @@ if __name__ == "__main__":
         for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
         {
             if (A[i][j] == First)
-                return 'Top Priority is [' + i + '], '
-        
+                A[i][j] = -1
+                return 'Top Priority is [' + i + '], [' + j + ']'
+        }
+    }
+    
+    def find2ndMostRequested(A[][]): #finding the time based on the most attendees reported
+        for(i = 0; i<searchWidth; i++):
+    {
+        for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+        {
+            if (A[i][j] == Second && A[i][j] != -1 )
+                A[i][j] = -1
+                return 'Second Priority is [' + i + '], [' + j + ']'
+        }
+    }
+    #returning the spot as text for now until I know what to return it better
+    def find3rdMostRequested(A[][]): #finding the time based on the most attendees reported
+        for(i = 0; i<searchWidth; i++):
+    {
+        for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+        {
+            if (A[i][j] == Third && A[i][j] != -1 )
+                A[i][j] = -1
+                return 'Second Priority is [' + i + '], [' + j + ']'
         }
     }
     
     
     
     
-}
+    
+    
+    
+
 
     
  
