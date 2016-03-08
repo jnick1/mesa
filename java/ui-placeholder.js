@@ -5,6 +5,8 @@
  */
 
 $(document).ready(function() {
+    var start_text = $('.ui-placeholder').attr("placeholder");
+    
     $('.ui-placeholder').focus(
     function(){
         $(this).attr("placeholder", "");
@@ -12,6 +14,6 @@ $(document).ready(function() {
 
     $('.ui-placeholder').blur(
     function(){
-        $(this).attr("placeholder", "Untitled event");
+        $(this).attr("placeholder", start_text);
     });
 });

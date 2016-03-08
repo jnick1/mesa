@@ -1,0 +1,110 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 18, 2016, 8:40:23 PM
+    Author     : Jacob
+*/
+
+/*====================================*/
+/*==========|    Classes   |==========*/
+/*====================================*/
+
+.wrapper-btn-action {
+    -moz-box-shadow:inset -1px -1px 12px 1px #ca3b2b;
+    -webkit-box-shadow:inset -1px -1px 12px 1px #ca3b2b;
+    box-shadow:inset -1px -1px 12px 1px #ca3b2b;
+    background-color:#da4b38;
+    -webkit-border-top-left-radius:2px;
+    -moz-border-radius-topleft:2px;
+    border-top-left-radius:2px;
+    -webkit-border-top-right-radius:2px;
+    -moz-border-radius-topright:2px;
+    border-top-right-radius:2px;
+    -webkit-border-bottom-right-radius:2px;
+    -moz-border-radius-bottomright:2px;
+    border-bottom-right-radius:2px;
+    -webkit-border-bottom-left-radius:2px;
+    -moz-border-radius-bottomleft:2px;
+    border-bottom-left-radius:2px;
+    text-indent:0px;
+    border:1px solid #a5392a;
+    display:inline-block;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:14px;
+    font-weight:bold;
+    font-style:normal;
+    height:28px; /*previously 33px*/
+    line-height:28px; /*previously 33px*/
+    width:83px; /*previously 93px*/
+    text-decoration:none;
+    text-align:center;
+    text-shadow:1px 1px 0px #5e5e5e;
+}
+.wrapper-btn-action:hover {
+    background-color:#c73828;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+}
+.wrapper-btn-action:active {
+    position:relative;
+    top:1px;
+}
+
+.wrapper-btn-all {
+    margin: 0px 4px 0px 4px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.wrapper-btn-general {
+    -moz-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
+    -webkit-box-shadow:inset -1px -1px 12px 1px #f1f1f1;
+    box-shadow:inset -1px -1px 12px 1px #f1f1f1;
+    background-color:#f3f3f3;
+    -webkit-border-top-left-radius:2px;
+    -moz-border-radius-topleft:2px;
+    border-top-left-radius:2px;
+    -webkit-border-top-right-radius:2px;
+    -moz-border-radius-topright:2px;
+    border-top-right-radius:2px;
+    -webkit-border-bottom-right-radius:2px;
+    -moz-border-radius-bottomright:2px;
+    border-bottom-right-radius:2px;
+    -webkit-border-bottom-left-radius:2px;
+    -moz-border-radius-bottomleft:2px;
+    border-bottom-left-radius:2px;
+    text-indent:0px;
+    border:1px solid #d5d5d5;
+    display:inline-block;
+    color:#444;
+    font-family:Arial;
+    font-size:14px;
+    font-weight:bold;
+    font-style:normal;
+    height:28px;
+    line-height:28px;
+    width:83px;
+    text-decoration:none;
+    text-align:center;
+    text-shadow:1px 1px 0px #b8b8b8;
+}
+.wrapper-btn-general:hover {
+    background-color:#ededed;
+    border: #c6c6c6 solid 1px;
+    box-shadow: 0 2px 2px rgba(0,0,0,0.1);
+}
+.wrapper-btn-general:active {
+    position:relative;
+    top:1px;
+}
+
+/*====================================*/
+/*==========|     ID's     |==========*/
+/*====================================*/
+
+#wrapper-notifications {
+    
+} /*empty*/

@@ -1,0 +1,71 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 23, 2016, 12:33:29 AM
+    Author     : Jacob
+*/
+
+/*====================================*/
+/*==========|    Classes   |==========*/
+/*====================================*/
+
+.goog-icon {
+    
+} /*empty*/ /*images.php*/
+.goog-icon-colors-checkmark-white {
+    width: 10px;
+    height: 10px;
+    margin: 2px;
+    background-position: -95px -50px;
+}
+.goog-icon-x-small {
+    width: 10px;
+    height: 10px;
+    background-position: -215px -51px;
+}
+.goog-icon-x-medium {
+    width: 13px;
+    height: 13px;
+    background-position: -228px -48px;
+}
+.goog-icon-guest-required {
+    width: 14px;
+    height: 14px;
+    background-position: -278px -74px;
+}
+.goog-icon-guest-optional {
+    width: 14px;
+    height: 14px;
+    background-position: -293px -74px;
+}
+.goog-icon-gmail {
+    width: 14px;
+    height: 10px;
+    background-position: -133px -34px;
+}
+.goog-icon-guest-yes {
+    width: 9px;
+    height: 9px;
+    background-position: -77px -50px;
+}
+.goog-icon-guest-no {
+    width: 9px;
+    height: 9px;
+    background-position: -86px -50px;
+}
+.goog-icon-guest-maybe {
+    width: 9px;
+    height: 9px;
+    background-position: -67px -50px;
+}
+
+/*====================================*/
+/*==========|     ID's     |==========*/
+/*====================================*/
+
+#goog-sharing-settings {
+    
+} /*empty*/

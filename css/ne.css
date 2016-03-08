@@ -1,0 +1,441 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 18, 2016, 8:44:59 PM
+    Author     : Jacob
+*/
+
+/*====================================*/
+/*========|      Classes     |========*/
+/*====================================*/
+
+.ne-dropdown-repeat-repeatevery-item {
+    
+} /*empty*/
+.ne-dropdown-timestart-item {
+    
+} /*empty*/
+.ne-dropdown-timeend-item {
+    
+} /*empty*/
+
+.ne-evt-guest {
+    
+}
+
+.ne-guests-container {
+    padding-left: 10px;
+}
+.ne-guests-container-checkbox {
+    display: block;
+}
+.ne-guests-guestdata {
+    
+} /*empty*/
+.ne-guests-guestdata-content {
+    width: 100%;
+}
+
+.ne-guest-delete {
+    float: right;
+    margin: 4px 0;
+    cursor: pointer;
+}
+.ne-guest-name {
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    color: #222;
+    font-weight: bold;
+    font-size: 12px;
+}
+.ne-guest-name-wrapper {
+    padding: 2.5px 4px 3px 4px;
+    width: calc(100% - 65px);
+}
+.ne-guest-required {
+    cursor: pointer;
+}
+.ne-guest-response-icon {
+    
+} /*empty*/
+.ne-guest-response-icon-wrapper {
+    width: 14px;
+    height: 14px;
+} /*empty*/
+
+.ne-ipt-wrapper {
+    
+} /*empty*/
+
+.ne-label {
+    
+} /*empty*/
+
+.ne-repeat-repeatson-checkbox {
+    margin-right: 0;
+    margin-left: 0;
+    border-spacing: 0;
+}
+.ne-repeat-repeatson-label {
+    padding-right: 5px;
+    border-spacing: 0;
+}
+
+.ne-time-conflict {
+    background-color: #fff0f0 !important;
+}
+
+/*====================================*/
+/*========|       ID's       |========*/
+/*====================================*/
+
+#ne-btn-email {
+    float: right;
+    cursor: pointer;
+}
+#ne-btn-reset {
+    cursor: pointer;
+}
+#ne-btn-send {
+    cursor: pointer;
+}
+
+#ne-container-details {
+    border-spacing: 0;
+    width: 100%;
+    float: left;
+    max-width: 850px;
+}
+#ne-container-guests {
+    float: right;
+    padding: 0;
+    vertical-align: top;
+}
+
+#ne-details {
+    padding-right: 300px;
+}
+
+#ne-dropdown-timeend {
+    
+} /*empty*/
+#ne-dropdown-timeend-panel {
+    
+} /*empty*/
+#ne-dropdown-timestart {
+    
+} /*empty*/
+
+#ne-evt-available {
+    
+} /*empty*/
+#ne-evt-busy {
+    
+} /*empty*/
+#ne-evt-calendar {
+    
+} /*empty*/
+#ne-evt-date-end {
+    
+} /*empty*/
+#ne-evt-date-start {
+    
+} /*empty*/
+#ne-evt-description {
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    font-family: inherit;
+    padding: 3px;
+}
+#ne-evt-endson-after {
+    
+} /*empty*/
+#ne-evt-endson-date {
+    padding: 2px;
+}
+#ne-evt-endson-never {
+    
+} /*empty*/
+#ne-evt-endson-occurances {
+    padding: 2px;
+}
+#ne-evt-endson-on {
+    
+} /*empty*/
+#ne-evt-guests-inviteothers {
+    
+} /*empty*/
+#ne-evt-guests-modifyevent {
+    
+} /*empty*/
+#ne-evt-guests-seeguestlist {
+    
+} /*empty*/
+#ne-evt-notifications-1 {
+    
+} /*empty*/
+#ne-evt-notifications-2 {
+    
+} /*empty*/
+#ne-evt-notifications-3 {
+    
+} /*empty*/
+#ne-evt-notifications-4 {
+    
+} /*empty*/
+#ne-evt-notifications-5 {
+    
+} /*empty*/
+#ne-evt-notifications-time-1 {
+    
+} /*empty*/
+#ne-evt-notifications-time-2 {
+    
+} /*empty*/
+#ne-evt-notifications-time-3 {
+    
+} /*empty*/
+#ne-evt-notifications-time-4 {
+    
+} /*empty*/
+#ne-evt-notifications-time-5 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-1 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-2 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-3 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-4 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-5 {
+    
+} /*empty*/
+#ne-evt-repeatbox {
+    cursor: pointer;
+} /*empty*/
+#ne-evt-repeat-repeatby-dayofmonth {
+    
+} /*empty*/
+#ne-evt-repeat-repeatby-dayofweek {
+    
+} /*empty*/
+#ne-evt-repeat-repeatevery {
+    
+} /*empty*/
+#ne-evt-repeat-repeats {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-0 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-1 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-2 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-3 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-4 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-5 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-6 {
+    
+} /*empty*/
+#ne-evt-repeat-startson {
+    width: 100px;
+} /*empty*/
+#ne-evt-time-end {
+    
+} /*empty*/
+#ne-evt-time-start {
+    
+} /*empty*/
+#ne-evt-title {
+    width: 100%;
+    max-width: 450px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+#ne-evt-visibility-default {
+    
+} /*empty*/
+#ne-evt-visibility-public {
+    
+} /*empty*/
+#ne-evt-visibility-private {
+    
+} /*empty*/
+#ne-evt-where {
+    width: 98.5%;
+}
+
+#ne-guests {
+    width: 250px;
+}
+#ne-guests-addbutton {
+    
+} /*empty*/
+#ne-guests-addbutton-wrapper {
+    font-size: 11px;
+    position: relative;
+    vertical-align: top;
+    height: 27px;
+    min-width: 54px;
+    margin-left: 2px;
+}
+#ne-guests-container-list {
+    
+} /*empty*/
+#ne-guests-emailinput {
+    padding: 1px;
+}
+#ne-guests-guestaddedtext {
+    font-weight: bold;
+    font-size: .85em;
+    color: #fff;
+}
+#ne-guests-header {
+    
+} /*empty*/
+#ne-guests-invitewarning {
+    display: none;
+    padding-top: 5px;
+    padding-left: 30px;
+}
+#ne-guests-legend {
+    margin: 10px 0;
+}
+#ne-guests-list {
+    
+} /*empty*/
+#ne-guests-repsonses {
+    color: #888;
+    margin-top: 5px;
+}
+#ne-guests-table {
+    margin-top: 10px;
+    margin-bottom: 1px;
+}
+#ne-guests-table-body {
+    
+} /*empty*/
+
+#ne-header {
+    
+} /*empty*/
+
+#ne-label-repeatbox {
+    
+} /*empty*/
+
+#ne-repeat-btn-cancel {
+    font-size: 11px;
+}
+#ne-repeat-btn-done {
+    font-size: 11px;
+}
+#ne-repeat-btns {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#ne-repeat-dialogbox {
+    min-width: 400px;
+    top: calc(50% - 200px);
+    left: calc(50% - 200px);
+}
+#ne-repeat-edit {
+    
+} /*empty*/
+#ne-repeat-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ne-repeat-repeatevery-label {
+    
+} /*empty*/
+#ne-repeat-summary {
+    
+} /*empty*/
+#ne-repeat-summary-display {
+    
+} /*empty*/
+#ne-repeat-table-0 {
+    
+} /*empty*/
+#ne-repeat-table-1 {
+    
+} /*empty*/
+#ne-repeat-table-2 {
+    
+} /*empty*/
+#ne-repeat-table-3 {
+    
+} /*empty*/
+#ne-repeat-table-4 {
+    
+} /*empty*/
+#ne-repeat-table-5 {
+    
+} /*empty*/
+#ne-repeat-table-6 {
+    
+} /*empty*/
+#ne-repeat-table-wrapper {
+    padding: 15px;
+    padding-bottom: 5px;
+}
+#ne-repeat-wrapper {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+#ne-repeat-x {
+    float: right;
+    cursor: pointer;
+}
+
+#ne-top-buttons {
+    margin-top: 16px;
+}
+#ne-top-repeat {
+    padding-top: 16px;
+}
+#ne-top-time {
+    
+} /*empty*/
+#ne-top-timegroup {
+    padding-top: 16px;
+}
+#ne-top-time-endgroup {
+    
+} /*empty*/
+#ne-top-time-startgroup {
+    
+} /*empty*/
+#ne-top-time-to {
+    
+} /*empty*/
+#ne-top-title {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: none;
+}
