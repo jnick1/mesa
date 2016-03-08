@@ -24,12 +24,13 @@ if __name__ == "__main__":
   
  attendies[] = [] #list of people on the project, those who accept
  attend = 0 # number of people who accepts
+ 
  if (   ): #person accepts
  {
     #moving their Goolge calender to a normCalender
     for(i = 0; i<searchWidth; i++):
     {
-        for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+        for(j=0; j<(24/granularity) - bannedtimes; j+granularity): #hard to tell what to increment j by because it varies with each person
         {
             if GoogleCalender[i][j] = 'event': 
                 NormCalender[i][j] = 1
@@ -54,26 +55,57 @@ if __name__ == "__main__":
         }
     }
     
-    
-    
  }
-  
+ P[][];
+ 
  #Figuring out which has the most attendies
-  for(i = 0; i<7; i++):
+ def AdditionMatrix(A[][], masterCalender[][]):
+{  
+    For (int i =startdays; i <searchwidth; i++):
     {
-        for(j=0; j<24; j++): #should it be incremented by granularity or 1, I'm not sure
+        For(j =starttime; j<(24 hours / granularity)-bannedtimes; j++):
         {
-             info = masterCalender[i][j]
-             for (i =0; i<length.info; i++):
-                 if (0 in info):
-                     attend +=1
-                 
-                    
+            Attendees= A[i][j] + masterCalender[i][j]
+            P[i][j] = Attendees
         }
     }
- 
- 
- 
- #hheh
- 
+
+
+    List []
+    for(i = 0; i<7; i++):
+    {
+        for(j=0; j<24; j++): #should it be incremented by granularity or by 1? I'm not sure
+        {
+             info = masterCalender[i][j]
+             for (i =0; i<length.info; i++): #don't know if its necessary or not, but will leave it in at the moment
+                 if (0 in info):
+                    attend +=1
+             List.insert(attend)
+        }
+    }
+    
+    
+    List.sort(reverse = True)
+    
+    First = List[0]
+    Second = List[1]
+    Third = List[2]
+    
+    def findMostRequested(A[][]): #finding the time based on the most attendees reported
+        for(i = 0; i<searchWidth; i++):
+    {
+        for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+        {
+            if (A[i][j] == First)
+                return 'Top Priority is [' + i + '], '
+        
+        }
+    }
+    
+    
+    
+    
+}
+
+    
  
