@@ -5,6 +5,7 @@
  */
 
 var repeatset = false;
+var pageload = false;
 
 $(function() {
     $("#ne-evt-endson-date").datepicker({ dateformat: "mm/dd/yy"});
@@ -22,25 +23,34 @@ function repeat_options_reset(){
     //a TypeError. This was caused by an attempt to retrieve the value of #ne-evt-time-start
     //and #ne-evt-date-start before they had been instantiated. This only occured when first
     //loading the page, but it would cripple the page. SOOO, this code has been included.
-    var time = new Date(Math.ceil((Math.floor(Date.now()/1000))/(30*60))*(30*60)*1000);
+    var time_start = "";
+    var date_start = "";
     
-    var month = time.getMonth()+1;
-    var day = time.getDate();
-    var year = time.getFullYear();
-    
-    var hours = time.getHours();
-    var minutes = time.getMinutes();
-    
-    var suffix = "am";
-    
-    month<10?month="0"+month:"";
-    day<10?day="0"+day:"";
-    hours>=12?(suffix="pm", hours-=12):"";
-    hours===0?hours=12:"";
-    minutes<10?minutes="0"+minutes:"";
-    
-    var time_start = (hours + ":" + minutes + suffix); //hours1 + ":" + minutes + suffix
-    var date_start = (month + "/" + day + "/" + year);
+    if(!pageload){
+        var time = new Date(Math.ceil((Math.floor(Date.now()/1000))/(30*60))*(30*60)*1000);
+
+        var month = time.getMonth()+1;
+        var day = time.getDate();
+        var year = time.getFullYear();
+
+        var hours = time.getHours();
+        var minutes = time.getMinutes();
+
+        var suffix = "am";
+
+        month<10?month="0"+month:"";
+        day<10?day="0"+day:"";
+        hours>=12?(suffix="pm", hours-=12):"";
+        hours===0?hours=12:"";
+        minutes<10?minutes="0"+minutes:"";
+        
+        time_start = (hours + ":" + minutes + suffix); //hours1 + ":" + minutes + suffix
+        date_start = (month + "/" + day + "/" + year);
+        pageload = true;
+    } else {
+        time_start = $("#ne-evt-time-start").val();
+        date_start = $("#ne-evt-date-start").val();
+    }
     
     //reset "Repeats:"
     $("#ne-evt-repeat-repeats").val("0");
@@ -59,12 +69,24 @@ function repeat_options_reset(){
     $("#ne-evt-repeat-repeatby-dayofmonth").prop("checked", true);
     $("#ne-repeat-table-2").addClass("wpg-nodisplay");
     $("#ne-repeat-table-3").addClass("wpg-nodisplay");
+    //reset "Starts on"
+    $("#ne-evt-repeat-startson").val(date_start);
     //reset "Ends:"
     $("#ne-evt-endson-never").prop("checked", true);
     $("#ne-evt-endson-occurances").prop("disabled", true).val("");
     $("#ne-evt-endson-date").prop("disabled", true).val("");
     //reset "Summary:"
     $("#ne-repeat-summary").html("Daily");
+}
+function repeat_occurance_reset(){
+    if(!validate_natural_number($("#ne-evt-endson-occurances").val())){
+        if($("#ne-evt-repeat-repeats").val()==="0" || $("#ne-evt-repeat-repeats").val()==="0") {
+            $("#ne-evt-endson-occurances").val("5");
+        } else {
+            $("#ne-evt-endson-occurances").val("35");
+        }
+        generate_summary();
+    }
 }
 function getNth(dat) {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"];
@@ -94,7 +116,7 @@ function generate_summary() {
     }
     var dayofmonth = $("#ne-evt-repeat-repeatby-dayofmonth").is(":checked");
     var end = $("#ne-evt-endson-never").is(":checked")?"never":$("#ne-evt-endson-after").is(":checked")?"after":"on";
-    var occurances = $("#ne-evt-endson-occurances").val();
+    var occurances = validate_natural_number($("#ne-evt-endson-occurances").val())?parseInt($("#ne-evt-endson-occurances").val()):(repeats===0 || repeats===6)?5:35;
     var enddate = new Date();
     if($("#ne-evt-endson-date").val()!==""){
         enddate = time_parser($("#ne-evt-endson-date").val()+" "+$("#ne-evt-time-end").val());
@@ -102,6 +124,8 @@ function generate_summary() {
     var parsedenddate = "";
     var parsedstartdate = "";
     var parsedstartday = "";
+    
+    if(end!=="after" || (end==="after" && occurances!==1)){
     
     if($("#ne-evt-endson-date").val()!==""){
         var months = ["Jan ", "Feb ", "Mar ", "Apr ", "May ", "Jun ", "Jul ", "Aug ", "Sep ", "Oct ", "Nov ", "Dec "];
@@ -188,6 +212,10 @@ function generate_summary() {
             break;
     }
     
+    } else {
+        summary = "Once";
+    }
+    
     $("#ne-repeat-summary").html(summary);
 }
 function generate_end_date(){
@@ -242,12 +270,15 @@ function show_repeat_dialogbox(){
 function hide_repeat_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect");
     $("#ne-repeat-wrapper").removeClass("ui-popup-active");
+    if(repeatset){
+        repeat_occurance_reset();
+    }
 }
 
 $(document).on("click", "#ne-evt-repeatbox", function(){
     if($("#ne-evt-repeatbox").is(":checked") && !repeatset){
+        repeat_options_reset();
         show_repeat_dialogbox();
-        $("#ne-evt-repeat-startson").val($("#ne-evt-date-start").val());
     } else if($("#ne-evt-repeatbox").is(":checked") && repeatset) {
         $("#ne-repeat-edit").removeClass("wpg-nodisplay");
         $("#ne-repeat-summary-display").removeClass("wpg-nodisplay");
@@ -262,7 +293,6 @@ $(document).on("click", "#ne-evt-repeatbox", function(){
 $(document).on("click", "#ne-repeat-x", function(){
     hide_repeat_dialogbox();
     if(!repeatset){
-        repeat_options_reset();
         $("#ne-evt-repeatbox").prop("checked", false);
     }
 });
@@ -333,17 +363,16 @@ $(document).on("change", "#ne-evt-repeat-repeats, #ne-evt-repeat-repeatevery, #n
         "#ne-evt-endson-occurances, #ne-evt-endson-date", generate_summary);
 
 $(document).on("click", "#ne-repeat-btn-done", function(){
+    repeatset = true;
     hide_repeat_dialogbox();
     $("#ne-repeat-edit").removeClass("wpg-nodisplay");
     $("#ne-repeat-summary-display").removeClass("wpg-nodisplay").html($("#ne-repeat-summary").html());
     $("#ne-label-repeatbox").html("Repeat: ");
-    repeatset = true;
 });
 
 $(document).on("click", "#ne-repeat-btn-cancel", function(){
     hide_repeat_dialogbox();
     if(!repeatset){
-        repeat_options_reset();
         $("#ne-evt-repeatbox").prop("checked", false);
     }
 });
