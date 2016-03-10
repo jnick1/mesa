@@ -69,6 +69,10 @@ and open the template in the editor.
 .ui-popup {
     position: absolute;
     display: none;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 .ui-popup-active {
     display: block;

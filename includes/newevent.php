@@ -43,6 +43,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/guest.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/repeat.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/settings.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/textarea-resize.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
@@ -59,7 +60,7 @@ and open the template in the editor.
                 ?>
                 <div id="ne-top-buttons">
                     <div class="wrapper-btn-all wrapper-btn-action">
-                        <div id="ne-btn-send" title="Send calendar access request to all guests"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <div id="ne-btn-send" title="Send event signup to all guests"<?php echo " tabindex=\"".$ti++."\"";?>>
                             SEND
                         </div>
                     </div>
@@ -96,8 +97,14 @@ and open the template in the editor.
                     </span>
                 </div>
                 <div id="ne-top-repeat">
-                    <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                    <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat...</label>
+                    <span id="ne-settings-top-wrapper">
+                        <input id="ne-evt-settingsbox" name="ne-evt-settingsbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <label id="ne-label-settingsbox" class="ne-label" for="ne-evt-settingsbox">Advanced settings</label>
+                    </span>
+                    <span id="ne-repeat-top-wrapper">
+                        <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat...</label>
+                    </span>
                     <span id="ne-repeat-summary-display" class="ui-header wpg-nodisplay">Daily</span>
                     <span id="ne-repeat-edit" class="ui-revisitablelink wpg-nodisplay">Edit</span>
                 </div>
@@ -131,7 +138,7 @@ and open the template in the editor.
                             <div id="ne-guests-list">
                                 <div id="ne-guests-header" class="ui-header">
                                     Guests
-                                    <div id="ne-btn-email" class="ui-container-inline">
+                                    <div id="ne-btn-email" class="ui-container-inline" title="Send calendar access request to all guests">
                                         <div class="ui-container-inline goog-icon goog-icon-gmail"></div>
                                         <span class="ui-smallfont">
                                             Send calendar request
@@ -499,6 +506,17 @@ and open the template in the editor.
                             Cancel
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div id="ne-settings-wrapper" class="ui-popup">
+            <div id="ne-settings-dialogbox" class="ui-dialogbox">
+                <div id="ne-settngs-header">
+                    <span class="ui-header">Advanced settings</span>
+                    <span id="ne-settings-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="ne-settings-table-wrapper">
+                    
                 </div>
             </div>
         </div>
