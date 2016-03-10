@@ -18,6 +18,10 @@ function hide_settings_dialogbox(){
     }
 }
 
+$(document).ready(function(){
+    $("#ne-evt-settingsbox").prop("checked", false);
+});
+
 $(document).on("click", "#ne-evt-settingsbox", function(){
     if($("#ne-evt-settingsbox").is(":checked") && !settingsset){
 //        settings_reset();

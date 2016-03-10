@@ -260,6 +260,9 @@ and open the template in the editor.
 #ne-evt-repeat-startson {
     width: 100px;
 } /*empty*/
+#ne-evt-settings-usedefault {
+    
+} /*empty*/
 #ne-evt-settingsbox {
     
 } /*empty*/
@@ -421,6 +424,10 @@ and open the template in the editor.
     top: calc(50% - 200px);
     left: calc(50% - 200px);
 }
+#ne-settings-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
 #ne-settings-table-wrapper {
     padding: 15px;
     padding-bottom: 5px;
@@ -428,16 +435,18 @@ and open the template in the editor.
 #ne-settings-top-wrapper {
     margin-right: 5px;
 }
+#ne-settings-usedefault-label {
+    
+} /*empty*/
+#ne-settings-usedefault-wrapper {
+    padding-top: 8px;
+}
 #ne-settings-wrapper {
     
 } /*empty*/
 #ne-settings-x {
     float: right;
     cursor: pointer;
-}
-#ne-settngs-header {
-    font-size: 16px;
-    padding: 10px 15px;
 }
 
 #ne-top-buttons {

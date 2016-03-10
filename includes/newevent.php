@@ -511,12 +511,20 @@ and open the template in the editor.
         </div>
         <div id="ne-settings-wrapper" class="ui-popup">
             <div id="ne-settings-dialogbox" class="ui-dialogbox">
-                <div id="ne-settngs-header">
+                <div id="ne-settings-header">
                     <span class="ui-header">Advanced settings</span>
                     <span id="ne-settings-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                    <div id="ne-settings-usedefault-wrapper" title="Uncheck to enable custom settings">
+                        <input id="ne-evt-settings-usedefault" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <label id="ne-settings-usedefault-label" for="ne-evt-settings-usedefault">Use default settings</label>
+                    </div>
                 </div>
                 <div id="ne-settings-table-wrapper">
-                    
+                    <table>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

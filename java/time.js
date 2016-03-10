@@ -26,6 +26,17 @@ function time_parser(string){
             
     return output;
 }
+function compare_time(first, second){
+    var a = time_parser(first);
+    var b = time_parser(second);
+    if(a.getTime()>b.getTime()){
+        return 1;
+    } else if (a.getTime()===b.getTime()){
+        return 0;
+    } else {
+        return -1;
+    }
+}
 function duration_maintenance(){
     
     var start = time_parser(date_start + " " + time_start);
@@ -40,6 +51,11 @@ function duration_maintenance(){
     
     $("#ne-evt-time-end").val(newendtext);
     $("#ne-evt-date-end").val(newenddate);
+    
+    time_start = $("#ne-evt-time-start").val();
+    time_end = $("#ne-evt-time-end").val();
+    date_start = $("#ne-evt-date-start").val();
+    date_end = $("#ne-evt-date-end").val();
 }
 function hide(event) {
 
@@ -71,6 +87,15 @@ function hide(event) {
     $(document).find('.jq-dropdown-open').removeClass('jq-dropdown-open');
 
 };
+function generate_end_times(){
+    var end_time_html = "";
+    for(var i=0;i<48;i++){
+        var flr = Math.floor(i/2);
+        var time = (i<24?(flr===0?"12":flr):(flr-12===0?"12":flr-12))+":"+(i%2===0?"0":"")+((i%2)*30)+(i<24?"am":"pm");
+        end_time_html += "<div class=\"ui-dropdown-item ne-dropdown-timeend-item\">"+time+"</div>\n";
+    }
+    $("#ne-dropdown-timeend-panel").html(end_time_html);
+}
 
 $("#ne-evt-date-start").datepicker({
   onSelect: function() {
@@ -143,29 +168,16 @@ $(document).ready(function client_time(){
     date_end = date_end_month + "/" + date_end_day + "/" + date_end_year;
 });
 
-$(document).on("click", "#ne-evt-time-end", function generate_end_times(){
-        var end_time_html = "";
-        for(var i=0;i<48;i++){
-            var flr = Math.floor(i/2);
-            var time = (i<24?(flr===0?"12":flr):(flr-12===0?"12":flr-12))+":"+(i%2===0?"0":"")+((i%2)*30)+(i<24?"am":"pm");
-            end_time_html += "<div class=\"ui-dropdown-item ne-dropdown-timeend-item\">"+time+"</div>\n";
-        }
-        $("#ne-dropdown-timeend-panel").html(end_time_html);
-    });
+$(document).on("click", "#ne-evt-time-end", generate_end_times);
   
 $(document).on("click", ".ne-dropdown-timestart-item", function set_start_time() {
     $("#ne-evt-time-start").val($(this).html());
-   
-    $(document).on("click", ".ne-dropdown-timestart-item", hide("jq-dropdown"));
-    time_start = $("#ne-evt-time-start").val();
+    hide("jq-dropdown");
     duration_maintenance();
-    
 });
 
 $(document).on("change", "#ne-evt-date-start", function(){
     duration_maintenance();
-    date_start = $("#ne-evt-date-start").val();
-    date_end = $("#ne-evt-date-end").val();
 });
 
 $(document).on("change", "#ne-evt-date-end", function(){
@@ -174,37 +186,8 @@ $(document).on("change", "#ne-evt-date-end", function(){
 
 $(document).on("click", ".ne-dropdown-timeend-item", function set_end_time() {
     $("#ne-evt-time-end").val($(this).html());
-    function hide(event) {
-
-        // In some cases we don't hide them
-        var targetGroup = event ? $(event.target).parents().addBack() : null;
-
-        // Are we clicking anywhere in a jq-dropdown?
-        if (targetGroup && targetGroup.is('.jq-dropdown')) {
-            // Is it a jq-dropdown menu?
-            if (targetGroup.is('.jq-dropdown-menu')) {
-                // Did we click on an option? If so close it.
-                if (!targetGroup.is('A')) return;
-            } else {
-                // Nope, it's a panel. Leave it open.
-                return;
-            }
-        }
-
-        // Hide any jq-dropdown that may be showing
-        $(document).find('.jq-dropdown:visible').each(function () {
-            var jqDropdown = $(this);
-            jqDropdown
-                .hide()
-                .removeData('jq-dropdown-trigger')
-                .trigger('hide', { jqDropdown: jqDropdown });
-        });
-
-        // Remove all jq-dropdown-open classes
-        $(document).find('.jq-dropdown-open').removeClass('jq-dropdown-open');
-
-    };
-    $(document).on("click", ".ne-dropdown-timeend-item", hide("jq-dropdown"));
+    hide("jq-dropdown");
+    time_end = $("#ne-evt-time-end").val();
     });
 
 $(document).on("change", "#ne-evt-date-end", function time_confliction(){
@@ -221,13 +204,6 @@ $(document).on("change", "#ne-evt-date-end", function time_confliction(){
 });
 
 $(document).on("keydown", "#ne-evt-time-start", function(e){
-    var code = e.which;
-    if(code===13||code===9){
-        generate_end_times();
-    }
-});
-
-$(document).on("keyup", "#ne-evt-time-end", function(e){
     var code = e.which;
     if(code===13||code===9){
         generate_end_times();
