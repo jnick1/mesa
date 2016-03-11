@@ -60,7 +60,8 @@ import numpty as np
     
      
     #temp specific calender for that person
-    normCalender = [ [ 0 for i in range(searchWidth) ] for j in range((24/granularity) - bannedtimes) ] 
+    #normCalender = [ [ 0 for i in range(searchWidth) ] for j in range((24/granularity) - bannedtimes) ] 
+    normCalender = [ [ 0 for i in range(7) ] for j in range(24) ]
     
     #moving their Goolge calender to a normCalender
     for(i = 0; i<searchWidth; i++):
@@ -109,9 +110,9 @@ import numpty as np
  #adding the matrixes together
  def AdditionMatrix(Array A[][], Array masterCalender[][]):
 {  
-    For (int i =startdays; i <searchwidth; i++):
+    For (int i =0; i <searchwidth; i++):
     {
-        For(j =starttime; j<(24 hours / granularity)-bannedtimes; j++):
+        For(j =0; j<24; j++):
         {
             Attendees= A[i][j] + masterCalender[i][j]
             masterCalender[i][j] = Attendees
