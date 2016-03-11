@@ -93,6 +93,9 @@ and open the template in the editor.
 /*========|       ID's       |========*/
 /*====================================*/
 
+#ne-btn-back {
+    cursor: pointer;
+}
 #ne-btn-email {
     float: right;
     cursor: pointer;
@@ -136,9 +139,6 @@ and open the template in the editor.
 #ne-evt-busy {
     
 } /*empty*/
-#ne-evt-calendar {
-    
-} /*empty*/
 #ne-evt-date-end {
     
 } /*empty*/
@@ -168,9 +168,6 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-evt-guests-inviteothers {
-    
-} /*empty*/
-#ne-evt-guests-modifyevent {
     
 } /*empty*/
 #ne-evt-guests-seeguestlist {

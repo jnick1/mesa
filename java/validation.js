@@ -13,6 +13,10 @@ function validate_natural_number(string){
 function validate_time(string){
     return /\d{1,2}:\d{2}[ap]m/.test(string);
 }
+function validate_email(email) {
+    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(email);
+}
 
 $(document).ready(function validate_no_id_overlap(){
     $('[id]').each(function(){

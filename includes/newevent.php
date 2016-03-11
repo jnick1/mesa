@@ -59,6 +59,11 @@ and open the template in the editor.
                 include $homedir."includes/pageassembly/header.php";
                 ?>
                 <div id="ne-top-buttons">
+                    <div class="wrapper-btn-all wrapper-btn-general">
+                        <div id="ne-btn-back" title="Return to previous page"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Back
+                        </div>
+                    </div>
                     <div class="wrapper-btn-all wrapper-btn-action">
                         <div id="ne-btn-send" title="Send event signup to all guests"<?php echo " tabindex=\"".$ti++."\"";?>>
                             SEND
@@ -185,10 +190,6 @@ and open the template in the editor.
                             </div>
                             <div>
                                 <label class="ne-guests-container-checkbox ui-unselectabletext">
-                                    <input id="ne-evt-guests-modifyevent" name="guestsettings" value="modifyevent" type="checkbox" class="ui-checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    modify event
-                                </label>
-                                <label class="ne-guests-container-checkbox ui-unselectabletext">
                                     <input id="ne-evt-guests-inviteothers" name="guestsettings" value="inviteothers" type="checkbox" class="ui-checkbox" checked<?php echo " tabindex=\"".$ti++."\"";?>>
                                     invite others
                                 </label>
@@ -213,18 +214,6 @@ and open the template in the editor.
                                 </th>
                                 <td>
                                     <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput" placeholder="Enter a location"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    Calendar
-                                </th>
-                                <td>
-                                    <select id="ne-evt-calendar" name="ne-evt-calendar" class="ui-select"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        <?php
-                                            // insert code for list of calendars here (must echo <option>[CALDENDAR NAME]</option> as output)
-                                        ?>
-                                    </select>
                                 </td>
                             </tr>
                             <tr>

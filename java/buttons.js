@@ -11,4 +11,7 @@ $(document).ready(function (){
     $("#ne-btn-send").click(function send_evt_request(){
         alert("Placeholder");
     });
+    $("#ne-btn-back").click(function send_evt_request(){
+        alert("Placeholder");
+    });
 });
