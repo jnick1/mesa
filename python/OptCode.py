@@ -13,26 +13,29 @@ if __name__ == "__main__":
  #necessary objects needed before starting the program
  
  Priority[] = [7, 6, 5, 4, 3, 2, 1] #each one is a different function
+ DAYS[] #specific days wanted
  reoccurance = {} #list of the number of times it happens, and holds multiple meetings
  attendies[] = [] #list of people on the project, those who accept
  attend = 0 # number of people who accepts
  
  #matrices necessary
  masterCalender = [ [ 0 for i in range(7) ] for j in range(24) ] #calender for the final date selection, full week 7 days/24hrs
+ peopleCalender = [ [ 0 for i in range(7) ] for j in range(24) ] #calender to keep track of the number of people
  googleCalender[]
  googleCal = [ [ 0 for i in range(7) ] for j in range(24) ] #calender to import 
-
+ 
  
  if (   ): #person accepts
  {
     #first, enter the necessary data
     f = open('WillsBasicInfo', 'r') #the order of the text file should be as the following: 
     endTime = f.readline() #what is the time set to stop the search
-    startStart = f.readline() #where to start the search
+    startTime = f.readline() #where to start the search
     searchWidth = f.readline() #how many days are available
     gran = f.readline()  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
     grularity = gran/60 #search it by the hour
     bannedtimes = f.readline() #banned granularity increments based on user input, ie not over 933 or something
+    preferedTime = f.readline() #the time that the person wants to have the specifically
     location = f.readline() #where the place is at/want to meet
     f.close()#closing the file
     
@@ -42,6 +45,10 @@ if __name__ == "__main__":
         test = Priority[i]
         Priority[i] = test * g.readline() #each will get either LOW(1), MED(10), or HIGH(100) to determine the importance value
     g.close() #closing priority file
+    
+    #same as priority list
+    k = open('specificDaysTextFile', 'r')
+        DAYS = k.read().split(',') #insert number for specific day, 0=SUN, 1=MON, etc
     
     #input the google calender Trial 1
     with open('GoogleCalenderTest.txt','r') as h:
@@ -94,8 +101,40 @@ testCal = [ [ 0 for i in range(7) ] for j in range(24) ]
     else if (i = 3): #Duration of meeting
          #
     else if (i = 2): #Day of week
-         #
+         {for (i=0; i<DAYS.length(); i++)
+            {for (j = startTime; j<(24/granularity) - bannedtimes; i++): #do this for each hour 
+               {day = DAYS[i] #reads number for the specific day to correlate with the matrix
+                if(NormCalender[day][j] == 0): #search in day range
+                {
+                    points = testCal[day][j]
+                    testCal[day][j] = points + Priority[2]
+                }
+               } 
+            }
+        }
     else if (i = 1): #Time of day
+        {for (i = 0; i< searchwidth; i++): #do this for each day 
+           {if(NormCalender[i][preferedTime] == 0): #original perfered Time of day
+                {
+                    points = testCal[i][preferedTime]
+                    testCal[i][preferedTime] = points + Priority[1]
+                }
+            else:
+                spot = False
+                count = 1
+                do:
+                    { preferedTime = preferedTime + (count* (-1^count))#branching out hour by hour
+                    if(array[i][preferedTime] == 0): #modified perfered Time of day
+                        {
+                            points = testCal[i][preferedTime]
+                            testCal[i][preferedTime] = points + Priority[1]
+                            spot = True #get out of loop early
+                        }
+            
+                }while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ) 
+                    #this way, if the perfered time is not in the middle, it will still performed the action
+            }
+        }
     
     
     
@@ -114,6 +153,16 @@ for(i = 0; i<7; i++):
     
 #sorting the list so that the biggest number is on top
 List.sort(reverse = True)
+
+
+
+
+
+
+
+
+
+
 
 def priorCalc(Array[][], int priorityLevel):
     {
