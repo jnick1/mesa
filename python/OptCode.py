@@ -4,16 +4,15 @@
 # To change this license header, choose License Headers in Project Properties.
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
+import numpty as np
 
 if __name__ == "__main__":
     print "Hello World"
 
 #using numpty for matrix
-import numpty as np
-
  #necessary objects needed before starting the program
  
- Priority[] = [1, 2, 3, 4, 5, 6, 7] #each one is a different function 
+ Priority[] = [7, 6, 5, 4, 3, 2, 1] #each one is a different function
  reoccurance = {} #list of the number of times it happens, and holds multiple meetings
  attendies[] = [] #list of people on the project, those who accept
  attend = 0 # number of people who accepts
@@ -28,8 +27,8 @@ import numpty as np
  {
     #first, enter the necessary data
     f = open('WillsBasicInfo', 'r') #the order of the text file should be as the following: 
-    end = f.readline() #what is the time set to stop the search
-    start = f.readline() #where to start the search
+    endTime = f.readline() #what is the time set to stop the search
+    startStart = f.readline() #where to start the search
     searchWidth = f.readline() #how many days are available
     gran = f.readline()  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
     grularity = gran/60 #search it by the hour
@@ -45,7 +44,7 @@ import numpty as np
     g.close() #closing priority file
     
     #input the google calender Trial 1
-    with open('OTP.txt','r') as h:
+    with open('GoogleCalenderTest.txt','r') as h:
             for line in h:
                 for word in line.split(): #delimiter is a space, word is now a list
                     print(word)  
@@ -57,8 +56,7 @@ import numpty as np
         for word in line.split():
                     googleCalender[].append(word)
     
-    
-     
+         
     #temp specific calender for that person
     #normCalender = [ [ 0 for i in range(searchWidth) ] for j in range((24/granularity) - bannedtimes) ] 
     normCalender = [ [ 0 for i in range(7) ] for j in range(24) ]
@@ -68,7 +66,7 @@ import numpty as np
     {
         for(j=0; j<(24/granularity) - bannedtimes; j+granularity): #hard to tell what to increment j by because it varies with each person
         {
-            if GoogleCalender[i][j] = 'event':  #if there is an event in the google calender
+            if GoogleCalender[i][j] = '1':  #if there is an event in the google calender
                 NormCalender[i][j] = '1'
             else:
                 NormCalender[1][j] = '0'          
@@ -79,40 +77,65 @@ import numpty as np
     
     #This is a guess, I really don't think that this would work
     #will do further research on it
-    
-    
-    #adding the normCal to the Master calender
-    AdditionMatrix(NormCalender, masterCalender):
- }   
- 
- #editing the Master Calender depending on the priority system
+
+testCal = [ [ 0 for i in range(7) ] for j in range(24) ]
+#editing the Master Calender depending on the priority system
  for (i=7; i>0; i--):
-    if (Priority[i] = 7):
+    if (i = 7):#number of people attending
+    {   peopleCounting(NormCalender[][], testCal[][])
+        
+    }
+    else if (i = 6): #granularity
          #
-    else if (Priority[i] = 6):
+    else if (i = 5): #location  
          #
-    else if (Priority[i] = 5):
+    else if (i = 4): # of times repeated
          #
-    else if (Priority[i] = 4):
+    else if (i = 3): #Duration of meeting
          #
-    else if (Priority[i] = 3):
+    else if (i = 2): #Day of week
          #
-    else if (Priority[i] = 2):
-         #
-    else if (Priority[i] = 1): #
-         
-  
+    else if (i = 1): #Time of day
+    
+    
+    
+    
+ }#end of attendee acceptance
  
- 
- 
- 
- 
- #adding the matrixes together
- def AdditionMatrix(Array A[][], Array masterCalender[][]):
-{  
-    For (int i =0; i <searchwidth; i++):
+List [] #used to hold the numbers in the matrix
+for(i = 0; i<7; i++):
     {
-        For(j =0; j<24; j++):
+        for(j=0; j<24; j++): #should it be incremented by granularity or by 1? I'm not sure
+        {
+             info = masterCalender[i][j]
+             List.insert(info)
+        }
+    }
+    
+#sorting the list so that the biggest number is on top
+List.sort(reverse = True)
+
+def priorCalc(Array[][], int priorityLevel):
+    {
+        for (i =0; i <searchwidth; i++):
+        {   for(j =0; j<24; j++):
+            {   if(Array[i][j] = 1):
+                    Array[i][j] = priorityLevel
+                else if (Array[i][j] > 1):
+                    {  yes = Array[i][j]   
+                       Array[i][j] = priorityLevel * yes
+                    }
+            
+            }
+        }
+    }
+ 
+#adding the matrixes together
+def AdditionMatrix(Array A[][], Array masterCalender[][]):
+{  
+    for (i =0; i <searchwidth; i++):
+    {
+        for(j =0; j<24; j++):
         {
             Attendees= A[i][j] + masterCalender[i][j]
             masterCalender[i][j] = Attendees
@@ -120,27 +143,48 @@ import numpty as np
     }
 }
 
-
-
-    List []
-    for(i = 0; i<7; i++):
+def peopleCounting(A[][], empty[][]):
+    {for(i = 0; i<7; i++):
     {
         for(j=0; j<24; j++): #should it be incremented by granularity or by 1? I'm not sure
-        {
-             info = masterCalender[i][j]
-             for (i =0; i<length.info; i++): #don't know if its necessary or not, but will leave it in at the moment
-                 if (0 in info):
-                    attend +=1
-             List.insert(attend)
-        }
+            { info = A[i][j]
+              for (i =0; i<length.info; i++): #don't know if its necessary or not, but will leave it in at the moment
+                    if (0 in info):
+                        attend +=1
+              empty[i][j] = attend
+            }  
     }
-    
-    #sorting the list so that the biggest number is on top
-    List.sort(reverse = True)
-      
+
+
+#finding spot based on time asked
+def TimeAlgorithm (array [][], tempCal[][] int start, int end, int perferedTime, int ):
+    {for (i = 0; i< searchwidth; i++): #do this for each day 
+        {if(array[i][perferedTime] == 0): #original perfered Time of day
+            {
+                
+            }
+        else:
+            spot = False
+            count = 1
+            do:
+                { perferedTime = peferedTime + (count* (-1^count))#branching out hour by hour
+                if(array[i][perferedTime] == 0): #modified perfered Time of day
+                    {
+                        
+                        
+                        spot = True #get out of loop early
+                    }
+            
+                }while ( spot == False && perferedTime >=  || spot == False && perferedTime <= end ) 
+                    #this way, if the perfered time is not in the middle, it will still performed the action
+        }
+        
+    }
+
+
     
     #picking the top numbered spots depending on the recursion
-    def multiSpots(Array List1[], Array matrix[][], int weekly):
+def multiSpots(Array List1[], Array matrix[][], int weekly):
     {temp = 0;
     do:
         {for(i = 0; i<searchWidth; i++):
