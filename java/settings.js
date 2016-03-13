@@ -17,14 +17,20 @@ function hide_settings_dialogbox(){
 //        settings_reset();
     }
 }
+function reset_settings(){
+    $("#ne-evt-settingsbox").prop("checked", false);
+    $("#ne-evt-settings-usedefault").prop("checked", true);
+}
 
 $(document).ready(function(){
-    $("#ne-evt-settingsbox").prop("checked", false);
+    reset_settings();
 });
 
 $(document).on("click", "#ne-evt-settingsbox", function(){
     if($("#ne-evt-settingsbox").is(":checked") && !settingsset){
-//        settings_reset();
+        reset_settings();
+        show_settings_dialogbox();
+    } else if($("#ne-evt-settingsbox").is(":checked") && settingsset) {
         show_settings_dialogbox();
     }
 });

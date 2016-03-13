@@ -361,6 +361,10 @@ $(document).on("change", "#ne-evt-repeat-repeats, #ne-evt-repeat-repeatevery, #n
         "#ne-evt-repeat-repeatson-5, #ne-evt-repeat-repeatson-6, #ne-evt-repeat-repeatby-dayofmonth, "+
         "#ne-evt-repeat-repeatby-dayofweek, #ne-evt-endson-never, #ne-evt-endson-after, #ne-evt-endson-on, "+
         "#ne-evt-endson-occurances, #ne-evt-endson-date", generate_summary);
+$(document).on("change", "#ne-evt-date-start", function(){
+    generate_summary();
+    $("#ne-repeat-summary-display").html($("#ne-repeat-summary").html());
+});
 
 $(document).on("click", "#ne-repeat-btn-done", function(){
     repeatset = true;

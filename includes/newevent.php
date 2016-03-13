@@ -22,6 +22,7 @@ and open the template in the editor.
         
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/colors.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/datepicker.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/details.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/goog.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/images.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/main.css"; ?>">
@@ -70,8 +71,8 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="wrapper-btn-all wrapper-btn-general">
-                        <div id="ne-btn-reset" title="Reset all event settings to default"<?php echo " tabindex=\"".$ti++."\"";?>>
-                            Reset
+                        <div id="ne-btn-save" title="Save event for later modification"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Save <?php //Reset all event settings to default ?>
                         </div>
                     </div>
                 </div>

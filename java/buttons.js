@@ -4,14 +4,15 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function (){
-    $("#ne-btn-reset").click(function reset_evt_request(){
-        location.reload(true);
-    });
-    $("#ne-btn-send").click(function send_evt_request(){
-        alert("Placeholder");
-    });
-    $("#ne-btn-back").click(function send_evt_request(){
-        alert("Placeholder");
-    });
+$(document).on("click", "#ne-btn-reset", function reset_evt_request() {
+    location.reload(true);
+});
+$(document).on("click", "#ne-btn-send", function send_evt_request() {
+    alert("Placeholder");
+});
+$(document).on("click", "#ne-btn-back", function send_evt_request() {
+    alert("Placeholder");
+});
+$(document).on("click", "#ne-btn-save", function save_evt_request() {
+    alert("Placeholder");
 });
