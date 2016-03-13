@@ -1,0 +1,93 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.14
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Mar 13, 2016 at 04:03 AM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `mesadb`
+--
+CREATE DATABASE IF NOT EXISTS `mesadb` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `mesadb`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblevents`
+--
+
+DROP TABLE IF EXISTS `tblevents`;
+CREATE TABLE IF NOT EXISTS `tblevents` (
+  `pkEventid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'A unique identifier for each event',
+  `nmTitle` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Event title',
+  `dtStart` datetime NOT NULL COMMENT 'Start date and time for the event',
+  `dtEnd` datetime NOT NULL COMMENT 'End date and time for the event',
+  `txLocation` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Event location stored as a string',
+  `txDescription` mediumtext COLLATE utf8_unicode_ci COMMENT 'Event description',
+  `txRRule` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'A string containing event recurrence rules',
+  `blSettings` blob NOT NULL COMMENT 'php serialized information for algorithm',
+  `blAttendees` blob NOT NULL COMMENT 'php serialized attendee information (emails and if they''re required)',
+  `blNotifications` blob NOT NULL COMMENT 'php serialized information for notifications',
+  `isGuestInvite` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Indicates if guests can invite others to the event',
+  `isGuestList` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Indicates if guests can see other guests'' email',
+  `enVisibility` enum('default','public','private') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'default' COMMENT 'Indicates the sharing settings of the event',
+  `isBusy` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Indicates if users should be considered busy',
+  `dtCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time when the event was created',
+  `dtLastUpdated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date and time when the event was last updated',
+  PRIMARY KEY (`pkEventid`),
+  UNIQUE KEY `pkEventid` (`pkEventid`),
+  KEY `dtStart` (`dtStart`,`dtEnd`),
+  KEY `dtCreated` (`dtCreated`),
+  KEY `dtLastUpdated` (`dtLastUpdated`),
+  FULLTEXT KEY `nmTitle` (`nmTitle`),
+  FULLTEXT KEY `txDescription` (`txDescription`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about events' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblusers`
+--
+
+DROP TABLE IF EXISTS `tblusers`;
+CREATE TABLE IF NOT EXISTS `tblusers` (
+  `pkUserid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'A unique identifier for each user',
+  `txEmail` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The email associated with each user',
+  `dtCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time that the user first logged in to the system',
+  `dtLogin` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date and time that the user last logged in to the system',
+  PRIMARY KEY (`pkUserid`),
+  UNIQUE KEY `pkUserid` (`pkUserid`),
+  UNIQUE KEY `txEmail` (`txEmail`),
+  KEY `dtCreated` (`dtCreated`,`dtLogin`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about users' AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblusersevents`
+--
+
+DROP TABLE IF EXISTS `tblusersevents`;
+CREATE TABLE IF NOT EXISTS `tblusersevents` (
+  `fkUserid` bigint(20) unsigned NOT NULL COMMENT 'pkUserid from tblUsers',
+  `fkEventid` bigint(20) unsigned NOT NULL COMMENT 'pkEventid from tlbEvents',
+  UNIQUE KEY `fkEventid` (`fkEventid`),
+  KEY `fkUserid` (`fkUserid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table correlates events to their respective user owners';
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tblusersevents`
+--
+ALTER TABLE `tblusersevents`
+  ADD CONSTRAINT `tblusersevents_ibfk_1` FOREIGN KEY (`fkUserid`) REFERENCES `tblusers` (`pkUserid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tblusersevents_ibfk_2` FOREIGN KEY (`fkEventid`) REFERENCES `tblevents` (`pkEventid`) ON DELETE CASCADE;
