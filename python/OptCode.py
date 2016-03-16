@@ -35,6 +35,7 @@ if __name__ == "__main__":
     bannedtimes = f.readline() #banned granularity increments based on user input, ie not over 933 or something
     preferedTime = f.readline() #the time that the person wants to have the specifically
     location = f.readline() #where the place is at/want to meet
+    weekly = f.readline() #how often per week people want to meet
     f.close()#closing the file
     grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour
     
@@ -67,9 +68,9 @@ if __name__ == "__main__":
         for(j=0; j<(24/granularity) - bannedtimes; j+granularity): #hard to tell what to increment j by because it varies with each person
         {
             if GoogleCalender[i][j] = '1':  #if there is an event in the google calender
-                NormCalender[i][j] = 1 
+                NormCalender[i][j] = '1' 
             else:
-                NormCalender[1][j] = 0          
+                NormCalender[1][j] = '0'          
         }
     }
      attendies.insert(NormCalender)
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     for (i=7; i>0; i--):
         if (i = 7):#number of people attending
         {   attend = 0 # number of people who accepts
-             for (i =0; i <searchwidth; i++):
+            for (i =0; i <searchwidth; i++):
                 {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
                     {
                         Attendees = peopleCalender[i][j] + NormCalender[i][j] #adding the matrixes together
@@ -91,9 +92,9 @@ if __name__ == "__main__":
                             {if (0 in Attendees):
                                 attend +=1
                             }
-                        testCal[i][j] = attend #numeric track of the people coming                         
+                        masterCalender[i][j] = attend * Priority[7] #numeric track of the people coming                         
                     }
-                }        
+                }
         }
     else if (i = 6): #granularity
          #
@@ -110,7 +111,7 @@ if __name__ == "__main__":
                 if(NormCalender[day][j] == 0): #search in day range
                 {
                     points = testCal[day][j]
-                    testCal[day][j] = points + Priority[2]
+                    masterCalender[day][j] = points + Priority[2]
                 }
                } 
             }
@@ -120,18 +121,18 @@ if __name__ == "__main__":
             {day = DAYS[i]
             if(NormCalender[day][preferedTime] == 0): #original perfered Time of day
                 {
-                    points = testCal[day][preferedTime]
-                    testCal[day][preferedTime] = points + Priority[1]
+                    points = masterCalender[day][preferedTime]
+                    masterCalender[day][preferedTime] = points + Priority[1]
                 }
             else:
                 spot = False
                 count = 1
                 do:
                     { preferedTime = preferedTime + (count* (-1^count))#branching out hour by hour
-                    if(array[day][preferedTime] == 0): #modified perfered Time of day
+                    if(NormCalender[day][preferedTime] == 0): #modified perfered Time of day
                         {
                             points = testCal[i][preferedTime]
-                            testCal[day][preferedTime] = points + Priority[1]
+                            masterCalender[day][preferedTime] = points + Priority[1]
                             spot = True #get out of loop early
                         }
             
@@ -150,49 +151,35 @@ if __name__ == "__main__":
                 List.insert(info)
             }
         }
-    
     #sorting the list so that the biggest number is on top
     List.sort(reverse = True)
- 
+    
+    returnCalender[][]
     #pick the top spots and return them to a matrix
+    {for(k=0; k<weekly; k++)
+        {for(i = 0; i<searchWidth; i++):
+            {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+                #checks for the top spots
+                {if (masterCalender[i][j] == List1[k]):
+                    returnCalender[i][j] = masterCalender[i][j]
+                } 
+            }
+        }
+    }
+    
+    #writing it to a text file
+    for row in returnCalender:
+        for column, data in enumerate(row):
+            out += formats[column].format(data)
+        out += "\n"
+
+    with open("Times.txt","wt") as file:
+        file.write(out)
+     
     
     
     
  }#end of attendee acceptance
- 
-
-#picking the top numbered spots depending on the recursion
-def multiSpots(Array List1[], Array matrix[][], weekly):
-    {temp = 0;
-    do:
-        {for(i = 0; i<searchWidth; i++):
-            {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
-                #checks, in order, if the number is in the top 5 spots, adds to list if so
-                {if (matrix[i][j] == List1[0]):
-                    matrix[i][j] = -1
-                    reoccurance.insert("Top Priotity is " + i+ " at " + j + " time")
-                    temp +=1
-                else if (matrix[i][j] == List1[1]):
-                    matrix[i][j] = -1
-                    reoccurance.insert("Priotity is " + i+ " at " + j + " time")
-                    temp +=1
-                else if (matrix[i][j] == List1[2]):
-                    matrix[i][j] = -1
-                    reoccurance.insert("Priotity is " + i+ " at " + j + " time")
-                    temp +=1
-                else if (matrix[i][j] == List1[3]):
-                    matrix[i][j] = -1
-                    reoccurance.insert("Priotity is " + i+ " at " + j + " time")
-                    temp +=1
-                else if (matrix[i][j] == List1[4]):
-                    matrix[i][j] = -1
-                    reoccurance.insert("Priotity is " + i+ " at " + j + " time")
-                    temp +=1
-                } 
-            }
-        } while (weekly > temp)
-        return
-    }
     
-    #IDEA: create a blank matrix to hold ONLY the picked numbers times to return
+   
     
