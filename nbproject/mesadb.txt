@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2016 at 04:03 AM
+-- Generation Time: Mar 16, 2016 at 05:49 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -25,6 +25,7 @@ USE `mesadb`;
 DROP TABLE IF EXISTS `tblevents`;
 CREATE TABLE IF NOT EXISTS `tblevents` (
   `pkEventid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'A unique identifier for each event',
+  `blOptiSuggestion` blob NOT NULL COMMENT 'Blob of php serialized data containing result from optimization algorithm',
   `nmTitle` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Event title',
   `dtStart` datetime NOT NULL COMMENT 'Start date and time for the event',
   `dtEnd` datetime NOT NULL COMMENT 'End date and time for the event',
@@ -59,8 +60,9 @@ DROP TABLE IF EXISTS `tblusers`;
 CREATE TABLE IF NOT EXISTS `tblusers` (
   `pkUserid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'A unique identifier for each user',
   `txEmail` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The email associated with each user',
+  `blCalendar` blob NOT NULL COMMENT 'Blob of bytes containing php serialied calendar info for a user (not necessarily registered user)',
   `dtCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time that the user first logged in to the system',
-  `dtLogin` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date and time that the user last logged in to the system',
+  `dtLogin` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date and time that the user last logged in to the system',
   PRIMARY KEY (`pkUserid`),
   UNIQUE KEY `pkUserid` (`pkUserid`),
   UNIQUE KEY `txEmail` (`txEmail`),
