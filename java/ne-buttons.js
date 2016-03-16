@@ -10,9 +10,7 @@ $(document).on("click", "#ne-btn-reset", function reset_evt_request() {
 $(document).on("click", "#ne-btn-send", function send_evt_request() {
     alert("Placeholder");
 });
-$(document).on("click", "#ne-btn-back", function send_evt_request() {
-    alert("Placeholder");
-});
-$(document).on("click", "#ne-btn-save", function save_evt_request() {
-    alert("Placeholder");
+$(document).on("click", "#ne-btn-back", function back_evt_request() {
+    window.location = "eventlist.php";
+    //save data too
 });

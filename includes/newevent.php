@@ -39,17 +39,17 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-ui.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         
-        <script type="text/javascript" src="<?php echo $homedir."java/buttons.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/colors-selector.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/guest.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/notifications-sizechange.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/repeat.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/settings.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/textarea-resize.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/time.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/ui-placeholder.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-buttons.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-colors-selector.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-guest.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-notifications-sizechange.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-repeat.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-settings.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-textarea-resize.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-time.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-ui-placeholder.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/validation.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/visibility.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-visibility.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
@@ -104,12 +104,16 @@ and open the template in the editor.
                 </div>
                 <div id="ne-top-repeat">
                     <span id="ne-settings-top-wrapper">
-                        <input id="ne-evt-settingsbox" name="ne-evt-settingsbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                        <label id="ne-label-settingsbox" class="ne-label" for="ne-evt-settingsbox">Advanced settings</label>
+                        <label id="ne-label-settingsbox" class="ne-label" for="ne-evt-settingsbox">
+                            <input id="ne-evt-settingsbox" name="ne-evt-settingsbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Advanced settings
+                        </label>
                     </span>
                     <span id="ne-repeat-top-wrapper">
-                        <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                        <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">Repeat...</label>
+                        <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">
+                            <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Repeat...
+                        </label>
                     </span>
                     <span id="ne-repeat-summary-display" class="ui-header wpg-nodisplay">Daily</span>
                     <span id="ne-repeat-edit" class="ui-revisitablelink wpg-nodisplay">Edit</span>
@@ -289,10 +293,14 @@ and open the template in the editor.
                                     Show me as
                                 </th>
                                 <td>
-                                    <input id="ne-evt-available" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="available"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    <label for="ne-evt-available" >Available</label>
-                                    <input id="ne-evt-busy" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="busy" checked<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    <label for="ne-evt-busy" >Busy</label>
+                                    <label for="ne-evt-available" >
+                                        <input id="ne-evt-available" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="available"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Available
+                                    </label>
+                                    <label for="ne-evt-busy" >
+                                        <input id="ne-evt-busy" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="busy" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Busy
+                                    </label>
                                 </td>
                             </tr>
                             <tr>
@@ -300,12 +308,18 @@ and open the template in the editor.
                                     Visibility
                                 </th>
                                 <td>
-                                    <input id="ne-evt-visibility-default" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="default" checked<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    <label for="ne-evt-visibility-default" >Calendar Default</label>
-                                    <input id="ne-evt-visibility-public" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="public"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    <label for="ne-evt-visibility-public" >Public</label>
-                                    <input id="ne-evt-visibility-private" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="private"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    <label for="ne-evt-visibility-private" >Private</label>
+                                    <label for="ne-evt-visibility-default" >
+                                        <input id="ne-evt-visibility-default" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="default" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Calendar Default
+                                    </label>
+                                    <label for="ne-evt-visibility-public" >
+                                        <input id="ne-evt-visibility-public" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="public"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Public
+                                    </label>
+                                    <label for="ne-evt-visibility-private" >
+                                        <input id="ne-evt-visibility-private" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="private"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Private
+                                    </label>
                                 </td>
                             </tr>
                             <tr>
@@ -395,32 +409,46 @@ and open the template in the editor.
                                 <td>
                                     <div>
                                         <span class="ui-container-inline">
-                                            <input id="ne-evt-repeat-repeatson-0" name="ne-evt-repeat-repeatson-0" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Sunday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                            <label for="ne-evt-repeat-repeatson-0" class="ne-repeat-repeatson-label" title="Sunday">S</label>
+                                            <label for="ne-evt-repeat-repeatson-0" class="ne-repeat-repeatson-label" title="Sunday">
+                                                <input id="ne-evt-repeat-repeatson-0" name="ne-evt-repeat-repeatson-0" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Sunday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                S
+                                            </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <input id="ne-evt-repeat-repeatson-1" name="ne-evt-repeat-repeatson-1" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Monday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                            <label for="ne-evt-repeat-repeatson-1" class="ne-repeat-repeatson-label" title="Monday">M</label>
+                                            <label for="ne-evt-repeat-repeatson-1" class="ne-repeat-repeatson-label" title="Monday">
+                                                <input id="ne-evt-repeat-repeatson-1" name="ne-evt-repeat-repeatson-1" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Monday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                M
+                                            </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <input id="ne-evt-repeat-repeatson-2" name="ne-evt-repeat-repeatson-2" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Tuesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                            <label for="ne-evt-repeat-repeatson-2" class="ne-repeat-repeatson-label" title="Tuesday">T</label>
+                                            <label for="ne-evt-repeat-repeatson-2" class="ne-repeat-repeatson-label" title="Tuesday">
+                                                <input id="ne-evt-repeat-repeatson-2" name="ne-evt-repeat-repeatson-2" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Tuesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                T
+                                            </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <input id="ne-evt-repeat-repeatson-3" name="ne-evt-repeat-repeatson-3" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Wednesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                            <label for="ne-evt-repeat-repeatson-3" class="ne-repeat-repeatson-label" title="Wednesday">W</label>
+                                            <label for="ne-evt-repeat-repeatson-3" class="ne-repeat-repeatson-label" title="Wednesday">
+                                                <input id="ne-evt-repeat-repeatson-3" name="ne-evt-repeat-repeatson-3" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Wednesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                W
+                                            </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <input id="ne-evt-repeat-repeatson-4" name="ne-evt-repeat-repeatson-4" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Thursday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                            <label for="ne-evt-repeat-repeatson-4" class="ne-repeat-repeatson-label" title="Thursday">T</label>
+                                            <label for="ne-evt-repeat-repeatson-4" class="ne-repeat-repeatson-label" title="Thursday">
+                                                <input id="ne-evt-repeat-repeatson-4" name="ne-evt-repeat-repeatson-4" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Thursday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                T
+                                            </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <input id="ne-evt-repeat-repeatson-5" name="ne-evt-repeat-repeatson-5" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Friday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                            <label for="ne-evt-repeat-repeatson-5" class="ne-repeat-repeatson-label" title="Friday">F</label>
+                                            <label for="ne-evt-repeat-repeatson-5" class="ne-repeat-repeatson-label" title="Friday">
+                                                <input id="ne-evt-repeat-repeatson-5" name="ne-evt-repeat-repeatson-5" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Friday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                F
+                                            </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <input id="ne-evt-repeat-repeatson-6" name="ne-evt-repeat-repeatson-6" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Saturday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                            <label for="ne-evt-repeat-repeatson-6" class="ne-repeat-repeatson-label" title="Saturday">S</label>
+                                            <label for="ne-evt-repeat-repeatson-6" class="ne-repeat-repeatson-label" title="Saturday">
+                                                <input id="ne-evt-repeat-repeatson-6" name="ne-evt-repeat-repeatson-6" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Saturday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                S
+                                            </label>
                                         </span>
                                     </div>
                                 </td>
@@ -431,12 +459,16 @@ and open the template in the editor.
                                 </th>
                                 <td>
                                     <span>
-                                        <input id="ne-evt-repeat-repeatby-dayofmonth" name="ne-evt-repeat-repeatby" title="Repeat by day of the month" type="radio" checked<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        <label for="ne-evt-repeat-repeatby-dayofmonth" title="Repeat by day of the month">day of the month</label>
+                                        <label for="ne-evt-repeat-repeatby-dayofmonth" title="Repeat by day of the month">
+                                            <input id="ne-evt-repeat-repeatby-dayofmonth" name="ne-evt-repeat-repeatby" title="Repeat by day of the month" type="radio" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            day of the month
+                                        </label>
                                     </span>
                                     <span>
-                                        <input id="ne-evt-repeat-repeatby-dayofweek" name="ne-evt-repeat-repeatby" title="Repeat by day of the week" type="radio"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        <label for="ne-evt-repeat-repeatby-dayofweek" title="Repeat by day of the week">day of the week</label>
+                                        <label for="ne-evt-repeat-repeatby-dayofweek" title="Repeat by day of the week">
+                                            <input id="ne-evt-repeat-repeatby-dayofweek" name="ne-evt-repeat-repeatby" title="Repeat by day of the week" type="radio"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            day of the week
+                                        </label>
                                     </span>
                                 </td>
                             </tr>
@@ -454,8 +486,10 @@ and open the template in the editor.
                                 </th>
                                 <td>
                                     <span class="ui-container-block">
-                                        <input id="ne-evt-endson-never" name="ne-evt-endson" title="Ends never" type="radio" checked<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        <label for="ne-evt-endson-never" title="Ends never">Never</label>
+                                        <label for="ne-evt-endson-never" title="Ends never">
+                                            <input id="ne-evt-endson-never" name="ne-evt-endson" title="Ends never" type="radio" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            Never
+                                        </label>
                                     </span>
                                     <span class="ui-container-block">
                                         <input id="ne-evt-endson-after" name="ne-evt-endson" title="Ends after a number of occurrences" type="radio"<?php echo " tabindex=\"".$ti++."\"";?>>
@@ -505,14 +539,225 @@ and open the template in the editor.
                     <span class="ui-header">Advanced settings</span>
                     <span id="ne-settings-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
                     <div id="ne-settings-usedefault-wrapper" title="Uncheck to enable custom settings">
-                        <input id="ne-evt-settings-usedefault" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                        <label id="ne-settings-usedefault-label" for="ne-evt-settings-usedefault">Use default settings</label>
+                        <label id="ne-settings-usedefault-label" for="ne-evt-settings-usedefault">
+                            <input id="ne-evt-settings-usedefault" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Use default settings
+                        </label>
                     </div>
                 </div>
                 <div id="ne-settings-table-wrapper">
                     <table>
                         <tbody>
-                            
+                            <tr id="ne-settings-table-0">
+                                <th>
+                                    Time of day
+                                </th>
+                                <td>
+                                    <label id="ne-settings-timegate-label" for="ne-evt-settings-timegate">
+                                        <input id="ne-evt-settings-timegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Custom time settings
+                                    </label>
+                                    <table id="ne-settings-time-table">
+                                        <tbody>
+                                            <tr id="ne-settings-time-table-0">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr id="ne-settings-table-1">
+                                <th>
+                                    Day of the Week
+                                </th>
+                                <td>
+                                    <label id="ne-settings-daygate-label" for="ne-evt-settings-daygate">
+                                        <input id="ne-evt-settings-daygate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Custom day settings
+                                    </label>
+                                    <table id="ne-settings-day-table">
+                                        <tbody>
+                                            <tr id="ne-settings-day-table-0">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr id="ne-settings-table-2">
+                                <th>
+                                    Meeting Duration
+                                </th>
+                                <td>
+                                    <label id="ne-settings-durationgate-label" for="ne-evt-settings-durationgate">
+                                        <input id="ne-evt-settings-durationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Custom duration settings
+                                    </label>
+                                    <table id="ne-settings-duration-table">
+                                        <tbody>
+                                            <tr id="ne-settings-duration-table-0">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr id="ne-settings-table-3">
+                                <th>
+                                    Repeats
+                                </th>
+                                <td>
+                                    <label id="ne-settings-repeatgate-label" for="ne-evt-settings-repeatgate">
+                                        <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Custom repetition settings
+                                    </label>
+                                    <table id="ne-settings-repeats-table">
+                                        <tbody>
+                                            <tr id="ne-settings-repeats-table-0">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-repeats-table-1">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-repeats-table-2">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr id="ne-settings-table-4">
+                                <th>
+                                    Blacklist times
+                                </th>
+                                <td>
+                                    <label id="ne-settings-blacklistgate-label" for="ne-evt-settings-blacklistgate">
+                                        <input id="ne-evt-settings-blacklistgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Custom blacklist settings
+                                    </label>
+                                    <table id="ne-settings-blacklist-table">
+                                        <tbody>
+                                            <tr id="ne-settings-blacklist-table-0">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-blacklist-table-1">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr class="ui-separator"></tr>
+                            <tr id="ne-settings-table-5">
+                                <th>
+                                    Location
+                                </th>
+                                <td>
+                                    <label id="ne-settings-locationgate-label" for="ne-evt-settings-locationgate">
+                                        <input id="ne-evt-settings-locationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Custom location settings
+                                    </label>
+                                    <table id="ne-settings-location-table">
+                                        <tbody>
+                                            <tr id="ne-settings-location-table-0">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-location-table-1">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr id="ne-settings-table-6">
+                                <th>
+                                    Attendees
+                                </th>
+                                <td>
+                                    <label id="ne-settings-attendancegate-label" for="ne-evt-settings-attendancegate">
+                                        <input id="ne-evt-settings-attendancegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        Custom attendance settings
+                                    </label>
+                                    <table id="ne-settings-attendance-table">
+                                        <tbody>
+                                            <tr id="ne-settings-attendance-table-0">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-attendance-table-1">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-attendance-table-2">
+                                                <th>
+                                                    
+                                                </th>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

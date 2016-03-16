@@ -257,6 +257,27 @@ and open the template in the editor.
 #ne-evt-repeat-startson {
     width: 100px;
 } /*empty*/
+#ne-evt-settings-attendancegate {
+    
+} /*empty*/
+#ne-evt-settings-blacklistgate {
+    
+} /*empty*/
+#ne-evt-settings-daygate {
+    
+} /*empty*/
+#ne-evt-settings-durationgate {
+    
+} /*empty*/
+#ne-evt-settings-locationgate {
+    
+} /*empty*/
+#ne-evt-settings-repeatgate {
+    
+} /*empty*/
+#ne-evt-settings-timegate {
+    
+} /*empty*/
 #ne-evt-settings-usedefault {
     
 } /*empty*/
@@ -416,19 +437,121 @@ and open the template in the editor.
     cursor: pointer;
 }
 
+#ne-settings-attendance-table {
+    
+} /*empty*/
+#ne-settings-attendance-table-0 {
+    
+} /*empty*/
+#ne-settings-attendance-table-1 {
+    
+} /*empty*/
+#ne-settings-attendance-table-2 {
+    
+} /*empty*/
+#ne-settings-attendancegate-label {
+    
+} /*empty*/
+#ne-settings-blacklist-table {
+    
+} /*empty*/
+#ne-settings-blacklist-table-0 {
+    
+} /*empty*/
+#ne-settings-blacklist-table-1 {
+    
+} /*empty*/
+#ne-settings-blacklistgate-label {
+    
+} /*empty*/
+#ne-settings-day-table {
+    
+} /*empty*/
+#ne-settings-day-table-0 {
+    
+} /*empty*/
+#ne-settings-daygate-label {
+    
+} /*empty*/
 #ne-settings-dialogbox {
     min-width: 400px;
     top: calc(50% - 200px);
     left: calc(50% - 200px);
 }
+#ne-settings-duration-table {
+    
+} /*empty*/
+#ne-settings-duration-table-0 {
+    
+} /*empty*/
+#ne-settings-durationgate-label {
+    
+} /*empty*/
 #ne-settings-header {
     font-size: 16px;
     padding: 10px 15px;
 }
+#ne-settings-location-table {
+    
+} /*empty*/
+#ne-settings-location-table-0 {
+    
+} /*empty*/
+#ne-settings-location-table-1 {
+    
+} /*empty*/
+#ne-settings-locationgate-label {
+    
+} /*empty*/
+#ne-settings-repeatgate-label {
+    
+} /*empty*/
+#ne-settings-repeats-table {
+    
+} /*empty*/
+#ne-settings-repeats-table-0 {
+    
+} /*empty*/
+#ne-settings-repeats-table-1 {
+    
+} /*empty*/
+#ne-settings-repeats-table-2 {
+    
+} /*empty*/
+#ne-settings-table-0 {
+    
+} /*empty*/
+#ne-settings-table-1 {
+    
+} /*empty*/
+#ne-settings-table-2 {
+    
+} /*empty*/
+#ne-settings-table-3 {
+    
+} /*empty*/
+#ne-settings-table-4 {
+    
+} /*empty*/
+#ne-settings-table-5 {
+    
+} /*empty*/
+#ne-settings-table-6 {
+    
+} /*empty*/
 #ne-settings-table-wrapper {
     padding: 15px;
     padding-bottom: 5px;
 }
+#ne-settings-time-table {
+    
+} /*empty*/
+#ne-settings-time-table-0 {
+    
+} /*empty*/
+#ne-settings-timegate-label {
+    
+} /*empty*/
 #ne-settings-top-wrapper {
     margin-right: 5px;
 }

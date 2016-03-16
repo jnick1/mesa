@@ -36,6 +36,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         
         <script type="text/javascript" src="<?php echo $homedir."java/validation.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/el-buttons.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: Events List</title>
     </head>
