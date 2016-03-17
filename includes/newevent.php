@@ -397,7 +397,7 @@ and open the template in the editor.
                                         }
                                         ?>
                                     </select>
-                                    <span id="ne-repeat-repeatevery-label">
+                                    <span id="ne-label-repeat-repeatevery">
                                         days
                                     </span>
                                 </td>
@@ -409,43 +409,43 @@ and open the template in the editor.
                                 <td>
                                     <div>
                                         <span class="ui-container-inline">
-                                            <label for="ne-evt-repeat-repeatson-0" class="ne-repeat-repeatson-label" title="Sunday">
+                                            <label for="ne-evt-repeat-repeatson-0" class="ne-label-repeat-repeatson" title="Sunday">
                                                 <input id="ne-evt-repeat-repeatson-0" name="ne-evt-repeat-repeatson-0" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Sunday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                 S
                                             </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <label for="ne-evt-repeat-repeatson-1" class="ne-repeat-repeatson-label" title="Monday">
+                                            <label for="ne-evt-repeat-repeatson-1" class="ne-label-repeat-repeatson" title="Monday">
                                                 <input id="ne-evt-repeat-repeatson-1" name="ne-evt-repeat-repeatson-1" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Monday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                 M
                                             </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <label for="ne-evt-repeat-repeatson-2" class="ne-repeat-repeatson-label" title="Tuesday">
+                                            <label for="ne-evt-repeat-repeatson-2" class="ne-label-repeat-repeatson" title="Tuesday">
                                                 <input id="ne-evt-repeat-repeatson-2" name="ne-evt-repeat-repeatson-2" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Tuesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                 T
                                             </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <label for="ne-evt-repeat-repeatson-3" class="ne-repeat-repeatson-label" title="Wednesday">
+                                            <label for="ne-evt-repeat-repeatson-3" class="ne-label-repeat-repeatson" title="Wednesday">
                                                 <input id="ne-evt-repeat-repeatson-3" name="ne-evt-repeat-repeatson-3" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Wednesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                 W
                                             </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <label for="ne-evt-repeat-repeatson-4" class="ne-repeat-repeatson-label" title="Thursday">
+                                            <label for="ne-evt-repeat-repeatson-4" class="ne-label-repeat-repeatson" title="Thursday">
                                                 <input id="ne-evt-repeat-repeatson-4" name="ne-evt-repeat-repeatson-4" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Thursday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                 T
                                             </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <label for="ne-evt-repeat-repeatson-5" class="ne-repeat-repeatson-label" title="Friday">
+                                            <label for="ne-evt-repeat-repeatson-5" class="ne-label-repeat-repeatson" title="Friday">
                                                 <input id="ne-evt-repeat-repeatson-5" name="ne-evt-repeat-repeatson-5" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Friday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                 F
                                             </label>
                                         </span>
                                         <span class="ui-container-inline">
-                                            <label for="ne-evt-repeat-repeatson-6" class="ne-repeat-repeatson-label" title="Saturday">
+                                            <label for="ne-evt-repeat-repeatson-6" class="ne-label-repeat-repeatson" title="Saturday">
                                                 <input id="ne-evt-repeat-repeatson-6" name="ne-evt-repeat-repeatson-6" class="ui-checkbox ne-repeat-repeatson-checkbox" title="Saturday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                 S
                                             </label>
@@ -539,7 +539,7 @@ and open the template in the editor.
                     <span class="ui-header">Advanced settings</span>
                     <span id="ne-settings-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
                     <div id="ne-settings-usedefault-wrapper" title="Uncheck to enable custom settings">
-                        <label id="ne-settings-usedefault-label" for="ne-evt-settings-usedefault">
+                        <label id="ne-label-settings-usedefault" for="ne-evt-settings-usedefault">
                             <input id="ne-evt-settings-usedefault" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Use default settings
                         </label>
@@ -553,18 +553,18 @@ and open the template in the editor.
                                     Time of day
                                 </th>
                                 <td>
-                                    <label id="ne-settings-timegate-label" for="ne-evt-settings-timegate">
+                                    <label id="ne-label-settings-timegate" for="ne-evt-settings-timegate">
                                         <input id="ne-evt-settings-timegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Custom time settings
                                     </label>
                                     <table id="ne-settings-time-table">
                                         <tbody>
                                             <tr id="ne-settings-time-table-0">
-                                                <th>
-                                                    
-                                                </th>
                                                 <td>
-                                                    
+                                                    <label id="ne-label-settings-timeallow" for="ne-evt-settings-timeallow">
+                                                        <input id="ne-evt-settings-timeallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Allow time modulation
+                                                    </label>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -576,18 +576,26 @@ and open the template in the editor.
                                     Day of the Week
                                 </th>
                                 <td>
-                                    <label id="ne-settings-daygate-label" for="ne-evt-settings-daygate">
+                                    <label id="ne-label-settings-daygate" for="ne-evt-settings-daygate">
                                         <input id="ne-evt-settings-daygate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Custom day settings
                                     </label>
                                     <table id="ne-settings-day-table">
                                         <tbody>
                                             <tr id="ne-settings-day-table-0">
-                                                <th>
-                                                    
-                                                </th>
                                                 <td>
-                                                    
+                                                    <label id="ne-label-settings-dayallow" for="ne-evt-settings-dayallow">
+                                                        <input id="ne-evt-settings-dayallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Allow day modulation
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-day-table-1">
+                                                <td>
+                                                    <label id="ne-label-settings-maxday" for="ne-evt-settings-maxday">
+                                                        Furthest search date
+                                                        <input id="ne-evt-settings-maxday" class="ui-date ui-textinput" type="date"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                    </label>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -599,7 +607,7 @@ and open the template in the editor.
                                     Meeting Duration
                                 </th>
                                 <td>
-                                    <label id="ne-settings-durationgate-label" for="ne-evt-settings-durationgate">
+                                    <label id="ne-label-settings-durationgate" for="ne-evt-settings-durationgate">
                                         <input id="ne-evt-settings-durationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Custom duration settings
                                     </label>
@@ -622,7 +630,7 @@ and open the template in the editor.
                                     Repeats
                                 </th>
                                 <td>
-                                    <label id="ne-settings-repeatgate-label" for="ne-evt-settings-repeatgate">
+                                    <label id="ne-label-settings-repeatgate" for="ne-evt-settings-repeatgate">
                                         <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Custom repetition settings
                                     </label>
@@ -661,7 +669,7 @@ and open the template in the editor.
                                     Blacklist times
                                 </th>
                                 <td>
-                                    <label id="ne-settings-blacklistgate-label" for="ne-evt-settings-blacklistgate">
+                                    <label id="ne-label-settings-blacklistgate" for="ne-evt-settings-blacklistgate">
                                         <input id="ne-evt-settings-blacklistgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Custom blacklist settings
                                     </label>
@@ -693,7 +701,7 @@ and open the template in the editor.
                                     Location
                                 </th>
                                 <td>
-                                    <label id="ne-settings-locationgate-label" for="ne-evt-settings-locationgate">
+                                    <label id="ne-label-settings-locationgate" for="ne-evt-settings-locationgate">
                                         <input id="ne-evt-settings-locationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Custom location settings
                                     </label>
@@ -724,7 +732,7 @@ and open the template in the editor.
                                     Attendees
                                 </th>
                                 <td>
-                                    <label id="ne-settings-attendancegate-label" for="ne-evt-settings-attendancegate">
+                                    <label id="ne-label-settings-attendancegate" for="ne-evt-settings-attendancegate">
                                         <input id="ne-evt-settings-attendancegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Custom attendance settings
                                     </label>

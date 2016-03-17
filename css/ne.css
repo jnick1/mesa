@@ -24,7 +24,7 @@ and open the template in the editor.
 
 .ne-evt-guest {
     
-}
+} /*empty*/
 
 .ne-guests-container {
     padding-left: 10px;
@@ -74,14 +74,14 @@ and open the template in the editor.
 .ne-label {
     
 } /*empty*/
+.ne-label-repeat-repeatson {
+    padding-right: 5px;
+    border-spacing: 0;
+}
 
 .ne-repeat-repeatson-checkbox {
     margin-right: 0;
     margin-left: 0;
-    border-spacing: 0;
-}
-.ne-repeat-repeatson-label {
-    padding-right: 5px;
     border-spacing: 0;
 }
 
@@ -365,7 +365,34 @@ and open the template in the editor.
     
 } /*empty*/
 
+#ne-label-repeat-repeatevery {
+    
+} /*empty*/
 #ne-label-repeatbox {
+    
+} /*empty*/
+#ne-label-settings-attendancegate {
+    
+} /*empty*/
+#ne-label-settings-blacklistgate {
+    
+} /*empty*/
+#ne-label-settings-daygate {
+    
+} /*empty*/
+#ne-label-settings-durationgate {
+    
+} /*empty*/
+#ne-label-settings-locationgate {
+    
+} /*empty*/
+#ne-label-settings-repeatgate {
+    
+} /*empty*/
+#ne-label-settings-timegate {
+    
+} /*empty*/
+#ne-label-settings-usedefault {
     
 } /*empty*/
 
@@ -392,9 +419,6 @@ and open the template in the editor.
     font-size: 16px;
     padding: 10px 15px;
 }
-#ne-repeat-repeatevery-label {
-    
-} /*empty*/
 #ne-repeat-summary {
     
 } /*empty*/
@@ -449,9 +473,6 @@ and open the template in the editor.
 #ne-settings-attendance-table-2 {
     
 } /*empty*/
-#ne-settings-attendancegate-label {
-    
-} /*empty*/
 #ne-settings-blacklist-table {
     
 } /*empty*/
@@ -461,16 +482,10 @@ and open the template in the editor.
 #ne-settings-blacklist-table-1 {
     
 } /*empty*/
-#ne-settings-blacklistgate-label {
-    
-} /*empty*/
 #ne-settings-day-table {
-    
-} /*empty*/
+    padding-left: 15px;
+}
 #ne-settings-day-table-0 {
-    
-} /*empty*/
-#ne-settings-daygate-label {
     
 } /*empty*/
 #ne-settings-dialogbox {
@@ -484,9 +499,6 @@ and open the template in the editor.
 #ne-settings-duration-table-0 {
     
 } /*empty*/
-#ne-settings-durationgate-label {
-    
-} /*empty*/
 #ne-settings-header {
     font-size: 16px;
     padding: 10px 15px;
@@ -498,12 +510,6 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-settings-location-table-1 {
-    
-} /*empty*/
-#ne-settings-locationgate-label {
-    
-} /*empty*/
-#ne-settings-repeatgate-label {
     
 } /*empty*/
 #ne-settings-repeats-table {
@@ -543,21 +549,18 @@ and open the template in the editor.
     padding: 15px;
     padding-bottom: 5px;
 }
+#ne-settings-table-wrapper th {
+    vertical-align: top;
+}
 #ne-settings-time-table {
-    
-} /*empty*/
+    padding-left: 15px;
+}
 #ne-settings-time-table-0 {
-    
-} /*empty*/
-#ne-settings-timegate-label {
     
 } /*empty*/
 #ne-settings-top-wrapper {
     margin-right: 5px;
 }
-#ne-settings-usedefault-label {
-    
-} /*empty*/
 #ne-settings-usedefault-wrapper {
     padding-top: 8px;
 }

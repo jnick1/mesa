@@ -6,6 +6,10 @@
 
 var settingsset = false;
 
+$(function(){
+    $("#ne-evt-settings-maxday").datepicker({ dateformat: "mm/dd/yy"});
+});
+
 function show_settings_dialogbox(){
     $("#wpg").addClass("ui-popup-background-effect");
     $("#ne-settings-wrapper").addClass("ui-popup-active");
