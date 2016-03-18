@@ -288,9 +288,10 @@ $(document).on("click", "#ne-evt-repeatbox", function(){
         $("#ne-repeat-summary-display").addClass("wpg-nodisplay");
         $("#ne-label-repeatbox").html("Repeat...");
     }
+    $("#ne-repeat-dialogbox").center();
 });
 
-$(document).on("click", "#ne-repeat-x", function(){
+$(document).on("click", "#ne-repeat-x, #ne-repeat-btn-cancel", function(){
     hide_repeat_dialogbox();
     if(!repeatset){
         $("#ne-evt-repeatbox").prop("checked", false);
@@ -341,17 +342,17 @@ $(document).on("change", "#ne-evt-repeat-repeats", function(){
         case "4":
             $("#ne-repeat-table-1, #ne-repeat-table-2").removeClass("wpg-nodisplay");
             $("#ne-repeat-table-3").addClass("wpg-nodisplay");
-            $("#ne-repeat-repeatevery-label").html("weeks");
+            $("#ne-label-repeat-repeatevery").html("weeks");
             break
         case "5":
             $("#ne-repeat-table-1, #ne-repeat-table-3").removeClass("wpg-nodisplay");
             $("#ne-repeat-table-2").addClass("wpg-nodisplay");
-            $("#ne-repeat-repeatevery-label").html("months");
+            $("#ne-label-repeat-repeatevery").html("months");
             break;
         case "6":
             $("#ne-repeat-table-1").removeClass("wpg-nodisplay");
             $("#ne-repeat-table-2, #ne-repeat-table-3").addClass("wpg-nodisplay");
-            $("#ne-repeat-repeatevery-label").html("years");
+            $("#ne-label-repeat-repeatevery").html("years");
             break;
     }
 });
@@ -361,6 +362,7 @@ $(document).on("change", "#ne-evt-repeat-repeats, #ne-evt-repeat-repeatevery, #n
         "#ne-evt-repeat-repeatson-5, #ne-evt-repeat-repeatson-6, #ne-evt-repeat-repeatby-dayofmonth, "+
         "#ne-evt-repeat-repeatby-dayofweek, #ne-evt-endson-never, #ne-evt-endson-after, #ne-evt-endson-on, "+
         "#ne-evt-endson-occurances, #ne-evt-endson-date", generate_summary);
+
 $(document).on("change", "#ne-evt-date-start", function(){
     generate_summary();
     $("#ne-repeat-summary-display").html($("#ne-repeat-summary").html());
@@ -372,13 +374,6 @@ $(document).on("click", "#ne-repeat-btn-done", function(){
     $("#ne-repeat-edit").removeClass("wpg-nodisplay");
     $("#ne-repeat-summary-display").removeClass("wpg-nodisplay").html($("#ne-repeat-summary").html());
     $("#ne-label-repeatbox").html("Repeat: ");
-});
-
-$(document).on("click", "#ne-repeat-btn-cancel", function(){
-    hide_repeat_dialogbox();
-    if(!repeatset){
-        $("#ne-evt-repeatbox").prop("checked", false);
-    }
 });
 
 $(document).on("click", "#ne-repeat-edit", function(){

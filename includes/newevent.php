@@ -104,14 +104,16 @@ and open the template in the editor.
                 </div>
                 <div id="ne-top-repeat">
                     <span id="ne-settings-top-wrapper">
+                        <input id="ne-evt-settingsbox" name="ne-evt-settingsbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                         <label id="ne-label-settingsbox" class="ne-label" for="ne-evt-settingsbox">
-                            <input id="ne-evt-settingsbox" name="ne-evt-settingsbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Advanced settings
                         </label>
                     </span>
+                    <span id="ne-settings-display" class="ui-header wpg-nodisplay">Active</span>
+                    <span id="ne-settings-edit" class="ui-revisitablelink wpg-nodisplay">Edit</span>
                     <span id="ne-repeat-top-wrapper">
+                        <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                         <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">
-                            <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Repeat...
                         </label>
                     </span>
@@ -546,220 +548,367 @@ and open the template in the editor.
                     </div>
                 </div>
                 <div id="ne-settings-table-wrapper">
-                    <table>
+                    <table id="ne-settings-supertable">
                         <tbody>
-                            <tr id="ne-settings-table-0">
-                                <th>
-                                    Time of day
-                                </th>
+                            <tr>
                                 <td>
-                                    <label id="ne-label-settings-timegate" for="ne-evt-settings-timegate">
-                                        <input id="ne-evt-settings-timegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        Custom time settings
-                                    </label>
-                                    <table id="ne-settings-time-table">
+                                    <table class="ui-table">
                                         <tbody>
-                                            <tr id="ne-settings-time-table-0">
+                                            <tr id="ne-settings-table-0">
+                                                <th>
+                                                    Time of day
+                                                </th>
                                                 <td>
-                                                    <label id="ne-label-settings-timeallow" for="ne-evt-settings-timeallow">
-                                                        <input id="ne-evt-settings-timeallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                                        Allow time modulation
+                                                    <label id="ne-label-settings-timegate" class="ui-label" for="ne-evt-settings-timegate">
+                                                        <input id="ne-evt-settings-timegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Custom time settings
                                                     </label>
+                                                    <table id="ne-settings-time-table" class="wpg-nodisplay">
+                                                        <tbody>
+                                                            <tr id="ne-settings-time-table-0">
+                                                                <td>
+                                                                    <label id="ne-label-settings-timeallow" for="ne-evt-settings-timeallow">
+                                                                        <input id="ne-evt-settings-timeallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        Allow time modulation
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-time-table-1">
+                                                                <td>
+                                                                    Prioritization
+                                                                    <span class="ui-container-block ui-smallfont">
+                                                                        <label for="ne-evt-settings-time-prior-low" >
+                                                                            <input id="ne-evt-settings-time-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            low
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-time-prior-med" >
+                                                                            <input id="ne-evt-settings-time-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            medium
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-time-prior-hig" >
+                                                                            <input id="ne-evt-settings-time-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            high
+                                                                        </label>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr id="ne-settings-table-1">
-                                <th>
-                                    Day of the Week
-                                </th>
-                                <td>
-                                    <label id="ne-label-settings-daygate" for="ne-evt-settings-daygate">
-                                        <input id="ne-evt-settings-daygate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        Custom day settings
-                                    </label>
-                                    <table id="ne-settings-day-table">
-                                        <tbody>
-                                            <tr id="ne-settings-day-table-0">
+                                            <tr id="ne-settings-table-1">
+                                                <th>
+                                                    Date
+                                                </th>
                                                 <td>
-                                                    <label id="ne-label-settings-dayallow" for="ne-evt-settings-dayallow">
-                                                        <input id="ne-evt-settings-dayallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                                        Allow day modulation
+                                                    <label id="ne-label-settings-daygate" for="ne-evt-settings-daygate">
+                                                        <input id="ne-evt-settings-daygate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Custom day settings
                                                     </label>
+                                                    <table id="ne-settings-day-table" class="wpg-nodisplay">
+                                                        <tbody>
+                                                            <tr id="ne-settings-day-table-0">
+                                                                <td>
+                                                                    <label id="ne-label-settings-dayallow" for="ne-evt-settings-dayallow">
+                                                                        <input id="ne-evt-settings-dayallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        Allow day modulation
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-day-table-1">
+                                                                <td>
+                                                                    Prioritization
+                                                                    <span class="ui-container-block ui-smallfont">
+                                                                        <label for="ne-evt-settings-date-prior-low" >
+                                                                            <input id="ne-evt-settings-date-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            low
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-date-prior-med" >
+                                                                            <input id="ne-evt-settings-date-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            medium
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-date-prior-hig" >
+                                                                            <input id="ne-evt-settings-date-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            high
+                                                                        </label>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-day-table-2">
+                                                                <td>
+                                                                    <label id="ne-label-settings-maxday" for="ne-evt-settings-maxday">
+                                                                        Furthest search date
+                                                                        <input id="ne-evt-settings-maxday" class="ui-date ui-textinput" type="date"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </td>
                                             </tr>
-                                            <tr id="ne-settings-day-table-1">
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table class="ui-table">
+                                        <tbody>
+                                            <tr id="ne-settings-table-2">
+                                                <th>
+                                                    Meeting Duration
+                                                </th>
                                                 <td>
-                                                    <label id="ne-label-settings-maxday" for="ne-evt-settings-maxday">
-                                                        Furthest search date
-                                                        <input id="ne-evt-settings-maxday" class="ui-date ui-textinput" type="date"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                    <label id="ne-label-settings-durationgate" for="ne-evt-settings-durationgate">
+                                                        <input id="ne-evt-settings-durationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Custom duration settings
                                                     </label>
+                                                    <table id="ne-settings-duration-table" class="wpg-nodisplay">
+                                                        <tbody>
+                                                            <tr id="ne-settings-duration-table-0">
+                                                                <td>
+                                                                    <label id="ne-label-settings-durationallow" for="ne-evt-settings-durationallow">
+                                                                        <input id="ne-evt-settings-durationallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        Allow duration modulation
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-duration-table-1">
+                                                                <td>
+                                                                    Prioritization
+                                                                    <span class="ui-container-block ui-smallfont">
+                                                                        <label for="ne-evt-settings-duration-prior-low" >
+                                                                            <input id="ne-evt-settings-duration-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            low
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-duration-prior-med" >
+                                                                            <input id="ne-evt-settings-duration-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            medium
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-duration-prior-hig" >
+                                                                            <input id="ne-evt-settings-duration-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            high
+                                                                        </label>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-duration-table-2">
+                                                                <td>
+                                                                    <label id="ne-label-settings-minduration" for="ne-evt-settings-minduration">
+                                                                        Minimum duration
+                                                                        <input id="ne-evt-settings-minduration" class="ui-textinput ui-time" value="00:30"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <span class="ui-smallfont">(hh:mm)</span>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-table-3">
+                                                <th>
+                                                    Repeats
+                                                </th>
+                                                <td>
+                                                    <label id="ne-label-settings-repeatgate" for="ne-evt-settings-repeatgate">
+                                                        <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox" disabled<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Custom repetition settings
+                                                    </label>
+                                                    <span class="ui-container-block ui-smallfont">(disabled when repeat is not set)</span>
+                                                    <table id="ne-settings-repeats-table" class="wpg-nodisplay">
+                                                        <tbody>
+                                                            <tr id="ne-settings-repeats-table-0">
+                                                                <td>
+                                                                    <label id="ne-label-settings-repeatsallow" for="ne-evt-settings-repeatsallow">
+                                                                        <input id="ne-evt-settings-repeatsallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        Allow repeats modulation
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-repeats-table-1">
+                                                                <td>
+                                                                    Prioritization
+                                                                    <span class="ui-container-block ui-smallfont">
+                                                                        <label for="ne-evt-settings-repeats-prior-low" >
+                                                                            <input id="ne-evt-settings-repeats-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            low
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-repeats-prior-med" >
+                                                                            <input id="ne-evt-settings-repeats-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            medium
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-repeats-prior-hig" >
+                                                                            <input id="ne-evt-settings-repeats-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            high
+                                                                        </label>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-repeats-table-2">
+                                                                <td>
+                                                                    <label id="ne-label-settings-repeatsmin" for="ne-evt-settings-repeatsmin">
+                                                                        Minimum number of repeats
+                                                                        <input id="ne-evt-settings-repeatsmin" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-repeats-table-3">
+                                                                <td>
+
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr id="ne-settings-table-4">
+                                                <th>
+                                                    Blacklist times
+                                                </th>
+                                                <td>
+                                                    <label id="ne-label-settings-blacklistgate" for="ne-evt-settings-blacklistgate">
+                                                        <input id="ne-evt-settings-blacklistgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Custom blacklist settings
+                                                    </label>
+                                                    <table id="ne-settings-blacklist-table" class="wpg-nodisplay">
+                                                        <tbody>
+                                                            <tr id="ne-settings-blacklist-table-0">
+                                                                <td>
+                                                                    <label id="ne-label-settings-blacklistallow" for="ne-evt-settings-blacklistallow">
+                                                                        <input id="ne-evt-settings-blacklistallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        Allow blacklist modulation
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-blacklist-table-1">
+                                                                <td>
+                                                                    Prioritization
+                                                                    <span class="ui-container-block ui-smallfont">
+                                                                        <label for="ne-evt-settings-blacklist-prior-low" >
+                                                                            <input id="ne-evt-settings-blacklist-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-blacklist-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            low
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-blacklist-prior-med" >
+                                                                            <input id="ne-evt-settings-blacklist-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-blacklist-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            medium
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-blacklist-prior-hig" >
+                                                                            <input id="ne-evt-settings-blacklist-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-blacklist-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            high
+                                                                        </label>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-blacklist-table-2">
+                                                                <td>
+
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </td>
-                            </tr>
-                            <tr id="ne-settings-table-2">
-                                <th>
-                                    Meeting Duration
-                                </th>
                                 <td>
-                                    <label id="ne-label-settings-durationgate" for="ne-evt-settings-durationgate">
-                                        <input id="ne-evt-settings-durationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        Custom duration settings
-                                    </label>
-                                    <table id="ne-settings-duration-table">
+                                    <table class="ui-table">
                                         <tbody>
-                                            <tr id="ne-settings-duration-table-0">
+                                            <tr id="ne-settings-table-5">
                                                 <th>
-                                                    
+                                                    Location
                                                 </th>
                                                 <td>
-                                                    
+                                                    <label id="ne-label-settings-locationgate" for="ne-evt-settings-locationgate">
+                                                        <input id="ne-evt-settings-locationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Custom location settings
+                                                    </label>
+                                                    <table id="ne-settings-location-table" class="wpg-nodisplay">
+                                                        <tbody>
+                                                            <tr id="ne-settings-location-table-0">
+                                                                <td>
+                                                                    <label id="ne-label-settings-locationallow" for="ne-evt-settings-locationallow">
+                                                                        <input id="ne-evt-settings-locationallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        Allow location modulation
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-location-table-1">
+                                                                <td>
+                                                                    Prioritization
+                                                                    <span class="ui-container-block ui-smallfont">
+                                                                        <label for="ne-evt-settings-location-prior-low" >
+                                                                            <input id="ne-evt-settings-location-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            low
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-location-prior-med" >
+                                                                            <input id="ne-evt-settings-location-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            medium
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-location-prior-hig" >
+                                                                            <input id="ne-evt-settings-location-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            high
+                                                                        </label>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-location-table-2">
+                                                                <td>
+
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr id="ne-settings-table-3">
-                                <th>
-                                    Repeats
-                                </th>
-                                <td>
-                                    <label id="ne-label-settings-repeatgate" for="ne-evt-settings-repeatgate">
-                                        <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        Custom repetition settings
-                                    </label>
-                                    <table id="ne-settings-repeats-table">
-                                        <tbody>
-                                            <tr id="ne-settings-repeats-table-0">
+                                            <tr id="ne-settings-table-6">
                                                 <th>
-                                                    
+                                                    Attendees
                                                 </th>
                                                 <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr id="ne-settings-repeats-table-1">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr id="ne-settings-repeats-table-2">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr id="ne-settings-table-4">
-                                <th>
-                                    Blacklist times
-                                </th>
-                                <td>
-                                    <label id="ne-label-settings-blacklistgate" for="ne-evt-settings-blacklistgate">
-                                        <input id="ne-evt-settings-blacklistgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        Custom blacklist settings
-                                    </label>
-                                    <table id="ne-settings-blacklist-table">
-                                        <tbody>
-                                            <tr id="ne-settings-blacklist-table-0">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr id="ne-settings-blacklist-table-1">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr class="ui-separator"></tr>
-                            <tr id="ne-settings-table-5">
-                                <th>
-                                    Location
-                                </th>
-                                <td>
-                                    <label id="ne-label-settings-locationgate" for="ne-evt-settings-locationgate">
-                                        <input id="ne-evt-settings-locationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        Custom location settings
-                                    </label>
-                                    <table id="ne-settings-location-table">
-                                        <tbody>
-                                            <tr id="ne-settings-location-table-0">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr id="ne-settings-location-table-1">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                            <tr id="ne-settings-table-6">
-                                <th>
-                                    Attendees
-                                </th>
-                                <td>
-                                    <label id="ne-label-settings-attendancegate" for="ne-evt-settings-attendancegate">
-                                        <input id="ne-evt-settings-attendancegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                        Custom attendance settings
-                                    </label>
-                                    <table id="ne-settings-attendance-table">
-                                        <tbody>
-                                            <tr id="ne-settings-attendance-table-0">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr id="ne-settings-attendance-table-1">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr id="ne-settings-attendance-table-2">
-                                                <th>
-                                                    
-                                                </th>
-                                                <td>
-                                                    
+                                                    <label id="ne-label-settings-attendancegate" for="ne-evt-settings-attendancegate">
+                                                        <input id="ne-evt-settings-attendancegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Custom attendance settings
+                                                    </label>
+                                                    <table id="ne-settings-attendance-table" class="wpg-nodisplay">
+                                                        <tbody>
+                                                            <tr id="ne-settings-attendees-table-0">
+                                                                <td>
+                                                                    <label id="ne-label-settings-attendeesallow" for="ne-evt-settings-attendeesallow">
+                                                                        <input id="ne-evt-settings-attendeesallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        Allow attendees modulation
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-attendees-table-1">
+                                                                <td>
+                                                                    Prioritization
+                                                                    <span class="ui-container-block ui-smallfont">
+                                                                        <label for="ne-evt-settings-attendees-prior-low" >
+                                                                            <input id="ne-evt-settings-attendees-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            low
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-attendees-prior-med" >
+                                                                            <input id="ne-evt-settings-attendees-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            medium
+                                                                        </label>
+                                                                        <label for="ne-evt-settings-attendees-prior-hig" >
+                                                                            <input id="ne-evt-settings-attendees-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            high
+                                                                        </label>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-attendance-table-2">
+                                                                <td>
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="ne-settings-attendance-table-3">
+                                                                <td>
+
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -768,6 +917,18 @@ and open the template in the editor.
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div id="ne-settings-btns">
+                    <div class="wrapper-btn-general wrapper-btn-all">
+                        <div id="ne-settings-btn-done" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Done
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all">
+                        <div id="ne-settings-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
