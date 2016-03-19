@@ -78,6 +78,10 @@ and open the template in the editor.
     padding-right: 5px;
     border-spacing: 0;
 }
+.ne-label-settings-blacklistdays {
+    padding-right: 5px;
+    border-spacing: 0;
+}
 
 .ne-repeat-repeatson-checkbox {
     margin-right: 0;
@@ -132,183 +136,6 @@ and open the template in the editor.
 #ne-dropdown-timestart {
     
 } /*empty*/
-
-#ne-evt-available {
-    
-} /*empty*/
-#ne-evt-busy {
-    
-} /*empty*/
-#ne-evt-date-end {
-    
-} /*empty*/
-#ne-evt-date-start {
-    
-} /*empty*/
-#ne-evt-description {
-    width: 100%;
-    resize: none;
-    overflow: hidden;
-    font-family: inherit;
-    padding: 3px;
-}
-#ne-evt-endson-after {
-    
-} /*empty*/
-#ne-evt-endson-date {
-    padding: 2px;
-}
-#ne-evt-endson-never {
-    
-} /*empty*/
-#ne-evt-endson-occurances {
-    padding: 2px;
-}
-#ne-evt-endson-on {
-    
-} /*empty*/
-#ne-evt-guests-inviteothers {
-    
-} /*empty*/
-#ne-evt-guests-seeguestlist {
-    
-} /*empty*/
-#ne-evt-notifications-1 {
-    
-} /*empty*/
-#ne-evt-notifications-2 {
-    
-} /*empty*/
-#ne-evt-notifications-3 {
-    
-} /*empty*/
-#ne-evt-notifications-4 {
-    
-} /*empty*/
-#ne-evt-notifications-5 {
-    
-} /*empty*/
-#ne-evt-notifications-time-1 {
-    
-} /*empty*/
-#ne-evt-notifications-time-2 {
-    
-} /*empty*/
-#ne-evt-notifications-time-3 {
-    
-} /*empty*/
-#ne-evt-notifications-time-4 {
-    
-} /*empty*/
-#ne-evt-notifications-time-5 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-1 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-2 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-3 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-4 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-5 {
-    
-} /*empty*/
-#ne-evt-repeatbox {
-    cursor: pointer;
-} /*empty*/
-#ne-evt-repeat-repeatby-dayofmonth {
-    
-} /*empty*/
-#ne-evt-repeat-repeatby-dayofweek {
-    
-} /*empty*/
-#ne-evt-repeat-repeatevery {
-    
-} /*empty*/
-#ne-evt-repeat-repeats {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-0 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-1 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-2 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-3 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-4 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-5 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-6 {
-    
-} /*empty*/
-#ne-evt-repeat-startson {
-    width: 100px;
-} /*empty*/
-#ne-evt-settings-attendancegate {
-    
-} /*empty*/
-#ne-evt-settings-blacklistgate {
-    
-} /*empty*/
-#ne-evt-settings-daygate {
-    
-} /*empty*/
-#ne-evt-settings-durationgate {
-    
-} /*empty*/
-#ne-evt-settings-locationgate {
-    
-} /*empty*/
-#ne-evt-settings-repeatgate {
-    
-} /*empty*/
-#ne-evt-settings-timegate {
-    
-} /*empty*/
-#ne-evt-settings-usedefault {
-    
-} /*empty*/
-#ne-evt-settingsbox {
-    
-} /*empty*/
-#ne-evt-time-end {
-    
-} /*empty*/
-#ne-evt-time-start {
-    
-} /*empty*/
-#ne-evt-title {
-    width: 100%;
-    max-width: 450px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #000000;
-}
-#ne-evt-visibility-default {
-    
-} /*empty*/
-#ne-evt-visibility-public {
-    
-} /*empty*/
-#ne-evt-visibility-private {
-    
-} /*empty*/
-#ne-evt-where {
-    width: 98.5%;
-}
 
 #ne-guests {
     width: 250px;
@@ -374,25 +201,64 @@ and open the template in the editor.
 #ne-label-settings-attendancegate {
     
 } /*empty*/
+#ne-label-settings-attendeesallow {
+    
+} /*empty*/
+#ne-label-settings-blacklistdays {
+    padding-bottom: 5px;
+}
+#ne-label-settings-blacklistend {
+    
+} /*empty*/
 #ne-label-settings-blacklistgate {
+    
+} /*empty*/
+#ne-label-settings-blackliststart {
+    
+} /*empty*/
+#ne-label-settings-dayallow {
     
 } /*empty*/
 #ne-label-settings-daygate {
     
 } /*empty*/
+#ne-label-settings-durationallow {
+    
+} /*empty*/
 #ne-label-settings-durationgate {
+    
+} /*empty*/
+#ne-label-settings-locationallow {
     
 } /*empty*/
 #ne-label-settings-locationgate {
     
 } /*empty*/
+#ne-label-settings-maxdate {
+    
+} /*empty*/
+#ne-label-settings-minduration {
+    
+} /*empty*/
 #ne-label-settings-repeatgate {
+    
+} /*empty*/
+#ne-label-settings-repeatsallow {
+    
+} /*empty*/
+#ne-label-settings-repeatsmin {
+    
+} /*empty*/
+#ne-label-settings-timeallow {
     
 } /*empty*/
 #ne-label-settings-timegate {
     
 } /*empty*/
 #ne-label-settings-usedefault {
+    
+} /*empty*/
+#ne-label-settingsbox {
     
 } /*empty*/
 
@@ -459,25 +325,37 @@ and open the template in the editor.
     cursor: pointer;
 }
 
-#ne-settings-attendance-table {
+#ne-settings-attendees-table {
+    padding-left: 15px;
+}
+#ne-settings-attendees-table-0 {
     
 } /*empty*/
-#ne-settings-attendance-table-0 {
+#ne-settings-attendees-table-1 {
     
 } /*empty*/
-#ne-settings-attendance-table-1 {
+#ne-settings-attendees-table-2 {
     
 } /*empty*/
-#ne-settings-attendance-table-2 {
+#ne-settings-attendees-table-3 {
     
 } /*empty*/
 #ne-settings-blacklist-table {
-    
-} /*empty*/
+    padding-left: 15px;
+}
 #ne-settings-blacklist-table-0 {
     
 } /*empty*/
 #ne-settings-blacklist-table-1 {
+    
+} /*empty*/
+#ne-settings-blacklist-table-2 {
+    
+} /*empty*/
+#ne-settings-btn-cancel {
+    
+} /*empty*/
+#ne-settings-btn-done {
     
 } /*empty*/
 #ne-settings-btns {
@@ -491,13 +369,28 @@ and open the template in the editor.
 #ne-settings-day-table-0 {
     
 } /*empty*/
+#ne-settings-day-table-1 {
+    
+} /*empty*/
+#ne-settings-day-table-2 {
+    
+} /*empty*/
 #ne-settings-dialogbox {
     min-width: 800px;
 }
-#ne-settings-duration-table {
+#ne-settings-display {
     
 } /*empty*/
+#ne-settings-duration-table {
+    padding-left: 15px;
+}
 #ne-settings-duration-table-0 {
+    
+} /*empty*/
+#ne-settings-duration-table-1 {
+    
+} /*empty*/
+#ne-settings-duration-table-2 {
     
 } /*empty*/
 #ne-settings-edit {
@@ -508,17 +401,20 @@ and open the template in the editor.
     padding: 10px 15px;
 }
 #ne-settings-location-table {
-    
-} /*empty*/
+    padding-left: 15px;
+}
 #ne-settings-location-table-0 {
     
 } /*empty*/
 #ne-settings-location-table-1 {
     
 } /*empty*/
-#ne-settings-repeats-table {
+#ne-settings-location-table-2 {
     
 } /*empty*/
+#ne-settings-repeats-table {
+    padding-left: 15px;
+}
 #ne-settings-repeats-table-0 {
     
 } /*empty*/
@@ -528,6 +424,12 @@ and open the template in the editor.
 #ne-settings-repeats-table-2 {
     
 } /*empty*/
+#ne-settings-repeats-table-3 {
+    
+} /*empty*/
+#ne-settings-supertable > tbody > tr > td {
+    vertical-align: top;
+}
 #ne-settings-table-0 {
     
 } /*empty*/
@@ -563,6 +465,9 @@ and open the template in the editor.
     padding-left: 15px;
 }
 #ne-settings-time-table-0 {
+    
+} /*empty*/
+#ne-settings-time-table-1 {
     
 } /*empty*/
 #ne-settings-top-wrapper {
@@ -604,9 +509,4 @@ and open the template in the editor.
     font-size: 16px;
     font-weight: bold;
     border-bottom: none;
-}
-
-
-#ne-settings-supertable > tbody > tr > td {
-    vertical-align: top;
 }

@@ -28,7 +28,7 @@ and open the template in the editor.
     margin: 4px 0px 4px 0px;
 }
 
-.ui-date, .ui-time {
+.ui-date, .ui-time, .ui-shortbox {
     width: 70px;
     margin-right: 4px;
 }
@@ -85,7 +85,6 @@ and open the template in the editor.
     filter: blur(2px);
     opacity: 0.5;
 }
-
 .ui-radiobtn {
     cursor: pointer;
 }
