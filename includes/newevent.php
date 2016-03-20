@@ -79,11 +79,6 @@ and open the template in the editor.
                             Save
                         </div>
                     </div>
-                    <div class="wrapper-btn-all wrapper-btn-general">
-                        <div id="ne-btn-test" title="Test"<?php echo " tabindex=\"".$ti++."\"";?>>
-                            Test
-                        </div>
-                    </div>
                 </div>
             </div>
             <div id="ne-top-time" class="ui-container-section">
@@ -976,9 +971,5 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-        <div id="test-top"></div>
-        <div id="test-bottom"></div>
-        <div id="test-left"></div>
-        <div id="test-right"></div>
     </body>
 </html>
