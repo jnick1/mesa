@@ -44,6 +44,14 @@ function toggle_settings_extensions(){
     }
     $("#ne-settings-dialogbox").center();
 }
+function toggle_inner_settings(){
+    if($(this).is(":checked")) {
+        $(this).parent().parent().parent().siblings("tr").removeClass("wpg-nodisplay");
+    } else {
+        $(this).parent().parent().parent().siblings("tr").addClass("wpg-nodisplay");
+    }
+    $("#ne-settings-dialogbox").center();
+}
 function reset_settings(){
     $("#ne-evt-settingsbox").prop("checked", false);
     $("#ne-evt-settings-usedefault").prop("checked", true);
@@ -123,6 +131,9 @@ $(document).on("click", "#ne-evt-settings-usedefault", function(){
 $(document).on("change", "#ne-evt-settings-attendancegate,#ne-evt-settings-blacklistgate,#ne-evt-settings-daygate,"+
                         "#ne-evt-settings-durationgate,#ne-evt-settings-locationgate,#ne-evt-settings-repeatgate,"+
                         "#ne-evt-settings-timegate", toggle_settings_extensions);
+                
+$(document).on("change", "#ne-evt-settings-timeallow,#ne-evt-settings-dayallow,#ne-evt-settings-durationallow,"+
+        "#ne-evt-settings-repeatsallow,#ne-evt-settings-locationallow,#ne-evt-settings-attendeesallow", toggle_inner_settings);
 
 $(document).on("click", "#ne-settings-edit", function(){
     show_settings_dialogbox();

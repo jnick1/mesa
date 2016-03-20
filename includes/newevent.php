@@ -40,9 +40,6 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-ui.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         
-        <script type="text/javascript" src="<?php echo $homedir."java/html2canvas.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/html2canvas.svg.js"?>"></script>
-        
         <script type="text/javascript" src="<?php echo $homedir."java/ne-buttons.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-colors-selector.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-guest.js"?>"></script>
@@ -756,7 +753,10 @@ and open the template in the editor.
                                                             </tr>
                                                             <tr id="ne-settings-repeats-table-3">
                                                                 <td>
-
+                                                                    <label id="ne-label-settings-repeatsconstant" for="ne-evt-settings-repeatsconstant">
+                                                                        All meetings at same time
+                                                                        <input id="ne-evt-settings-repeatsconstant" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                    </label>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -889,11 +889,6 @@ and open the template in the editor.
                                                                     </span>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-location-table-2">
-                                                                <td>
-
-                                                                </td>
-                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </td>
@@ -938,12 +933,10 @@ and open the template in the editor.
                                                             </tr>
                                                             <tr id="ne-settings-attendees-table-2">
                                                                 <td>
-
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="ne-settings-attendees-table-3">
-                                                                <td>
-
+                                                                    <label id="ne-label-settings-attendeesnomiss" for="ne-evt-settings-attendeesallow">
+                                                                        Minimum required attendees
+                                                                        <input id="ne-evt-settings-attendeesnomiss" class="ui-shortbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                    </label>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
