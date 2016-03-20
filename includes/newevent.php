@@ -27,6 +27,7 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/images.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/main.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ne.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ne-evt.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/wrappers.css"; ?>">
         
@@ -38,6 +39,9 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-2.2.0.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-ui.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
+        
+        <script type="text/javascript" src="<?php echo $homedir."java/html2canvas.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/html2canvas.svg.js"?>"></script>
         
         <script type="text/javascript" src="<?php echo $homedir."java/ne-buttons.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-colors-selector.js"?>"></script>
@@ -72,7 +76,7 @@ and open the template in the editor.
                     </div>
                     <div class="wrapper-btn-all wrapper-btn-general">
                         <div id="ne-btn-save" title="Save event for later modification"<?php echo " tabindex=\"".$ti++."\"";?>>
-                            Save <?php //Reset all event settings to default ?>
+                            Save
                         </div>
                     </div>
                 </div>
@@ -636,9 +640,9 @@ and open the template in the editor.
                                                             </tr>
                                                             <tr id="ne-settings-day-table-2">
                                                                 <td>
-                                                                    <label id="ne-label-settings-maxday" for="ne-evt-settings-maxday">
+                                                                    <label id="ne-label-settings-maxdate" for="ne-evt-settings-maxdate">
                                                                         Furthest search date
-                                                                        <input id="ne-evt-settings-maxday" class="ui-date ui-textinput" type="date"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput" type="date"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -746,7 +750,7 @@ and open the template in the editor.
                                                                 <td>
                                                                     <label id="ne-label-settings-repeatsmin" for="ne-evt-settings-repeatsmin">
                                                                         Minimum number of repeats
-                                                                        <input id="ne-evt-settings-repeatsmin" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-repeatsmin" class="ui-textinput ui-shortbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -772,34 +776,69 @@ and open the template in the editor.
                                                         <tbody>
                                                             <tr id="ne-settings-blacklist-table-0">
                                                                 <td>
-                                                                    <label id="ne-label-settings-blacklistallow" for="ne-evt-settings-blacklistallow">
-                                                                        <input id="ne-evt-settings-blacklistallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                                                        Allow blacklist modulation
+                                                                    <label id="ne-label-settings-blackliststart" for="ne-evt-settings-blackliststart">
+                                                                        Earliest start time
+                                                                        <input id="ne-evt-settings-blackliststart" class="ui-textinput ui-time" <?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
                                                             <tr id="ne-settings-blacklist-table-1">
                                                                 <td>
-                                                                    Prioritization
-                                                                    <span class="ui-container-block ui-smallfont">
-                                                                        <label for="ne-evt-settings-blacklist-prior-low" >
-                                                                            <input id="ne-evt-settings-blacklist-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-blacklist-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
-                                                                            low
-                                                                        </label>
-                                                                        <label for="ne-evt-settings-blacklist-prior-med" >
-                                                                            <input id="ne-evt-settings-blacklist-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-blacklist-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                                                            medium
-                                                                        </label>
-                                                                        <label for="ne-evt-settings-blacklist-prior-hig" >
-                                                                            <input id="ne-evt-settings-blacklist-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-blacklist-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                                                            high
-                                                                        </label>
-                                                                    </span>
+                                                                    <label id="ne-label-settings-blacklistend" for="ne-evt-settings-blacklistend">
+                                                                        Latest end time
+                                                                        <input id="ne-evt-settings-blacklistend" class="ui-textinput ui-time"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                    </label>
                                                                 </td>
                                                             </tr>
                                                             <tr id="ne-settings-blacklist-table-2">
                                                                 <td>
-
+                                                                    <span id="ne-label-settings-blacklistdays" class="ui-container-block">
+                                                                        Blacklisted days
+                                                                    </span>
+                                                                    <div>
+                                                                        <span class="ui-container-inline">
+                                                                            <label for="ne-evt-settings-blacklistdays-0" class="ne-label-settings-blacklistdays" title="Sunday">
+                                                                                <input id="ne-evt-settings-blacklistdays-0" name="ne-evt-settings-blacklistdays-0" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Sunday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                S
+                                                                            </label>
+                                                                        </span>
+                                                                        <span class="ui-container-inline">
+                                                                            <label for="ne-evt-settings-blacklistdays-1" class="ne-label-settings-blacklistdays" title="Monday">
+                                                                                <input id="ne-evt-settings-blacklistdays-1" name="ne-evt-settings-blacklistdays-1" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Monday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                M
+                                                                            </label>
+                                                                        </span>
+                                                                        <span class="ui-container-inline">
+                                                                            <label for="ne-evt-settings-blacklistdays-2" class="ne-label-settings-blacklistdays" title="Tuesday">
+                                                                                <input id="ne-evt-settings-blacklistdays-2" name="ne-evt-settings-blacklistdays-2" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Tuesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                T
+                                                                            </label>
+                                                                        </span>
+                                                                        <span class="ui-container-inline">
+                                                                            <label for="ne-evt-settings-blacklistdays-3" class="ne-label-settings-blacklistdays" title="Wednesday">
+                                                                                <input id="ne-evt-settings-blacklistdays-3" name="ne-evt-settings-blacklistdays-3" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Wednesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                W
+                                                                            </label>
+                                                                        </span>
+                                                                        <span class="ui-container-inline">
+                                                                            <label for="ne-evt-settings-blacklistdays-4" class="ne-label-settings-blacklistdays" title="Thursday">
+                                                                                <input id="ne-evt-settings-blacklistdays-4" name="ne-evt-settings-blacklistdays-4" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Thursday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                T
+                                                                            </label>
+                                                                        </span>
+                                                                        <span class="ui-container-inline">
+                                                                            <label for="ne-evt-settings-blacklistdays-5" class="ne-label-settings-blacklistdays" title="Friday">
+                                                                                <input id="ne-evt-settings-blacklistdays-5" name="ne-evt-settings-blacklistdays-5" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Friday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                F
+                                                                            </label>
+                                                                        </span>
+                                                                        <span class="ui-container-inline">
+                                                                            <label for="ne-evt-settings-blacklistdays-6" class="ne-label-settings-blacklistdays" title="Saturday">
+                                                                                <input id="ne-evt-settings-blacklistdays-6" name="ne-evt-settings-blacklistdays-6" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Saturday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                S
+                                                                            </label>
+                                                                        </span>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -868,7 +907,7 @@ and open the template in the editor.
                                                         <input id="ne-evt-settings-attendancegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom attendance settings
                                                     </label>
-                                                    <table id="ne-settings-attendance-table" class="wpg-nodisplay">
+                                                    <table id="ne-settings-attendees-table" class="wpg-nodisplay">
                                                         <tbody>
                                                             <tr id="ne-settings-attendees-table-0">
                                                                 <td>
@@ -897,12 +936,12 @@ and open the template in the editor.
                                                                     </span>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-attendance-table-2">
+                                                            <tr id="ne-settings-attendees-table-2">
                                                                 <td>
 
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-attendance-table-3">
+                                                            <tr id="ne-settings-attendees-table-3">
                                                                 <td>
 
                                                                 </td>
