@@ -36,6 +36,7 @@ BY
     gran = f.readline()  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
     bannedtimes = f.readline() #banned granularity increments based on user input, ie not over 933 or something
     preferedTime = f.readline() #the time that the person wants to have the specifically
+    durrationTime = f.readline() #how long the meeting is
     location = f.readline() #where the place is at/want to meet
     weekly = f.readline() #how often per week people want to meet
     f.close()#closing the file
@@ -82,21 +83,7 @@ BY
     #adjust this based on time and such
 for (i=7; i>0; i--):
         if (i = 7):#number of people attending
-        {   attend = 0 # number of people who accepts
-            for (i =0; i <searchwidth; i++):
-                {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
-                    {
-                        Attendees = peopleCalender[i][j]
-                        peopleCalender[i][j] = Attendees #storing it back for the next list
-                    
-                        for (i =0; i<length.info; i++): #don't know if its necessary or not, but will leave it in at the moment
-                            {if (0 in Attendees):
-                                attend +=1
-                            }
-                        masterCalender[i][j] = attend * Priority[7] #numeric track of the people coming                         
-                    }
-                }
-        }
+            {peopleCounting(searchwidth, granularity, bannedtimes, peopleCalender)}
     else if (i = 6): #granularity
          #
     else if (i = 5): #location  
@@ -211,6 +198,27 @@ def peopleCounting(searchwidth, granularity, bannedtimes, peopleCalender):
                     }
                 }
     }
+Start = startTime
+timeLength = durrationTime
+spot = false
+count = 0
+
+do{
+    for (k=Start; k<timeLength; k+granularity):
+        {if(peopleCalender[i][k] == '0'):
+            count +=1
+        }
+    if(count == timeLength):
+        {
+            masterCalender[i][Start] = -1
+        }
+    else:
+        Start +=granularity
+    
+     
+}while(j!<(24/granularity) - bannedtimes)
+    
+
 
 #For {for(i = 0; i<searchWidth; i++)
 #   {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
