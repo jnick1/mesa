@@ -47,7 +47,7 @@ and open the template in the editor.
     </head>
     <body>
         <div id="wpg">
-            <div id="ne-header" class="ui-container-section">
+            <div id="el-header" class="ui-container-section">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
                 ?>

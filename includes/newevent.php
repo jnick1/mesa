@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $homedir = "../";
+require_once $homedir."config/mysqli_connect.php";
 $ti = 1;
 
 //these should get their values from a failed attempt at a POST request
