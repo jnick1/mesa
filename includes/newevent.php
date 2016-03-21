@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <?php
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $homedir = "../";
 $ti = 1;
 
@@ -179,7 +184,7 @@ and open the template in the editor.
                                                         <div class="ne-guest-response-icon"></div>
                                                     </div>
                                                     <div id="<?php //needed here ?>user@gmail.com@display" class="ne-guest-name-wrapper ui-container-inline">
-                                                        <span class="ne-guest-name ui-unselectabletext">user@gmail.com</span>
+                                                        <span class="ne-guest-name ui-unselectabletext"><?php //needed here ?>user@gmail.com</span>
                                                     </div>
                                                     <div class="ui-container-inline ne-guest-delete">
                                                         <div class="goog-icon goog-icon-x-small" title="Remove this guest from the event"></div>
@@ -639,7 +644,7 @@ and open the template in the editor.
                                                                 <td>
                                                                     <label id="ne-label-settings-maxdate" for="ne-evt-settings-maxdate">
                                                                         Furthest search date
-                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput" type="date"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -713,7 +718,7 @@ and open the template in the editor.
                                                         <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox" disabled<?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom repetition settings
                                                     </label>
-                                                    <span class="ui-container-block ui-smallfont">(disabled when repeat is not set)</span>
+                                                    <span id="ne-settings-repetition-annotation" class="ui-container-block ui-smallfont">(disabled when repeat is not set)</span>
                                                     <table id="ne-settings-repeats-table" class="wpg-nodisplay">
                                                         <tbody>
                                                             <tr id="ne-settings-repeats-table-0">

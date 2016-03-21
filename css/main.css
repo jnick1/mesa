@@ -38,6 +38,9 @@ and open the template in the editor.
 #wpg-header {
     
 } /*empty*/
+#wpg-header-account {
+    float: right;
+}
 #wpg-header-error {
     
 } /*empty*/

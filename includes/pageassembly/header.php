@@ -1,4 +1,7 @@
 <div id="wpg-header">
+    <div id="wpg-header-account">
+        <?php //need to add stuff like logout button and user id confirmation here ?>
+    </div>
     <div id="wpg-header-title">
         <a id="wpg-header-link" href="<?php echo $homedir."index.php"; ?>"<?php echo " tabindex=\"".$ti++."\"";?>>
             Mesa Organizer

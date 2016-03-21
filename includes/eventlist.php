@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <?php
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 $homedir = "../";
 $ti = 1;
 
@@ -20,6 +24,7 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <link rel="icon" type="image/png" href="<?php echo $homedir;?>favicon.png" sizes="128x128">
         
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/el.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/goog.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/images.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/main.css"; ?>">
@@ -46,7 +51,7 @@ and open the template in the editor.
                 <?php
                 include $homedir."includes/pageassembly/header.php";
                 ?>
-                <div id="ne-top-buttons">
+                <div id="el-top-buttons">
                     <div class="wrapper-btn-all wrapper-btn-action">
                         <div id="el-btn-create" title="Return to previous page"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Create

@@ -104,7 +104,7 @@ and open the template in the editor.
     float: right;
     cursor: pointer;
 }
-#ne-btn-reset {
+#ne-btn-save {
     cursor: pointer;
 }
 #ne-btn-send {
@@ -204,6 +204,9 @@ and open the template in the editor.
 #ne-label-settings-attendeesallow {
     
 } /*empty*/
+#ne-label-settings-attendeesnomiss {
+    
+} /*empty*/
 #ne-label-settings-blacklistdays {
     padding-bottom: 5px;
 }
@@ -244,6 +247,9 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-label-settings-repeatsallow {
+    
+} /*empty*/
+#ne-label-settings-repeatsconstant {
     
 } /*empty*/
 #ne-label-settings-repeatsmin {
@@ -419,6 +425,9 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-settings-repeats-table-3 {
+    
+} /*empty*/
+#ne-settings-repetition-annotation {
     
 } /*empty*/
 #ne-settings-supertable > tbody > tr > td {

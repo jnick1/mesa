@@ -6,6 +6,7 @@
 
 var repeatset = false;
 var pageload = false;
+var repeatstate = {};
 
 $(function() {
     $("#ne-evt-endson-date").datepicker({ dateformat: "mm/dd/yy"});
@@ -14,6 +15,7 @@ $(function() {
 $(document).ready(function() {
     $("#ne-evt-repeatbox").prop("checked", false);
     repeat_options_reset();
+    save_state("#ne-repeat-wrapper",repeatstate);
 });
 
 function repeat_options_reset(){
@@ -277,17 +279,24 @@ function hide_repeat_dialogbox(){
 
 $(document).on("click", "#ne-evt-repeatbox", function(){
     if($("#ne-evt-repeatbox").is(":checked") && !repeatset){
-        repeat_options_reset();
+        reset_state("#ne-repeat-wrapper",repeatstate);
         show_repeat_dialogbox();
     } else if($("#ne-evt-repeatbox").is(":checked") && repeatset) {
         $("#ne-repeat-edit").removeClass("wpg-nodisplay");
         $("#ne-repeat-summary-display").removeClass("wpg-nodisplay");
         $("#ne-label-repeatbox").html("Repeat: ");
+        if(!$("#ne-evt-settings-usedefault").is(":checked")) {
+            $("#ne-evt-settings-repeatgate").prop("disabled",false);
+            $("#ne-settings-repetition-annotation").addClass("wpg-nodisplay").removeClass("ui-container-block");
+        }
     } else if(!$("#ne-evt-repeatbox").is(":checked") && repeatset){
         $("#ne-repeat-edit").addClass("wpg-nodisplay");
         $("#ne-repeat-summary-display").addClass("wpg-nodisplay");
         $("#ne-label-repeatbox").html("Repeat...");
+        $("#ne-settings-repetition-annotation").removeClass("wpg-nodisplay").addClass("ui-container-block");
+        $("#ne-evt-settings-repeatgate").prop("checked",false).prop("disabled",true);
     }
+    save_state("#ne-settings-wrapper", settingsstate);
     $("#ne-repeat-dialogbox").center();
 });
 
@@ -295,6 +304,9 @@ $(document).on("click", "#ne-repeat-x, #ne-repeat-btn-cancel", function(){
     hide_repeat_dialogbox();
     if(!repeatset){
         $("#ne-evt-repeatbox").prop("checked", false);
+    }
+    if(Object.keys(repeatstate).length!==0){
+        reset_state("#ne-repeat-wrapper", repeatstate);
     }
 });
 
@@ -370,9 +382,15 @@ $(document).on("change", "#ne-evt-date-start", function(){
 
 $(document).on("click", "#ne-repeat-btn-done", function(){
     repeatset = true;
+    save_state("#ne-repeat-wrapper",repeatstate);
     hide_repeat_dialogbox();
     $("#ne-repeat-edit").removeClass("wpg-nodisplay");
     $("#ne-repeat-summary-display").removeClass("wpg-nodisplay").html($("#ne-repeat-summary").html());
+    if(!$("#ne-evt-settings-usedefault").is(":checked")) {
+        $("#ne-evt-settings-repeatgate").prop("disabled",false);
+        $("#ne-settings-repetition-annotation").addClass("wpg-nodisplay").removeClass("ui-container-block");
+    }
+    save_state("#ne-settings-wrapper", settingsstate);
     $("#ne-label-repeatbox").html("Repeat: ");
 });
 
