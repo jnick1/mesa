@@ -5,7 +5,7 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 import numpty as np
-
+phpserialize import 
 if __name__ == "__main__":
     print "Hello World"
 
@@ -30,6 +30,7 @@ BY
  
  #first, enter the necessary data
     f = open('WillsBasicInfo', 'r') #the order of the text file should be as the following: 
+    
     endTime = f.readline() #what is the time set to stop the search
     startTime = f.readline() #where to start the search
     searchWidth = f.readline() #how many days are available
@@ -54,7 +55,7 @@ BY
     #    DAYS = k.read().split(',') #insert number for specific day, 0=SUN, 1=MON, etc
     #k.close() #closing day list
  
- if (   ): #person accepts
+ if (   ): #when OGANIZER clicks "Find Times" Btn
  {
     #input the google calender 
     with open('GoogleCalenderTest.txt','r') as h:
@@ -91,7 +92,7 @@ for (i=7; i>0; i--):
     else if (i = 4): # of times repeated
          #
     else if (i = 3): #Duration of meeting
-         #
+         durrationLocation (granularity, bannedtimes, startTime, durrationTime, peopleCalender, masterCalender)
     else if (i = 2): #Day of week
         {DayLocation ( DAYS, granlarity, bannedtimes, masterCalender, NormCalender, Priority)
         }
@@ -198,25 +199,29 @@ def peopleCounting(searchwidth, granularity, bannedtimes, peopleCalender):
                     }
                 }
     }
-Start = startTime
-timeLength = durrationTime
-spot = false
-count = 0
 
-do{
-    for (k=Start; k<timeLength; k+granularity):
-        {if(peopleCalender[i][k] == '0'):
-            count +=1
-        }
-    if(count == timeLength):
-        {
-            masterCalender[i][Start] = -1
-        }
-    else:
-        Start +=granularity
-    
-     
-}while(j!<(24/granularity) - bannedtimes)
+def durrationLocation (granularity, bannedtimes, startTime, durrationTime, peopleCalender, masterCalender):
+{
+    Start = startTime
+    timeLength = durrationTime
+    spot = false
+    count = 0
+for (i =0; i <searchwidth; i++):
+    {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+        do{
+            for (k=Start; k<timeLength; k+granularity):
+                {if(peopleCalender[i][k] == '0'):
+                    count +=1
+                }
+            if(count == timeLength):
+                {
+                    masterCalender[i][Start] = -1
+                }
+            else:
+                Start +=granularity
+            }while(j<(24/granularity) - bannedtimes)
+    }
+}
     
 
 
