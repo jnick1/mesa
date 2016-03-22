@@ -13,6 +13,10 @@ and open the template in the editor.
 /*==========|    Classes   |==========*/
 /*====================================*/
 
+body {
+    margin: 0;
+}
+
 .wpg-header-errordisplay-bodywrapper {
     padding: 5px;
 }

@@ -12,20 +12,52 @@ and open the template in the editor.
 /*========|      Classes     |========*/
 /*====================================*/
 
-
+thml, body {
+    height: 100%;
+}
 
 /*====================================*/
 /*========|       ID's       |========*/
 /*====================================*/
 
+#in-content {
+    margin: auto;
+    width: 100%;
+    vertical-align: central;
+    text-align: center;
+    color: #fff;
+    top: 500px;
+}
+#in-content:after {
+    content:'';
+    display: block;
+    clear: both;
+}
+
 #in-btn-signin {
     
 } /*empty*/
 
+#in-footer {
+    float: bottom;
+    background-color: #444;
+    width: 100%;
+    height: 200px;
+}
+
 #in-header {
-    
-} /*empty*/
+    margin-top: 0;
+}
 
 #in-top-buttons {
     float: right;
+}
+
+#wpg {
+    height: 100%;
+}
+#wpg:before {
+    content:'';
+    float: left;
+    height: 100%;
 }

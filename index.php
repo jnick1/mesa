@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $homedir = "";
+require_once $homedir."config/mysqli_connect.php";
 $ti = 1;
 
 //these should get their values from a failed attempt at a POST request
@@ -45,7 +46,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant</title>
     </head>
     <body>
-        <div id="wpg">
+        <div id="wpg" class="<?php echo "uluru".rand(1,6); ?>">
             <div id="in-header" class="ui-container-section">
                 <div id="in-top-buttons">
                     <div class="wrapper-btn-all wrapper-btn-action">
@@ -58,7 +59,13 @@ and open the template in the editor.
                 include $homedir."includes/pageassembly/header.php";
                 ?>
             </div>
-            
+            <div id="in-content">
+                <h1>Welcome to MESA, the Meeting and Event Scheduling Assistant
+                    <br>New user? Register here!</h1>
+            </div>
+            <div id="in-footer">
+                
+            </div>
         </div>
     </body>
 </html>
