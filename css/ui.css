@@ -85,6 +85,13 @@ and open the template in the editor.
     filter: blur(2px);
     opacity: 0.5;
 }
+.ui-popup-background-effect2 {
+    -webkit-filter: blur(2px) brightness(75%);
+    -moz-filter: blur(2px) brightness(75%);
+    -o-filter: blur(2px) brightness(75%);
+    -ms-filter: blur(2px) brightness(75%);
+    filter: blur(2px) brightness(75%);
+}
 .ui-radiobtn {
     cursor: pointer;
 }

@@ -353,6 +353,9 @@ and open the template in the editor.
                     </table>
                 </div>
             </div>
+            <?php
+            include $homedir."includes/pageassembly/footer.php";
+            ?>
         </div>
         <div id="ne-dropdown-timestart" class="jq-dropdown jq-dropdown-scroll">
             <div class="jq-dropdown-panel">

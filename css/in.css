@@ -12,9 +12,13 @@ and open the template in the editor.
 /*========|      Classes     |========*/
 /*====================================*/
 
-thml, body {
+html, body {
     height: 100%;
 }
+
+.in-register-label {
+    
+} /*empty*/
 
 /*====================================*/
 /*========|       ID's       |========*/
@@ -23,30 +27,114 @@ thml, body {
 #in-content {
     margin: auto;
     width: 100%;
-    vertical-align: central;
+    vertical-align: middle;
     text-align: center;
     color: #fff;
-    top: 500px;
+    overflow: hidden;
 }
-#in-content:after {
-    content:'';
-    display: block;
-    clear: both;
+#in-content-title {
+    position: absolute;
+    font-family: Comfortaa-Bold,Arial,sans-serif;
+    text-shadow: 2px 2px 1px #5e5e5e;
 }
 
+#in-btn-register {
+    
+} /*empty*/
+#in-btn-register-wrapper {
+    width: 140px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 18px;
+}
 #in-btn-signin {
     
 } /*empty*/
+#in-btn-signin-wrapper {
+    width: 100px;
+    height: 33px;
+    line-height: 33px;
+    font-size: 16px;
+}
 
-#in-footer {
-    float: bottom;
-    background-color: #444;
-    width: 100%;
-    height: 200px;
+#in-evt-register-email {
+    width: 80%;
+    margin-left: 10px;
+}
+#in-evt-register-confpassword {
+    width: 80%;
+    margin-left: 10px;
+}
+#in-evt-register-password {
+    width: 80%;
+    margin-left: 10px;
 }
 
 #in-header {
     margin-top: 0;
+    border-bottom: none;
+}
+
+#in-register-btn-cancel {
+    font-size: 11px;
+}
+#in-register-btn-done {
+    font-size: 11px;
+}
+#in-register-btns {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#in-register-dialogbox {
+    min-width: 400px;
+    width: 400px;
+    font-family: Comfortaa-Bold,Arial,Sans-serif;
+    -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topleft:10px;
+    border-top-left-radius:10px;
+    -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topright:10px;
+    border-top-right-radius:10px;
+    -webkit-border-bottom-right-radius:10px;
+    -moz-border-radius-bottomright:10px;
+    border-bottom-right-radius:10px;
+    -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomleft:10px;
+    border-bottom-left-radius:10px;
+    background: rgba(255,255,255,0.9);
+}
+#in-register-dialogbox input {
+    background: rgba(255,255,255,1);
+}
+#in-register-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#in-register-notification-confpassword {
+    
+} /*empty*/
+#in-register-notification-email {
+    
+} /*empty*/
+#in-register-notification-password {
+    
+} /*empty*/
+#in-register-table-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#in-register-table-wrapper th {
+    text-align: left;
+    vertical-align: middle;
+}
+#in-register-table-wrapper td {
+    width: 100%;
+    padding: 15px 0;
+}
+#in-register-x {
+    float: right;
+    cursor: pointer;
 }
 
 #in-top-buttons {
@@ -55,9 +143,7 @@ thml, body {
 
 #wpg {
     height: 100%;
-}
-#wpg:before {
-    content:'';
-    float: left;
-    height: 100%;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }

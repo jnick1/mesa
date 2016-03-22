@@ -6,6 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $homedir = "../";
+require_once $homedir."config/mysqli_connect.php";
 $ti = 1;
 
 //these should get their values from a failed attempt at a POST request
@@ -14,20 +15,15 @@ $warnings = [];
 $notifications = [];
 
 ?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
         <meta charset="UTF-8">
         <link rel="icon" type="image/png" href="<?php echo $homedir;?>favicon.png" sizes="128x128">
         
-        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/el.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/goog.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/images.php"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/main.css"; ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/re.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/ui.css"; ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo $homedir."css/wrappers.css"; ?>">
         
@@ -41,24 +37,33 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         
         <script type="text/javascript" src="<?php echo $homedir."java/validation.js"?>"></script>
-        <script type="text/javascript" src="<?php echo $homedir."java/el-buttons.js"?>"></script>
         
-        <title>Meeting and Event Scheduling Assistant: Events List</title>
+        <title>Meeting and Event Scheduling Assistant: References</title>
     </head>
     <body>
         <div id="wpg">
-            <div id="el-header" class="ui-container-section">
-                <?php
-                include $homedir."includes/pageassembly/header.php";
-                ?>
-                <div id="el-top-buttons">
-                    <div class="wrapper-btn-all wrapper-btn-action">
-                        <div id="el-btn-create" title="Return to previous page"<?php echo " tabindex=\"".$ti++."\"";?>>
-                            Create
+            <div id="re-header" class="ui-container-section">
+                <div id="re-top-buttons">
+                    <div class="wrapper-btn-all wrapper-btn-general">
+                        <div id="re-btn-signin" title="Sign in to your MESA account"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Back
                         </div>
                     </div>
                 </div>
-                
+                <?php
+                include $homedir."includes/pageassembly/header.php";
+                ?>
+            </div>
+            <div id="re-content">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Citations here... Chicago format
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <?php
             include $homedir."includes/pageassembly/footer.php";
