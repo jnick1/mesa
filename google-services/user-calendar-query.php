@@ -1,5 +1,8 @@
 <?php
-require __DIR__ . '/google-services-header.php';
+require_once __DIR__ . '/google-services-header.php';
+if (!(isset($_SESSION['access_token']) && $_SESSION['access_token'])){
+    redirect_local('oauth2access.php');
+}
 ?>
 <form method='post' action='#'> 
     <table> <tr>
@@ -19,6 +22,6 @@ require __DIR__ . '/google-services-header.php';
 </form>
 <?php
 if(!empty($_POST['checkboxvar'])) {
-    $_SESSION['user_calendar_summaries'] = $_POST['checkboxvar'];
+    $_SESSION['user_calendar_summaries'] = filter_var_array($_POST['checkboxvar'], FILTER_SANITIZE_STRING);
     redirect_local('google-service-access.php');
 }
