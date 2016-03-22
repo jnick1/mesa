@@ -12,6 +12,12 @@ function hide_register_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect2");
     $("#in-register-wrapper").removeClass("ui-popup-active");
 }
+function reset_registration(){
+    $("#in-register-notification-email").addClass("wpg-nodisplay").html("");
+    $("#in-register-notification-confpassword").addClass("wpg-nodisplay").html("");
+    $("#in-register-notification-password").addClass("wpg-nodisplay");
+    $("#in-evt-register-email,#in-evt-register-confpassword,#in-evt-register-password").val("");
+}
 
 $(document).on("click", "#in-btn-register", function() {
     show_register_dialogbox();
@@ -20,6 +26,7 @@ $(document).on("click", "#in-btn-register", function() {
 
 $(document).on("click", "#in-register-x, #in-register-btn-cancel", function() {
     hide_register_dialogbox();
+    reset_registration();
 });
 
 $(document).on("blur","#in-evt-register-email,#in-evt-register-confpassword", function(){
