@@ -8,3 +8,7 @@
 $(document).ready(function(){
     $("#in-content-title").center();
 });
+
+$(window).on("resize", function(){
+    $("#in-content-title").center();
+});
