@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -14,7 +13,94 @@ $errors = [];
 $warnings = [];
 $notifications = [];
 
+$scrubbed = array_map("spam_scrubber", $_POST);
+if(isset($scrubbed["signout"])) {
+    unset($_SESSION["pkUserid"]);
+    unset($_SESSION["email"]);
+    unset($_SESSION["lastLogin"]);
+}
+if(isset($scrubbed["register"])) {
+    $q1 = "SELECT pkUserid FROM tblusers WHERE txEmail = ?";
+    $q2 = "INSERT INTO `tblusers`(`txEmail`, `blSalt`, `txHash`, `dtLogin`) VALUES (?,?,?,?)";
+    
+    if($stmt = $dbc->prepare($q1)){
+        $stmt->bind_param("s", $scrubbed["in-evt-register-email"]);
+        $stmt->execute();
+        $stmt->bind_result($userExists);
+        $stmt->fetch();
+        $stmt->free_result();
+        $stmt->close();
+    }
+    if($userExists) {
+        $errors[] = "This email has already been registered. Please register using a different email address.";
+    } else {
+        $ivsize = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
+        $salt = mcrypt_create_iv($ivsize, MCRYPT_DEV_URANDOM);
+        $hash = hash("sha256",$salt.$scrubbed["in-evt-register-password"]);
+        $login = gmdate("Y-m-d H:i:s");
+        
+        if($stmt = $dbc->prepare($q2)){
+            $stmt->bind_param("ssss", $scrubbed["in-evt-register-email"],$salt,$hash,$login);
+            $stmt->execute();
+            $stmt->free_result();
+            $stmt->close();
+        }
+        if($stmt = $dbc->prepare($q1)){
+            $stmt->bind_param("s", $scrubbed["in-evt-register-email"]);
+            $stmt->execute();
+            $stmt->bind_result($pkUserid);
+            $stmt->fetch();
+            $stmt->free_result();
+            $stmt->close();
+        }
+        $_SESSION["pkUserid"] = $pkUserid;
+        $_SESSION["email"] = $scrubbed["in-evt-register-email"];
+        $_SESSION["lastLogin"] = $login;
+        $notifications[] = "Success! Your user account has been successfully created. We hope you enjoy your Mesa experience!";
+    }
+} 
+if(isset($scrubbed["signin"])) {
+    $q1 = "SELECT blSalt, txHash FROM tblusers WHERE txEmail = ?";
+    $q2 = "SELECT pkUserid, dtLogin FROM tblusers WHERE txHash = ?";
+    $q3 = "UPDATE tblusers SET dtLogin = CURRENT_TIMESTAMP";
+    
+    if($stmt = $dbc->prepare($q1)){
+        $stmt->bind_param("s", $scrubbed["in-evt-signin-email"]);
+        $stmt->execute();
+        $stmt->bind_result($salt,$hash);
+        $stmt->fetch();
+        $stmt->free_result();
+        $stmt->close();
+    }
+    if(!empty($hash)){
+        $hashGiven = hash("sha256",$salt.$scrubbed["in-evt-signin-password"]);
+        if($hash === $hashGiven) {
+            if($stmt = $dbc->prepare($q2)){
+                $stmt->bind_param("s", $hashGiven);
+                $stmt->execute();
+                $stmt->bind_result($pkUserid, $lastLogin);
+                $stmt->fetch();
+                $stmt->free_result();
+                $stmt->close();
+            }
+            if($stmt = $dbc->prepare($q3)){
+                $stmt->execute();
+                $stmt->free_result();
+                $stmt->close();
+            }
+            $_SESSION["pkUserid"] = $pkUserid;
+            $_SESSION["email"] = $scrubbed["in-evt-signin-email"];
+            $_SESSION["lastLogin"] = $lastLogin;
+        } else {
+            $errors[] = "That combination of email and password is incorrect. Please try again.";
+        }
+    } else {
+        $errors[] = "The user account you specified cannot be found. Please try again.";
+    }
+}
+
 ?>
+<!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -50,13 +136,6 @@ and open the template in the editor.
     <body>
         <div id="wpg" class="<?php echo "uluru".rand(1,6); ?>">
             <div id="in-header" class="ui-container-section">
-                <div id="in-top-buttons">
-                    <div id="in-btn-signin-wrapper" class="wrapper-btn-all wrapper-btn-action">
-                        <div id="in-btn-signin" title="Sign in to your MESA account"<?php echo " tabindex=\"".$ti++."\"";?>>
-                            Sign in
-                        </div>
-                    </div> <?php //move this to header.php ?>
-                </div>
                 <?php
                 include $homedir."includes/pageassembly/header.php";
                 ?>
@@ -123,13 +202,61 @@ and open the template in the editor.
                     </table>
                 </div>
                 <div id="in-register-btns">
-                    <div class="wrapper-btn-general wrapper-btn-all">
+                    <div class="wrapper-btn-general wrapper-btn-all in-btns-popups">
                         <div id="in-register-btn-done" <?php echo " tabindex=\"".$ti++."\"";?>>
                             Done
                         </div>
                     </div>
-                    <div class="wrapper-btn-general wrapper-btn-all">
+                    <div class="wrapper-btn-general wrapper-btn-all in-btns-popups">
                         <div id="in-register-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="in-signin-wrapper" class="ui-popup">
+            <div id="in-signin-dialogbox" class="ui-dialogbox">
+                <div id="in-signin-header">
+                    <span class="ui-header">Sign in</span>
+                    <span id="in-signin-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="in-signin-table-wrapper">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <label class="in-signin-label ui-unselectabletext">
+                                        Email
+                                    </label>
+                                </th>
+                                <td>
+                                    <input id="in-evt-signin-email" name="in-evt-signin-email" placeholder="Enter your email address" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <div id="in-signin-notification-email" class="wpg-nodisplay"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label class="in-signin-label ui-unselectabletext">
+                                        Password
+                                    </label>
+                                </th>
+                                <td>
+                                    <input id="in-evt-signin-password" name="in-evt-signin-password" placeholder="Enter a password" type="password" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <div id="in-signin-notification-password" class="wpg-nodisplay"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="in-signin-btns">
+                    <div class="wrapper-btn-general wrapper-btn-all in-btns-popups">
+                        <div id="in-signin-btn-done" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Done
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all in-btns-popups">
+                        <div id="in-signin-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
                             Cancel
                         </div>
                     </div>

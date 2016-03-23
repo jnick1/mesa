@@ -18,6 +18,10 @@ and open the template in the editor.
 /*========|       ID's       |========*/
 /*====================================*/
 
-#re-top-buttons {
-    float: right;
+#re-content {
+    
+} /*empty*/
+
+#re-header {
+    margin-top: 0px;
 }

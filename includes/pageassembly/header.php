@@ -1,11 +1,37 @@
 <div id="wpg-header">
+    
+    <script type="text/javascript" src="<?php echo $homedir;?>java/wpg-header.js"></script>
+    
     <div id="wpg-header-account">
+        <?php if(empty($_SESSION["pkUserid"])) { ?>
+        <div id="wpg-header-btn-signin-wrapper" class="wrapper-btn-all wrapper-btn-action">
+            <div id="wpg-header-btn-signin" title="Sign in to your MESA account"<?php echo " tabindex=\"".$ti++."\"";?>>
+                Sign in
+            </div>
+        </div>
+        <?php } else { ?>
+        <div id="wpg-header-btn-signout-wrapper" class="wrapper-btn-all wrapper-btn-action">
+            <div id="wpg-header-btn-signout" title="Sign in to your MESA account"<?php echo " tabindex=\"".$ti++."\"";?>>
+                Sign out
+            </div>
+        </div>
+        <?php } ?>
         <?php //need to add stuff like logout button and user id confirmation here ?>
     </div>
     <div id="wpg-header-title">
         <a id="wpg-header-link" href="<?php echo $homedir."index.php"; ?>"<?php echo " tabindex=\"".$ti++."\"";?>>
             Mesa Organizer
         </a>
+        <?php
+        if(isset($_SESSION["pkUserid"])) {
+        ?>
+        <span id="wpg-header-myevents" class="ui-container-inline ui-unselectabletext">
+            <a href="<?php echo $homedir; ?>includes/eventlist.php">
+                My events
+                <!--<span id="wpg-header-myevents-dropdown-arrow" class="goog-icon goog-icon-dropdown-arrow-left ui-container-inline"></span>-->
+            </a>
+        </span>
+        <?php } ?>
     </div>
     <div id="wpg-header-errordisplay" class="ui-widget">
         

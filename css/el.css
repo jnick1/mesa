@@ -18,6 +18,15 @@ and open the template in the editor.
 /*========|       ID's       |========*/
 /*====================================*/
 
+#el-btn-create {
+    
+} /*empty*/
+
+#el-header {
+    margin-top: 0;
+}
+
 #el-top-buttons {
     margin-top: 16px;
 }
+

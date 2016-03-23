@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -14,8 +13,18 @@ $errors = [];
 $warnings = [];
 $notifications = [];
 
-?>
+$scrubbed = array_map("spam_scrubber", $_POST);
+if(isset($scrubbed["signout"])) {
+    unset($_SESSION["pkUserid"]);
+    unset($_SESSION["email"]);
+    unset($_SESSION["lastLogin"]);
+}
 
+if(empty($_SESSION["pkUserid"])){
+    header("location: $homedir"."index.php");
+}
+?>
+<!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -177,15 +186,15 @@ and open the template in the editor.
                                 <div id="ne-guests-table">
                                     <div id="ne-guests-table-body">
                                         <?php // will need to pull user email from login info into this section?>
-                                        <div id="<?php //needed here ?>user@gmail.com" class="ne-evt-guest" data-required="true" title="user@gmail.com">
+                                        <div id="<?php echo $_SESSION["email"] ?>" class="ne-evt-guest" data-required="true" title="user@gmail.com">
                                             <div class="ne-guests-guestdata">
                                                 <div class="ne-guests-guestdata-content ui-container-inline">
                                                     <span class="goog-icon goog-icon-guest-required ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
                                                     <div class="ui-container-inline ne-guest-response-icon-wrapper">
                                                         <div class="ne-guest-response-icon"></div>
                                                     </div>
-                                                    <div id="<?php //needed here ?>user@gmail.com@display" class="ne-guest-name-wrapper ui-container-inline">
-                                                        <span class="ne-guest-name ui-unselectabletext"><?php //needed here ?>user@gmail.com</span>
+                                                    <div id="<?php echo $_SESSION["email"] ?>@display" class="ne-guest-name-wrapper ui-container-inline">
+                                                        <span class="ne-guest-name ui-unselectabletext"><?php echo $_SESSION["email"] ?></span>
                                                     </div>
                                                     <div class="ui-container-inline ne-guest-delete">
                                                         <div class="goog-icon goog-icon-x-small" title="Remove this guest from the event"></div>

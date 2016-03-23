@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -6,6 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $homedir = "../";
+require_once $homedir."config/mysqli_connect.php";
 $ti = 1;
 
 //these should get their values from a failed attempt at a POST request
@@ -13,7 +13,18 @@ $errors = [];
 $warnings = [];
 $notifications = [];
 
+$scrubbed = array_map("spam_scrubber", $_POST);
+if(isset($scrubbed["signout"])) {
+    unset($_SESSION["pkUserid"]);
+    unset($_SESSION["email"]);
+    unset($_SESSION["lastLogin"]);
+}
+
+if(empty($_SESSION["pkUserid"])){
+    header("location: $homedir"."index.php");
+}
 ?>
+<!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

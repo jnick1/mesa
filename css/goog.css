@@ -21,6 +21,51 @@ and open the template in the editor.
     margin: 2px;
     background-position: -95px -50px;
 }
+.goog-icon-dropdown-arrow-left {
+    width: 11px;
+    height: 11px;
+    background-position: -60px -83px;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+.goog-icon-dropdown-arrow-down {
+    width: 11px;
+    height: 11px;
+    background-position: -60px -83px;
+}
+.goog-icon-gmail {
+    width: 14px;
+    height: 10px;
+    background-position: -133px -34px;
+}
+.goog-icon-guest-maybe {
+    width: 9px;
+    height: 9px;
+    background-position: -67px -50px;
+}
+.goog-icon-guest-no {
+    width: 9px;
+    height: 9px;
+    background-position: -86px -50px;
+}
+.goog-icon-guest-optional {
+    width: 14px;
+    height: 14px;
+    background-position: -293px -74px;
+}
+.goog-icon-guest-required {
+    width: 14px;
+    height: 14px;
+    background-position: -278px -74px;
+}
+.goog-icon-guest-yes {
+    width: 9px;
+    height: 9px;
+    background-position: -77px -50px;
+}
 .goog-icon-x-small {
     width: 10px;
     height: 10px;
@@ -30,36 +75,6 @@ and open the template in the editor.
     width: 13px;
     height: 13px;
     background-position: -228px -48px;
-}
-.goog-icon-guest-required {
-    width: 14px;
-    height: 14px;
-    background-position: -278px -74px;
-}
-.goog-icon-guest-optional {
-    width: 14px;
-    height: 14px;
-    background-position: -293px -74px;
-}
-.goog-icon-gmail {
-    width: 14px;
-    height: 10px;
-    background-position: -133px -34px;
-}
-.goog-icon-guest-yes {
-    width: 9px;
-    height: 9px;
-    background-position: -77px -50px;
-}
-.goog-icon-guest-no {
-    width: 9px;
-    height: 9px;
-    background-position: -86px -50px;
-}
-.goog-icon-guest-maybe {
-    width: 9px;
-    height: 9px;
-    background-position: -67px -50px;
 }
 
 /*====================================*/

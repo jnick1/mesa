@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 
 if (session_status() == PHP_SESSION_NONE) {
@@ -14,7 +13,15 @@ $errors = [];
 $warnings = [];
 $notifications = [];
 
+$scrubbed = array_map("spam_scrubber", $_POST);
+if(isset($scrubbed["signout"])) {
+    unset($_SESSION["pkUserid"]);
+    unset($_SESSION["email"]);
+    unset($_SESSION["lastLogin"]);
+}
+
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -43,13 +50,6 @@ $notifications = [];
     <body>
         <div id="wpg">
             <div id="re-header" class="ui-container-section">
-                <div id="re-top-buttons">
-                    <div class="wrapper-btn-all wrapper-btn-general">
-                        <div id="re-btn-signin" title="Sign in to your MESA account"<?php echo " tabindex=\"".$ti++."\"";?>>
-                            Back
-                        </div>
-                    </div>
-                </div>
                 <?php
                 include $homedir."includes/pageassembly/header.php";
                 ?>

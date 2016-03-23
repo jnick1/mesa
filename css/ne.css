@@ -189,8 +189,8 @@ and open the template in the editor.
 } /*empty*/
 
 #ne-header {
-    
-} /*empty*/
+    margin-top: 0px;
+}
 
 #ne-label-repeat-repeatevery {
     

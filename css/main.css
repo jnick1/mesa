@@ -60,6 +60,24 @@ body {
 #wpg-header-account {
     float: right;
 }
+#wpg-header-btn-signin {
+    
+} /*empty*/
+#wpg-header-btn-signin-wrapper {
+    width: 100px;
+    height: 33px;
+    line-height: 33px;
+    font-size: 16px;
+}
+#wpg-header-btn-signout {
+    
+} /*empty*/
+#wpg-header-btn-signout-wrapper {
+    width: 100px;
+    height: 33px;
+    line-height: 33px;
+    font-size: 16px;
+}
 #wpg-header-error {
     
 } /*empty*/
@@ -83,12 +101,28 @@ body {
     color: #da4b38;
     text-decoration: none;
     font-weight: bold;
-    font-family: Comfortaa-Bold,Arial,sans-serif;
     text-shadow: -1px -1px 0px #5e5e5e;
 }
-#wpg-header-title {
+#wpg-header-myevents {
+    cursor: pointer;
+    text-decoration: none;
+    color: rgba(255,255,255,1);
+    font-size: 20px;
+    font-weight: bold;
+    font-kerning: normal;
+    padding-left: 30px;
+    text-shadow: 1px 1px 1px #5e5e5e;
+}
+#wpg-header-myevents a {
+    text-decoration: none;
+    color: rgba(255,255,255,1);
+}
+#wpg-header-myevents-dropdown-arrow {
     
 } /*empty*/
+#wpg-header-title {
+    font-family: Comfortaa-Bold,Arial,sans-serif;
+}
 #wpg-header-warning {
     
 } /*empty*/
