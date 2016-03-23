@@ -7,6 +7,7 @@
 function show_register_dialogbox(){
     $("#wpg").addClass("ui-popup-background-effect2");
     $("#in-register-wrapper").addClass("ui-popup-active");
+    $("#in-evt-register-email").focus();
 }
 function hide_register_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect2");
@@ -15,6 +16,7 @@ function hide_register_dialogbox(){
 function show_signin_dialogbox(){
     $("#wpg").addClass("ui-popup-background-effect2");
     $("#in-signin-wrapper").addClass("ui-popup-active");
+    $("#in-evt-signin-email").focus();
 }
 function hide_signin_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect2");

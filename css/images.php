@@ -1,5 +1,8 @@
 <?php
 $homedir = "../";
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 header("Content-type: text/css; charset: UTF-8");
 
 echo 
@@ -46,3 +49,11 @@ echo "
     src: url(\"".$homedir."files/Comfortaa-Light.ttf\");
 }
 ";
+
+if(isset($_SESSION["pkUserid"]) && is_numeric($_SESSION["pkUserid"])){
+    echo "
+#wpg-header-user-imagedisplay {
+    background-color: ".$_SESSION["userColor"].";
+}
+";
+}

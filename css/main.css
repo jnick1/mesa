@@ -123,6 +123,31 @@ body {
 #wpg-header-title {
     font-family: Comfortaa-Bold,Arial,sans-serif;
 }
+#wpg-header-user-imagedisplay {
+    width: 33px;
+    height: 33px;
+    line-height: 33px;
+    -webkit-border-radius: 33px;
+    -moz-border-radius: 33px;
+    border-radius: 33px;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    vertical-align: central;
+    border: 1px solid #444;
+    -moz-box-shadow: 1px 1px 2px 1px #444;
+    -webkit-box-shadow: 1px 1px 2px 1px #444;
+    box-shadow: 1px 1px 2px #444;
+}
+#wpg-header-user-namedisplay {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 1px #5e5e5e;
+}
 #wpg-header-warning {
     
 } /*empty*/

@@ -20,6 +20,9 @@ if(isset($scrubbed["signout"])) {
     unset($_SESSION["lastLogin"]);
 }
 
+if(empty($_SESSION["pkUserid"])){
+    header("location: $homedir"."index.php");
+}
 ?>
 <!DOCTYPE html>
 <html>

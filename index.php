@@ -56,6 +56,7 @@ if(isset($scrubbed["register"])) {
         $_SESSION["pkUserid"] = $pkUserid;
         $_SESSION["email"] = $scrubbed["in-evt-register-email"];
         $_SESSION["lastLogin"] = $login;
+        $_SESSION["userColor"] = "#".substr($hash, 0, 6);
         $notifications[] = "Success! Your user account has been successfully created. We hope you enjoy your Mesa experience!";
     }
 } 
@@ -91,6 +92,7 @@ if(isset($scrubbed["signin"])) {
             $_SESSION["pkUserid"] = $pkUserid;
             $_SESSION["email"] = $scrubbed["in-evt-signin-email"];
             $_SESSION["lastLogin"] = $lastLogin;
+            $_SESSION["userColor"] = "#".substr($hash, 0, 6);
         } else {
             $errors[] = "That combination of email and password is incorrect. Please try again.";
         }

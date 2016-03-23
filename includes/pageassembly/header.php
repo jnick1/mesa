@@ -10,6 +10,19 @@
             </div>
         </div>
         <?php } else { ?>
+        
+        <?php
+        
+        $r = hexdec(substr($_SESSION["userColor"], 1, 2));
+        $g = hexdec(substr($_SESSION["userColor"], 3, 2));
+        $b = hexdec(substr($_SESSION["userColor"], 5, 2));
+        $color = dechex(((0.21*$r + 0.72*$g + 0.07*$b)/3)<=127.5?255:0);
+        ?>
+        
+        <span id="wpg-header-user-namedisplay" class="ui-container-inline"> Welcome, <?php echo $_SESSION["email"]; ?></span>
+        <div id="wpg-header-user-imagedisplay" class="ui-container-inline" style="color: <?php echo "#".$color.$color.$color; ?>">
+            <?php echo strtoupper(substr($_SESSION["email"], 0, 1)) ?>
+        </div>
         <div id="wpg-header-btn-signout-wrapper" class="wrapper-btn-all wrapper-btn-action">
             <div id="wpg-header-btn-signout" title="Sign in to your MESA account"<?php echo " tabindex=\"".$ti++."\"";?>>
                 Sign out
@@ -23,7 +36,7 @@
             Mesa Organizer
         </a>
         <?php
-        if(isset($_SESSION["pkUserid"])) {
+        if(isset($_SESSION["pkUserid"]) && is_numeric($_SESSION["pkUserid"])) {
         ?>
         <span id="wpg-header-myevents" class="ui-container-inline ui-unselectabletext">
             <a href="<?php echo $homedir; ?>includes/eventlist.php">
