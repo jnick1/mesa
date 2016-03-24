@@ -57,6 +57,7 @@ and open the template in the editor.
     margin: 0px 4px 0px 4px;
     -moz-user-select: none;
     -webkit-user-select: none;
+    cursor: pointer;
 }
 
 .wrapper-btn-general {

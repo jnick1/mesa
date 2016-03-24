@@ -19,8 +19,8 @@
         $color = dechex(((0.21*$r + 0.72*$g + 0.07*$b)/3)<=127.5?255:0);
         ?>
         
-        <span id="wpg-header-user-namedisplay" class="ui-container-inline"> Welcome, <?php echo $_SESSION["email"]; ?></span>
-        <div id="wpg-header-user-imagedisplay" class="ui-container-inline" style="color: <?php echo "#".$color.$color.$color; ?>">
+        <span id="wpg-header-user-namedisplay" class="ui-container-inline ui-unselectabletext"> Welcome, <?php echo $_SESSION["email"]; ?></span>
+        <div id="wpg-header-user-imagedisplay" class="ui-container-inline ui-unselectabletext" style="color: <?php echo "#".$color.$color.$color; ?>">
             <?php echo strtoupper(substr($_SESSION["email"], 0, 1)) ?>
         </div>
         <div id="wpg-header-btn-signout-wrapper" class="wrapper-btn-all wrapper-btn-action">
@@ -29,7 +29,6 @@
             </div>
         </div>
         <?php } ?>
-        <?php //need to add stuff like logout button and user id confirmation here ?>
     </div>
     <div id="wpg-header-title">
         <a id="wpg-header-link" href="<?php echo $homedir."index.php"; ?>"<?php echo " tabindex=\"".$ti++."\"";?>>

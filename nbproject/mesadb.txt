@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2016 at 11:19 PM
+-- Generation Time: Mar 24, 2016 at 06:59 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `tblevents` (
   `txLocation` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Event location stored as a string',
   `txDescription` mediumtext COLLATE utf8_unicode_ci COMMENT 'Event description',
   `txRRule` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'A string containing event recurrence rules',
+  `nColorid` tinyint(4) DEFAULT NULL COMMENT 'The color id associated with this event (optional for Google)',
   `blSettings` blob NOT NULL COMMENT 'php serialized information for algorithm',
   `blAttendees` blob NOT NULL COMMENT 'php serialized attendee information (emails and if they''re required)',
   `blNotifications` blob NOT NULL COMMENT 'php serialized information for notifications',
@@ -48,7 +49,31 @@ CREATE TABLE IF NOT EXISTS `tblevents` (
   KEY `dtLastUpdated` (`dtLastUpdated`),
   FULLTEXT KEY `nmTitle` (`nmTitle`),
   FULLTEXT KEY `txDescription` (`txDescription`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about events' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about events' AUTO_INCREMENT=19 ;
+
+--
+-- Dumping data for table `tblevents`
+--
+
+INSERT INTO `tblevents` (`pkEventid`, `blOptiSuggestion`, `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated`) VALUES
+(1, '', 'Event Title', '2016-03-24 04:57:17', '2016-03-24 05:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 06:12:50'),
+(2, '', 'Event Title 2', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 2, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:06'),
+(3, '', 'Event Title 3', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 3, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:10'),
+(4, '', 'Event Title 4', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:39:52'),
+(5, '', 'Event Title 5', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:39:56'),
+(6, '', 'Event Title 6', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 11, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:34'),
+(7, '', 'Event Title 7', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:04'),
+(8, '', 'Event Title 8', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:07'),
+(9, '', 'Event Title 9', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 7, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:14'),
+(10, '', 'Event Title 10', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:14'),
+(11, '', 'Event Title 11', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:18'),
+(12, '', 'Event Title 12', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:21'),
+(13, '', 'Event Title 13', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:25'),
+(14, '', 'Event Title 14', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:28'),
+(15, '', 'Event Title 15', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:31'),
+(16, '', 'Event Title 16', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:35'),
+(17, '', 'Event Title 17', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:35'),
+(18, '', 'Event Title 18', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 1, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:40:35');
 
 -- --------------------------------------------------------
 
@@ -60,16 +85,24 @@ DROP TABLE IF EXISTS `tblusers`;
 CREATE TABLE IF NOT EXISTS `tblusers` (
   `pkUserid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'A unique identifier for each user',
   `txEmail` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The email associated with each user',
-  `txSalt` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Salt for password hash',
+  `blSalt` tinyblob NOT NULL COMMENT 'Salt for password hash',
   `txHash` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Hash of user''s password and salt',
-  `blCalendar` blob NOT NULL COMMENT 'Blob of bytes containing php serialied calendar info for a user (not necessarily registered user)',
+  `blCalendar` blob NOT NULL COMMENT 'Blob of bytes containing php serialized calendar info for a user (not necessarily registered user)',
   `dtCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time that the user first logged in to the system',
   `dtLogin` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date and time that the user last logged in to the system',
   PRIMARY KEY (`pkUserid`),
   UNIQUE KEY `pkUserid` (`pkUserid`),
   UNIQUE KEY `txEmail` (`txEmail`),
   KEY `dtCreated` (`dtCreated`,`dtLogin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about users' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about users' AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `tblusers`
+--
+
+INSERT INTO `tblusers` (`pkUserid`, `txEmail`, `blSalt`, `txHash`, `blCalendar`, `dtCreated`, `dtLogin`) VALUES
+(2, 'bob@test.com', 0x0e73cc4797b0e1a9293aed59717dce63, '96932c124fb2e96f362557951f45da00bed675285c2e996d6ba8f07277c17317', '', '2016-03-23 02:35:11', '2016-03-24 06:49:32'),
+(9, 'test@bob.com', 0xd5b9c677978b0726d985075f3653d7cf, '3d51ae5550bea1e2ba25e53b820e32583ed2d864f9d5a5b1c02c0b47f49c1183', '', '2016-03-24 06:42:10', '2016-03-24 06:49:32');
 
 -- --------------------------------------------------------
 
@@ -84,6 +117,30 @@ CREATE TABLE IF NOT EXISTS `tblusersevents` (
   UNIQUE KEY `fkEventid` (`fkEventid`),
   KEY `fkUserid` (`fkUserid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table correlates events to their respective user owners';
+
+--
+-- Dumping data for table `tblusersevents`
+--
+
+INSERT INTO `tblusersevents` (`fkUserid`, `fkEventid`) VALUES
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(2, 8),
+(2, 9),
+(2, 10),
+(2, 11),
+(2, 12),
+(2, 13),
+(2, 14),
+(2, 15),
+(2, 16),
+(2, 17),
+(2, 18);
 
 --
 -- Constraints for dumped tables

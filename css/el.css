@@ -12,7 +12,61 @@ and open the template in the editor.
 /*========|      Classes     |========*/
 /*====================================*/
 
+html, body {
+    height: 100%;
+}
 
+.el-content-event {
+    background: #ddd;
+    background: -webkit-linear-gradient(#ddd,#eaeaea,#ddd);
+    background: -moz-linear-gradient(#ddd,#eaeaea,#ddd);
+    background: linear-gradient(#ddd,#eaeaea,#ddd);
+    text-align: center;
+    height: 40px;
+    border: 1px #bbb solid;
+}
+.el-content-event-colorcircle {
+    width: 20px;
+    height: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+.el-content-event-colorcircle-wrapper {
+    padding-left: 20px;
+}
+.el-content-event-date {
+    
+} /*empty*/
+.el-content-event-description {
+    width: 700px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.el-content-event-description-wrapper {
+    width: 700px;
+}
+.el-content-event-edit {
+    
+} /*empty*/
+.el-content-event-time {
+    
+} /*empty*/
+.el-content-event-title {
+    
+} /*empty*/
+.el-content-event-x {
+    cursor: pointer;
+}
+.el-content-event-x:hover {
+    background-color: rgba(255,255,255,0.4);
+    box-shadow: 0 0 1px 5px rgba(255,255,255,0.4);
+    border-radius: 3px;
+}
+.el-content-event-x-wrapper {
+    padding-right: 50px;
+}
 
 /*====================================*/
 /*========|       ID's       |========*/
@@ -21,12 +75,29 @@ and open the template in the editor.
 #el-btn-create {
     
 } /*empty*/
+#el-btn-create-wrapper {
+    width: 100px;
+    font-size: 16px;
+}
+
+#el-content {
+    margin-bottom: 45px;
+}
+#el-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
 #el-header {
     margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: none;
 }
 
 #el-top-buttons {
     margin-top: 16px;
 }
 
+#wpg {
+    height: 100%;
+}

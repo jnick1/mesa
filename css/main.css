@@ -41,7 +41,7 @@ body {
 }
 
 #wpg-footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     background-color: #444;
     width: 100%;
@@ -110,7 +110,7 @@ body {
     font-size: 20px;
     font-weight: bold;
     font-kerning: normal;
-    padding-left: 30px;
+    margin-left: 30px;
     text-shadow: 1px 1px 1px #5e5e5e;
 }
 #wpg-header-myevents a {
@@ -124,13 +124,13 @@ body {
     font-family: Comfortaa-Bold,Arial,sans-serif;
 }
 #wpg-header-user-imagedisplay {
-    width: 33px;
-    height: 33px;
-    line-height: 33px;
-    -webkit-border-radius: 33px;
-    -moz-border-radius: 33px;
-    border-radius: 33px;
-    font-size: 20px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    font-size: 22px;
     font-weight: bold;
     padding: 5px;
     margin-left: 5px;
