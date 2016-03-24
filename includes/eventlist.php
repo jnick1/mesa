@@ -19,6 +19,24 @@ if(isset($scrubbed["signout"])) {
     unset($_SESSION["email"]);
     unset($_SESSION["lastLogin"]);
 }
+if(isset($scrubbed["delete"])) {
+    $q1 = "DELETE FROM tblevents WHERE pkEventid = ? LIMIT 1";
+    $q2 = "DELETE FROM tblusersevents WHERE fkEventid = ? AND fkUserid = ?";
+    
+    if($stmt = $dbc->prepare($q1)){
+        $stmt->bind_param("i", $scrubbed["pkEventid"]);
+        $stmt->execute();
+        $stmt->free_result();
+        $stmt->close();
+    }
+    if($stmt = $dbc->prepare($q2)){
+        $stmt->bind_param("ii", $scrubbed["pkEventid"],$_SESSION["pkUserid"]);
+        $stmt->execute();
+        $stmt->free_result();
+        $stmt->close();
+    }
+    $notifications[] = "Your event has been successfully deleted.";
+}
 
 if(empty($_SESSION["pkUserid"])){
     header("location: $homedir"."index.php");
@@ -53,6 +71,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         
         <script type="text/javascript" src="<?php echo $homedir."java/el-buttons.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/el-modify.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/el-time.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/validation.js"?>"></script>
         
@@ -67,7 +86,7 @@ and open the template in the editor.
                 ?>
                 <div id="el-top-buttons">
                     <div id="el-btn-create-wrapper" class="wrapper-btn-all wrapper-btn-action">
-                        <div id="el-btn-create" title="Return to previous page"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <div id="el-btn-create" title="Create a new event"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Create
                         </div>
                     </div>
@@ -141,7 +160,7 @@ and open the template in the editor.
                             </td>
                             <td class="el-content-event-edit">
                                 <div class="wrapper-btn-all wrapper-btn-general">
-                                    <div id="el-btn-edit<?php echo $events[$i]["pkEventid"]; ?>" title="Edit event"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <div id="el-btn-edit<?php echo $events[$i]["pkEventid"]; ?>" class="el-btn-edit" title="Edit event"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         Edit
                                     </div>
                                 </div>
@@ -157,6 +176,29 @@ and open the template in the editor.
             <?php
             include $homedir."includes/pageassembly/footer.php";
             ?>
+        </div>
+        <div id="el-delete-wrapper" class="ui-popup">
+            <div id="el-delete-dialogbox" class="ui-dialogbox">
+                <div id="el-delete-header">
+                    <span class="ui-header">Delete event</span>
+                    <span id="el-delete-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="el-delete-content-wrapper">
+                    Are you sure you want to delete this event?
+                </div>
+                <div id="el-delete-btns">
+                    <div class="wrapper-btn-general wrapper-btn-all el-btns-popups">
+                        <div id="el-delete-btn-yes" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Yes
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all el-btns-popups">
+                        <div id="el-delete-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

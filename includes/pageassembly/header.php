@@ -24,7 +24,7 @@
             <?php echo strtoupper(substr($_SESSION["email"], 0, 1)) ?>
         </div>
         <div id="wpg-header-btn-signout-wrapper" class="wrapper-btn-all wrapper-btn-action">
-            <div id="wpg-header-btn-signout" title="Sign in to your MESA account"<?php echo " tabindex=\"".$ti++."\"";?>>
+            <div id="wpg-header-btn-signout" title="Sign out of your MESA account"<?php echo " tabindex=\"".$ti++."\"";?>>
                 Sign out
             </div>
         </div>

@@ -277,6 +277,19 @@ function hide_repeat_dialogbox(){
     }
 }
 
+$(document).keydown(function(event) {
+    if (event.keyCode === 27) {
+        hide_repeat_dialogbox();
+        hide_settings_dialogbox();
+        if(!repeatset) {
+            $("#ne-evt-repeatbox").prop("checked", false);
+        }
+        if(!settingsset){
+            $("#ne-evt-settingsbox").prop("checked", false);
+        }
+    }
+});
+
 $(document).on("click", "#ne-evt-repeatbox", function(){
     if($("#ne-evt-repeatbox").is(":checked") && !repeatset){
         reset_state("#ne-repeat-wrapper",repeatstate);

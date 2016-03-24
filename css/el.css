@@ -16,6 +16,13 @@ html, body {
     height: 100%;
 }
 
+.el-btn-edit {
+    
+} /*empty*/
+.el-btns-popups {
+    font-size: 11px;
+}
+
 .el-content-event {
     background: #ddd;
     background: -webkit-linear-gradient(#ddd,#eaeaea,#ddd);
@@ -86,6 +93,51 @@ html, body {
 #el-content table {
     width: 100%;
     border-collapse: collapse;
+}
+
+#el-delete-btn-cancel {
+    
+} /*empty*/
+#el-delete-btn-yes {
+    
+} /*empty*/
+#el-delete-btns {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#el-delete-dialogbox {
+    min-width: 400px;
+    width: 400px;
+    font-family: Comfortaa-Bold,Arial,Sans-serif;
+    -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topleft:10px;
+    border-top-left-radius:10px;
+    -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topright:10px;
+    border-top-right-radius:10px;
+    -webkit-border-bottom-right-radius:10px;
+    -moz-border-radius-bottomright:10px;
+    border-bottom-right-radius:10px;
+    -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomleft:10px;
+    border-bottom-left-radius:10px;
+    background: rgba(255,255,255,0.8);
+}
+#el-delete-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#el-delete-content-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#el-delete-wrapper {
+    
+} /*empty*/
+#el-delete-x {
+    float: right;
+    cursor: pointer;
 }
 
 #el-header {

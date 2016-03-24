@@ -34,6 +34,13 @@ function reset_signin(){
     $("#in-evt-signin-email,#in-evt-signin-password").val("");
 }
 
+$(document).keydown(function(event) {
+    if (event.keyCode === 27) {
+        hide_signin_dialogbox();
+        hide_register_dialogbox();
+    }
+});
+
 $(document).on("click", "#in-btn-register", function() {
     show_register_dialogbox();
     $("#in-register-dialogbox").center();
