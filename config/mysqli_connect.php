@@ -28,9 +28,9 @@ function spam_scrubber($value) {
 	$very_bad=array('to:', 'cc:', 'bcc:', 'content-type:', 'mime-version:', 'multipart-mixed:', 'content-transfer-encoding:');
 	// IF any of the very bad strings are in the submitted value, return an empty string:
 	foreach ($very_bad as $v) {
-                if (stripos($value, $v) !== false){
-                    return '';
-                }
+            if (stripos($value, $v) !== false){
+                return '';
+            }
 	}
 	// Replace any newline characters with spaces:
 	$value =strip_tags(str_replace(array( "\r", "\n","%0a", "%0d"), ' ', $value)); //strip_tags() will remove all HTML and PHP tags. Safe, but remove if HTML formatting required.
