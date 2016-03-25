@@ -22,8 +22,23 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     var isBusy = $("#ne-evt-busy").is(":checked");
     
     //parsing for nColorid
+    var colorids = {
+    "blue":1,
+    "boldblue":9,
+    "boldgreen":10,
+    "boldred":11,
+    "default":9,
+    "gray":8,
+    "green":2,
+    "orange":6,
+    "purple":3,
+    "red":4,
+    "turquoise":7,
+    "yellow":5
+    };
+    nColorid = colorids[$(".details-eventcolors-selected").attr("id").substring(13)];
     
-    
+
     //parsing for txRRule
     
     
