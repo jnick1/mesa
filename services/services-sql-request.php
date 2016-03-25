@@ -22,9 +22,17 @@ function sql_load() {
     }
     
     if(!empty($txLocation) && !empty($dtStart) && !empty($dtEnd)){
+        $dtStart = format_date_from_sql($dtStart);
+        $dtEnd = format_date_from_sql($dtEnd);
+        
         $_SESSION['sql_event_id'] = $event_id;
         $_SESSION['sql_event_location'] = $txLocation;
         $_SESSION['sql_event_start'] = $dtStart;
         $_SESSION['sql_event_end'] = $dtEnd;
     }
+}
+
+function format_date_from_sql($date){
+    $date = str_replace(" ", "T", $date, 1) . "Z";
+    return $date;
 }

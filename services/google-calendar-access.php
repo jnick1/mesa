@@ -80,7 +80,8 @@ function retrieve_event_list($service, $user_calendar_list, $client) {
     $optParams = array('singleEvents' => true,
         'orderBy' => 'startTime',
         'timeMin' => $_SESSION['sql_event_start'],
-        'timeMax' => $_SESSION['sql_event_end']);
+        'timeMax' => $_SESSION['sql_event_end'],
+        'timeZone' => 'UTC');
 
     foreach ($user_calendar_list as $calendar) {
         $events = $service->events->listEvents($calendar->id, $optParams)->getItems();

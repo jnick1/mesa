@@ -2,13 +2,15 @@
 
 require_once __DIR__ . '/google-services-header.php';
 
-//Attendee begins here now
+//Attendee begins here
 
 $client = new Google_Client();
 $client->setAuthConfigFile(CLIENT_SECRET_PATH);
 $client->addScope(Google_Service_Calendar::CALENDAR_READONLY);
-if (isset($_GET['event_id'])) {
-    $_SESSION['event_id'] = filter_input(INPUT_GET, 'event_id', FILTER_SANITIZE_STRING);
+
+if (isset($_GET['t'])) {
+    $_SESSION['token_id'] = filter_input(INPUT_GET, 't', FILTER_SANITIZE_STRING);
+    
 } elseif (isset($_GET['code'])) {
     $client->authenticate(filter_input(INPUT_GET, 'code', FILTER_SANITIZE_STRING)); //Authenticate client with code
     if ($client->isAccessTokenExpired()) {
