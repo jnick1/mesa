@@ -40,7 +40,58 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     
 
     //parsing for txRRule
-    
+    if($("#ne-evt-repeatbox").is(":checked")) {
+        switch($("#ne-evt-repeat-repeats").val()){
+            case "0":
+                txRRule += "FREQ=DAILY;";
+                txRRule += "INTERVAL="+$("#ne-evt-repeat-repeatevery").val()+";";
+                break;
+            case "1":
+                txRRule += "FREQ=WEEKLY;";
+                txRRule += "BYDAY=MO,TU,WE,TH,FR;";
+                break;
+            case "2":
+                txRRule += "FREQ=WEEKLY;";
+                txRRule += "BYDAY=MO,WE,FR;";
+                break;
+            case "3":
+                txRRule += "FREQ=WEEKLY;";
+                txRRule += "BYDAY=TU,TH;";
+                break;
+            case "4":
+                txRRule += "FREQ=WEEKLY;";
+                txRRule += "INTERVAL="+$("#ne-evt-repeat-repeatevery").val()+";";
+                break;
+            case "5":
+                txRRule += "FREQ=MONTHLY;";
+                txRRule += "INTERVAL="+$("#ne-evt-repeat-repeatevery").val()+";";
+                break;
+            case "6":
+                txRRule += "FREQ=YEARLY;";
+                txRRule += "INTERVAL="+$("#ne-evt-repeat-repeatevery").val()+";";
+                break;
+        }
+        if($("#ne-evt-endson-after").is(":checked")) {
+            txRRule += "COUNT="+$("#ne-evt-endson-occurances")+";";
+        } else if($("#ne-evt-endson-on").is(":checked")) {
+            var until = new Date();
+            until = time_parser($("#ne-evt-endson-date").val()+" "+$("#ne-evt-time-start").val());
+            
+            var temp = (until.getUTCMonth()+1)<10?"0"+(until.getUTCMonth()+1):(until.getUTCMonth()+1);
+            txRRule += "UNTIL="+until.getUTCFullYear()+temp;
+            
+            temp = (until.getUTCDate())<10?"0"+(until.getUTCDate()):(until.getUTCDate());
+            txRRule += temp+"T";
+            
+            temp = (until.getUTCHours())<10?"0"+(until.getUTCHours()):(until.getUTCHours());
+            txRRule += temp;
+            
+            temp = (until.getUTCMinutes())<10?"0"+(until.getUTCMinutes()):(until.getUTCMinutes());
+            txRRule += temp+"00;";
+        }
+    } else {
+        txRRule = "";
+    }
     
     //parsing for blNotifications
     
