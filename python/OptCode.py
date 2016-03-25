@@ -64,13 +64,6 @@ BY
             }
     #input the google calender 
     
-    #input the google calender via text file 
-    #with open('GoogleCalenderTest.txt','r') as h:
-    #for line in h:
-    #    for word in line.split():
-    #                googleCalender[].append(word)
-    #h.close() 
-    
     #moving their Goolge calender to a normCalender
     for(i = 0; i<searchWidth; i++):
     {
@@ -253,3 +246,10 @@ for (i =0; i <searchwidth; i++):
     #k = open('specificDaysTextFile', 'r')
     #    DAYS = k.read().split(',') #insert number for specific day, 0=SUN, 1=MON, etc
     #k.close() #closing day list
+    
+    #input the google calender via text file 
+    #with open('GoogleCalenderTest.txt','r') as h:
+    #for line in h:
+    #    for word in line.split():
+    #                googleCalender[].append(word)
+    #h.close() 
