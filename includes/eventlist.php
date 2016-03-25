@@ -51,6 +51,9 @@ if(isset($scrubbed["delete"])) {
     }
     
 }
+if(isset($scrubbed["create"])) {
+    echo var_dump($scrubbed);
+}
 
 if(empty($_SESSION["pkUserid"])){
     header("location: $homedir"."index.php");

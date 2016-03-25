@@ -90,6 +90,50 @@ function repeat_occurance_reset(){
         generate_summary();
     }
 }
+function repeat_days_reset(){
+    var oneActive = false;
+    for(var i = 0;i<7;i++){
+        if($("#ne-evt-repeat-repeatson-"+i).is(":checked")){
+            oneActive = true;
+            break;
+        }
+    }
+    if(!oneActive){
+        var time_start = "";
+        var date_start = "";
+        if(!pageload){
+            var time = new Date(Math.ceil((Math.floor(Date.now()/1000))/(30*60))*(30*60)*1000);
+
+            var month = time.getMonth()+1;
+            var day = time.getDate();
+            var year = time.getFullYear();
+
+            var hours = time.getHours();
+            var minutes = time.getMinutes();
+
+            var suffix = "am";
+
+            month<10?month="0"+month:"";
+            day<10?day="0"+day:"";
+            hours>=12?(suffix="pm", hours-=12):"";
+            hours===0?hours=12:"";
+            minutes<10?minutes="0"+minutes:"";
+
+            time_start = (hours + ":" + minutes + suffix); //hours1 + ":" + minutes + suffix
+            date_start = (month + "/" + day + "/" + year);
+            pageload = true;
+        } else {
+            time_start = $("#ne-evt-time-start").val();
+            date_start = $("#ne-evt-date-start").val();
+        }
+
+        var day = new Date();
+        day = time_parser(date_start + " " + time_start);
+        day = day.getDay();
+
+        $("#ne-evt-repeat-repeatson-"+day).prop("checked", true);
+    }
+}
 function getNth(dat) {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"];
     var nth  = ["first", "second", "third", "fourth", "last"];
@@ -274,6 +318,7 @@ function hide_repeat_dialogbox(){
     $("#ne-repeat-wrapper").removeClass("ui-popup-active");
     if(repeatset){
         repeat_occurance_reset();
+        repeat_days_reset();
     }
 }
 
@@ -395,8 +440,8 @@ $(document).on("change", "#ne-evt-date-start", function(){
 
 $(document).on("click", "#ne-repeat-btn-done", function(){
     repeatset = true;
-    save_state("#ne-repeat-wrapper",repeatstate);
     hide_repeat_dialogbox();
+    save_state("#ne-repeat-wrapper",repeatstate);
     $("#ne-repeat-edit").removeClass("wpg-nodisplay");
     $("#ne-repeat-summary-display").removeClass("wpg-nodisplay").html($("#ne-repeat-summary").html());
     if(!$("#ne-evt-settings-usedefault").is(":checked")) {
@@ -410,4 +455,5 @@ $(document).on("click", "#ne-repeat-btn-done", function(){
 $(document).on("click", "#ne-repeat-edit", function(){
     show_repeat_dialogbox();
     $("#ne-evt-repeat-startson").val($("#ne-evt-date-start").val());
+    $("#ne-settings-dialogbox").center();
 });

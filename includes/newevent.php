@@ -283,15 +283,15 @@ and open the template in the editor.
                                         </div>
                                         <div id="details-notifications-1" class="details-notifications">
                                             <select id="ne-evt-notifications-1" name="ne-evt-notifications-1" class="ui-select" title="Notification type">
-                                                <option value="1">Pop-up</option>
-                                                <option value="3">Email</option>
+                                                <option value="popup">Pop-up</option>
+                                                <option value="email">Email</option>
                                             </select>
                                             <input id="ne-evt-notifications-time-1" name="ne-evt-notifications-time-1" class="details-notifications-remindertime ui-textinput" value="30" title="Reminder time">
                                             <select id="ne-evt-notifications-timetype-1" name="ne-evt-notifications-timetype-1" class="ui-select" title="Reminder time">
-                                                <option value="60">minutes</option>
-                                                <option value="3600">hours</option>
-                                                <option value="86400">days</option>
-                                                <option value="604800">weeks</option>
+                                                <option value="1">minutes</option>
+                                                <option value="60">hours</option>
+                                                <option value="1440">days</option>
+                                                <option value="10080">weeks</option>
                                             </select>
                                             <div id="details-notifications-x-1" class="details-notifications-x goog-icon goog-icon-x-small" title="Remove notification"></div>
                                         </div>
