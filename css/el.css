@@ -1,0 +1,155 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 20, 2016, 10:40:47 PM
+    Author     : Jacob
+*/
+
+/*====================================*/
+/*========|      Classes     |========*/
+/*====================================*/
+
+html, body {
+    height: 100%;
+}
+
+.el-btn-edit {
+    
+} /*empty*/
+.el-btns-popups {
+    font-size: 11px;
+}
+
+.el-content-event {
+    background: #ddd;
+    background: -webkit-linear-gradient(#ddd,#eaeaea,#ddd);
+    background: -moz-linear-gradient(#ddd,#eaeaea,#ddd);
+    background: linear-gradient(#ddd,#eaeaea,#ddd);
+    text-align: center;
+    height: 40px;
+    border: 1px #bbb solid;
+}
+.el-content-event-colorcircle {
+    width: 20px;
+    height: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+.el-content-event-colorcircle-wrapper {
+    padding-left: 20px;
+}
+.el-content-event-date {
+    
+} /*empty*/
+.el-content-event-description {
+    width: 700px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.el-content-event-description-wrapper {
+    width: 700px;
+}
+.el-content-event-edit {
+    
+} /*empty*/
+.el-content-event-time {
+    
+} /*empty*/
+.el-content-event-title {
+    
+} /*empty*/
+.el-content-event-x {
+    cursor: pointer;
+}
+.el-content-event-x:hover {
+    background-color: rgba(255,255,255,0.4);
+    box-shadow: 0 0 1px 5px rgba(255,255,255,0.4);
+    border-radius: 3px;
+}
+.el-content-event-x-wrapper {
+    padding-right: 50px;
+}
+
+/*====================================*/
+/*========|       ID's       |========*/
+/*====================================*/
+
+#el-btn-create {
+    
+} /*empty*/
+#el-btn-create-wrapper {
+    width: 100px;
+    font-size: 16px;
+}
+
+#el-content {
+    margin-bottom: 45px;
+}
+#el-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#el-delete-btn-cancel {
+    
+} /*empty*/
+#el-delete-btn-yes {
+    
+} /*empty*/
+#el-delete-btns {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#el-delete-dialogbox {
+    min-width: 400px;
+    width: 400px;
+    font-family: Comfortaa-Bold,Arial,Sans-serif;
+    -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topleft:10px;
+    border-top-left-radius:10px;
+    -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topright:10px;
+    border-top-right-radius:10px;
+    -webkit-border-bottom-right-radius:10px;
+    -moz-border-radius-bottomright:10px;
+    border-bottom-right-radius:10px;
+    -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomleft:10px;
+    border-bottom-left-radius:10px;
+    background: rgba(255,255,255,0.8);
+}
+#el-delete-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#el-delete-content-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#el-delete-wrapper {
+    
+} /*empty*/
+#el-delete-x {
+    float: right;
+    cursor: pointer;
+}
+
+#el-header {
+    margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+#el-top-buttons {
+    margin-top: 16px;
+}
+
+#wpg {
+    height: 100%;
+}
