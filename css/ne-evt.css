@@ -1,0 +1,306 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 19, 2016, 1:32:33 AM
+    Author     : Jacob
+*/
+
+/*====================================*/
+/*========|      Classes     |========*/
+/*====================================*/
+
+.ne-evt-guest {
+    
+} /*empty*/
+
+/*====================================*/
+/*========|       ID's       |========*/
+/*====================================*/
+
+#ne-evt-available {
+    
+} /*empty*/
+#ne-evt-busy {
+    
+} /*empty*/
+#ne-evt-date-end {
+    
+} /*empty*/
+#ne-evt-date-start {
+    
+} /*empty*/
+#ne-evt-description {
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    font-family: inherit;
+    padding: 3px;
+}
+#ne-evt-endson-after {
+    
+} /*empty*/
+#ne-evt-endson-date {
+    padding: 2px;
+}
+#ne-evt-endson-never {
+    
+} /*empty*/
+#ne-evt-endson-occurances {
+    padding: 2px;
+}
+#ne-evt-endson-on {
+    
+} /*empty*/
+#ne-evt-guests-inviteothers {
+    
+} /*empty*/
+#ne-evt-guests-seeguestlist {
+    
+} /*empty*/
+#ne-evt-notifications-1 {
+    
+} /*empty*/
+#ne-evt-notifications-2 {
+    
+} /*empty*/
+#ne-evt-notifications-3 {
+    
+} /*empty*/
+#ne-evt-notifications-4 {
+    
+} /*empty*/
+#ne-evt-notifications-5 {
+    
+} /*empty*/
+#ne-evt-notifications-time-1 {
+    
+} /*empty*/
+#ne-evt-notifications-time-2 {
+    
+} /*empty*/
+#ne-evt-notifications-time-3 {
+    
+} /*empty*/
+#ne-evt-notifications-time-4 {
+    
+} /*empty*/
+#ne-evt-notifications-time-5 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-1 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-2 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-3 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-4 {
+    
+} /*empty*/
+#ne-evt-notifications-timetype-5 {
+    
+} /*empty*/
+#ne-evt-repeatbox {
+    cursor: pointer;
+} /*empty*/
+#ne-evt-repeat-repeatby-dayofmonth {
+    
+} /*empty*/
+#ne-evt-repeat-repeatby-dayofweek {
+    
+} /*empty*/
+#ne-evt-repeat-repeatevery {
+    
+} /*empty*/
+#ne-evt-repeat-repeats {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-0 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-1 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-2 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-3 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-4 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-5 {
+    
+} /*empty*/
+#ne-evt-repeat-repeatson-6 {
+    
+} /*empty*/
+#ne-evt-repeat-startson {
+    width: 100px;
+} /*empty*/
+#ne-evt-settings-attendancegate {
+    
+} /*empty*/
+#ne-evt-settings-attendees-prior-hig {
+    
+} /*empty*/
+#ne-evt-settings-attendees-prior-low {
+    
+} /*empty*/
+#ne-evt-settings-attendees-prior-med {
+    
+} /*empty*/
+#ne-evt-settings-attendeesallow {
+    
+} /*empty*/
+#ne-evt-settings-blacklistdays-0 {
+    
+} /*empty*/
+#ne-evt-settings-blacklistdays-1 {
+    
+} /*empty*/
+#ne-evt-settings-blacklistdays-2 {
+    
+} /*empty*/
+#ne-evt-settings-blacklistdays-3 {
+    
+} /*empty*/
+#ne-evt-settings-blacklistdays-4 {
+    
+} /*empty*/
+#ne-evt-settings-blacklistdays-5 {
+    
+} /*empty*/
+#ne-evt-settings-blacklistdays-6 {
+    
+} /*empty*/
+#ne-evt-settings-blacklistend {
+    
+} /*empty*/
+#ne-evt-settings-blacklistgate {
+    
+} /*empty*/
+#ne-evt-settings-blackliststart {
+    
+} /*empty*/
+#ne-evt-settings-date-prior-hig {
+    
+} /*empty*/
+#ne-evt-settings-date-prior-low {
+    
+} /*empty*/
+#ne-evt-settings-date-prior-med {
+    
+} /*empty*/
+#ne-evt-settings-dayallow {
+    
+} /*empty*/
+#ne-evt-settings-daygate {
+    
+} /*empty*/
+#ne-evt-settings-duration-prior-hig {
+    
+} /*empty*/
+#ne-evt-settings-duration-prior-low {
+    
+} /*empty*/
+#ne-evt-settings-duration-prior-med {
+    
+} /*empty*/
+#ne-evt-settings-durationallow {
+    
+} /*empty*/
+#ne-evt-settings-durationgate {
+    
+} /*empty*/
+#ne-evt-settings-location-prior-hig {
+    
+} /*empty*/
+#ne-evt-settings-location-prior-low {
+    
+} /*empty*/
+#ne-evt-settings-location-prior-med {
+    
+} /*empty*/
+#ne-evt-settings-locationallow {
+    
+} /*empty*/
+#ne-evt-settings-locationgate {
+    
+} /*empty*/
+#ne-evt-settings-maxdate {
+    
+} /*empty*/
+#ne-evt-settings-minduration {
+    
+} /*empty*/
+#ne-evt-settings-repeatgate {
+    
+} /*empty*/
+#ne-evt-settings-repeats-prior-hig {
+    
+} /*empty*/
+#ne-evt-settings-repeats-prior-low {
+    
+} /*empty*/
+#ne-evt-settings-repeats-prior-med {
+    
+} /*empty*/
+#ne-evt-settings-repeatsallow {
+    
+} /*empty*/
+#ne-evt-settings-repeatsmin {
+    
+} /*empty*/
+#ne-evt-settings-time-prior-hig {
+    
+} /*empty*/
+#ne-evt-settings-time-prior-low {
+    
+} /*empty*/
+#ne-evt-settings-time-prior-med {
+    
+} /*empty*/
+#ne-evt-settings-timeallow {
+    
+} /*empty*/
+#ne-evt-settings-timegate {
+    
+} /*empty*/
+#ne-evt-settings-usedefault {
+    
+} /*empty*/
+#ne-evt-settingsbox {
+    
+} /*empty*/
+#ne-evt-time-end {
+    
+} /*empty*/
+#ne-evt-time-start {
+    
+} /*empty*/
+#ne-evt-title {
+    width: 100%;
+    max-width: 450px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+#ne-evt-visibility-default {
+    
+} /*empty*/
+#ne-evt-visibility-public {
+    
+} /*empty*/
+#ne-evt-visibility-private {
+    
+} /*empty*/
+#ne-evt-where {
+    width: 98.5%;
+}
