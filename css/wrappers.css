@@ -57,6 +57,7 @@ and open the template in the editor.
     margin: 0px 4px 0px 4px;
     -moz-user-select: none;
     -webkit-user-select: none;
+    cursor: pointer;
 }
 
 .wrapper-btn-general {
@@ -89,7 +90,7 @@ and open the template in the editor.
     width:83px;
     text-decoration:none;
     text-align:center;
-    text-shadow:1px 1px 0px #b8b8b8;
+    text-shadow:1px 1px 0px #e8e8e8;
 }
 .wrapper-btn-general:hover {
     background-color:#ededed;

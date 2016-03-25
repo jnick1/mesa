@@ -5,6 +5,8 @@
  */
 
 var repeatset = false;
+var pageload = false;
+var repeatstate = {};
 
 $(function() {
     $("#ne-evt-endson-date").datepicker({ dateformat: "mm/dd/yy"});
@@ -13,16 +15,52 @@ $(function() {
 $(document).ready(function() {
     $("#ne-evt-repeatbox").prop("checked", false);
     repeat_options_reset();
+    save_state("#ne-repeat-wrapper",repeatstate);
 });
 
 function repeat_options_reset(){
+    
+    //this code is included from the function "client_time()" in time.js because without it
+    //it, the code in this function would cause $(document).ready(...) to fail due to
+    //a TypeError. This was caused by an attempt to retrieve the value of #ne-evt-time-start
+    //and #ne-evt-date-start before they had been instantiated. This only occured when first
+    //loading the page, but it would cripple the page. SOOO, this code has been included.
+    var time_start = "";
+    var date_start = "";
+    
+    if(!pageload){
+        var time = new Date(Math.ceil((Math.floor(Date.now()/1000))/(30*60))*(30*60)*1000);
+
+        var month = time.getMonth()+1;
+        var day = time.getDate();
+        var year = time.getFullYear();
+
+        var hours = time.getHours();
+        var minutes = time.getMinutes();
+
+        var suffix = "am";
+
+        month<10?month="0"+month:"";
+        day<10?day="0"+day:"";
+        hours>=12?(suffix="pm", hours-=12):"";
+        hours===0?hours=12:"";
+        minutes<10?minutes="0"+minutes:"";
+        
+        time_start = (hours + ":" + minutes + suffix); //hours1 + ":" + minutes + suffix
+        date_start = (month + "/" + day + "/" + year);
+        pageload = true;
+    } else {
+        time_start = $("#ne-evt-time-start").val();
+        date_start = $("#ne-evt-date-start").val();
+    }
+    
     //reset "Repeats:"
     $("#ne-evt-repeat-repeats").val("0");
     //reset "Repeat every:"
     $("#ne-evt-repeat-repeatevery").val("1");
     //reset "Repeats on:"
     var day = new Date();
-    day = time_parser($("#ne-evt-date-start").val() + " " + $("#ne-evt-time-start").val());
+    day = time_parser(date_start + " " + time_start);
     day = day.getDay();
     
     for(var i=0;i<7;i++){
@@ -33,12 +71,24 @@ function repeat_options_reset(){
     $("#ne-evt-repeat-repeatby-dayofmonth").prop("checked", true);
     $("#ne-repeat-table-2").addClass("wpg-nodisplay");
     $("#ne-repeat-table-3").addClass("wpg-nodisplay");
+    //reset "Starts on"
+    $("#ne-evt-repeat-startson").val(date_start);
     //reset "Ends:"
     $("#ne-evt-endson-never").prop("checked", true);
     $("#ne-evt-endson-occurances").prop("disabled", true).val("");
     $("#ne-evt-endson-date").prop("disabled", true).val("");
     //reset "Summary:"
     $("#ne-repeat-summary").html("Daily");
+}
+function repeat_occurance_reset(){
+    if(!validate_natural_number($("#ne-evt-endson-occurances").val())){
+        if($("#ne-evt-repeat-repeats").val()==="0" || $("#ne-evt-repeat-repeats").val()==="0") {
+            $("#ne-evt-endson-occurances").val("5");
+        } else {
+            $("#ne-evt-endson-occurances").val("35");
+        }
+        generate_summary();
+    }
 }
 function getNth(dat) {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"];
@@ -68,7 +118,7 @@ function generate_summary() {
     }
     var dayofmonth = $("#ne-evt-repeat-repeatby-dayofmonth").is(":checked");
     var end = $("#ne-evt-endson-never").is(":checked")?"never":$("#ne-evt-endson-after").is(":checked")?"after":"on";
-    var occurances = $("#ne-evt-endson-occurances").val();
+    var occurances = validate_natural_number($("#ne-evt-endson-occurances").val())?parseInt($("#ne-evt-endson-occurances").val()):(repeats===0 || repeats===6)?5:35;
     var enddate = new Date();
     if($("#ne-evt-endson-date").val()!==""){
         enddate = time_parser($("#ne-evt-endson-date").val()+" "+$("#ne-evt-time-end").val());
@@ -76,6 +126,8 @@ function generate_summary() {
     var parsedenddate = "";
     var parsedstartdate = "";
     var parsedstartday = "";
+    
+    if(end!=="after" || (end==="after" && occurances!==1)){
     
     if($("#ne-evt-endson-date").val()!==""){
         var months = ["Jan ", "Feb ", "Mar ", "Apr ", "May ", "Jun ", "Jul ", "Aug ", "Sep ", "Oct ", "Nov ", "Dec "];
@@ -162,6 +214,10 @@ function generate_summary() {
             break;
     }
     
+    } else {
+        summary = "Once";
+    }
+    
     $("#ne-repeat-summary").html(summary);
 }
 function generate_end_date(){
@@ -216,28 +272,54 @@ function show_repeat_dialogbox(){
 function hide_repeat_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect");
     $("#ne-repeat-wrapper").removeClass("ui-popup-active");
+    if(repeatset){
+        repeat_occurance_reset();
+    }
 }
+
+$(document).keydown(function(event) {
+    if (event.keyCode === 27) {
+        hide_repeat_dialogbox();
+        hide_settings_dialogbox();
+        if(!repeatset) {
+            $("#ne-evt-repeatbox").prop("checked", false);
+        }
+        if(!settingsset){
+            $("#ne-evt-settingsbox").prop("checked", false);
+        }
+    }
+});
 
 $(document).on("click", "#ne-evt-repeatbox", function(){
     if($("#ne-evt-repeatbox").is(":checked") && !repeatset){
+        reset_state("#ne-repeat-wrapper",repeatstate);
         show_repeat_dialogbox();
-        $("#ne-evt-repeat-startson").val($("#ne-evt-date-start").val());
     } else if($("#ne-evt-repeatbox").is(":checked") && repeatset) {
         $("#ne-repeat-edit").removeClass("wpg-nodisplay");
         $("#ne-repeat-summary-display").removeClass("wpg-nodisplay");
         $("#ne-label-repeatbox").html("Repeat: ");
+        if(!$("#ne-evt-settings-usedefault").is(":checked")) {
+            $("#ne-evt-settings-repeatgate").prop("disabled",false);
+            $("#ne-settings-repetition-annotation").addClass("wpg-nodisplay").removeClass("ui-container-block");
+        }
     } else if(!$("#ne-evt-repeatbox").is(":checked") && repeatset){
         $("#ne-repeat-edit").addClass("wpg-nodisplay");
         $("#ne-repeat-summary-display").addClass("wpg-nodisplay");
         $("#ne-label-repeatbox").html("Repeat...");
+        $("#ne-settings-repetition-annotation").removeClass("wpg-nodisplay").addClass("ui-container-block");
+        $("#ne-evt-settings-repeatgate").prop("checked",false).prop("disabled",true);
     }
+    save_state("#ne-settings-wrapper", settingsstate);
+    $("#ne-repeat-dialogbox").center();
 });
 
-$(document).on("click", "#ne-repeat-x", function(){
+$(document).on("click", "#ne-repeat-x, #ne-repeat-btn-cancel", function(){
     hide_repeat_dialogbox();
     if(!repeatset){
-        repeat_options_reset();
         $("#ne-evt-repeatbox").prop("checked", false);
+    }
+    if(Object.keys(repeatstate).length!==0){
+        reset_state("#ne-repeat-wrapper", repeatstate);
     }
 });
 
@@ -285,17 +367,17 @@ $(document).on("change", "#ne-evt-repeat-repeats", function(){
         case "4":
             $("#ne-repeat-table-1, #ne-repeat-table-2").removeClass("wpg-nodisplay");
             $("#ne-repeat-table-3").addClass("wpg-nodisplay");
-            $("#ne-repeat-repeatevery-label").html("weeks");
+            $("#ne-label-repeat-repeatevery").html("weeks");
             break
         case "5":
             $("#ne-repeat-table-1, #ne-repeat-table-3").removeClass("wpg-nodisplay");
             $("#ne-repeat-table-2").addClass("wpg-nodisplay");
-            $("#ne-repeat-repeatevery-label").html("months");
+            $("#ne-label-repeat-repeatevery").html("months");
             break;
         case "6":
             $("#ne-repeat-table-1").removeClass("wpg-nodisplay");
             $("#ne-repeat-table-2, #ne-repeat-table-3").addClass("wpg-nodisplay");
-            $("#ne-repeat-repeatevery-label").html("years");
+            $("#ne-label-repeat-repeatevery").html("years");
             break;
     }
 });
@@ -306,20 +388,23 @@ $(document).on("change", "#ne-evt-repeat-repeats, #ne-evt-repeat-repeatevery, #n
         "#ne-evt-repeat-repeatby-dayofweek, #ne-evt-endson-never, #ne-evt-endson-after, #ne-evt-endson-on, "+
         "#ne-evt-endson-occurances, #ne-evt-endson-date", generate_summary);
 
+$(document).on("change", "#ne-evt-date-start", function(){
+    generate_summary();
+    $("#ne-repeat-summary-display").html($("#ne-repeat-summary").html());
+});
+
 $(document).on("click", "#ne-repeat-btn-done", function(){
+    repeatset = true;
+    save_state("#ne-repeat-wrapper",repeatstate);
     hide_repeat_dialogbox();
     $("#ne-repeat-edit").removeClass("wpg-nodisplay");
     $("#ne-repeat-summary-display").removeClass("wpg-nodisplay").html($("#ne-repeat-summary").html());
-    $("#ne-label-repeatbox").html("Repeat: ");
-    repeatset = true;
-});
-
-$(document).on("click", "#ne-repeat-btn-cancel", function(){
-    hide_repeat_dialogbox();
-    if(!repeatset){
-        repeat_options_reset();
-        $("#ne-evt-repeatbox").prop("checked", false);
+    if(!$("#ne-evt-settings-usedefault").is(":checked")) {
+        $("#ne-evt-settings-repeatgate").prop("disabled",false);
+        $("#ne-settings-repetition-annotation").addClass("wpg-nodisplay").removeClass("ui-container-block");
     }
+    save_state("#ne-settings-wrapper", settingsstate);
+    $("#ne-label-repeatbox").html("Repeat: ");
 });
 
 $(document).on("click", "#ne-repeat-edit", function(){

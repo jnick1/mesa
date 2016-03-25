@@ -13,39 +13,8 @@ and open the template in the editor.
 /*==========|    Classes   |==========*/
 /*====================================*/
 
-.details-eventcolors {
-    height: 14px;
-    width: 14px;
-    cursor: pointer;
-    border: 1px solid black;
-    margin: 0px 1px;
-    display: inline-block;
-}
-.details-eventcolors-selected {
-    
-} /*empty*/
-
-.details-notifications {
-    margin-bottom: 5px;
-}
-.details-notifications-hidden {
-    display: none;
-}
-.details-notifications-remindertime {
-    padding: 1.5px !important;
-    width: 2em;
-    text-align: right;
-}
-.details-notifications-x {
-    cursor: pointer;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background-repeat: no-repeat;
-}
-
-.details-visibility-info-hidden {
-    display: none;
+body {
+    margin: 0;
 }
 
 .wpg-header-errordisplay-bodywrapper {
@@ -64,65 +33,51 @@ and open the template in the editor.
 /*==========|     ID's     |==========*/
 /*====================================*/
 
-#details-color-separator {
-    background-color: #ababab;
-    height: 16px;
-    margin: 0 5px;
-    width: 1px;
-    vertical-align: top;
-    display: inline-block;
-}
-
-#details-notifications-1 {
-    
-} /*empty*/
-#details-notifications-2 {
-    
-} /*empty*/
-#details-notifications-3 {
-    
-} /*empty*/
-#details-notifications-4 {
-    
-} /*empty*/
-#details-notifications-5 {
-    
-} /*empty*/
-#details-notifications-add {
-    margin-bottom: 5px;
-}
-#details-notifications-addlink {
-    
-} /*empty*/
-#details-notifications-none {
-    margin-bottom: 5px;
-    color: gray;
-}
-#details-notifications-x-1 {
-    
-} /*empty*/
-#details-notifications-x-2 {
-    
-} /*empty*/
-#details-notifications-x-3 {
-    
-} /*empty*/
-#details-notifications-x-4 {
-    
-} /*empty*/
-#details-notifications-x-5 {
-    
-} /*empty*/
-
 #wpg {
     width: 100%;
     min-width: 600px;
     font-size: 14px;
     font-family: Arial, sans-serif;
 }
+
+#wpg-footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #444;
+    width: 100%;
+    height: 45px;
+    overflow: hidden;
+}
+#wpg-footer-content {
+    color: #bbb;
+    margin: 15px;
+    text-align: center;
+}
+
 #wpg-header {
     
 } /*empty*/
+#wpg-header-account {
+    float: right;
+}
+#wpg-header-btn-signin {
+    
+} /*empty*/
+#wpg-header-btn-signin-wrapper {
+    width: 100px;
+    height: 33px;
+    line-height: 33px;
+    font-size: 16px;
+}
+#wpg-header-btn-signout {
+    
+} /*empty*/
+#wpg-header-btn-signout-wrapper {
+    width: 100px;
+    height: 33px;
+    line-height: 33px;
+    font-size: 16px;
+}
 #wpg-header-error {
     
 } /*empty*/
@@ -146,10 +101,53 @@ and open the template in the editor.
     color: #da4b38;
     text-decoration: none;
     font-weight: bold;
+    text-shadow: -1px -1px 0px #5e5e5e;
 }
-#wpg-header-title {
+#wpg-header-myevents {
+    cursor: pointer;
+    text-decoration: none;
+    color: rgba(255,255,255,1);
+    font-size: 20px;
+    font-weight: bold;
+    font-kerning: normal;
+    margin-left: 30px;
+    text-shadow: 1px 1px 1px #5e5e5e;
+}
+#wpg-header-myevents a {
+    text-decoration: none;
+    color: rgba(255,255,255,1);
+}
+#wpg-header-myevents-dropdown-arrow {
     
 } /*empty*/
+#wpg-header-title {
+    font-family: Comfortaa-Bold,Arial,sans-serif;
+}
+#wpg-header-user-imagedisplay {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+    vertical-align: central;
+    border: 1px solid #444;
+    -moz-box-shadow: 1px 1px 2px 1px #444;
+    -webkit-box-shadow: 1px 1px 2px 1px #444;
+    box-shadow: 1px 1px 2px #444;
+}
+#wpg-header-user-namedisplay {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 1px #5e5e5e;
+}
 #wpg-header-warning {
     
 } /*empty*/

@@ -31,7 +31,7 @@ $(document).ready(function sizechange(){
                 +"\n        <option value=\"86400\">days</option>"
                 +"\n        <option value=\"604800\">weeks</option>"
                 +"\n    </select>"
-                +"\n    <div id=\"details-notifications-x-"+(notifCounter)+"\" class=\"details-notifications-x\" title=\"Remove notification\"></div>"
+                +"\n    <div id=\"details-notifications-x-"+(notifCounter)+"\" class=\"details-notifications-x goog-icon goog-icon-x-small\" title=\"Remove notification\"></div>"
                 +"\n</div>\n";
         
         $("#wrapper-notifications").append(content);

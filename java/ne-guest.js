@@ -6,10 +6,6 @@
 
 var addguestclick = false;
 
-function validate_email(email) {
-    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return regex.test(email);
-}
 function add_guest_animation(){
     if(addguestclick) {
         return false;
@@ -74,7 +70,12 @@ function add_guest(){
     }
 }
 
-$(document).on("click", "#ne-guests-addbutton", add_guest());
+$(document).ready(function(){
+    $("#ne-evt-guests-inviteothers").prop("checked", true);
+    $("#ne-evt-guests-seeguestlist").prop("checked", true);
+});
+
+$(document).on("click", "#ne-guests-addbutton", add_guest);
 
 $(document).on("click", ".ne-guest-delete", function remove_guest(){
     $(this).parents(".ne-evt-guest").remove();
@@ -112,21 +113,6 @@ function see_guest_list_checked(){
 }
 $(document).on("click", "#ne-evt-guests-seeguestlist", see_guest_list_checked);
 $(document).ready(see_guest_list_checked);
-
-function modify_event_checked(){
-    if($("#ne-evt-guests-modifyevent").is(":checked")) { 
-        $("#ne-evt-guests-inviteothers").prop("disabled",true);
-        $("#ne-evt-guests-inviteothers").prop("checked",true);
-        $("#ne-evt-guests-seeguestlist").prop("disabled",true);
-        $("#ne-evt-guests-seeguestlist").prop("checked",true);
-        see_guest_list_checked();
-    } else {
-        $("#ne-evt-guests-seeguestlist").removeAttr("disabled");
-        $("#ne-evt-guests-inviteothers").removeAttr("disabled");
-    }
-}
-$(document).on("click", "#ne-evt-guests-modifyevent", modify_event_checked);
-$(document).ready(modify_event_checked);
 
 $(document).on("click", "#ne-btn-email", function(){
     alert("Placeholder");

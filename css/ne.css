@@ -24,7 +24,7 @@ and open the template in the editor.
 
 .ne-evt-guest {
     
-}
+} /*empty*/
 
 .ne-guests-container {
     padding-left: 10px;
@@ -74,14 +74,18 @@ and open the template in the editor.
 .ne-label {
     
 } /*empty*/
+.ne-label-repeat-repeatson {
+    padding-right: 5px;
+    border-spacing: 0;
+}
+.ne-label-settings-blacklistdays {
+    padding-right: 5px;
+    border-spacing: 0;
+}
 
 .ne-repeat-repeatson-checkbox {
     margin-right: 0;
     margin-left: 0;
-    border-spacing: 0;
-}
-.ne-repeat-repeatson-label {
-    padding-right: 5px;
     border-spacing: 0;
 }
 
@@ -93,11 +97,14 @@ and open the template in the editor.
 /*========|       ID's       |========*/
 /*====================================*/
 
+#ne-btn-back {
+    cursor: pointer;
+}
 #ne-btn-email {
     float: right;
     cursor: pointer;
 }
-#ne-btn-reset {
+#ne-btn-save {
     cursor: pointer;
 }
 #ne-btn-send {
@@ -129,162 +136,6 @@ and open the template in the editor.
 #ne-dropdown-timestart {
     
 } /*empty*/
-
-#ne-evt-available {
-    
-} /*empty*/
-#ne-evt-busy {
-    
-} /*empty*/
-#ne-evt-calendar {
-    
-} /*empty*/
-#ne-evt-date-end {
-    
-} /*empty*/
-#ne-evt-date-start {
-    
-} /*empty*/
-#ne-evt-description {
-    width: 100%;
-    resize: none;
-    overflow: hidden;
-    font-family: inherit;
-    padding: 3px;
-}
-#ne-evt-endson-after {
-    
-} /*empty*/
-#ne-evt-endson-date {
-    padding: 2px;
-}
-#ne-evt-endson-never {
-    
-} /*empty*/
-#ne-evt-endson-occurances {
-    padding: 2px;
-}
-#ne-evt-endson-on {
-    
-} /*empty*/
-#ne-evt-guests-inviteothers {
-    
-} /*empty*/
-#ne-evt-guests-modifyevent {
-    
-} /*empty*/
-#ne-evt-guests-seeguestlist {
-    
-} /*empty*/
-#ne-evt-notifications-1 {
-    
-} /*empty*/
-#ne-evt-notifications-2 {
-    
-} /*empty*/
-#ne-evt-notifications-3 {
-    
-} /*empty*/
-#ne-evt-notifications-4 {
-    
-} /*empty*/
-#ne-evt-notifications-5 {
-    
-} /*empty*/
-#ne-evt-notifications-time-1 {
-    
-} /*empty*/
-#ne-evt-notifications-time-2 {
-    
-} /*empty*/
-#ne-evt-notifications-time-3 {
-    
-} /*empty*/
-#ne-evt-notifications-time-4 {
-    
-} /*empty*/
-#ne-evt-notifications-time-5 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-1 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-2 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-3 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-4 {
-    
-} /*empty*/
-#ne-evt-notifications-timetype-5 {
-    
-} /*empty*/
-#ne-evt-repeatbox {
-    cursor: pointer;
-} /*empty*/
-#ne-evt-repeat-repeatby-dayofmonth {
-    
-} /*empty*/
-#ne-evt-repeat-repeatby-dayofweek {
-    
-} /*empty*/
-#ne-evt-repeat-repeatevery {
-    
-} /*empty*/
-#ne-evt-repeat-repeats {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-0 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-1 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-2 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-3 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-4 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-5 {
-    
-} /*empty*/
-#ne-evt-repeat-repeatson-6 {
-    
-} /*empty*/
-#ne-evt-repeat-startson {
-    width: 100px;
-} /*empty*/
-#ne-evt-time-end {
-    
-} /*empty*/
-#ne-evt-time-start {
-    
-} /*empty*/
-#ne-evt-title {
-    width: 100%;
-    max-width: 450px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #000000;
-}
-#ne-evt-visibility-default {
-    
-} /*empty*/
-#ne-evt-visibility-public {
-    
-} /*empty*/
-#ne-evt-visibility-private {
-    
-} /*empty*/
-#ne-evt-where {
-    width: 98.5%;
-}
 
 #ne-guests {
     width: 250px;
@@ -338,10 +189,82 @@ and open the template in the editor.
 } /*empty*/
 
 #ne-header {
+    margin-top: 0px;
+}
+
+#ne-label-repeat-repeatevery {
     
 } /*empty*/
-
 #ne-label-repeatbox {
+    
+} /*empty*/
+#ne-label-settings-attendancegate {
+    
+} /*empty*/
+#ne-label-settings-attendeesallow {
+    
+} /*empty*/
+#ne-label-settings-attendeesnomiss {
+    
+} /*empty*/
+#ne-label-settings-blacklistdays {
+    padding-bottom: 5px;
+}
+#ne-label-settings-blacklistend {
+    
+} /*empty*/
+#ne-label-settings-blacklistgate {
+    
+} /*empty*/
+#ne-label-settings-blackliststart {
+    
+} /*empty*/
+#ne-label-settings-dayallow {
+    
+} /*empty*/
+#ne-label-settings-daygate {
+    
+} /*empty*/
+#ne-label-settings-durationallow {
+    
+} /*empty*/
+#ne-label-settings-durationgate {
+    
+} /*empty*/
+#ne-label-settings-locationallow {
+    
+} /*empty*/
+#ne-label-settings-locationgate {
+    
+} /*empty*/
+#ne-label-settings-maxdate {
+    
+} /*empty*/
+#ne-label-settings-minduration {
+    
+} /*empty*/
+#ne-label-settings-repeatgate {
+    
+} /*empty*/
+#ne-label-settings-repeatsallow {
+    
+} /*empty*/
+#ne-label-settings-repeatsconstant {
+    
+} /*empty*/
+#ne-label-settings-repeatsmin {
+    
+} /*empty*/
+#ne-label-settings-timeallow {
+    
+} /*empty*/
+#ne-label-settings-timegate {
+    
+} /*empty*/
+#ne-label-settings-usedefault {
+    
+} /*empty*/
+#ne-label-settingsbox {
     
 } /*empty*/
 
@@ -358,8 +281,6 @@ and open the template in the editor.
 }
 #ne-repeat-dialogbox {
     min-width: 400px;
-    top: calc(50% - 200px);
-    left: calc(50% - 200px);
 }
 #ne-repeat-edit {
     
@@ -368,9 +289,6 @@ and open the template in the editor.
     font-size: 16px;
     padding: 10px 15px;
 }
-#ne-repeat-repeatevery-label {
-    
-} /*empty*/
 #ne-repeat-summary {
     
 } /*empty*/
@@ -402,13 +320,169 @@ and open the template in the editor.
     padding: 15px;
     padding-bottom: 5px;
 }
+#ne-repeat-top-wrapper {
+    
+} /*empty*/
 #ne-repeat-wrapper {
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-}
+    
+} /*empty*/
 #ne-repeat-x {
+    float: right;
+    cursor: pointer;
+}
+
+#ne-settings-attendees-table {
+    padding-left: 15px;
+}
+#ne-settings-attendees-table-0 {
+    
+} /*empty*/
+#ne-settings-attendees-table-1 {
+    
+} /*empty*/
+#ne-settings-attendees-table-2 {
+    
+} /*empty*/
+#ne-settings-blacklist-table {
+    padding-left: 15px;
+}
+#ne-settings-blacklist-table-0 {
+    
+} /*empty*/
+#ne-settings-blacklist-table-1 {
+    
+} /*empty*/
+#ne-settings-blacklist-table-2 {
+    
+} /*empty*/
+#ne-settings-btn-cancel {
+    
+} /*empty*/
+#ne-settings-btn-done {
+    
+} /*empty*/
+#ne-settings-btns {
+    width: 200px;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#ne-settings-day-table {
+    padding-left: 15px;
+}
+#ne-settings-day-table-0 {
+    
+} /*empty*/
+#ne-settings-day-table-1 {
+    
+} /*empty*/
+#ne-settings-day-table-2 {
+    
+} /*empty*/
+#ne-settings-dialogbox {
+    min-width: 800px;
+}
+#ne-settings-display {
+    
+} /*empty*/
+#ne-settings-duration-table {
+    padding-left: 15px;
+}
+#ne-settings-duration-table-0 {
+    
+} /*empty*/
+#ne-settings-duration-table-1 {
+    
+} /*empty*/
+#ne-settings-duration-table-2 {
+    
+} /*empty*/
+#ne-settings-edit {
+    margin-right: 10px;
+}
+#ne-settings-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ne-settings-location-table {
+    padding-left: 15px;
+}
+#ne-settings-location-table-0 {
+    
+} /*empty*/
+#ne-settings-location-table-1 {
+    
+} /*empty*/
+#ne-settings-repeats-table {
+    padding-left: 15px;
+}
+#ne-settings-repeats-table-0 {
+    
+} /*empty*/
+#ne-settings-repeats-table-1 {
+    
+} /*empty*/
+#ne-settings-repeats-table-2 {
+    
+} /*empty*/
+#ne-settings-repeats-table-3 {
+    
+} /*empty*/
+#ne-settings-repetition-annotation {
+    
+} /*empty*/
+#ne-settings-supertable > tbody > tr > td {
+    vertical-align: top;
+}
+#ne-settings-table-0 {
+    
+} /*empty*/
+#ne-settings-table-1 {
+    
+} /*empty*/
+#ne-settings-table-2 {
+    
+} /*empty*/
+#ne-settings-table-3 {
+    
+} /*empty*/
+#ne-settings-table-4 {
+    
+} /*empty*/
+#ne-settings-table-5 {
+    
+} /*empty*/
+#ne-settings-table-6 {
+    
+} /*empty*/
+#ne-settings-table-wrapper {
+    padding: 15px;
+    padding-bottom: 5px;
+}
+#ne-settings-table-wrapper table table tr:last-child td {
+    padding-bottom: 0px;
+}
+#ne-settings-table-wrapper th {
+    vertical-align: top;
+}
+#ne-settings-time-table {
+    padding-left: 15px;
+}
+#ne-settings-time-table-0 {
+    
+} /*empty*/
+#ne-settings-time-table-1 {
+    
+} /*empty*/
+#ne-settings-top-wrapper {
+    margin-right: 5px;
+}
+#ne-settings-usedefault-wrapper {
+    padding-top: 8px;
+}
+#ne-settings-wrapper {
+    
+} /*empty*/
+#ne-settings-x {
     float: right;
     cursor: pointer;
 }

@@ -1,0 +1,138 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.14
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Mar 25, 2016 at 12:57 AM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `mesadb`
+--
+CREATE DATABASE IF NOT EXISTS `mesadb` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `mesadb`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblevents`
+--
+
+DROP TABLE IF EXISTS `tblevents`;
+CREATE TABLE IF NOT EXISTS `tblevents` (
+  `pkEventid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'A unique identifier for each event',
+  `blOptiSuggestion` blob NOT NULL COMMENT 'Blob of php serialized data containing result from optimization algorithm',
+  `nmTitle` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Event title',
+  `dtStart` datetime NOT NULL COMMENT 'Start date and time for the event',
+  `dtEnd` datetime NOT NULL COMMENT 'End date and time for the event',
+  `txLocation` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Event location stored as a string',
+  `txDescription` mediumtext COLLATE utf8_unicode_ci COMMENT 'Event description',
+  `txRRule` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'A string containing event recurrence rules',
+  `nColorid` tinyint(4) DEFAULT NULL COMMENT 'The color id associated with this event (optional for Google)',
+  `blSettings` blob NOT NULL COMMENT 'php serialized information for algorithm',
+  `blAttendees` blob NOT NULL COMMENT 'php serialized attendee information (emails and if they''re required)',
+  `blNotifications` blob NOT NULL COMMENT 'php serialized information for notifications',
+  `isGuestInvite` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Indicates if guests can invite others to the event',
+  `isGuestList` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Indicates if guests can see other guests'' email',
+  `enVisibility` enum('default','public','private') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'default' COMMENT 'Indicates the sharing settings of the event',
+  `isBusy` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Indicates if users should be considered busy',
+  `dtCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time when the event was created',
+  `dtLastUpdated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date and time when the event was last updated',
+  PRIMARY KEY (`pkEventid`),
+  UNIQUE KEY `pkEventid` (`pkEventid`),
+  KEY `dtStart` (`dtStart`,`dtEnd`),
+  KEY `dtCreated` (`dtCreated`),
+  KEY `dtLastUpdated` (`dtLastUpdated`),
+  FULLTEXT KEY `nmTitle` (`nmTitle`),
+  FULLTEXT KEY `txDescription` (`txDescription`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about events' AUTO_INCREMENT=11 ;
+
+--
+-- Dumping data for table `tblevents`
+--
+
+INSERT INTO `tblevents` (`pkEventid`, `blOptiSuggestion`, `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated`) VALUES
+(2, '', 'Event Title 2', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 2, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:06'),
+(3, '', 'Event Title 3', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 3, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:10'),
+(6, '', 'Event Title 6', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 11, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:34'),
+(9, '', 'Event Title 9', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 7, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbltokens`
+--
+
+DROP TABLE IF EXISTS `tbltokens`;
+CREATE TABLE IF NOT EXISTS `tbltokens` (
+  `txEmail` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Email address that this token was sent to.',
+  `txTokenid` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The token id of an active token.'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='A list of active tokens for use in receiving calendar info.';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblusers`
+--
+
+DROP TABLE IF EXISTS `tblusers`;
+CREATE TABLE IF NOT EXISTS `tblusers` (
+  `pkUserid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'A unique identifier for each user',
+  `txEmail` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The email associated with each user',
+  `blSalt` tinyblob NOT NULL COMMENT 'Salt for password hash',
+  `txHash` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Hash of user''s password and salt',
+  `blCalendar` blob NOT NULL COMMENT 'Blob of bytes containing php serialized calendar info for a user (not necessarily registered user)',
+  `dtCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time that the user first logged in to the system',
+  `dtLogin` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date and time that the user last logged in to the system',
+  PRIMARY KEY (`pkUserid`),
+  UNIQUE KEY `pkUserid` (`pkUserid`),
+  UNIQUE KEY `txEmail` (`txEmail`),
+  KEY `dtCreated` (`dtCreated`,`dtLogin`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about users' AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `tblusers`
+--
+
+INSERT INTO `tblusers` (`pkUserid`, `txEmail`, `blSalt`, `txHash`, `blCalendar`, `dtCreated`, `dtLogin`) VALUES
+(2, 'bob@test.com', 0x0e73cc4797b0e1a9293aed59717dce63, '96932c124fb2e96f362557951f45da00bed675285c2e996d6ba8f07277c17317', '', '2016-03-23 02:35:11', '2016-03-24 19:38:19'),
+(9, 'test@bob.com', 0xd5b9c677978b0726d985075f3653d7cf, '3d51ae5550bea1e2ba25e53b820e32583ed2d864f9d5a5b1c02c0b47f49c1183', '', '2016-03-24 06:42:10', '2016-03-24 19:38:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblusersevents`
+--
+
+DROP TABLE IF EXISTS `tblusersevents`;
+CREATE TABLE IF NOT EXISTS `tblusersevents` (
+  `fkUserid` bigint(20) unsigned NOT NULL COMMENT 'pkUserid from tblUsers',
+  `fkEventid` bigint(20) unsigned NOT NULL COMMENT 'pkEventid from tlbEvents',
+  UNIQUE KEY `fkEventid` (`fkEventid`),
+  KEY `fkUserid` (`fkUserid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table correlates events to their respective user owners';
+
+--
+-- Dumping data for table `tblusersevents`
+--
+
+INSERT INTO `tblusersevents` (`fkUserid`, `fkEventid`) VALUES
+(2, 2),
+(2, 3),
+(2, 6),
+(2, 9);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tblusersevents`
+--
+ALTER TABLE `tblusersevents`
+  ADD CONSTRAINT `tblusersevents_ibfk_1` FOREIGN KEY (`fkUserid`) REFERENCES `tblusers` (`pkUserid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tblusersevents_ibfk_2` FOREIGN KEY (`fkEventid`) REFERENCES `tblevents` (`pkEventid`) ON DELETE CASCADE;

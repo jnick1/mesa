@@ -26,7 +26,23 @@ $colors = array(
     "yellow"=>"rgb(251, 215, 91)"
 );
 
+$colorids = array(
+    1=>"rgb(164, 189, 252)",
+    9=>"rgb(84, 132, 237)",
+    10=>"rgb(81, 183, 73)",
+    11=>"rgb(220, 33, 39)",
+    9=>"rgb(73, 134, 231)",
+    8=>"rgb(225, 225, 225)",
+    2=>"rgb(122, 231, 191)",
+    6=>"rgb(255, 184, 120)",
+    3=>"rgb(219, 173, 255)",
+    4=>"rgb(255, 136, 124)",
+    7=>"rgb(70, 214, 219)",
+    5=>"rgb(251, 215, 91)"
+);
+
 $header = "#ne-evt-color-";
+$header2 = ".el-content-event-colorcircle";
 $background = " {\n    background-color: ";
 $border = ":not(:hover) {\n    border-color: ";
 $end = ";\n}\n";
@@ -34,4 +50,8 @@ $end = ";\n}\n";
 foreach($colors as $name => $color) {
     echo $header.$name.$background.$color.$end;
     echo $header.$name.$border.$color.$end;
+}
+
+foreach($colorids as $id => $color){
+    echo $header2.$id.$background.$color.$end;
 }
