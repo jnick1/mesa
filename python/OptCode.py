@@ -6,6 +6,7 @@
 # and open the template in the editor.
 import numpty as np
 phpserialize import 
+import sys, json #for taking in data from php
 if __name__ == "__main__":
     print "Hello World"
 
@@ -31,8 +32,6 @@ BY
  #first, enter the necessary data
     f = open('WillsBasicInfo', 'r') #the order of the text file should be as the following: 
     
-    endTime = f.readline() #what is the time set to stop the search
-    startTime = f.readline() #where to start the search
     searchWidth = f.readline() #how many days are available
     gran = f.readline()  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
     bannedtimes = f.readline() #banned granularity increments based on user input, ie not over 933 or something
@@ -43,26 +42,34 @@ BY
     f.close()#closing the file
     grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour
     
-    #MAY OR MAY NOT USE DEPENDING
-    #having the priority set list seperate because idk if there will be exact results if its at the end of the other file
-    #g = open('PriorityTextFile', 'r') 
-    #for (i=0; i<7; i++):
-    #    test = Priority[i]
-    #    Priority[i] = test * g.readline() #each will get either LOW(1), MED(10), or HIGH(100) to determine the importance value
-    #g.close() #closing priority file
-    #same as priority list
-    #k = open('specificDaysTextFile', 'r')
-    #    DAYS = k.read().split(',') #insert number for specific day, 0=SUN, 1=MON, etc
-    #k.close() #closing day list
+    
+
  
  if (   ): #when OGANIZER clicks "Find Times" Btn
  {
+    user = phpobject('WP_User', data)#'WP_User is the PHP function with the necessary information, data is the information necessary to transfer
+    endTime = user.endTime  #reading the endTime from the PHP object, time to stop the search
+    startTime = user.startTime #reading the startTime from the PHP object, where to start the search
+    
+    # Load the data that PHP will dump us (var_dump($resultData)
+    for(i=0; i<7; i++):
+        for(j=0; j<24; j++):
+            {
+                try:
+                    data = json.loads(sys.argv[i])[j]
+                except:
+                    print ("ERROR")
+                    sys.exit(1)
+                googleCalender[i][j] = data
+            }
     #input the google calender 
-    with open('GoogleCalenderTest.txt','r') as h:
-    for line in h:
-        for word in line.split():
-                    googleCalender[].append(word)
-    h.close() 
+    
+    #input the google calender via text file 
+    #with open('GoogleCalenderTest.txt','r') as h:
+    #for line in h:
+    #    for word in line.split():
+    #                googleCalender[].append(word)
+    #h.close() 
     
     #moving their Goolge calender to a normCalender
     for(i = 0; i<searchWidth; i++):
@@ -235,3 +242,14 @@ for (i =0; i <searchwidth; i++):
 #meeting duration time practice
 
 
+#MAY OR MAY NOT USE DEPENDING
+    #having the priority set list seperate because idk if there will be exact results if its at the end of the other file
+    #g = open('PriorityTextFile', 'r') 
+    #for (i=0; i<7; i++):
+    #    test = Priority[i]
+    #    Priority[i] = test * g.readline() #each will get either LOW(1), MED(10), or HIGH(100) to determine the importance value
+    #g.close() #closing priority file
+    #same as priority list
+    #k = open('specificDaysTextFile', 'r')
+    #    DAYS = k.read().split(',') #insert number for specific day, 0=SUN, 1=MON, etc
+    #k.close() #closing day list
