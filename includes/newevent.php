@@ -23,6 +23,19 @@ if(isset($scrubbed["signout"])) {
 if(empty($_SESSION["pkUserid"])){
     header("location: $homedir"."index.php");
 }
+
+if(isset($scrubbed["edit"])) {
+    $q1 = "SELECT `blOptiSuggestion`, `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy` FROM `tblevents` WHERE pkEventid = ?";
+    
+    if($stmt = $dbc->prepare($q1)){
+        $stmt->bind_param("i",$scrubbed["pkEventid"]);
+        $stmt->execute();
+        $stmt->bind_result($blOptiSuggestion,$nmTitle,$dtStart,$dtEnd,$txLocation,$txDescription,$txRRule,$nColorid,$blSettings,$blAttendees,$blNotifications,$isGuestInvite,$isGuestList,$enVisibility,$isBusy);
+        $stmt->fetch();
+        $stmt->free_result();
+        $stmt->close();
+    }
+}
 ?>
 <!DOCTYPE html>
 <!--
@@ -70,7 +83,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
-        <div id="wpg">
+        <div id="wpg"<?php echo ((isset($scrubbed["edit"]) && isset($scrubbed["pkEventid"]))?" data-eventid=\"".$scrubbed["pkEventid"]."\"":""); ?>>
             <div id="ne-header" class="ui-container-section">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
@@ -95,15 +108,15 @@ and open the template in the editor.
             </div>
             <div id="ne-top-time" class="ui-container-section">
                 <div id="ne-top-title">
-                    <input id="ne-evt-title" name="ne-evt-title" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event"<?php echo " tabindex=\"".$ti++."\"";?>>
+                    <input id="ne-evt-title" name="ne-evt-title" class="ui-textinput ui-placeholder" title="Event title" type="text" placeholder="Untitled event"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($nmTitle))?" value=\"$nmTitle\"":""; ?>>
                 </div>
                 <div id="ne-top-timegroup">
                     <span id="ne-top-time-startgroup">
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-date-start" name="ne-evt-date-start" class="ui-textinput ui-date" title="From date"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            <input id="ne-evt-date-start" name="ne-evt-date-start" class="ui-textinput ui-date" title="From date"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($dtStart))?" value=\"".substr($dtStart,0,10)."\"":""; ?>>
                         </span>
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time" title="From time" data-jq-dropdown="#ne-dropdown-timestart"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time" title="From time" data-jq-dropdown="#ne-dropdown-timestart"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($dtStart))?" value=\"".substr($dtStart,11,5)."\"":""; ?>>
                         </span>
                     </span>
                     <span id="ne-top-time-to">
@@ -111,10 +124,10 @@ and open the template in the editor.
                     </span>
                     <span id="ne-top-time-endgroup">
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time" title="To time" data-jq-dropdown="#ne-dropdown-timeend"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time" title="To time" data-jq-dropdown="#ne-dropdown-timeend"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($dtEnd))?" value=\"".substr($dtEnd,11,5)."\"":""; ?>>
                         </span>
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-date-end" name="ne-evt-date-end" class="ui-textinput ui-date" title="To date"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            <input id="ne-evt-date-end" name="ne-evt-date-end" class="ui-textinput ui-date" title="To date"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($dtEnd))?" value=\"".substr($dtEnd,0,10)."\"":""; ?>>
                         </span>
                     </span>
                 </div>
@@ -236,7 +249,7 @@ and open the template in the editor.
                                     Where
                                 </th>
                                 <td>
-                                    <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput" placeholder="Enter a location"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput" placeholder="Enter a location"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($txLocation))?" value=\"".$txLocation."\"":""; ?>>
                                 </td>
                             </tr>
                             <tr>
@@ -244,7 +257,7 @@ and open the template in the editor.
                                     Description
                                 </th>
                                 <td>
-                                    <textarea id="ne-evt-description" name="ne-evt-description" class="ui-textinput" rows="3"<?php echo " tabindex=\"".$ti++."\"";?>></textarea>
+                                    <textarea id="ne-evt-description" name="ne-evt-description" class="ui-textinput" rows="3"<?php echo " tabindex=\"".$ti++."\"";?>><?php echo (isset($txDescription))?$txDescription:""; ?></textarea>
                                 </td>
                             </tr>
                             <tr>

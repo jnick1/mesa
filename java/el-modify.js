@@ -30,6 +30,10 @@ $(document).on("click", "#el-delete-x, #el-delete-btn-cancel", function() {
     $("#el-delete-btn-yes").removeClass();
 });
 
+$(document).on("click", "#el-btn-create", function create_evt_request() {
+    window.location = "newevent.php";
+});
+
 $(document).on("click keyup", "#el-delete-btn-yes", function(event) {
     if(event.type === "click" || (event.type === "keyup" && (event.which===13))) {
         post("#",{

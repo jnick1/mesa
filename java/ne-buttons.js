@@ -249,8 +249,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
         }
     }
     
-    post("eventlist.php",{
-        "create":true,
+    var parameters = {
         "nmTitle":nmTitle,
         "dtStart":dtStart,
         "dtEnd":dtEnd,
@@ -265,7 +264,14 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
         "isGuestList":isGuestList,
         "enVisibility":enVisibility,
         "isBusy":isBusy
-    },"POST");
+    };
+    if(typeof $("#wpg").data("eventid") === "undefined") {
+        parameters["create"] = true;
+    } else {
+        parameters["edit"] = true;
+        parameters["pkEventid"] = parseInt($("#wpg").data("eventid"));
+    }
+    post("eventlist.php",parameters,"POST");
     
 });
 $(document).on("click", "#ne-btn-send", function send_evt_request() {

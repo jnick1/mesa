@@ -19,6 +19,11 @@ if(isset($scrubbed["signout"])) {
     unset($_SESSION["email"]);
     unset($_SESSION["lastLogin"]);
 }
+
+if(empty($_SESSION["pkUserid"])){
+    header("location: $homedir"."index.php");
+}
+
 if(isset($scrubbed["delete"])) {
     $q1 = "DELETE FROM tblevents WHERE pkEventid = ? LIMIT 1";
     $q2 = "DELETE FROM tblusersevents WHERE fkEventid = ? AND fkUserid = ?";
@@ -52,7 +57,6 @@ if(isset($scrubbed["delete"])) {
     
 }
 if(isset($scrubbed["create"])) {
-    echo var_dump($scrubbed);
     if($scrubbed["nmTitle"] == "" || $scrubbed["blAttendees"] == "[]") {
         if($scrubbed["blAttendees"] == "[]"){
             $warnings[] = "Your event must have at least 1 attendee to be saved.";
@@ -90,9 +94,44 @@ if(isset($scrubbed["create"])) {
         $notifications[] = "Your event has been successfully saved.";
     }
 }
-
-if(empty($_SESSION["pkUserid"])){
-    header("location: $homedir"."index.php");
+if(isset($scrubbed["edit"])) {
+    echo var_dump($scrubbed);
+    if($scrubbed["nmTitle"] == "" || $scrubbed["blAttendees"] == "[]") {
+        if($scrubbed["blAttendees"] == "[]"){
+            $warnings[] = "Your event must have at least 1 attendee to be saved.";
+        } else {
+            $warnings[] = "Your event must have a title to be saved.";
+        }
+    } else {
+        $q1 = "SELECT fkUserid FROM tblusersevents WHERE fkEventid = ?";
+        $q2 = "UPDATE `tblevents` SET `nmTitle`=?,`dtStart`=?,`dtEnd`=?,`txLocation`=?,`txDescription`=?,`txRRule`=?,`nColorid`=?,`blSettings`=?,`blAttendees`=?,`blNotifications`=?,`isGuestInvite`=?,`isGuestList`=?,`enVisibility`=?,`isBusy`=? WHERE pkEventid = ?";
+        
+        if($stmt = $dbc->prepare($q1)){
+            $stmt->bind_param("i",$scrubbed["pkEventid"]);
+            $stmt->execute();
+            $stmt->bind_result($owner);
+            $stmt->fetch();
+            $stmt->free_result();
+            $stmt->close();
+        }
+        if($owner === $_SESSION["pkUserid"]) {
+            if($stmt = $dbc->prepare($q2)){
+                $scrubbed["nColorid"] = (int) $scrubbed["nColorid"];
+                $scrubbed["isGuestInvite"] = (int) $scrubbed["isGuestInvite"];
+                $scrubbed["isGuestList"] = (int) $scrubbed["isGuestList"];
+                $scrubbed["isBusy"] = (int) $scrubbed["isBusy"];
+                $scrubbed["pkEventid"] = (int) $scrubbed["pkEventid"];
+                $stmt->bind_param("ssssssisssiisii", $scrubbed["nmTitle"],$scrubbed["dtStart"],$scrubbed["dtEnd"],$scrubbed["txLocation"],$scrubbed["txDescription"],$scrubbed["txRRule"],$scrubbed["nColorid"],$scrubbed["blSettings"],$scrubbed["blAttendees"],$scrubbed["blNotifications"],$scrubbed["isGuestInvite"],$scrubbed["isGuestList"],$scrubbed["enVisibility"],$scrubbed["isBusy"],$scrubbed["pkEventid"]);
+                $stmt->execute();
+                $stmt->free_result();
+                $stmt->close();
+            }
+            $notifications[] = "Your event has been successfully saved.";
+        } else {
+            $errors[] = "You do not have permission to modify this event.";
+        }
+        
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -151,7 +190,7 @@ and open the template in the editor.
                         <?php 
                         //order: Color id, Title, Start date, Start time, End time, End date, Truncated description, Edit, Delete
                         
-                        $q1 = "SELECT pkEventid, nmTitle, dtStart, dtEnd, txDescription, nColorid FROM tblevents JOIN tblusersevents ON tblusersevents.fkUserid = ? WHERE tblevents.pkEventid = tblusersevents.fkEventid;";
+                        $q1 = "SELECT pkEventid, nmTitle, dtStart, dtEnd, txDescription, nColorid FROM tblevents JOIN tblusersevents ON tblusersevents.fkUserid = ? WHERE tblevents.pkEventid = tblusersevents.fkEventid ORDER BY tblevents.dtStart ASC;";
                         
                         $events = [];
                         
