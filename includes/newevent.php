@@ -953,7 +953,8 @@ and open the template in the editor.
                                                                 <td>
                                                                     <label id="ne-label-settings-attendeesnomiss" for="ne-evt-settings-attendeesallow">
                                                                         Minimum required attendees
-                                                                        <input id="ne-evt-settings-attendeesnomiss" class="ui-shortbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <select id="ne-evt-settings-attendeesnomiss" class="ui-select"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        </select>
                                                                     </label>
                                                                 </td>
                                                             </tr>

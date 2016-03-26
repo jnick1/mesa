@@ -7,6 +7,16 @@
 $(document).on("click", "#ne-btn-save", function save_evt_request() {
     
     var nmTitle = $("#ne-evt-title").val();
+    if(nmTitle === "") {
+        $("#wpg-header-warning").append("<div><span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Warning: </b>"+"Your event must have a title to be saved."+"</div>");
+        $("#wpg-header-errordisplay-warningwrapper").removeClass("wpg-nodisplay");
+        return;
+    }
+    if($(".ne-evt-guest").length === 0){
+        $("#wpg-header-warning").append("<div><span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Warning: </b>"+"Your event must have at least 1 attendee to be saved."+"</div>");
+        $("#wpg-header-errordisplay-warningwrapper").removeClass("wpg-nodisplay");
+        return;
+    }
     var dtStart = "";
     var dtEnd = "";
     var txLocation = $("#ne-evt-where").val();
@@ -22,9 +32,23 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     var isBusy = $("#ne-evt-busy").is(":checked");
     
     //parsing for dtStart
-    var start = time_parser($("#ne-evt-date-start").val()+" "+$("#ne-evt-time-start").val());
+    var start = new Date();
+    start = time_parser($("#ne-evt-date-start").val()+" "+$("#ne-evt-time-start").val());
+    start = start.getUTCFullYear()+"/"+
+            ((start.getUTCMonth()+1)<10?"0"+(start.getUTCMonth()+1):(start.getUTCMonth()+1))+"/"+
+            (start.getUTCDate()<10?"0"+start.getUTCDate():start.getUTCDate())+" "+
+            (start.getUTCHours()<10?"0"+start.getUTCHours():start.getUTCHours())+":"+
+            (start.getUTCMinutes()<10?"0"+start.getUTCMinutes():start.getUTCMinutes())+":00";
+    dtStart = start;
     //parsing for dtEnd
-    var end = time_parser($("#ne-evt-date-end").val()+" "+$("#ne-evt-time-end").val());
+    var end = new Date();
+    end = time_parser($("#ne-evt-date-end").val()+" "+$("#ne-evt-time-end").val());
+    end = end.getUTCFullYear()+"/"+
+            ((end.getUTCMonth()+1)<10?"0"+(end.getUTCMonth()+1):(end.getUTCMonth()+1))+"/"+
+            (end.getUTCDate()<10?"0"+end.getUTCDate():end.getUTCDate())+" "+
+            (end.getUTCHours()<10?"0"+end.getUTCHours():end.getUTCHours())+":"+
+            (end.getUTCMinutes()<10?"0"+end.getUTCMinutes():end.getUTCMinutes())+":00";
+    dtEnd = end;
     //parsing for nColorid
     var colorids = {
     "blue":1,
@@ -93,7 +117,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
                 break;
         }
         if($("#ne-evt-endson-after").is(":checked")) {
-            txRRule += "COUNT="+$("#ne-evt-endson-occurances")+";";
+            txRRule += "COUNT="+$("#ne-evt-endson-occurances").val()+";";
         } else if($("#ne-evt-endson-on").is(":checked")) {
             var until = new Date();
             until = time_parser($("#ne-evt-endson-date").val()+" "+$("#ne-evt-time-start").val());
@@ -138,7 +162,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     });
     blAttendees = attendees;
     //parsing for blSettings
-    if($("#ne-evt-settings-usedefault").is(":checked")){
+    if($("#ne-evt-settings-usedefault").is(":checked") || !$("#ne-evt-settingsbox").is(":checked")){
         blSettings = {
             "useDefault":true
         };
@@ -188,8 +212,10 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
         }
         temp = {};
         if($("#ne-evt-settings-blacklistgate").is(":checked")) {
-            temp["earliest"] = $("#ne-evt-settings-blackliststart").val();
-            temp["latest"] = $("#ne-evt-settings-blacklistend").val();
+            var earliest = time_parser($("#ne-evt-date-start").val()+" "+$("#ne-evt-settings-blackliststart").val());
+            temp["earliest"] = (earliest.getUTCHours()<10?"0"+earliest.getUTCHours():earliest.getUTCHours())+":"+(earliest.getUTCMinutes()<10?"0"+earliest.getUTCMinutes():earliest.getUTCMinutes())+":00";
+            var latest = time_parser($("#ne-evt-date-end").val()+" "+$("#ne-evt-settings-blacklistend").val());
+            temp["latest"] = (latest.getUTCHours()<10?"0"+latest.getUTCHours():latest.getUTCHours())+":"+(latest.getUTCMinutes()<10?"0"+latest.getUTCMinutes():latest.getUTCMinutes())+":00";
             temp["days"] = "";
             var days = ["SU,","MO,","TU,","WE,","TH,","FR,","SA,"];
             for(var i=0;i<7;i++){

@@ -103,6 +103,7 @@ $(document).on("click", "#ne-settings-btn-done", function(){
         $("#ne-label-settingsbox").html("Advanced settings: ");
     } else {
         settingsset = false;
+        $("#ne-evt-settings-usedefault").prop("checked",true);
         $("#ne-evt-settingsbox").prop("checked", false);
         $("#ne-settings-edit").addClass("wpg-nodisplay");
         $("#ne-settings-display").addClass("wpg-nodisplay");
@@ -170,5 +171,13 @@ $(document).on("blur", "#ne-evt-settings-maxdate,#ne-evt-settings-minduration,#n
                 $(this).val("11:59pm");
             }
             break;
+    }
+});
+
+$(document).on("click", "#ne-evt-settings-attendancegate", function(){
+    var maxguests = $(".ne-evt-guest").length;
+    $("#ne-evt-settings-attendeesnomiss").html("");
+    for(var i=1;i<=maxguests;i++){
+        $("#ne-evt-settings-attendeesnomiss").append("<option value=\""+i+"\">"+i+"</option>\n");
     }
 });
