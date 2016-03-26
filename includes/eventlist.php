@@ -190,7 +190,7 @@ and open the template in the editor.
                         <?php 
                         //order: Color id, Title, Start date, Start time, End time, End date, Truncated description, Edit, Delete
                         
-                        $q1 = "SELECT pkEventid, nmTitle, dtStart, dtEnd, txDescription, nColorid FROM tblevents JOIN tblusersevents ON tblusersevents.fkUserid = ? WHERE tblevents.pkEventid = tblusersevents.fkEventid ORDER BY tblevents.dtStart ASC;";
+                        $q1 = "SELECT pkEventid, nmTitle, dtStart, dtEnd, txDescription, nColorid FROM tblevents JOIN tblusersevents ON tblusersevents.fkUserid = ? WHERE tblevents.pkEventid = tblusersevents.fkEventid ORDER BY tblevents.dtLastUpdated DESC;";
                         
                         $events = [];
                         
@@ -232,6 +232,9 @@ and open the template in the editor.
                                 $st = date_parse($events[$i]["dtStart"]);
                                 echo $st["hour"].":".$st["minute"];
                                 ?>
+                            </td>
+                            <td>
+                                -
                             </td>
                             <td id="el-content-event-time<?php echo $i+count($events); ?>" class="el-content-event-time">
                                 <?php
