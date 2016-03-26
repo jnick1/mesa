@@ -58,6 +58,9 @@ function reset_settings(){
     $("#ne-evt-settings-maxdate").val("");
     $("input[id$='prior-low'").prop("checked",true);
     $("#ne-settings-repetition-annotation").addClass("wpg-nodisplay").removeClass("ui-container-block");
+    $("#ne-settings-display").addClass("wpg-nodisplay");
+    $("#ne-settings-edit").addClass("wpg-nodisplay");
+    $("#ne-label-settingsbox").html("Advanced settings");
 }
 
 $(document).ready(function(){

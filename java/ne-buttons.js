@@ -26,10 +26,10 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     var blSettings = {};
     var blAttendees = [];
     var blNotifications = {};
-    var isGuestInvite = $("#ne-evt-guests-inviteothers").is(":checked");
-    var isGuestList = $("#ne-evt-guests-seeguestlist").is(":checked");
+    var isGuestInvite = $("#ne-evt-guests-inviteothers").is(":checked")?1:0;
+    var isGuestList = $("#ne-evt-guests-seeguestlist").is(":checked")?1:0;
     var enVisibility = $("#ne-evt-visibility-public").is(":checked")?"public":$("#ne-evt-visibility-private").is(":checked")?"private":"default";
-    var isBusy = $("#ne-evt-busy").is(":checked");
+    var isBusy = $("#ne-evt-busy").is(":checked")?1:0;
     
     //parsing for dtStart
     var start = new Date();
@@ -255,7 +255,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
         "dtStart":dtStart,
         "dtEnd":dtEnd,
         "txLocation":txLocation,
-        "txDescritpion":txDescription,
+        "txDescription":txDescription,
         "txRRule":txRRule,
         "nColorid":nColorid,
         "blSettings":JSON.stringify(blSettings),

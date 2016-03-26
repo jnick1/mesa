@@ -346,6 +346,7 @@ $(document).on("click", "#ne-evt-repeatbox", function(){
         if(!$("#ne-evt-settings-usedefault").is(":checked")) {
             $("#ne-evt-settings-repeatgate").prop("disabled",false);
             $("#ne-settings-repetition-annotation").addClass("wpg-nodisplay").removeClass("ui-container-block");
+            save_state("#ne-settings-wrapper", settingsstate);
         }
     } else if(!$("#ne-evt-repeatbox").is(":checked") && repeatset){
         $("#ne-repeat-edit").addClass("wpg-nodisplay");
@@ -353,8 +354,17 @@ $(document).on("click", "#ne-evt-repeatbox", function(){
         $("#ne-label-repeatbox").html("Repeat...");
         $("#ne-settings-repetition-annotation").removeClass("wpg-nodisplay").addClass("ui-container-block");
         $("#ne-evt-settings-repeatgate").prop("checked",false).prop("disabled",true);
+        $("#ne-settings-repeats-table").addClass("wpg-nodisplay");
+        var gates = $("#ne-evt-settings-attendancegate:checked,#ne-evt-settings-blacklistgate:checked,#ne-evt-settings-daygate:checked,"+
+        "#ne-evt-settings-durationgate:checked,#ne-evt-settings-locationgate:checked,#ne-evt-settings-repeatgate:checked,"+
+        "#ne-evt-settings-timegate:checked");
+        if(gates.length === 0) {
+            settingsset = false;
+            reset_settings();
+        }
+        save_state("#ne-settings-wrapper", settingsstate);
     }
-    save_state("#ne-settings-wrapper", settingsstate);
+    save_state("#ne-repeat-wrapper", repeatstate);
     $("#ne-repeat-dialogbox").center();
 });
 
@@ -436,6 +446,21 @@ $(document).on("change", "#ne-evt-repeat-repeats, #ne-evt-repeat-repeatevery, #n
 $(document).on("change", "#ne-evt-date-start", function(){
     generate_summary();
     $("#ne-repeat-summary-display").html($("#ne-repeat-summary").html());
+    $("#ne-evt-repeat-startson").val($("#ne-evt-date-start").val());
+    if(!repeatset){
+        var time_start = $("#ne-evt-time-start").val();
+        var date_start = $("#ne-evt-date-start").val();
+        
+        var day = new Date();
+        day = time_parser(date_start + " " + time_start);
+        day = day.getDay();
+        
+        for(var i=0;i<7;i++){
+            $("#ne-evt-repeat-repeatson-"+i).prop("checked", false);
+        }
+        $("#ne-evt-repeat-repeatson-"+day).prop("checked", true);
+    }
+    save_state("#ne-repeat-wrapper", repeatstate);
 });
 
 $(document).on("click", "#ne-repeat-btn-done", function(){
