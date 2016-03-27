@@ -17,5 +17,6 @@ define('SQL_ACCESS_PATH', 'services-sql-request.php');
 
 //Files require the base path
 define('CLIENT_SECRET_FILE', FILE_PATH . '../client_secret.json');
+define('SERVICE_ACCOUNT_FILE', FILE_PATH . '../MESA_Service.json');
 define('BING_SECRET_FILE', FILE_PATH . '../bing_secret.txt');
 define('GOOGLE_API_FILE', FILE_PATH . '../vendor/autoload.php');

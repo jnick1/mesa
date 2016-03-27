@@ -23,7 +23,7 @@ function sql_check_token(){
     }
 }
 
-function sql_load_event() {
+function sql_load_event_retrieval() {
     $dbc = connect_sql();
     
     $query = "SELECT txLocation,dtStart,dtEnd FROM tblevents WHERE pkEventid = ?";
@@ -52,8 +52,42 @@ function sql_load_event() {
     }
 }
 
-function insert_event_data($event_array){
+function insert_event_data($blCalendar){
+    $dbc = connect_sql();
     
+    $query = "UPDATE tblusers SET blCalendar = ? WHERE tblusers.txEmail = ?";
+    $txEmail = $_SESSION['sql_attendee_email'];
+    
+    if($stmt = $dbc->prepare($query)){
+        $stmt->bind_param("bs", $blCalendar, $txEmail);
+        $stmt->execute();
+        if($stmt->affected_rows == 0){
+            redirect_local(ERROR_PATH . "/?e=invalid_email");
+        }
+        $stmt->close();
+    }
+}
+
+function retrieve_event_creation_data($event_id){
+    $dbc = connect_sql();
+    
+    $query = "SELECT blOptiSuggestion FROM tblevents WHERE pkEventid = ?";
+    
+    if($stmt = $dbc->prepare($query)){
+        $stmt->bind_param("s", $event_id);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($blOptiSuggestion);
+        $stmt->fetch();
+        $stmt->free_result();
+        $stmt->close();
+    }
+    
+    if(!empty($blOptiSuggestion)){
+        return $blOptiSuggestion;
+    } else {
+        redirect_local(ERROR_PATH . "/?e=invalid_event");
+    }
 }
 
 function format_date_from_sql($date){

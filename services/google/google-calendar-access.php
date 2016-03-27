@@ -34,12 +34,11 @@ function access_token_check($client) {
 
 function calendar_check($service, $client) { //Now that service is set up, deal with calendars
     if ((isset($_SESSION['user_calendar_summaries']) && $_SESSION['user_calendar_summaries'])) {
-        sql_load_event(); //Organizing event data now becomes useful
+        sql_load_event_retrieval(); //Organizing event data now becomes useful
         
         $user_calendar_list = collect_calendars_from_summaries($service);
         $events_output = retrieve_event_list($service, $user_calendar_list, $client);
         $finalized_event_list = calculate_travel_times($events_output);
-        var_dump($finalized_event_list);
         insert_mysql_info($finalized_event_list);
     } else {
         collect_summaries($service);
@@ -126,7 +125,8 @@ function calculate_travel_times($events) {
 
 function insert_mysql_info($events_array) {
     var_dump($events_array);
-    insert_event_data($events_array);
+    $serialized_events = serialize($events_array);
+    insert_event_data($serialized_events);
     session_destroy();
 }
 
