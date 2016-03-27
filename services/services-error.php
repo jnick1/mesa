@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 switch (filter_input(INPUT_GET, 'e', FILTER_SANITIZE_STRING)){

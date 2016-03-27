@@ -1,6 +1,7 @@
 <?php
-define('BING_SECRET_PATH', __DIR__ . '/../bing_secret.txt');
-$_SESSION['bing-secret'] = readfile(BING_SECRET_PATH)[0];
+require_once __DIR__ . '/../paths-header.php'; //Now update this path for file system updates
+
+$_SESSION['bing-secret'] = readfile(BING_SECRET_FILE)[0];
 
 function piece_http_request($origin_location, $destination_location){
     $request_url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?". //Base url

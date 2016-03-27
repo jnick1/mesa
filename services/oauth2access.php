@@ -1,13 +1,13 @@
 <?php
-
-require_once __DIR__ . '/google-services-header.php';
-require_once __DIR__ . '/services-sql-request.php';
+require_once __DIR__ . '/paths-header.php';
+require_once FILE_PATH . GOOGLE_SERVICES_HEADER_PATH;
+require_once FILE_PATH . SQL_ACCESS_PATH;
 
 
 //Attendee begins here
 
 $client = new Google_Client();
-$client->setAuthConfigFile(CLIENT_SECRET_PATH);
+$client->setAuthConfigFile(CLIENT_SECRET_FILE);
 if (!isset($_SESSION['create-event']) || $_SESSION['create-event'] == false) {
     $client->addScope(Google_Service_Calendar::CALENDAR_READONLY);
     retrieve_calendar_data($client);
@@ -31,9 +31,9 @@ function retrieve_calendar_data($client) {
             header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
         }
         $_SESSION['access_token'] = $client->getAccessToken(); //Store access token in session
-        redirect_local('google-calendar-access.php');
+        redirect_local(GOOGLE_CALENDAR_ACCESS_PATH);
     } else {
-        redirect_local("services-error.php/?e=missing_token");
+        redirect_local(ERROR_PATH . "/?e=missing_token");
     }
 }
 

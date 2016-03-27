@@ -1,15 +1,15 @@
 <?php
-
-require_once __DIR__ . '/google-services-header.php';
-require_once __DIR__ . '/bing-maps-access.php';
-require_once __DIR__ . '/services-sql-request.php';
+require_once __DIR__ . '/../paths-header.php'; //Now update this path for file system updates
+require_once FILE_PATH . GOOGLE_SERVICES_HEADER_PATH;
+require_once FILE_PATH . BING_MAPS_ACCESS_PATH;
+require_once FILE_PATH . SQL_ACCESS_PATH;
 
 if(!isset($_SESSION['event_id']) || !isset($_SESSION['token_id'])){
-    redirect_local("services-error.php?e=missing_token");
+    redirect_local(ERROR_PATH . "/?e=missing_token");
 }
 
 $client = new Google_Client();
-$client->setAuthConfigFile(CLIENT_SECRET_PATH);
+$client->setAuthConfigFile(CLIENT_SECRET_FILE);
 $client->addScope(Google_Service_Calendar::CALENDAR_READONLY);
 
 access_token_check($client);
@@ -53,7 +53,7 @@ function collect_summaries($service) {
         array_push($calendar_summaries, $calendar->summary);
     }
     $_SESSION['calendar_summaries'] = $calendar_summaries;
-    redirect_local("user-calendar-query.php");
+    redirect_local(GOOGLE_CALENDAR_CHOICE_PATH);
 }
 
 function collect_calendars_from_summaries($service) {

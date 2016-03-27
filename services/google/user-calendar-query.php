@@ -1,7 +1,9 @@
 <?php
-require_once __DIR__ . '/google-services-header.php';
+require_once __DIR__ . '/../paths-header.php'; //Now update this path for file system updates
+require_once FILE_PATH . GOOGLE_SERVICES_HEADER_PATH;
+
 if (!(isset($_SESSION['access_token']) && $_SESSION['access_token'])) {
-    redirect_local('oauth2access.php?'.$_SESSION['token_id']);
+    redirect_local(OAUTH2_PATH . '?' . $_SESSION['token_id']);
 }
 ?>
 <form method='post' action='#'> 
@@ -22,6 +24,6 @@ if (!(isset($_SESSION['access_token']) && $_SESSION['access_token'])) {
 </form>
 <?php
 if (!empty($_POST['checkboxvar'])) {
-    $_SESSION['user_calendar_summaries'] = filter_input_array(INPUT_POST, 'checkboxvar', FILTER_SANITIZE_STRING);
-    redirect_local('google-calendar-access.php');
+    $_SESSION['user_calendar_summaries'] = filter_var_array($_POST['checkboxvar'], FILTER_SANITIZE_STRING);
+    redirect_local(GOOGLE_CALENDAR_ACCESS_PATH);
 }

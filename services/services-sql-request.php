@@ -1,6 +1,6 @@
 <?php
-
-require_once __DIR__ . '/google-services-header.php';
+require_once __DIR__ . '/paths-header.php'; //Now update this path for file system updates
+require_once FILE_PATH . GOOGLE_SERVICES_HEADER_PATH;
 
 function sql_check_token(){
     $dbc = connect_sql();
@@ -17,7 +17,7 @@ function sql_check_token(){
     }
     
     if(empty($event_email)){
-        redirect_local("services-error.php/?e=invalid_token");
+        redirect_local(ERROR_PATH . "/?e=invalid_token");
     } else {
         $_SESSION['sql_attendee_email'] = $event_email;
     }
@@ -48,7 +48,7 @@ function sql_load_event() {
         $_SESSION['sql_event_start'] = $dtStart;
         $_SESSION['sql_event_end'] = $dtEnd;
     } else {
-        redirect_local("services-error.php/?e=invalid_event");
+        redirect_local(ERROR_PATH . "/?e=invalid_event");
     }
 }
 
@@ -64,7 +64,7 @@ function format_date_from_sql($date){
 function connect_sql(){
     $dbc = new mysqli("localhost", "root", "", "mesadb");
     if(mysqli_connect_errno()){
-        redirect_local("services-error.php/?e=sql_connection");
+        redirect_local(ERROR_PATH . "/?e=sql_connection");
     }
     return $dbc;
 }
