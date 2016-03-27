@@ -55,7 +55,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     "boldblue":9,
     "boldgreen":10,
     "boldred":11,
-    "default":9,
+    "default":0,
     "gray":8,
     "green":2,
     "orange":6,
@@ -156,7 +156,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     emails.each(function(){
         attendees.push({
             "email":$(this).attr("id"),
-            "optional":($(this).find(".goog-icon-guest-required").length)>0?false:true,
+            "optional":($(this).data("required"))===true?false:true,
             "responseStatus":"needsAction"
         });
     });

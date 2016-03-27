@@ -25,12 +25,12 @@ if(empty($_SESSION["pkUserid"])){
 }
 
 if(isset($scrubbed["edit"])) {
-    $q1 = "SELECT `blOptiSuggestion`, `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy` FROM `tblevents` WHERE pkEventid = ?";
+    $q1 = "SELECT `blOptiSuggestion`, `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`, `dtRequestSent` FROM `tblevents` WHERE pkEventid = ?";
     
     if($stmt = $dbc->prepare($q1)){
         $stmt->bind_param("i",$scrubbed["pkEventid"]);
         $stmt->execute();
-        $stmt->bind_result($blOptiSuggestion,$nmTitle,$dtStart,$dtEnd,$txLocation,$txDescription,$txRRule,$nColorid,$blSettings,$blAttendees,$blNotifications,$isGuestInvite,$isGuestList,$enVisibility,$isBusy);
+        $stmt->bind_result($blOptiSuggestion,$nmTitle,$dtStart,$dtEnd,$txLocation,$txDescription,$txRRule,$nColorid,$blSettings,$blAttendees,$blNotifications,$isGuestInvite,$isGuestList,$enVisibility,$isBusy,$dtRequestSent);
         $stmt->fetch();
         $stmt->free_result();
         $stmt->close();
@@ -113,10 +113,10 @@ and open the template in the editor.
                 <div id="ne-top-timegroup">
                     <span id="ne-top-time-startgroup">
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-date-start" name="ne-evt-date-start" class="ui-textinput ui-date" title="From date"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($dtStart))?" value=\"".substr($dtStart,0,10)."\"":""; ?>>
+                            <input id="ne-evt-date-start" name="ne-evt-date-start" class="ui-textinput ui-date" title="From date"<?php echo (isset($dtStart))?" value=\"".substr($dtStart,5,2)."/".substr($dtStart,8,2)."/".substr($dtStart,0,4)."\"":""; ?><?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time" title="From time" data-jq-dropdown="#ne-dropdown-timestart"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($dtStart))?" value=\"".substr($dtStart,11,5)."\"":""; ?>>
+                            <input id="ne-evt-time-start" name="ne-evt-time-start" class="ui-textinput ui-time ne-top-time" title="From time" data-jq-dropdown="#ne-dropdown-timestart"<?php echo (isset($dtStart))?" value=\"".substr($dtStart,11,5)."\"":""; ?><?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                     </span>
                     <span id="ne-top-time-to">
@@ -124,10 +124,10 @@ and open the template in the editor.
                     </span>
                     <span id="ne-top-time-endgroup">
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time" title="To time" data-jq-dropdown="#ne-dropdown-timeend"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($dtEnd))?" value=\"".substr($dtEnd,11,5)."\"":""; ?>>
+                            <input id="ne-evt-time-end" name="ne-evt-time-end" class="ui-textinput ui-time ne-top-time" title="To time" data-jq-dropdown="#ne-dropdown-timeend"<?php echo (isset($dtEnd))?" value=\"".substr($dtEnd,11,5)."\"":""; ?><?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                         <span class="ne-ipt-wrapper">
-                            <input id="ne-evt-date-end" name="ne-evt-date-end" class="ui-textinput ui-date" title="To date"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($dtEnd))?" value=\"".substr($dtEnd,0,10)."\"":""; ?>>
+                            <input id="ne-evt-date-end" name="ne-evt-date-end" class="ui-textinput ui-date" title="To date"<?php echo (isset($dtEnd))?" value=\"".substr($dtEnd,5,2)."/".substr($dtEnd,8,2)."/".substr($dtEnd,0,4)."\"":""; ?><?php echo " tabindex=\"".$ti++."\"";?>>
                         </span>
                     </span>
                 </div>
@@ -141,13 +141,13 @@ and open the template in the editor.
                     <span id="ne-settings-display" class="ui-header wpg-nodisplay">Active</span>
                     <span id="ne-settings-edit" class="ui-revisitablelink wpg-nodisplay">Edit</span>
                     <span id="ne-repeat-top-wrapper">
-                        <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { if($txRRule!=""){ echo " checked"; } } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                         <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">
-                            Repeat...
+                            <?php if(isset($scrubbed["pkEventid"])) { if($txRRule!=""){ echo "Repeat: "; } } else { ?>Repeat...<?php } ?>
                         </label>
                     </span>
-                    <span id="ne-repeat-summary-display" class="ui-header wpg-nodisplay">Daily</span>
-                    <span id="ne-repeat-edit" class="ui-revisitablelink wpg-nodisplay">Edit</span>
+                    <span id="ne-repeat-summary-display" class="ui-header<?php if(isset($scrubbed["pkEventid"])) { if($txRRule==""){ echo " wpg-nodisplay"; } } else { echo " wpg-nodisplay"; }?>"><?php if(isset($scrubbed["pkEventid"])) { echo $txRRule; } else { echo "Daily"; }?></span>
+                    <span id="ne-repeat-edit" class="ui-revisitablelink<?php if(isset($scrubbed["pkEventid"])) { if($txRRule==""){ echo " wpg-nodisplay"; } } else { echo " wpg-nodisplay"; }?>">Edit</span>
                 </div>
             </div>
             <div id="ne-container-details" class="ui-container-section">
@@ -188,18 +188,38 @@ and open the template in the editor.
                                 </div>
                                 <div id="ne-guests-repsonses" class="ui-smallfont">
                                     <?php
-                                    //retrieve info from database
-                                    $guestsYes = 0;
-                                    $guestsMaybe = 0;
-                                    $guestsNo = 0;
-                                    $guestsWaiting = 0;
-                                    echo "Yes: $guestsYes, Maybe: $guestsMaybe, No: $guestsNo, Awaiting: $guestsWaiting";
+                                    if(!empty($dtRequestSent)){
+                                        $guestsYes = 0;
+                                        $guestsMaybe = 0;
+                                        $guestsNo = 0;
+                                        $guestsWaiting = 0;
+                                        
+                                        $attendees = json_decode($blAttendees, true);
+                                        foreach($attendees as $value){
+                                            switch($value["responseStatus"]){
+                                                case "needsAction":
+                                                    $guestsWaiting++;
+                                                    break;
+                                                case "declined":
+                                                    $guestsNo++;
+                                                    break;
+                                                case "tentative":
+                                                    $guestsMaybe++;
+                                                    break;
+                                                case "accepted":
+                                                    $guestsYes++;
+                                                    break;
+                                            }
+                                        }
+                                        
+                                        echo "Yes: $guestsYes, Maybe: $guestsMaybe, No: $guestsNo, Awaiting: $guestsWaiting";
+                                    }
                                     ?>
                                 </div>
                                 <div id="ne-guests-table">
                                     <div id="ne-guests-table-body">
-                                        <?php // will need to pull user email from login info into this section?>
-                                        <div id="<?php echo $_SESSION["email"] ?>" class="ne-evt-guest" data-required="true" title="user@gmail.com">
+                                        <?php if(!isset($scrubbed["pkEventid"])) { ?>
+                                        <div id="<?php echo $_SESSION["email"] ?>" class="ne-evt-guest" data-required="true" title="<?php echo $_SESSION["email"] ?>">
                                             <div class="ne-guests-guestdata">
                                                 <div class="ne-guests-guestdata-content ui-container-inline">
                                                     <span class="goog-icon goog-icon-guest-required ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
@@ -215,6 +235,29 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php } else { 
+                                            $attendees = json_decode($blAttendees, true);
+                                            foreach($attendees as $value){
+                                            ?>
+                                        <div id="<?php echo $value["email"]; ?>" class="ne-evt-guest" data-required="<?php echo !$value["optional"]?"true":"false"; ?>" title="<?php echo $value["email"]; ?>">
+                                            <div class="ne-guests-guestdata">
+                                                <div class="ne-guests-guestdata-content ui-container-inline">
+                                                    <span class="goog-icon <?php echo ($value["optional"]?"goog-icon-guest-optional":"goog-icon-guest-required");?> ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
+                                                    <div class="ui-container-inline ne-guest-response-icon-wrapper">
+                                                        <div class="ne-guest-response-icon"></div>
+                                                    </div>
+                                                    <div id="<?php echo $value["email"] ?>@display" class="ne-guest-name-wrapper ui-container-inline">
+                                                        <span class="ne-guest-name ui-unselectabletext"><?php echo $value["email"] ?></span>
+                                                    </div>
+                                                    <div class="ui-container-inline ne-guest-delete">
+                                                        <div class="goog-icon goog-icon-x-small" title="Remove this guest from the event"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php 
+                                            }
+                                        } ?>
                                     </div>
                                 </div>
                             </div>
@@ -226,11 +269,11 @@ and open the template in the editor.
                             </div>
                             <div>
                                 <label class="ne-guests-container-checkbox ui-unselectabletext">
-                                    <input id="ne-evt-guests-inviteothers" name="guestsettings" value="inviteothers" type="checkbox" class="ui-checkbox" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <input id="ne-evt-guests-inviteothers" name="guestsettings" value="inviteothers" type="checkbox" class="ui-checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo ($isGuestInvite==1?" checked":""); } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                     invite others
                                 </label>
                                 <label class="ne-guests-container-checkbox ui-unselectabletext">
-                                    <input id="ne-evt-guests-seeguestlist" name="guestsettings" value="seeguestlist" type="checkbox" class="ui-checkbox" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <input id="ne-evt-guests-seeguestlist" name="guestsettings" value="seeguestlist" type="checkbox" class="ui-checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo ($isGuestList==1?" checked":""); } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                     see guest list
                                 </label>
                             </div>
@@ -270,19 +313,19 @@ and open the template in the editor.
                                     Event color
                                 </th>
                                 <td>
-                                    <div id="ne-evt-color-default" name="ne-evt-color-default" class="details-eventcolors details-eventcolors-selected" title="default"><div class="goog-icon goog-icon-colors-checkmark-white"></div></div>
+                                    <div id="ne-evt-color-default" name="ne-evt-color-default" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==0)?" details-eventcolors-selected":""; } else { echo " details-eventcolors-selected"; }?>" title="default"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==0) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } } else {?> <div class="goog-icon goog-icon-colors-checkmark-white"></div> <?php } ?></div>
                                     <div id="details-color-separator"></div>
-                                    <div id="ne-evt-color-boldblue" name="ne-evt-color-boldblue" class="details-eventcolors" title="bold blue"></div>
-                                    <div id="ne-evt-color-blue" name="ne-evt-color-blue" class="details-eventcolors" title="blue"></div>
-                                    <div id="ne-evt-color-turquoise" name="ne-evt-color-turquoise" class="details-eventcolors" title="turquoise"></div>
-                                    <div id="ne-evt-color-green" name="ne-evt-color-green" class="details-eventcolors" title="green"></div>
-                                    <div id="ne-evt-color-boldgreen" name="ne-evt-color-boldgreen" class="details-eventcolors" title="boldgreen"></div>
-                                    <div id="ne-evt-color-yellow" name="ne-evt-color-yellow" class="details-eventcolors" title="yellow"></div>
-                                    <div id="ne-evt-color-orange" name="ne-evt-color-orange" class="details-eventcolors" title="orange"></div>
-                                    <div id="ne-evt-color-red" name="ne-evt-color-red" class="details-eventcolors" title="red"></div>
-                                    <div id="ne-evt-color-boldred" name="ne-evt-color-boldred" class="details-eventcolors" title="boldred"></div>
-                                    <div id="ne-evt-color-purple" name="ne-evt-color-purple" class="details-eventcolors" title="purple"></div>
-                                    <div id="ne-evt-color-gray" name="ne-evt-color-gray" class="details-eventcolors" title="gray"></div>
+                                    <div id="ne-evt-color-boldblue" name="ne-evt-color-boldblue" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==9)?" details-eventcolors-selected":""; } ?>" title="bold blue"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==9) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-blue" name="ne-evt-color-blue" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==1)?" details-eventcolors-selected":""; } ?>" title="blue"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==1) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-turquoise" name="ne-evt-color-turquoise" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==7)?" details-eventcolors-selected":""; } ?>" title="turquoise"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==7) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-green" name="ne-evt-color-green" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==2)?" details-eventcolors-selected":""; } ?>" title="green"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==2) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-boldgreen" name="ne-evt-color-boldgreen" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==10)?" details-eventcolors-selected":""; } ?>" title="boldgreen"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==10) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-yellow" name="ne-evt-color-yellow" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==5)?" details-eventcolors-selected":""; } ?>" title="yellow"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==5) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-orange" name="ne-evt-color-orange" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==6)?" details-eventcolors-selected":""; } ?>" title="orange"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==6) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-red" name="ne-evt-color-red" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==4)?" details-eventcolors-selected":""; } ?>" title="red"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==4) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-boldred" name="ne-evt-color-boldred" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==11)?" details-eventcolors-selected":""; } ?>" title="boldred"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==11) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-purple" name="ne-evt-color-purple" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==3)?" details-eventcolors-selected":""; } ?>" title="purple"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==3) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
+                                    <div id="ne-evt-color-gray" name="ne-evt-color-gray" class="details-eventcolors<?php if(isset($scrubbed["pkEventid"])) { echo ($nColorid==8)?" details-eventcolors-selected":""; } ?>" title="gray"><?php if(isset($scrubbed["pkEventid"])) { if($nColorid==8) { ?><div class="goog-icon goog-icon-colors-checkmark-white"></div><?php } }?></div>
                                 </td>
                             </tr>
                             <tr>
@@ -291,9 +334,23 @@ and open the template in the editor.
                                 </th>
                                 <td>
                                     <div id="wrapper-notifications">
-                                        <div id="details-notifications-none" class="details-notifications-hidden">
+                                        <?php 
+                                        $noNotifs = "";
+                                        if(empty($scrubbed["pkEventid"])) {
+                                            $noNotifs = " class=\"wpg-nodisplay\"";
+                                        } else {
+                                            $temp  = json_decode($blNotifications, true);
+                                            if(count($temp["overrides"])>0){
+                                                $noNotifs = " class=\"wpg-nodisplay\"";
+                                            }
+                                        }
+                                        ?>
+                                        <div id="details-notifications-none"<?php echo $noNotifs; ?>>
                                             No notifications set
                                         </div>
+                                        <?php
+                                        if(empty($scrubbed["pkEventid"])) {
+                                        ?>
                                         <div id="details-notifications-1" class="details-notifications">
                                             <select id="ne-evt-notifications-1" name="ne-evt-notifications-1" class="ui-select" title="Notification type">
                                                 <option value="popup">Pop-up</option>
@@ -308,8 +365,41 @@ and open the template in the editor.
                                             </select>
                                             <div id="details-notifications-x-1" class="details-notifications-x goog-icon goog-icon-x-small" title="Remove notification"></div>
                                         </div>
+                                        <?php } else { 
+                                            $notifs = json_decode($blNotifications,true);
+                                            foreach ($notifs["overrides"] as $key => $value) {
+                                                $time = (int) $value["minutes"];
+                                                $increment = ($time%10080==0?"weeks":($time%1440==0?"days":($time%60==0?"hours":"minutes")));
+                                                $minutes = ($time%10080==0?$time/10080:($time%1440==0?$time/1440:($time%60==0?$time/60:$time)));
+                                            ?>
+                                        <div id="details-notifications-<?php echo $key+1; ?>" class="details-notifications">
+                                            <select id="ne-evt-notifications-<?php echo $key+1; ?>" name="ne-evt-notifications-<?php echo $key+1; ?>" class="ui-select" title="Notification type">
+                                                <option value="popup"<?php if($value["method"]=="popup") { echo " selected"; } ?>>Pop-up</option>
+                                                <option value="email"<?php if($value["method"]=="email") { echo " selected"; } ?>>Email</option>
+                                            </select>
+                                            <input id="ne-evt-notifications-time-<?php echo $key+1; ?>" name="ne-evt-notifications-time-<?php echo $key+1; ?>" class="details-notifications-remindertime ui-textinput" value="<?php echo $minutes; ?>" title="Reminder time">
+                                            <select id="ne-evt-notifications-timetype-<?php echo $key+1; ?>" name="ne-evt-notifications-timetype-<?php echo $key+1; ?>" class="ui-select" title="Reminder time">
+                                                <option value="1"<?php if($increment=="minutes") { echo " selected"; } ?>>minutes</option>
+                                                <option value="60"<?php if($increment=="hours") { echo " selected"; } ?>>hours</option>
+                                                <option value="1440"<?php if($increment=="days") { echo " selected"; } ?>>days</option>
+                                                <option value="10080"<?php if($increment=="weeks") { echo " selected"; } ?>>weeks</option>
+                                            </select>
+                                            <div id="details-notifications-x-<?php echo $key+1; ?>" class="details-notifications-x goog-icon goog-icon-x-small" title="Remove notification"></div>
+                                        </div>
+                                        <?php 
+                                            }
+                                        } ?>
                                     </div>
-                                    <div id="details-notifications-add">
+                                    <?php 
+                                        $noNotifsAdd = "";
+                                        if(!empty($scrubbed["pkEventid"])) {
+                                            $temp  = json_decode($blNotifications, true);
+                                            if(count($temp["overrides"])==5){
+                                                $noNotifsAdd = " class=\"wpg-nodisplay\"";
+                                            }
+                                        }
+                                        ?>
+                                    <div id="details-notifications-add"<?php echo $noNotifsAdd ?>>
                                         <span id="details-notifications-addlink" class="ui-revisitablelink" <?php echo " tabindex=\"".$ti++."\"";?>>Add a notification</span>
                                     </div>
                                 </td>
@@ -325,11 +415,11 @@ and open the template in the editor.
                                 </th>
                                 <td>
                                     <label for="ne-evt-available" >
-                                        <input id="ne-evt-available" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="available"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <input id="ne-evt-available" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="available"<?php if(isset($scrubbed["pkEventid"])) { echo ($isBusy==0?" checked":""); } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                         Available
                                     </label>
                                     <label for="ne-evt-busy" >
-                                        <input id="ne-evt-busy" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="busy" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <input id="ne-evt-busy" class="ui-radiobtn" type="radio" name="ne-evt-availability" value="busy"<?php if(isset($scrubbed["pkEventid"])) { echo ($isBusy==1?" checked":""); } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                         Busy
                                     </label>
                                 </td>
@@ -340,15 +430,15 @@ and open the template in the editor.
                                 </th>
                                 <td>
                                     <label for="ne-evt-visibility-default" >
-                                        <input id="ne-evt-visibility-default" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="default" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <input id="ne-evt-visibility-default" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="default"<?php if(isset($scrubbed["pkEventid"])) { echo ($enVisibility=="default"?" checked":""); } else { echo "checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                         Calendar Default
                                     </label>
                                     <label for="ne-evt-visibility-public" >
-                                        <input id="ne-evt-visibility-public" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="public"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <input id="ne-evt-visibility-public" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="public"<?php if(isset($scrubbed["pkEventid"])) { echo ($enVisibility=="public"?" checked":""); } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                         Public
                                     </label>
                                     <label for="ne-evt-visibility-private" >
-                                        <input id="ne-evt-visibility-private" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="private"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <input id="ne-evt-visibility-private" class="ui-radiobtn" type="radio" name="ne-evt-visibility" value="private"<?php if(isset($scrubbed["pkEventid"])) { echo ($enVisibility=="private"?" checked":""); } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                         Private
                                     </label>
                                 </td>
@@ -357,14 +447,13 @@ and open the template in the editor.
                                 <th></th>
                                 <td>
                                     <div class="ui-smallfont">
-                                        <span id="details-visibility-info-default">
-                                            <div class="goog-icon goog-icon-notifications-x"></div>
+                                        <span id="details-visibility-info-default"<?php if(isset($scrubbed["pkEventid"])) { echo ($enVisibility!="default"?" class=\"wpg-nodisplay\"":""); } ?>>
                                             By default this event will follow the <span id="goog-sharing-settings" class="ui-revisitablelink">sharing settings</span> of this calendar: event details will be visible to anyone who can see details of other events in this calendar.
                                         </span>
-                                        <span id="details-visibility-info-public" class="details-visibility-info-hidden">
+                                        <span id="details-visibility-info-public"<?php if(isset($scrubbed["pkEventid"])) { echo ($enVisibility!="public"?" class=\"wpg-nodisplay\"":""); } else { echo " class=\"wpg-nodisplay\""; } ?>>
                                             Making this event public will expose all event details to anyone who has access to this calendar, even if they can't see details of other events.
                                         </span>
-                                        <span id="details-visibility-info-private" class="details-visibility-info-hidden">
+                                        <span id="details-visibility-info-private"<?php if(isset($scrubbed["pkEventid"])) { echo ($enVisibility!="private"?" class=\"wpg-nodisplay\"":""); } else { echo " class=\"wpg-nodisplay\""; } ?>>
                                             Making this event private will hide all event details from anyone who has access to this calendar, unless they have "Make changes to events" level of access or higher.
                                         </span>
                                         <a href="https://support.google.com/calendar?p=event_visibility&amp;hl=en" class="ui-revisitablelink" target="_blank">Learn more</a>
@@ -432,11 +521,11 @@ and open the template in the editor.
                                         ?>
                                     </select>
                                     <span id="ne-label-repeat-repeatevery">
-                                        days
+                                        <?php if(empty($scrubbed["pkEventid"])) { echo "days"; } ?>
                                     </span>
                                 </td>
                             </tr>
-                            <tr id="ne-repeat-table-2" class="wpg-nodisplay">
+                            <tr id="ne-repeat-table-2"<?php if(empty($scrubbed["pkEventid"])){ ?> class="wpg-nodisplay"<?php } ?>>
                                 <th>
                                     Repeats on:
                                 </th>
@@ -487,14 +576,14 @@ and open the template in the editor.
                                     </div>
                                 </td>
                             </tr>
-                            <tr id="ne-repeat-table-3" class="wpg-nodisplay">
+                            <tr id="ne-repeat-table-3"<?php if(empty($scrubbed["pkEventid"])){ ?> class="wpg-nodisplay"<?php } ?>>
                                 <th>
                                     Repeat by:
                                 </th>
                                 <td>
                                     <span>
                                         <label for="ne-evt-repeat-repeatby-dayofmonth" title="Repeat by day of the month">
-                                            <input id="ne-evt-repeat-repeatby-dayofmonth" name="ne-evt-repeat-repeatby" title="Repeat by day of the month" type="radio" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <input id="ne-evt-repeat-repeatby-dayofmonth" name="ne-evt-repeat-repeatby" title="Repeat by day of the month" type="radio"<?php if(empty($scrubbed["pkEventid"])){ echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                             day of the month
                                         </label>
                                     </span>
@@ -521,7 +610,7 @@ and open the template in the editor.
                                 <td>
                                     <span class="ui-container-block">
                                         <label for="ne-evt-endson-never" title="Ends never">
-                                            <input id="ne-evt-endson-never" name="ne-evt-endson" title="Ends never" type="radio" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <input id="ne-evt-endson-never" name="ne-evt-endson" title="Ends never" type="radio"<?php if(empty($scrubbed["pkEventid"])){ echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                             Never
                                         </label>
                                     </span>
@@ -529,7 +618,7 @@ and open the template in the editor.
                                         <input id="ne-evt-endson-after" name="ne-evt-endson" title="Ends after a number of occurrences" type="radio"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         <label for="ne-evt-endson-after" title="Ends after a number of occurrences">
                                             After 
-                                            <input id="ne-evt-endson-occurances" name="ne-evt-endson-occurances" class="ui-textinput" size="3" title="Occurrences" disabled<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                            <input id="ne-evt-endson-occurances" name="ne-evt-endson-occurances" class="ui-textinput" size="3" title="Occurrences"<?php if(empty($scrubbed["pkEventid"])){ echo " disabled"; } ?><?php echo " tabindex=\"".$ti++."\"";?>> 
                                             occurrences
                                         </label>
                                     </span>
@@ -537,7 +626,7 @@ and open the template in the editor.
                                         <input id="ne-evt-endson-on" name="ne-evt-endson" title="Ends on a specified date" type="radio"<?php echo " tabindex=\"".$ti++."\"";?>>
                                         <label for="ne-evt-endson-on" title="Ends on a specified date">
                                             On 
-                                            <input id="ne-evt-endson-date" name="ne-evt-endson-date" class="ui-textinput" size="10" title="Specified date" disabled<?php echo " tabindex=\"".$ti++."\"";?>>
+                                            <input id="ne-evt-endson-date" name="ne-evt-endson-date" class="ui-textinput" size="10" title="Specified date"<?php if(empty($scrubbed["pkEventid"])){ echo " disabled"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                         </label>
                                     </span>
                                 </td>

@@ -13,9 +13,164 @@ $(function() {
 });
 
 $(document).ready(function() {
-    $("#ne-evt-repeatbox").prop("checked", false);
-    repeat_options_reset();
-    save_state("#ne-repeat-wrapper",repeatstate);
+    if($("#wpg").attr("data-eventid")){
+        var RRule = $("#ne-repeat-summary-display").html();
+        var splitRules = RRule.split(";");
+        var rules = {};
+        for(var i=0;i<splitRules.length;i++){
+            rules[splitRules[i].split("=")[0]] = splitRules[i].split("=")[1];
+        }
+        switch(rules["FREQ"]){
+            case "DAILY":
+                $("#ne-evt-repeat-repeats").val("0");
+                $("#ne-evt-repeat-repeatevery").val(rules["INTERVAL"]);
+                $("#ne-label-repeat-repeatevery").html("days");
+                $("#ne-repeat-table-2,#ne-repeat-table-3").addClass("wpg-nodisplay");
+                $("#ne-evt-repeat-repeatby-dayofmonth").prop("checked",true);
+                if("UNTIL" in rules) {
+                    $("#ne-evt-endson-on").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", true).val("");
+                    var until = rules["UNTIL"].substring(0,4)+"/"+rules["UNTIL"].substring(4,6)+"/"+rules["UNTIL"].substring(6,8)+" "+
+                            rules["UNTIL"].substring(9,11)+":"+rules["UNTIL"].substring(11,13)+":"+rules["UNTIL"].substring(13,15)+" UTC";
+                    var until = new Date(until);
+                    $("#ne-evt-endson-date").prop("disabled", false).val(((until.getMonth()+1)<10?"0"+(until.getMonth()+1):(until.getMonth()+1))+"/"+
+                            (until.getDate()<10?"0"+until.getDate():until.getDate())+"/"+
+                            until.getFullYear());
+                } else if("COUNT" in rules) {
+                    $("#ne-evt-endson-after").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", false).val(rules["COUNT"]);
+                    $("#ne-evt-endson-date").prop("disabled", true).val("");
+                } else {
+                    $("#ne-evt-endson-never").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", true).val("");
+                    $("#ne-evt-endson-date").prop("disabled", true).val("");
+                }
+                break;
+            case "WEEKLY":
+                if("INTERVAL" in rules) {
+                    $("#ne-evt-repeat-repeats").val("4");
+                    $("#ne-evt-repeat-repeatevery").val(rules["INTERVAL"]);
+                    $("#ne-label-repeat-repeatevery").html("weeks");
+                    $("#ne-repeat-table-3").addClass("wpg-nodisplay");
+                    var days = rules["BYDAY"].split(",");
+                    for(var i=0;i<days.length;i++){
+                        if(days[i] === "SU") {
+                            $("#ne-evt-repeat-repeatson-0").prop("checked", true);
+                        } else if(days[i] === "MO") {
+                            $("#ne-evt-repeat-repeatson-1").prop("checked", true);
+                        } else if(days[i] === "TU") {
+                            $("#ne-evt-repeat-repeatson-2").prop("checked", true);
+                        } else if(days[i] === "WE") {
+                            $("#ne-evt-repeat-repeatson-3").prop("checked", true);
+                        } else if(days[i] === "TH") {
+                            $("#ne-evt-repeat-repeatson-4").prop("checked", true);
+                        } else if(days[i] === "FR") {
+                            $("#ne-evt-repeat-repeatson-5").prop("checked", true);
+                        } else if(days[i] === "SA") {
+                            $("#ne-evt-repeat-repeatson-6").prop("checked", true);
+                        }
+                    }
+                } else {
+                    switch(rules["BYDAY"]){
+                        case "MO,TU,WE,TH,FR":
+                            $("#ne-evt-repeat-repeats").val("1");
+                            break;
+                        case "MO,WE,FR":
+                            $("#ne-evt-repeat-repeats").val("2");
+                            break;
+                        case "TU,TH":
+                            $("#ne-evt-repeat-repeats").val("3");
+                            break;
+                    }
+                    $("#ne-evt-repeat-repeatevery").val("1");
+                    $("#ne-repeat-table-1,#ne-repeat-table-2,#ne-repeat-table-3").addClass("wpg-nodisplay");
+                }
+                $("#ne-evt-repeat-repeatby-dayofmonth").prop("checked",true);
+                if("UNTIL" in rules) {
+                    $("#ne-evt-endson-on").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", true).val("");
+                    var until = rules["UNTIL"].substring(0,4)+"/"+rules["UNTIL"].substring(4,6)+"/"+rules["UNTIL"].substring(6,8)+" "+
+                            rules["UNTIL"].substring(9,11)+":"+rules["UNTIL"].substring(11,13)+":"+rules["UNTIL"].substring(13,15)+" UTC";
+                    var until = new Date(until);
+                    $("#ne-evt-endson-date").prop("disabled", false).val(((until.getMonth()+1)<10?"0"+(until.getMonth()+1):(until.getMonth()+1))+"/"+
+                            (until.getDate()<10?"0"+until.getDate():until.getDate())+"/"+
+                            until.getFullYear());
+                } else if("COUNT" in rules) {
+                    $("#ne-evt-endson-after").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", false).val(rules["COUNT"]);
+                    $("#ne-evt-endson-date").prop("disabled", true).val("");
+                } else {
+                    $("#ne-evt-endson-never").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", true).val("");
+                    $("#ne-evt-endson-date").prop("disabled", true).val("");
+                }
+                break;
+            case "MONTHLY":
+                $("#ne-evt-repeat-repeats").val("5");
+                $("#ne-evt-repeat-repeatevery").val(rules["INTERVAL"]);
+                $("#ne-label-repeat-repeatevery").html("months");
+                $("#ne-repeat-table-2").addClass("wpg-nodisplay");
+                if("BYDAY" in rules){
+                    $("#ne-evt-repeat-repeatby-dayofweek").prop("checked",true);
+                } else {
+                    $("#ne-evt-repeat-repeatby-dayofmonth").prop("checked",true);
+                }
+                if("UNTIL" in rules) {
+                    $("#ne-evt-endson-on").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", true).val("");
+                    var until = rules["UNTIL"].substring(0,4)+"/"+rules["UNTIL"].substring(4,6)+"/"+rules["UNTIL"].substring(6,8)+" "+
+                            rules["UNTIL"].substring(9,11)+":"+rules["UNTIL"].substring(11,13)+":"+rules["UNTIL"].substring(13,15)+" UTC";
+                    var until = new Date(until);
+                    $("#ne-evt-endson-date").prop("disabled", false).val(((until.getMonth()+1)<10?"0"+(until.getMonth()+1):(until.getMonth()+1))+"/"+
+                            (until.getDate()<10?"0"+until.getDate():until.getDate())+"/"+
+                            until.getFullYear());
+                } else if("COUNT" in rules) {
+                    $("#ne-evt-endson-after").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", false).val(rules["COUNT"]);
+                    $("#ne-evt-endson-date").prop("disabled", true).val("");
+                } else {
+                    $("#ne-evt-endson-never").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", true).val("");
+                    $("#ne-evt-endson-date").prop("disabled", true).val("");
+                }
+                break;
+            case "YEARLY":
+                $("#ne-evt-repeat-repeats").val("6");
+                $("#ne-evt-repeat-repeatevery").val(rules["INTERVAL"]);
+                $("#ne-label-repeat-repeatevery").html("years");
+                $("#ne-repeat-table-2,#ne-repeat-table-3").addClass("wpg-nodisplay");
+                $("#ne-evt-repeat-repeatby-dayofmonth").prop("checked",true);
+                if("UNTIL" in rules) {
+                    $("#ne-evt-endson-on").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", true).val("");
+                    var until = rules["UNTIL"].substring(0,4)+"/"+rules["UNTIL"].substring(4,6)+"/"+rules["UNTIL"].substring(6,8)+" "+
+                            rules["UNTIL"].substring(9,11)+":"+rules["UNTIL"].substring(11,13)+":"+rules["UNTIL"].substring(13,15)+" UTC";
+                    var until = new Date(until);
+                    $("#ne-evt-endson-date").prop("disabled", false).val(((until.getMonth()+1)<10?"0"+(until.getMonth()+1):(until.getMonth()+1))+"/"+
+                            (until.getDate()<10?"0"+until.getDate():until.getDate())+"/"+
+                            until.getFullYear());
+                } else if("COUNT" in rules) {
+                    $("#ne-evt-endson-after").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", false).val(rules["COUNT"]);
+                    $("#ne-evt-endson-date").prop("disabled", true).val("");
+                } else {
+                    $("#ne-evt-endson-never").prop("checked", true);
+                    $("#ne-evt-endson-occurances").prop("disabled", true).val("");
+                    $("#ne-evt-endson-date").prop("disabled", true).val("");
+                }
+                break;
+        }
+        $("#ne-evt-repeat-startson").val($("#ne-evt-date-start").val());
+        repeatset = true;
+        generate_summary();
+        pageload = true;
+        $("#ne-repeat-summary-display").html($("#ne-repeat-summary").html());
+        save_state("#ne-repeat-wrapper",repeatstate);
+    } else {
+        $("#ne-evt-repeatbox").prop("checked", false);
+        repeat_options_reset();
+        save_state("#ne-repeat-wrapper",repeatstate);
+    }
 });
 
 function repeat_options_reset(){
@@ -155,7 +310,57 @@ function generate_summary() {
     var repeats = parseInt($("#ne-evt-repeat-repeats").val());
     var repeatevery = parseInt($("#ne-evt-repeat-repeatevery").val());
     var startdate = new Date();
-    startdate = time_parser($("#ne-evt-date-start").val()+" "+$("#ne-evt-time-start").val());
+    
+    var starttime = "";
+    var endtime = "";
+    if($("#wpg").attr("data-eventid") && !pageload){
+        var times = $(".ne-top-time");
+        var parsedtimes = {};
+        times.each(function(index, elem){
+            parsedtimes[$(elem).attr("id")] = $(elem).val();
+        });
+        for(var time in parsedtimes) {
+            var newtime;
+            var date;
+            if(time==="ne-evt-time-start") {
+                var dateO = $("#ne-evt-date-start").val();
+                date = new Date($("#ne-evt-date-start").val()+" "+$("#ne-evt-time-start").val()+":00 UTC");
+                newtime = new Date(dateO.substring(6)+"/"+dateO.substring(0,2)+"/"+dateO.substring(3,5)+" "+parsedtimes[time]+":00 UTC ");
+            } else if(time==="ne-evt-time-end") {
+                var dateO = $("#ne-evt-date-end").val();
+                date = new Date($("#ne-evt-date-end").val()+" "+$("#ne-evt-time-end").val()+":00 UTC");
+                newtime = new Date(dateO.substring(6)+"/"+dateO.substring(0,2)+"/"+dateO.substring(3,5)+" "+parsedtimes[time]+":00 UTC ");
+            }
+
+            var hours = newtime.getHours();
+            var minutes = newtime.getMinutes();
+
+            var suffix = "am";
+
+            if (hours >= 12) {
+                suffix = "pm";
+                hours -= 12;
+            }
+            if (hours === 0) {
+                hours = 12;
+            }
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+
+            if(time==="ne-evt-time-start"){
+                starttime = (hours + ":" + minutes + suffix); //hours1 + ":" + minutes + suffix
+            } else if(time==="ne-evt-time-end") {
+                endtime = (hours + ":" + minutes + suffix); //hours1 + ":" + minutes + suffix
+            }
+        }
+    } else {
+        starttime = $("#ne-evt-time-start").val();
+        endtime = $("#ne-evt-time-start").val();
+    }
+    
+    startdate = time_parser($("#ne-evt-date-start").val()+" "+starttime);
     var repeatson = [];
     for(var i=0;i<7;i++){
         repeatson.push($("#ne-evt-repeat-repeatson-"+i).is(":checked"));
@@ -165,7 +370,7 @@ function generate_summary() {
     var occurances = validate_natural_number($("#ne-evt-endson-occurances").val())?parseInt($("#ne-evt-endson-occurances").val()):(repeats===0 || repeats===6)?5:35;
     var enddate = new Date();
     if($("#ne-evt-endson-date").val()!==""){
-        enddate = time_parser($("#ne-evt-endson-date").val()+" "+$("#ne-evt-time-end").val());
+        enddate = time_parser($("#ne-evt-endson-date").val()+" "+endtime);
     }
     var parsedenddate = "";
     var parsedstartdate = "";
@@ -317,7 +522,9 @@ function hide_repeat_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect");
     $("#ne-repeat-wrapper").removeClass("ui-popup-active");
     if(repeatset){
-        repeat_occurance_reset();
+        if($("#ne-evt-endson-after").is(":checked")){
+            repeat_occurance_reset();
+        }
         repeat_days_reset();
     }
 }
@@ -479,6 +686,5 @@ $(document).on("click", "#ne-repeat-btn-done", function(){
 
 $(document).on("click", "#ne-repeat-edit", function(){
     show_repeat_dialogbox();
-    $("#ne-evt-repeat-startson").val($("#ne-evt-date-start").val());
-    $("#ne-settings-dialogbox").center();
+    $("#ne-repeat-dialogbox").center();
 });

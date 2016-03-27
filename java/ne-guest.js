@@ -70,11 +70,6 @@ function add_guest(){
     }
 }
 
-$(document).ready(function(){
-    $("#ne-evt-guests-inviteothers").prop("checked", true);
-    $("#ne-evt-guests-seeguestlist").prop("checked", true);
-});
-
 $(document).on("click", "#ne-guests-addbutton", add_guest);
 
 $(document).on("click", ".ne-guest-delete", function remove_guest(){
