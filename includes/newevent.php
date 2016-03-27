@@ -132,14 +132,20 @@ and open the template in the editor.
                     </span>
                 </div>
                 <div id="ne-top-repeat">
+                    <?php
+                    $settings = "";
+                    if(isset($scrubbed["pkEventid"])) { 
+                        $settings = json_decode($blSettings,true); 
+                    }
+                    ?>
                     <span id="ne-settings-top-wrapper">
-                        <input id="ne-evt-settingsbox" name="ne-evt-settingsbox" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <input id="ne-evt-settingsbox" name="ne-evt-settingsbox" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo $settings["useDefault"]?"":" checked"; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                         <label id="ne-label-settingsbox" class="ne-label" for="ne-evt-settingsbox">
-                            Advanced settings
+                            <?php if(isset($scrubbed["pkEventid"])) {  echo $settings["useDefault"]?"Advanced Settings":"Advanced Settings:"; } else { echo "Advanced Settings"; }?>
                         </label>
                     </span>
-                    <span id="ne-settings-display" class="ui-header wpg-nodisplay">Active</span>
-                    <span id="ne-settings-edit" class="ui-revisitablelink wpg-nodisplay">Edit</span>
+                    <span id="ne-settings-display" class="ui-header<?php if(isset($scrubbed["pkEventid"])) {  echo $settings["useDefault"]?" wpg-nodisplay":""; } else { echo " wpg-nodisplay"; }?>">Active</span>
+                    <span id="ne-settings-edit" class="ui-revisitablelink<?php if(isset($scrubbed["pkEventid"])) { echo $settings["useDefault"]?" wpg-nodisplay":""; } else { echo " wpg-nodisplay"; }?>">Edit</span>
                     <span id="ne-repeat-top-wrapper">
                         <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { if($txRRule!=""){ echo " checked"; } } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                         <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">
@@ -656,6 +662,14 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        
+        <?php
+        
+        if(isset($scrubbed["pkEventid"])) {
+            echo var_dump($settings);
+        }
+        ?>
+        
         <div id="ne-settings-wrapper" class="ui-popup">
             <div id="ne-settings-dialogbox" class="ui-dialogbox">
                 <div id="ne-settings-header">
@@ -663,7 +677,7 @@ and open the template in the editor.
                     <span id="ne-settings-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
                     <div id="ne-settings-usedefault-wrapper" title="Uncheck to enable custom settings">
                         <label id="ne-label-settings-usedefault" for="ne-evt-settings-usedefault">
-                            <input id="ne-evt-settings-usedefault" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            <input id="ne-evt-settings-usedefault" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo $settings["useDefault"]?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                             Use default settings
                         </label>
                     </div>
@@ -681,7 +695,7 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-timegate" class="ui-label" for="ne-evt-settings-timegate">
-                                                        <input id="ne-evt-settings-timegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-timegate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo $settings["time"]?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom time settings
                                                     </label>
                                                     <table id="ne-settings-time-table" class="wpg-nodisplay">
@@ -689,7 +703,7 @@ and open the template in the editor.
                                                             <tr id="ne-settings-time-table-0">
                                                                 <td>
                                                                     <label id="ne-label-settings-timeallow" for="ne-evt-settings-timeallow">
-                                                                        <input id="ne-evt-settings-timeallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-timeallow" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["time"])) { echo $settings["time"]["timeAllow"]?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                         Allow time modulation
                                                                     </label>
                                                                 </td>

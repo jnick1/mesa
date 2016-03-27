@@ -64,8 +64,13 @@ function reset_settings(){
 }
 
 $(document).ready(function(){
-    reset_settings();
-    save_state("#ne-settings-wrapper", settingsstate);
+    if($("#wpg").attr("data-eventid")) {
+        settingsset = true;
+        save_state("#ne-settings-wrapper", settingsstate);
+    } else {
+        reset_settings();
+        save_state("#ne-settings-wrapper", settingsstate);
+    }
 });
 
 $(document).on("click", "#ne-evt-settingsbox", function(){

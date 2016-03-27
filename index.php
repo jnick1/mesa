@@ -226,53 +226,5 @@ and open the template in the editor.
         <?php
         include $homedir."includes/pageassembly/signin.php";
         ?>
-<!--        <div id="in-signin-wrapper" class="ui-popup">
-            <div id="in-signin-dialogbox" class="ui-dialogbox">
-                <div id="in-signin-header">
-                    <span class="ui-header">Sign in</span>
-                    <span id="in-signin-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
-                </div>
-                <div id="in-signin-table-wrapper">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>
-                                    <label class="in-signin-label ui-unselectabletext">
-                                        Email
-                                    </label>
-                                </th>
-                                <td>
-                                    <input id="in-evt-signin-email" name="in-evt-signin-email" placeholder="Enter your email address" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    <div id="in-signin-notification-email" class="wpg-nodisplay"></div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <label class="in-signin-label ui-unselectabletext">
-                                        Password
-                                    </label>
-                                </th>
-                                <td>
-                                    <input id="in-evt-signin-password" name="in-evt-signin-password" placeholder="Enter a password" type="password" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                    <div id="in-signin-notification-password" class="wpg-nodisplay"></div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div id="in-signin-btns">
-                    <div class="wrapper-btn-general wrapper-btn-all in-btns-popups">
-                        <div id="in-signin-btn-done" <?php echo " tabindex=\"".$ti++."\"";?>>
-                            Done
-                        </div>
-                    </div>
-                    <div class="wrapper-btn-general wrapper-btn-all in-btns-popups">
-                        <div id="in-signin-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
-                            Cancel
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
     </body>
 </html>
