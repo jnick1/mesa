@@ -125,8 +125,8 @@ function calculate_travel_times($events) {
 }
 
 function insert_mysql_info($events_array) {
-    var_dump($events_output);
-    insert_event_data($event_array);
+    var_dump($events_array);
+    insert_event_data($events_array);
     session_destroy();
 }
 
