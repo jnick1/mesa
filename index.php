@@ -223,7 +223,10 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-        <div id="in-signin-wrapper" class="ui-popup">
+        <?php
+        include $homedir."includes/pageassembly/signin.php";
+        ?>
+<!--        <div id="in-signin-wrapper" class="ui-popup">
             <div id="in-signin-dialogbox" class="ui-dialogbox">
                 <div id="in-signin-header">
                     <span class="ui-header">Sign in</span>
@@ -270,6 +273,6 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </body>
 </html>
