@@ -4,6 +4,10 @@ require_once __DIR__ . '/google-services-header.php';
 require_once __DIR__ . '/bing-maps-access.php';
 require_once __DIR__ . '/services-sql-request.php';
 
+if(!isset($_SESSION['event_id']) || !isset($_SESSION['token_id'])){
+    redirect_local("services-error.php?e=missing_token");
+}
+
 $client = new Google_Client();
 $client->setAuthConfigFile(CLIENT_SECRET_PATH);
 $client->addScope(Google_Service_Calendar::CALENDAR_READONLY);
@@ -15,27 +19,27 @@ function access_token_check($client) {
     if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {//If we do, setup the client and service and move on
         $client->setAccessToken($_SESSION['access_token']);
         if ($client->isAccessTokenExpired()) {
-            redirect_local('oauth2access.php');
+            $auth_url = $client->createAuthUrl();
+            header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
+            exit();
         }
         $service = new Google_Service_Calendar($client);
-        if (!isset($service)) {
-            session_destroy();
-            return NULL;
-        }
+        
         calendar_check($service, $client);
     } else { //If we do not, setup the redirect to get the token
-        redirect_local('oauth2access.php');
+        $auth_url = $client->createAuthUrl();
+        header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
     }
 }
 
 function calendar_check($service, $client) { //Now that service is set up, deal with calendars
     if ((isset($_SESSION['user_calendar_summaries']) && $_SESSION['user_calendar_summaries'])) {
-        sql_load(); //Organizing event data now becomes useful
+        sql_load_event(); //Organizing event data now becomes useful
         
         $user_calendar_list = collect_calendars_from_summaries($service);
         $events_output = retrieve_event_list($service, $user_calendar_list, $client);
         $finalized_event_list = calculate_travel_times($events_output);
-
+        var_dump($finalized_event_list);
         insert_mysql_info($finalized_event_list);
     } else {
         collect_summaries($service);
@@ -71,7 +75,7 @@ function collect_calendars_from_summaries($service) {
 //Retrieve email based upon primary calendar summary
 function check_for_attendee_email($calendar) {
     if ($calendar->primary) {
-        $_SESSION['attendee_email'] = $calendar->summary;
+        $_SESSION['calendar_email'] = $calendar->summary;
     }
 }
 
@@ -96,9 +100,9 @@ function retrieve_event_list($service, $user_calendar_list, $client) {
 
 function format_trim_event($event) {
     $trimmed_event = [];
-    $trimmed_event['attendee_email'] = $_SESSION['attendee_email'];
-    $trimmed_event['start_time'] = $event->startTime;
-    $trimmed_event['end_time'] = $event->endTime;
+    $trimmed_event['calendar_email'] = $_SESSION['calendar_email'];
+    $trimmed_event['start_time'] = $event->start->dateTime;
+    $trimmed_event['end_time'] = $event->end->dateTime;
     $trimmed_event['location'] = $event->location;
 
     return $trimmed_event;
@@ -106,22 +110,23 @@ function format_trim_event($event) {
 
 function calculate_travel_times($events) {
     $destination_location = $_SESSION['sql_event_location'];
-    if($destination_location == ""){
-        return $events;
-    }
+
+    $final_events = array();
     foreach ($events as $event) {
-        if($event['location'] != ""){
-            $travel_time = 0; //retrieve_travel_time($event['location'], $destination_location);
+        if($event['location'] != "" && $destination_location != ""){
+            $travel_time = retrieve_travel_time($event['location'], $destination_location);
             $event['travel_time'] = $travel_time;
+        } else {
+            $event['travel_time'] = 0;
         }
+        $final_events[] = $event;
     }
+    return $final_events;
 }
 
-function insert_mysql_info($events_output) {
+function insert_mysql_info($events_array) {
     var_dump($events_output);
-
-
-
+    insert_event_data($event_array);
     session_destroy();
 }
 

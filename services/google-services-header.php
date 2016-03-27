@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 define('CLIENT_SECRET_PATH', __DIR__ . '/../client_secret.json');
-define('HOST_URI', 'http://' . $_SERVER['HTTP_HOST'] . '/mesa/google-services/'); //Assumes mesa will be in a folder mesa, can be changed
+define('HOST_URI', 'http://' . $_SERVER['HTTP_HOST'] . '/mesa/services/'); //Assumes mesa will be in a folder mesa, can be changed
 session_start();
 
 
