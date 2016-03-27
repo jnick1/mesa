@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2016 at 12:57 AM
+-- Generation Time: Mar 27, 2016 at 01:15 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -42,24 +42,24 @@ CREATE TABLE IF NOT EXISTS `tblevents` (
   `isBusy` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Indicates if users should be considered busy',
   `dtCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time when the event was created',
   `dtLastUpdated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date and time when the event was last updated',
+  `dtRequestSent` datetime DEFAULT NULL COMMENT 'The date and time when the calendar access request was last sent.',
   PRIMARY KEY (`pkEventid`),
   UNIQUE KEY `pkEventid` (`pkEventid`),
   KEY `dtStart` (`dtStart`,`dtEnd`),
   KEY `dtCreated` (`dtCreated`),
   KEY `dtLastUpdated` (`dtLastUpdated`),
+  KEY `dtRequestSent` (`dtRequestSent`),
   FULLTEXT KEY `nmTitle` (`nmTitle`),
   FULLTEXT KEY `txDescription` (`txDescription`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about events' AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about events' AUTO_INCREMENT=41 ;
 
 --
 -- Dumping data for table `tblevents`
 --
 
-INSERT INTO `tblevents` (`pkEventid`, `blOptiSuggestion`, `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated`) VALUES
-(2, '', 'Event Title 2', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 2, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:06'),
-(3, '', 'Event Title 3', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 3, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:10'),
-(6, '', 'Event Title 6', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 11, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:34'),
-(9, '', 'Event Title 9', '2016-03-24 04:57:17', '2016-03-24 04:57:17', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer tempus, eros a tempor facilisis, justo purus tincidunt lectus,', NULL, 7, '', '', '', 1, 1, 'default', 1, '2016-03-24 04:57:17', '2016-03-24 05:59:14');
+INSERT INTO `tblevents` (`pkEventid`, `blOptiSuggestion`, `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated`, `dtRequestSent`) VALUES
+(12, '', 'Meeting with CSE 280 Team Members', '2016-03-28 22:30:00', '2016-03-28 00:30:00', 'Oakland University, Vandenberg Hall, 5th floor lounge', 'Weekly team meeting to go over continued progress with developing our project.', 'FREQ=WEEKLY;INTERVAL=1;BYDAY=MO;COUNT=5;', 4, 0x7b2275736544656661756c74223a66616c73652c2274696d65223a66616c73652c2264617465223a66616c73652c226475726174696f6e223a7b226475726174696f6e616c6c6f77223a747275652c227072696f726974697a6174696f6e223a31302c226d696e6475726174696f6e223a2230323a30303a3030227d2c22726570656174223a66616c73652c22626c61636b6c697374223a7b226561726c69657374223a2232313a30303a3030222c226c6174657374223a2230323a30303a3030222c2264617973223a2253552c5341227d2c226c6f636174696f6e223a7b226c6f636174696f6e616c6c6f77223a66616c73652c227072696f726974697a6174696f6e223a317d2c22617474656e64656573223a7b22617474656e64656573616c6c6f77223a66616c73652c227072696f726974697a6174696f6e223a312c226d696e617474656e64656573223a317d7d, 0x5b7b22656d61696c223a22777074686f6d70736f6e406f616b6c616e642e656475222c226f7074696f6e616c223a66616c73652c22726573706f6e7365537461747573223a226e65656473416374696f6e227d2c7b22656d61696c223a22737272757368406f616b6c616e642e656475222c226f7074696f6e616c223a66616c73652c22726573706f6e7365537461747573223a226e65656473416374696f6e227d2c7b22656d61696c223a226a616e69636b406f616b6c616e642e656475222c226f7074696f6e616c223a66616c73652c22726573706f6e7365537461747573223a226e65656473416374696f6e227d5d, 0x7b2275736544656661756c74223a66616c73652c226f7665727269646573223a5b7b226d6574686f64223a22706f707570222c226d696e75746573223a223330227d2c7b226d6574686f64223a2231222c226d696e75746573223a2233363030227d5d7d, 0, 1, 'default', 1, '2016-03-26 02:02:45', '2016-03-26 17:11:16', NULL),
+(40, '', 'settings test', '2016-03-27 08:00:00', '2016-03-27 09:00:00', '', '', 'FREQ=DAILY;INTERVAL=1;', 0, 0x7b2275736544656661756c74223a66616c73652c2274696d65223a7b2274696d65616c6c6f77223a747275652c227072696f726974697a6174696f6e223a3130307d2c2264617465223a7b2264617465616c6c6f77223a747275652c227072696f726974697a6174696f6e223a31302c226675727468657374223a2230332f31352f32303136227d2c226475726174696f6e223a7b226475726174696f6e616c6c6f77223a747275652c227072696f726974697a6174696f6e223a312c226d696e6475726174696f6e223a2230303a33303a3030227d2c22726570656174223a7b22726570656174616c6c6f77223a747275652c227072696f726974697a6174696f6e223a3130302c226d696e72657065617473223a312c22726570656174636f6e7374616e74223a747275657d2c22626c61636b6c697374223a7b226561726c69657374223a2230343a30303a3030222c226c6174657374223a2230333a35393a3030222c2264617973223a2254552c5448227d2c226c6f636174696f6e223a7b226c6f636174696f6e616c6c6f77223a747275652c227072696f726974697a6174696f6e223a31307d2c22617474656e64656573223a7b22617474656e64656573616c6c6f77223a747275652c227072696f726974697a6174696f6e223a312c226d696e617474656e64656573223a317d7d, 0x5b7b22656d61696c223a22626f6240746573742e636f6d222c226f7074696f6e616c223a66616c73652c22726573706f6e7365537461747573223a226e65656473416374696f6e227d5d, 0x7b2275736544656661756c74223a66616c73652c226f7665727269646573223a5b7b226d6574686f64223a22706f707570222c226d696e75746573223a223330227d5d7d, 1, 1, 'default', 1, '2016-03-27 03:46:36', '2016-03-27 03:46:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -99,8 +99,8 @@ CREATE TABLE IF NOT EXISTS `tblusers` (
 --
 
 INSERT INTO `tblusers` (`pkUserid`, `txEmail`, `blSalt`, `txHash`, `blCalendar`, `dtCreated`, `dtLogin`) VALUES
-(2, 'bob@test.com', 0x0e73cc4797b0e1a9293aed59717dce63, '96932c124fb2e96f362557951f45da00bed675285c2e996d6ba8f07277c17317', '', '2016-03-23 02:35:11', '2016-03-24 19:38:19'),
-(9, 'test@bob.com', 0xd5b9c677978b0726d985075f3653d7cf, '3d51ae5550bea1e2ba25e53b820e32583ed2d864f9d5a5b1c02c0b47f49c1183', '', '2016-03-24 06:42:10', '2016-03-24 19:38:19');
+(2, 'bob@test.com', 0x0e73cc4797b0e1a9293aed59717dce63, '96932c124fb2e96f362557951f45da00bed675285c2e996d6ba8f07277c17317', '', '2016-03-23 02:35:11', '2016-03-27 03:20:30'),
+(9, 'test@bob.com', 0xd5b9c677978b0726d985075f3653d7cf, '3d51ae5550bea1e2ba25e53b820e32583ed2d864f9d5a5b1c02c0b47f49c1183', '', '2016-03-24 06:42:10', '2016-03-27 03:20:30');
 
 -- --------------------------------------------------------
 
@@ -121,10 +121,8 @@ CREATE TABLE IF NOT EXISTS `tblusersevents` (
 --
 
 INSERT INTO `tblusersevents` (`fkUserid`, `fkEventid`) VALUES
-(2, 2),
-(2, 3),
-(2, 6),
-(2, 9);
+(2, 12),
+(2, 40);
 
 --
 -- Constraints for dumped tables
