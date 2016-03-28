@@ -33,6 +33,13 @@ echo "
 }
 .uluru6 {
     background-image: url(\"".$homedir."files/uluru-681140_1920.jpg\");
+}
+.uluru7 {
+    background-image: url(\"".$homedir."files/15176720492_9541c99952_k.jpg\");
+    background-position: bottom;
+}
+.uluru8 {
+    background-image: url(\"".$homedir."files/14589120198_6b4a1f37b9_o.jpg\");
 }";
 
 echo "

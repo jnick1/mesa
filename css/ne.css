@@ -93,6 +93,10 @@ and open the template in the editor.
     background-color: #fff0f0 !important;
 }
 
+.ne-top-time {
+    
+} /*empty*/
+
 /*====================================*/
 /*========|       ID's       |========*/
 /*====================================*/
@@ -103,6 +107,12 @@ and open the template in the editor.
 #ne-btn-email {
     float: right;
     cursor: pointer;
+}
+#ne-btn-findtimes {
+    cursor: pointer;
+}
+#ne-btn-findtimes-wrapper {
+    width: 110px;
 }
 #ne-btn-save {
     cursor: pointer;

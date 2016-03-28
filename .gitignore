@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 /nbproject/private/
 /composer.lock
 /vendor/
 /client_secret*.json
+=======
+/nbproject/private/
+/composer.lock
+/vendor/
+>>>>>>> refs/remotes/origin/master

@@ -14,47 +14,23 @@ $warnings = [];
 $notifications = [];
 
 $scrubbed = array_map("spam_scrubber", $_POST);
-if(isset($scrubbed["signout"])) {
-    unset($_SESSION["pkUserid"]);
-    unset($_SESSION["email"]);
-    unset($_SESSION["lastLogin"]);
-}
-if(isset($scrubbed["delete"])) {
-    $q1 = "DELETE FROM tblevents WHERE pkEventid = ? LIMIT 1";
-    $q2 = "DELETE FROM tblusersevents WHERE fkEventid = ? AND fkUserid = ?";
-    $q3 = "SELECT pkEventid FROM tblevents WHERE pkEventid = ?";
-    
-    if($stmt = $dbc->prepare($q3)){
-        $stmt->bind_param("i", $scrubbed["pkEventid"]);
-        $stmt->bind_result($eventExists);
-        $stmt->fetch();
-        $stmt->execute();
-        $stmt->free_result();
-        $stmt->close();
-    }
-    if(!empty($eventExists)){
-        if($stmt = $dbc->prepare($q1)){
-            $stmt->bind_param("i", $scrubbed["pkEventid"]);
-            $stmt->execute();
-            $stmt->free_result();
-            $stmt->close();
-        }
-        if($stmt = $dbc->prepare($q2)){
-            $stmt->bind_param("ii", $scrubbed["pkEventid"],$_SESSION["pkUserid"]);
-            $stmt->execute();
-            $stmt->free_result();
-            $stmt->close();
-        }
-        $notifications[] = "Your event has been successfully deleted.";
-    } else {
-        $warnings[] = "The event specified cannot be found. It has likely already been deleted.";
-    }
-    
-}
+include $homedir."includes/protocols/signout.php";
+include $homedir."includes/protocols/deleteaccount.php";
 
 if(empty($_SESSION["pkUserid"])){
     header("location: $homedir"."index.php");
 }
+
+include $homedir."includes/protocols/changeemail.php";
+include $homedir."includes/protocols/changepassword.php";
+
+include $homedir."includes/protocols/delete.php";
+include $homedir."includes/protocols/create.php";
+include $homedir."includes/protocols/saveedit.php";
+
+include $homedir."includes/protocols/createsend.php";
+include $homedir."includes/protocols/createrequest.php";
+include $homedir."includes/protocols/request.php";
 ?>
 <!DOCTYPE html>
 <!--
@@ -93,7 +69,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant: Events List</title>
     </head>
     <body>
-        <div id="wpg" class="<?php echo "uluru".rand(1,6); ?>">
+        <div id="wpg" class="<?php echo "uluru".rand(1,8); ?>">
             <div id="el-header" class="ui-container-section">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
@@ -112,7 +88,7 @@ and open the template in the editor.
                         <?php 
                         //order: Color id, Title, Start date, Start time, End time, End date, Truncated description, Edit, Delete
                         
-                        $q1 = "SELECT pkEventid, nmTitle, dtStart, dtEnd, txDescription, nColorid FROM tblevents JOIN tblusersevents ON tblusersevents.fkUserid = ? WHERE tblevents.pkEventid = tblusersevents.fkEventid;";
+                        $q1 = "SELECT pkEventid, nmTitle, dtStart, dtEnd, txDescription, nColorid FROM tblevents JOIN tblusersevents ON tblusersevents.fkUserid = ? WHERE tblevents.pkEventid = tblusersevents.fkEventid ORDER BY tblevents.dtLastUpdated DESC;";
                         
                         $events = [];
                         
@@ -154,6 +130,9 @@ and open the template in the editor.
                                 $st = date_parse($events[$i]["dtStart"]);
                                 echo $st["hour"].":".$st["minute"];
                                 ?>
+                            </td>
+                            <td>
+                                -
                             </td>
                             <td id="el-content-event-time<?php echo $i+count($events); ?>" class="el-content-event-time">
                                 <?php
@@ -214,5 +193,8 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        <?php
+        include $homedir."includes/pageassembly/account.php";
+        ?>
     </body>
 </html>

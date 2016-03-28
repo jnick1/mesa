@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "name": "vendor/c-s-e280-m-e-s-a",
     "description": "Description of project CSE280_MESA.",
@@ -22,3 +23,29 @@
     "minimum-stability": "dev",
     "prefer-stable": true
 }
+=======
+{
+    "name": "vendor/c-s-e280-m-e-s-a",
+    "description": "Description of project CSE280_MESA.",
+    "authors": [
+        {
+            "name": "William Thompson",
+            "email": "your@email.here"
+        },
+        {
+            "name": "Jacob Nick",
+            "email": "your@email.here"
+        },
+        {
+            "name": "Sierra Rush",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "google/apiclient": "dev-master",
+        "phpmailer/phpmailer": "~5.2"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+>>>>>>> refs/remotes/origin/master

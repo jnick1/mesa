@@ -38,6 +38,7 @@ and open the template in the editor.
     overflow: hidden;
     font-family: inherit;
     padding: 3px;
+    font-size: 14px;
 }
 #ne-evt-endson-after {
     
@@ -303,4 +304,5 @@ and open the template in the editor.
 } /*empty*/
 #ne-evt-where {
     width: 98.5%;
+    font-size: 14px;
 }
