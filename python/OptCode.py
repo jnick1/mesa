@@ -20,7 +20,6 @@ if __name__ == "__main__":
 #necessary objects needed before starting the program
  Priority[] = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
  DAYS[] #specific days wanted
- reoccurance = {} #list of the number of times it happens, and holds multiple meetings
  attendies[] = [] #list of people on the project, those who accept
   
  #matrices necessary
@@ -40,9 +39,7 @@ if __name__ == "__main__":
     locationTime = f.readline() #how long it take to reach the location spot
     weekly = f.readline() #how often per week people want to meet
     f.close()#closing the file
-    grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour
-    
-    
+    grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour   
 
  
  if (   ): #when OGANIZER clicks "Find Times" Btn
@@ -50,7 +47,7 @@ if __name__ == "__main__":
     user = phpobject('WP_User', data)#'WP_User is the PHP function with the necessary information, data is the information necessary to transfer
     endTime = user.endTime  #reading the endTime from the PHP object, time to stop the search
     startTime = user.startTime #reading the startTime from the PHP object, where to start the search
-    
+        
     # Load the data that PHP will dump us (var_dump($resultData)
     for(i=0; i<7; i++):
         for(j=0; j<24; j++):
@@ -70,60 +67,13 @@ if __name__ == "__main__":
         for(j=0; j<(24/granularity) - bannedtimes; j+granularity): #hard to tell what to increment j by because it varies with each person
         {
             if GoogleCalender[i][j] = '1':  #if there is an event in the google calender
-                peopleCalender[i][j] = '1' 
+                NormCalender[i][j] = '1' 
+                peopleCalender[i][j] += '1' 
             else:
-                peopleCalender[1][j] = '0'          
+                peopleCalender[1][j] += '0'
+                NormCalender[i][j] = '0' 
         }
     }
-     attendies.insert(peopleCalender)
-    #saving the calender into a list to hold on too (hopefully)
-    
- }#END ATTENDIES IF STATEMENT
-    
-
-
-
-
-    
-    List [] #used to hold the numbers in the matrix
-    for(i = 0; i<7; i++):
-        {
-            for(j=0; j<(24/granularity) - bannedtimes; j+granularity): 
-            {
-                info = masterCalender[i][j]
-                List.insert(info)
-            }
-        }
-    #sorting the list so that the biggest number is on top
-    List.sort(reverse = True)
-    
-    returnCalender[][]
-    #pick the top spots and return them to a matrix
-    k = 0
-    l = 0
-    do{
-        {for(i = 0; i<searchWidth; i++):
-            {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
-                #checks for the top spots
-                {if (masterCalender[i][j] == List1[l]):
-                    returnCalender[i][j] = masterCalender[i][j]
-                    k++
-                } 
-            }
-        }
-        l = l+1
-    } while(k<(weekly*2))
-    
-    
-    #writing it to a text file
-    for row in returnCalender:
-        for column, data in enumerate(row):
-            out += formats[column].format(data)
-        out += "\n"
-
-    with open("Times.txt","wt") as file:
-        file.write(out)
-     
     
 for(i = 0; i<searchWidth; i++):
     for(j=start; j<(24/granularity) - bannedtimes; j+granularity):
@@ -131,19 +81,35 @@ for(i = 0; i<searchWidth; i++):
         if(j-locationTime >= 0): #so it stays within the calender
             if (NormCalender[day][j-locationTime] == 0):#travel time is free
                 spot = False
-                do:
-                    if(NormCalender[day][preferedTime-locationTime] == 0):
+                do:{
+                    if (preferedTime == null): #there is no preferedTimes
+                        if (NormCalender[day][j] == 0):
+                            do{
+                                count = 0
+                                for (k=startTime; k<timeLength; k+granularity):
+                                    {if(NormCalender[day][k] == '0'):
+                                        count +=1
+                                    }
+                                if(count == timeLength):
+                                {
+                                    masterCalender[day][startTime] = -1 #marking the available start time, combining it for everyone
+                                }
+                                else:
+                                    Start +=granularity
+                                }while(j<(24/granularity) - bannedtimes)
+                            spot = True #get out of loop early
+                    else if(NormCalender[day][preferedTime-locationTime] == 0): #there is a preferedTime
                         if(NormCalender[day][preferedTime] == 0): #modified perfered Time of day
                         {
                             do{
                                 count = 0
                                 for (k=preferedTime; k<timeLength; k+granularity):
-                                    {if(peopleCalender[day][k] == '0'):
+                                    {if(NormCalender[day][k] == '0'):
                                         count +=1
                                     }
                                 if(count == timeLength):
                                 {
-                                    masterCalender[day][Start] = -1
+                                    masterCalender[day][preferedTime] = -1 #marking the available start time, combining it for everyone
                                 }
                                 else:
                                     Start +=granularity
@@ -151,12 +117,62 @@ for(i = 0; i<searchWidth; i++):
                             spot = True #get out of loop early
                         }
                     else:
-                        preferedTime = preferedTime + (granularity*count* (-1^count)  #branches off hour by hour          
-                }while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ) 
+                        preferedTime = preferedTime + (granularity*count* (-1^count))  #branches off hour by hour          
+                    }while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ) 
                     #this way, if the perfered time is not in the middle, it will still performed the action
-            
-         
-#meeting duration time practice
+                    
+     #attendies.insert(peopleCalender) do i really need to put it in a list now?
+    #saving the calender into a list to hold on too (hopefully)
+    
+ }#END ATTENDIES IF STATEMENT
+    
+ 
+ numCalender[][] #calender to hold the amount of people at the event start
+ returnCalender[][] #calender to return
+ List[] #hold the number
+ k=0
+ for(i = 0; i<7; i++):
+            {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+                #searching through masterCalender to event designated spots
+                {if (masterCalender[i][j] == -1):
+                    Attendees = peopleCalender[i][j]
+                                           
+                        for (m =0; m<length.info; m++): #don't know if its necessary or not, but will leave it in at the moment
+                            {if (0 in Attendees):
+                                attend +=1
+                            }
+                        
+                        numCalender[i][j] = attend #adding the string
+                        List.insert(attend)
+                } 
+            }
+List.sort(reverse) #biggest number is on top, easier to find most people
+
+done = False
+count2 = 0
+q=0
+do{
+    for(i = 0; i<7; i++):
+            for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+                if(numCalender[i][j] == List[q]):
+                    returnCalender[i][j] = -1
+                    count2 ++
+    if(count2 =< weekly):
+        done = True
+    else:
+        q++ #increment to the next biggest number in the list
+  }while(done = False) #so it has the minimum number of recursion times
+    
+#writing it to a text file
+    for row in returnCalender:
+        for column, data in enumerate(row):
+            out += formats[column].format(data)
+        out += "\n"
+
+    with open("Times.txt","wt") as file:
+        file.write(out)
+
+
     
  
 
@@ -239,18 +255,6 @@ for (i =0; i <searchwidth; i++):
     }
 }
     
-
-
-#For {for(i = 0; i<searchWidth; i++)
-#   {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
-#       for(location) must check to see if schedule is empty travelTime minutes prior to the event itself
-#          for(recursion
-#               for(day
-#                   for(time
-#                       for(people
-#meeting duration time practice
-
-
 #MAY OR MAY NOT USE DEPENDING
     #having the priority set list seperate because idk if there will be exact results if its at the end of the other file
     #g = open('PriorityTextFile', 'r') 
