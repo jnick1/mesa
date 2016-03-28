@@ -84,7 +84,7 @@ and open the template in the editor.
     </head>
     <body>
         <div id="wpg"<?php echo ((isset($scrubbed["edit"]) && isset($scrubbed["pkEventid"]))?" data-eventid=\"".$scrubbed["pkEventid"]."\"":""); ?>>
-            <div id="ne-header" class="ui-container-section">
+            <div id="ne-header" class="ui-container-section <?php echo "uluru".rand(1,8); ?>">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
                 ?>
@@ -100,7 +100,7 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div id="ne-btn-findtimes-wrapper" class="wrapper-btn-all wrapper-btn-action">
-                        <div id="ne-btn-findtimes" title="Send event signup to all guests"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        <div id="ne-btn-findtimes" title="Run a search for the best available times for all attendees"<?php echo " tabindex=\"".$ti++."\"";?>>
                             FIND TIMES
                         </div>
                     </div>
@@ -1107,5 +1107,8 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        <?php
+        include $homedir."includes/pageassembly/account.php";
+        ?>
     </body>
 </html>

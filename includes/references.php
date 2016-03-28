@@ -110,6 +110,7 @@ if(isset($scrubbed["signin"])) {
         </div>
         <?php
         include $homedir."includes/pageassembly/signin.php";
+        include $homedir."includes/pageassembly/account.php";
         ?>
     </body>
 </html>

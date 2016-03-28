@@ -225,6 +225,7 @@ and open the template in the editor.
         </div>
         <?php
         include $homedir."includes/pageassembly/signin.php";
+        include $homedir."includes/pageassembly/account.php";
         ?>
     </body>
 </html>

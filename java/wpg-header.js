@@ -13,27 +13,66 @@ function hide_signin_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect2");
     $("#wpg-signin-wrapper").removeClass("ui-popup-active");
 }
+
+function show_account_dialogbox(){
+    if($(location).attr("pathname").endsWith("newevent.php")) {
+        $("#wpg").addClass("ui-popup-background-effect");
+    } else {
+        $("#wpg").addClass("ui-popup-background-effect2");
+    }
+    $("#wpg-account-wrapper").addClass("ui-popup-active");
+}
+function hide_account_dialogbox(){
+    $("#wpg").removeClass("ui-popup-background-effect2 ui-popup-background-effect");
+    $("#wpg-account-wrapper").removeClass("ui-popup-active");
+}
+
+function show_account_delete_dialogbox(){
+    if($(location).attr("pathname").endsWith("newevent.php")) {
+        $("#wpg-account-wrapper").addClass("ui-popup-background-effect");
+    } else {
+        $("#wpg-account-wrapper").addClass("ui-popup-background-effect2");
+    }
+    $("#wpg-account-delete-wrapper").addClass("ui-popup-active");
+}
+function hide_account_delete_dialogbox(){
+    $("#wpg-account-wrapper").removeClass("ui-popup-background-effect2 ui-popup-background-effect");
+    $("#wpg-account-delete-wrapper").removeClass("ui-popup-active");
+}
+
 function reset_signin(){
     $("#wpg-signin-notification-email").addClass("wpg-nodisplay").html("");
     $("#wpg-signin-notification-password").addClass("wpg-nodisplay");
     $("#wpg-evt-signin-email,#wpg-evt-signin-password").val("");
 }
 
+$(window).on("resize", function(){
+    $("#wpg-signin-dialogbox").center();
+    $("#wpg-account-dialogbox").center();
+    $("#wpg-account-delete-dialogbox").center();
+});
+
 $(document).keydown(function(event) {
     if (event.keyCode === 27) {
         hide_signin_dialogbox();
+        hide_account_dialogbox();
+        hide_account_delete_dialogbox();
         reset_signin();
     }
 });
 
-$(document).on("click", "#wpg-header-myevents", function(){
-    var arrow = $("#wpg-header-myevents-dropdown-arrow");
-    if(arrow.hasClass("goog-icon-dropdown-arrow-left")) {
-        arrow.removeClass("goog-icon-dropdown-arrow-left").addClass("goog-icon-dropdown-arrow-down");
-    } else {
-        arrow.removeClass("goog-icon-dropdown-arrow-down").addClass("goog-icon-dropdown-arrow-left");
-    }
+
+
+$(document).on("click", "#wpg-header-myaccount", function(){
+    show_account_dialogbox();
+    $("#wpg-account-dialogbox").center();
 });
+
+$(document).on("click", "#wpg-account-x, #wpg-account-btn-cancel", function() {
+    hide_account_dialogbox();
+});
+
+
 
 $(document).on("click", "#wpg-header-btn-signout", function() {
     post("#",{
@@ -80,3 +119,32 @@ $(document).on("click keyup", "#wpg-signin-btn-done", function(event){
         }
     }
 });
+
+
+
+$(document).on("click", "#wpg-account-delete-link", function(){
+    show_account_delete_dialogbox();
+    $("#wpg-account-delete-dialogbox").center();
+});
+
+$(document).on("click", "#wpg-account-delete-x, #wpg-account-delete-btn-cancel", function(){
+    hide_account_delete_dialogbox();
+});
+
+$(document).on("click", "#wpg-account-delete-btn-yes", function() {
+    var parameters = {
+        "deleteaccount":true
+    };
+    post("#",parameters,"POST");
+});
+
+/*
+//for My Events dropdown arrow
+//$(document).on("mouseenter mouseleave","#wpg-header-myevents", function() {
+//    var arrow = $("#wpg-header-myevents-dropdown-arrow");
+//    if(arrow.hasClass("goog-icon-dropdown-arrow-left")) {
+//        arrow.removeClass("goog-icon-dropdown-arrow-left").addClass("goog-icon-dropdown-arrow-down");
+//    } else {
+//        arrow.removeClass("goog-icon-dropdown-arrow-down").addClass("goog-icon-dropdown-arrow-left");
+//    }
+//});*/

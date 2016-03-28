@@ -41,6 +41,9 @@
                 <!--<span id="wpg-header-myevents-dropdown-arrow" class="goog-icon goog-icon-dropdown-arrow-left ui-container-inline"></span>-->
             </a>
         </span>
+        <span id="wpg-header-myaccount" class="ui-container-inline ui-unselectabletext">
+            My account
+        </span>
         <?php } ?>
     </div>
     <div id="wpg-header-errordisplay" class="ui-widget">

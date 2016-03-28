@@ -294,5 +294,8 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        <?php
+        include $homedir."includes/pageassembly/account.php";
+        ?>
     </body>
 </html>
