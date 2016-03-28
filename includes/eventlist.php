@@ -95,7 +95,6 @@ if(isset($scrubbed["create"])) {
     }
 }
 if(isset($scrubbed["edit"])) {
-    echo var_dump($scrubbed);
     if($scrubbed["nmTitle"] == "" || $scrubbed["blAttendees"] == "[]") {
         if($scrubbed["blAttendees"] == "[]"){
             $warnings[] = "Your event must have at least 1 attendee to be saved.";
@@ -171,7 +170,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant: Events List</title>
     </head>
     <body>
-        <div id="wpg" class="<?php echo "uluru".rand(1,6); ?>">
+        <div id="wpg" class="<?php echo "uluru".rand(1,8); ?>">
             <div id="el-header" class="ui-container-section">
                 <?php
                 include $homedir."includes/pageassembly/header.php";

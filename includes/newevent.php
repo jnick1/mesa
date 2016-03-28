@@ -99,6 +99,11 @@ and open the template in the editor.
                             SEND
                         </div>
                     </div>
+                    <div id="ne-btn-findtimes-wrapper" class="wrapper-btn-all wrapper-btn-action">
+                        <div id="ne-btn-findtimes" title="Send event signup to all guests"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            FIND TIMES
+                        </div>
+                    </div>
                     <div class="wrapper-btn-all wrapper-btn-general">
                         <div id="ne-btn-save" title="Save event for later modification"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Save
@@ -141,7 +146,7 @@ and open the template in the editor.
                     <span id="ne-settings-top-wrapper">
                         <input id="ne-evt-settingsbox" name="ne-evt-settingsbox" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo $settings["useDefault"]?"":" checked"; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                         <label id="ne-label-settingsbox" class="ne-label" for="ne-evt-settingsbox">
-                            <?php if(isset($scrubbed["pkEventid"])) {  echo $settings["useDefault"]?"Advanced Settings":"Advanced Settings:"; } else { echo "Advanced Settings"; }?>
+                            <?php if(isset($scrubbed["pkEventid"])) {  echo $settings["useDefault"]?"Advanced settings":"Advanced settings:"; } else { echo "Advanced settings"; }?>
                         </label>
                     </span>
                     <span id="ne-settings-display" class="ui-header<?php if(isset($scrubbed["pkEventid"])) {  echo $settings["useDefault"]?" wpg-nodisplay":""; } else { echo " wpg-nodisplay"; }?>">Active</span>
@@ -149,7 +154,7 @@ and open the template in the editor.
                     <span id="ne-repeat-top-wrapper">
                         <input id="ne-evt-repeatbox" name="ne-evt-repeatbox" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { if($txRRule!=""){ echo " checked"; } } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                         <label id="ne-label-repeatbox" class="ne-label" for="ne-evt-repeatbox">
-                            <?php if(isset($scrubbed["pkEventid"])) { if($txRRule!=""){ echo "Repeat: "; } } else { ?>Repeat...<?php } ?>
+                            <?php if(isset($scrubbed["pkEventid"])) { if($txRRule!=""){ echo "Repeat: "; } else { echo "Repeat..."; } } else { ?>Repeat...<?php } ?>
                         </label>
                     </span>
                     <span id="ne-repeat-summary-display" class="ui-header<?php if(isset($scrubbed["pkEventid"])) { if($txRRule==""){ echo " wpg-nodisplay"; } } else { echo " wpg-nodisplay"; }?>"><?php if(isset($scrubbed["pkEventid"])) { echo $txRRule; } else { echo "Daily"; }?></span>
@@ -662,14 +667,6 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-        
-        <?php
-        
-        if(isset($scrubbed["pkEventid"])) {
-            echo var_dump($settings);
-        }
-        ?>
-        
         <div id="ne-settings-wrapper" class="ui-popup">
             <div id="ne-settings-dialogbox" class="ui-dialogbox">
                 <div id="ne-settings-header">
@@ -695,33 +692,33 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-timegate" class="ui-label" for="ne-evt-settings-timegate">
-                                                        <input id="ne-evt-settings-timegate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo $settings["time"]?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-timegate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["time"])?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom time settings
                                                     </label>
-                                                    <table id="ne-settings-time-table" class="wpg-nodisplay">
+                                                    <table id="ne-settings-time-table"<?php if(empty($settings["time"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                         <tbody>
                                                             <tr id="ne-settings-time-table-0">
                                                                 <td>
                                                                     <label id="ne-label-settings-timeallow" for="ne-evt-settings-timeallow">
-                                                                        <input id="ne-evt-settings-timeallow" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["time"])) { echo $settings["time"]["timeAllow"]?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-timeallow" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["time"])) { echo $settings["time"]["timeallow"]?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                         Allow time modulation
                                                                     </label>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-time-table-1">
+                                                            <tr id="ne-settings-time-table-1"<?php if(!empty($settings["time"]) && empty($settings["time"]["timeallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     Prioritization
                                                                     <span class="ui-container-block ui-smallfont">
                                                                         <label for="ne-evt-settings-time-prior-low" >
-                                                                            <input id="ne-evt-settings-time-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-time-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="1"<?php if(!empty($settings["time"])) { echo $settings["time"]["prioritization"]==1?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             low
                                                                         </label>
                                                                         <label for="ne-evt-settings-time-prior-med" >
-                                                                            <input id="ne-evt-settings-time-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-time-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="10"<?php if(!empty($settings["time"])) { echo $settings["time"]["prioritization"]==10?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             medium
                                                                         </label>
                                                                         <label for="ne-evt-settings-time-prior-hig" >
-                                                                            <input id="ne-evt-settings-time-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-time-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-time-prior" value="100"<?php if(!empty($settings["time"])) { echo $settings["time"]["prioritization"]==100?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             high
                                                                         </label>
                                                                     </span>
@@ -737,43 +734,43 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-daygate" for="ne-evt-settings-daygate">
-                                                        <input id="ne-evt-settings-daygate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-daygate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["date"])?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom day settings
                                                     </label>
-                                                    <table id="ne-settings-day-table" class="wpg-nodisplay">
+                                                    <table id="ne-settings-day-table"<?php if(empty($settings["date"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                         <tbody>
                                                             <tr id="ne-settings-day-table-0">
                                                                 <td>
                                                                     <label id="ne-label-settings-dayallow" for="ne-evt-settings-dayallow">
-                                                                        <input id="ne-evt-settings-dayallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-dayallow" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["date"])) { echo $settings["date"]["dateallow"]?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                         Allow day modulation
                                                                     </label>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-day-table-1">
+                                                            <tr id="ne-settings-day-table-1"<?php if(!empty($settings["date"]) && empty($settings["date"]["dateallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     Prioritization
                                                                     <span class="ui-container-block ui-smallfont">
                                                                         <label for="ne-evt-settings-date-prior-low" >
-                                                                            <input id="ne-evt-settings-date-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-date-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="1"<?php if(!empty($settings["date"])) { echo $settings["date"]["prioritization"]==1?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             low
                                                                         </label>
                                                                         <label for="ne-evt-settings-date-prior-med" >
-                                                                            <input id="ne-evt-settings-date-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-date-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="10"<?php if(!empty($settings["date"])) { echo $settings["date"]["prioritization"]==10?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             medium
                                                                         </label>
                                                                         <label for="ne-evt-settings-date-prior-hig" >
-                                                                            <input id="ne-evt-settings-date-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-date-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-date-prior" value="100"<?php if(!empty($settings["date"])) { echo $settings["date"]["prioritization"]==100?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             high
                                                                         </label>
                                                                     </span>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-day-table-2">
+                                                            <tr id="ne-settings-day-table-2"<?php if(!empty($settings["date"]) && empty($settings["date"]["dateallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     <label id="ne-label-settings-maxdate" for="ne-evt-settings-maxdate">
                                                                         Furthest search date
-                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput"<?php if(!empty($settings["date"])) { echo " data-date=\"".$settings["date"]["furthest"]."\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -793,43 +790,43 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-durationgate" for="ne-evt-settings-durationgate">
-                                                        <input id="ne-evt-settings-durationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-durationgate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["duration"])?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom duration settings
                                                     </label>
-                                                    <table id="ne-settings-duration-table" class="wpg-nodisplay">
+                                                    <table id="ne-settings-duration-table"<?php if(empty($settings["duration"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                         <tbody>
                                                             <tr id="ne-settings-duration-table-0">
                                                                 <td>
                                                                     <label id="ne-label-settings-durationallow" for="ne-evt-settings-durationallow">
-                                                                        <input id="ne-evt-settings-durationallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-durationallow" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["duration"])) { echo $settings["duration"]["durationallow"]?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                         Allow duration modulation
                                                                     </label>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-duration-table-1">
+                                                            <tr id="ne-settings-duration-table-1"<?php if(!empty($settings["duration"]) && empty($settings["duration"]["durationallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     Prioritization
                                                                     <span class="ui-container-block ui-smallfont">
                                                                         <label for="ne-evt-settings-duration-prior-low" >
-                                                                            <input id="ne-evt-settings-duration-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-duration-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="1"<?php if(!empty($settings["duration"])) { echo $settings["duration"]["prioritization"]==1?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             low
                                                                         </label>
                                                                         <label for="ne-evt-settings-duration-prior-med" >
-                                                                            <input id="ne-evt-settings-duration-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-duration-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="10"<?php if(!empty($settings["duration"])) { echo $settings["duration"]["prioritization"]==10?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             medium
                                                                         </label>
                                                                         <label for="ne-evt-settings-duration-prior-hig" >
-                                                                            <input id="ne-evt-settings-duration-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-duration-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-duration-prior" value="100"<?php if(!empty($settings["duration"])) { echo $settings["duration"]["prioritization"]==100?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             high
                                                                         </label>
                                                                     </span>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-duration-table-2">
+                                                            <tr id="ne-settings-duration-table-2"<?php if(!empty($settings["duration"]) && empty($settings["duration"]["durationallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     <label id="ne-label-settings-minduration" for="ne-evt-settings-minduration">
                                                                         Minimum duration
-                                                                        <input id="ne-evt-settings-minduration" class="ui-textinput ui-time" value="00:30"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-minduration" class="ui-textinput ui-time"<?php if(!empty($settings["duration"])) { echo " value=\"".substr($settings["duration"]["minduration"],0,5)."\""; } else { echo " value=\"00:30\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                         <span class="ui-smallfont">(hh:mm)</span>
                                                                     </label>
                                                                 </td>
@@ -844,52 +841,52 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-repeatgate" for="ne-evt-settings-repeatgate">
-                                                        <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox" disabled<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["repeat"])?" checked":""; }?><?php if(isset($scrubbed["pkEventid"]) && $txRRule=="") { echo " disabled"; } else { echo " disabled"; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom repetition settings
                                                     </label>
-                                                    <span id="ne-settings-repetition-annotation" class="ui-container-block ui-smallfont">(disabled when repeat is not set)</span>
-                                                    <table id="ne-settings-repeats-table" class="wpg-nodisplay">
+                                                    <span id="ne-settings-repetition-annotation" class="ui-container-block ui-smallfont<?php if(isset($scrubbed["pkEventid"]) && $txRRule!="") { echo " wpg-nodisplay"; } ?>">(disabled when repeat is not set)</span>
+                                                    <table id="ne-settings-repeats-table"<?php if(empty($settings["repeat"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                         <tbody>
                                                             <tr id="ne-settings-repeats-table-0">
                                                                 <td>
                                                                     <label id="ne-label-settings-repeatsallow" for="ne-evt-settings-repeatsallow">
-                                                                        <input id="ne-evt-settings-repeatsallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-repeatsallow" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["repeat"])) { echo $settings["repeat"]["repeatallow"]?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                         Allow repeats modulation
                                                                     </label>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-repeats-table-1">
+                                                            <tr id="ne-settings-repeats-table-1"<?php if(!empty($settings["repeat"]) && empty($settings["repeat"]["repeatallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     Prioritization
                                                                     <span class="ui-container-block ui-smallfont">
                                                                         <label for="ne-evt-settings-repeats-prior-low" >
-                                                                            <input id="ne-evt-settings-repeats-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-repeats-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="1"<?php if(!empty($settings["repeat"])) { echo $settings["repeat"]["prioritization"]==1?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             low
                                                                         </label>
                                                                         <label for="ne-evt-settings-repeats-prior-med" >
-                                                                            <input id="ne-evt-settings-repeats-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-repeats-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="10"<?php if(!empty($settings["repeat"])) { echo $settings["repeat"]["prioritization"]==10?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             medium
                                                                         </label>
                                                                         <label for="ne-evt-settings-repeats-prior-hig" >
-                                                                            <input id="ne-evt-settings-repeats-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-repeats-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-repeats-prior" value="100"<?php if(!empty($settings["repeat"])) { echo $settings["repeat"]["prioritization"]==100?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             high
                                                                         </label>
                                                                     </span>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-repeats-table-2">
+                                                            <tr id="ne-settings-repeats-table-2"<?php if(!empty($settings["repeat"]) && empty($settings["repeat"]["repeatallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     <label id="ne-label-settings-repeatsmin" for="ne-evt-settings-repeatsmin">
                                                                         Minimum number of repeats
-                                                                        <input id="ne-evt-settings-repeatsmin" class="ui-textinput ui-shortbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-repeatsmin" class="ui-textinput ui-shortbox"<?php if(!empty($settings["repeat"])) { echo " value=\"".$settings["repeat"]["minrepeats"]."\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-repeats-table-3">
+                                                            <tr id="ne-settings-repeats-table-3"<?php if(!empty($settings["repeat"]) && empty($settings["repeat"]["repeatallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     <label id="ne-label-settings-repeatsconstant" for="ne-evt-settings-repeatsconstant">
                                                                         All meetings at same time
-                                                                        <input id="ne-evt-settings-repeatsconstant" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-repeatsconstant" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["repeat"])) { echo $settings["repeat"]["repeatconstant"]?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -903,16 +900,16 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-blacklistgate" for="ne-evt-settings-blacklistgate">
-                                                        <input id="ne-evt-settings-blacklistgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-blacklistgate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["blacklist"])?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom blacklist settings
                                                     </label>
-                                                    <table id="ne-settings-blacklist-table" class="wpg-nodisplay">
+                                                    <table id="ne-settings-blacklist-table"<?php if(empty($settings["blacklist"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                         <tbody>
                                                             <tr id="ne-settings-blacklist-table-0">
                                                                 <td>
                                                                     <label id="ne-label-settings-blackliststart" for="ne-evt-settings-blackliststart">
                                                                         Earliest start time
-                                                                        <input id="ne-evt-settings-blackliststart" class="ui-textinput ui-time" <?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-blackliststart" class="ui-textinput ui-time"<?php if(!empty($settings["blacklist"])) { echo " value=\"".$settings["blacklist"]["earliest"]."\""; echo " data-start=\"$dtStart\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -920,7 +917,7 @@ and open the template in the editor.
                                                                 <td>
                                                                     <label id="ne-label-settings-blacklistend" for="ne-evt-settings-blacklistend">
                                                                         Latest end time
-                                                                        <input id="ne-evt-settings-blacklistend" class="ui-textinput ui-time"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-blacklistend" class="ui-textinput ui-time"<?php if(!empty($settings["blacklist"])) { echo " value=\"".$settings["blacklist"]["latest"]."\""; echo " data-end=\"$dtEnd\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -932,43 +929,43 @@ and open the template in the editor.
                                                                     <div>
                                                                         <span class="ui-container-inline">
                                                                             <label for="ne-evt-settings-blacklistdays-0" class="ne-label-settings-blacklistdays" title="Sunday">
-                                                                                <input id="ne-evt-settings-blacklistdays-0" name="ne-evt-settings-blacklistdays-0" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Sunday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                <input id="ne-evt-settings-blacklistdays-0" name="ne-evt-settings-blacklistdays-0" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Sunday" type="checkbox"<?php if(!empty($settings["blacklist"])) { echo (strpos($settings["blacklist"]["days"],"SU") || strpos($settings["blacklist"]["days"],"SU")===0)?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                                 S
                                                                             </label>
                                                                         </span>
                                                                         <span class="ui-container-inline">
                                                                             <label for="ne-evt-settings-blacklistdays-1" class="ne-label-settings-blacklistdays" title="Monday">
-                                                                                <input id="ne-evt-settings-blacklistdays-1" name="ne-evt-settings-blacklistdays-1" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Monday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                <input id="ne-evt-settings-blacklistdays-1" name="ne-evt-settings-blacklistdays-1" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Monday" type="checkbox"<?php if(!empty($settings["blacklist"])) { echo (strpos($settings["blacklist"]["days"],"MO") || strpos($settings["blacklist"]["days"],"MO")===0)?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                                 M
                                                                             </label>
                                                                         </span>
                                                                         <span class="ui-container-inline">
                                                                             <label for="ne-evt-settings-blacklistdays-2" class="ne-label-settings-blacklistdays" title="Tuesday">
-                                                                                <input id="ne-evt-settings-blacklistdays-2" name="ne-evt-settings-blacklistdays-2" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Tuesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                <input id="ne-evt-settings-blacklistdays-2" name="ne-evt-settings-blacklistdays-2" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Tuesday" type="checkbox"<?php if(!empty($settings["blacklist"])) { echo (strpos($settings["blacklist"]["days"],"TU") || strpos($settings["blacklist"]["days"],"TU")===0)?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                                 T
                                                                             </label>
                                                                         </span>
                                                                         <span class="ui-container-inline">
                                                                             <label for="ne-evt-settings-blacklistdays-3" class="ne-label-settings-blacklistdays" title="Wednesday">
-                                                                                <input id="ne-evt-settings-blacklistdays-3" name="ne-evt-settings-blacklistdays-3" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Wednesday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                <input id="ne-evt-settings-blacklistdays-3" name="ne-evt-settings-blacklistdays-3" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Wednesday" type="checkbox"<?php if(!empty($settings["blacklist"])) { echo (strpos($settings["blacklist"]["days"],"WE") || strpos($settings["blacklist"]["days"],"WE")===0)?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                                 W
                                                                             </label>
                                                                         </span>
                                                                         <span class="ui-container-inline">
                                                                             <label for="ne-evt-settings-blacklistdays-4" class="ne-label-settings-blacklistdays" title="Thursday">
-                                                                                <input id="ne-evt-settings-blacklistdays-4" name="ne-evt-settings-blacklistdays-4" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Thursday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                <input id="ne-evt-settings-blacklistdays-4" name="ne-evt-settings-blacklistdays-4" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Thursday" type="checkbox"<?php if(!empty($settings["blacklist"])) { echo (strpos($settings["blacklist"]["days"],"TH") || strpos($settings["blacklist"]["days"],"TH")===0)?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                                 T
                                                                             </label>
                                                                         </span>
                                                                         <span class="ui-container-inline">
                                                                             <label for="ne-evt-settings-blacklistdays-5" class="ne-label-settings-blacklistdays" title="Friday">
-                                                                                <input id="ne-evt-settings-blacklistdays-5" name="ne-evt-settings-blacklistdays-5" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Friday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                <input id="ne-evt-settings-blacklistdays-5" name="ne-evt-settings-blacklistdays-5" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Friday" type="checkbox"<?php if(!empty($settings["blacklist"])) { echo (strpos($settings["blacklist"]["days"],"FR") || strpos($settings["blacklist"]["days"],"FR")===0)?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                                 F
                                                                             </label>
                                                                         </span>
                                                                         <span class="ui-container-inline">
                                                                             <label for="ne-evt-settings-blacklistdays-6" class="ne-label-settings-blacklistdays" title="Saturday">
-                                                                                <input id="ne-evt-settings-blacklistdays-6" name="ne-evt-settings-blacklistdays-6" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Saturday" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                                <input id="ne-evt-settings-blacklistdays-6" name="ne-evt-settings-blacklistdays-6" class="ui-checkbox ne-settings-blacklistdays-checkbox" title="Saturday" type="checkbox"<?php if(!empty($settings["blacklist"])) { echo (strpos($settings["blacklist"]["days"],"SA") || strpos($settings["blacklist"]["days"],"SA")===0)?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                                 S
                                                                             </label>
                                                                         </span>
@@ -991,33 +988,33 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-locationgate" for="ne-evt-settings-locationgate">
-                                                        <input id="ne-evt-settings-locationgate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-locationgate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["location"])?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom location settings
                                                     </label>
-                                                    <table id="ne-settings-location-table" class="wpg-nodisplay">
+                                                    <table id="ne-settings-location-table"<?php if(empty($settings["location"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                         <tbody>
                                                             <tr id="ne-settings-location-table-0">
                                                                 <td>
                                                                     <label id="ne-label-settings-locationallow" for="ne-evt-settings-locationallow">
-                                                                        <input id="ne-evt-settings-locationallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-locationallow" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["location"])) { echo $settings["location"]["locationallow"]?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                         Allow location modulation
                                                                     </label>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-location-table-1">
+                                                            <tr id="ne-settings-location-table-1"<?php if(!empty($settings["location"]) && empty($settings["location"]["locationallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     Prioritization
                                                                     <span class="ui-container-block ui-smallfont">
                                                                         <label for="ne-evt-settings-location-prior-low" >
-                                                                            <input id="ne-evt-settings-location-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-location-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="1"<?php if(!empty($settings["location"])) { echo $settings["location"]["prioritization"]==1?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             low
                                                                         </label>
                                                                         <label for="ne-evt-settings-location-prior-med" >
-                                                                            <input id="ne-evt-settings-location-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-location-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="10"<?php if(!empty($settings["location"])) { echo $settings["location"]["prioritization"]==10?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             medium
                                                                         </label>
                                                                         <label for="ne-evt-settings-location-prior-hig" >
-                                                                            <input id="ne-evt-settings-location-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-location-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-location-prior" value="100"<?php if(!empty($settings["location"])) { echo $settings["location"]["prioritization"]==100?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             high
                                                                         </label>
                                                                     </span>
@@ -1033,43 +1030,54 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-attendancegate" for="ne-evt-settings-attendancegate">
-                                                        <input id="ne-evt-settings-attendancegate" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-attendancegate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["attendees"])?" checked":""; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom attendance settings
                                                     </label>
-                                                    <table id="ne-settings-attendees-table" class="wpg-nodisplay">
+                                                    <table id="ne-settings-attendees-table"<?php if(empty($settings["attendees"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                         <tbody>
                                                             <tr id="ne-settings-attendees-table-0">
                                                                 <td>
                                                                     <label id="ne-label-settings-attendeesallow" for="ne-evt-settings-attendeesallow">
-                                                                        <input id="ne-evt-settings-attendeesallow" class="ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-attendeesallow" class="ui-checkbox" type="checkbox"<?php if(!empty($settings["attendees"])) { echo $settings["attendees"]["attendeesallow"]?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                         Allow attendees modulation
                                                                     </label>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-attendees-table-1">
+                                                            <tr id="ne-settings-attendees-table-1"<?php if(!empty($settings["attendees"]) && empty($settings["attendees"]["attendeesallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     Prioritization
                                                                     <span class="ui-container-block ui-smallfont">
                                                                         <label for="ne-evt-settings-attendees-prior-low" >
-                                                                            <input id="ne-evt-settings-attendees-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="1" checked<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-attendees-prior-low" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="1"<?php if(!empty($settings["attendees"])) { echo $settings["attendees"]["prioritization"]==1?" checked":""; } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             low
                                                                         </label>
                                                                         <label for="ne-evt-settings-attendees-prior-med" >
-                                                                            <input id="ne-evt-settings-attendees-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="10"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-attendees-prior-med" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="10"<?php if(!empty($settings["attendees"])) { echo $settings["attendees"]["prioritization"]==10?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             medium
                                                                         </label>
                                                                         <label for="ne-evt-settings-attendees-prior-hig" >
-                                                                            <input id="ne-evt-settings-attendees-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="100"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <input id="ne-evt-settings-attendees-prior-hig" class="ui-radiobtn" type="radio" name="ne-evt-settings-attendees-prior" value="100"<?php if(!empty($settings["attendees"])) { echo $settings["attendees"]["prioritization"]==100?" checked":""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                             high
                                                                         </label>
                                                                     </span>
                                                                 </td>
                                                             </tr>
-                                                            <tr id="ne-settings-attendees-table-2">
+                                                            <tr id="ne-settings-attendees-table-2"<?php if(!empty($settings["attendees"]) && empty($settings["attendees"]["attendeesallow"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                                 <td>
                                                                     <label id="ne-label-settings-attendeesnomiss" for="ne-evt-settings-attendeesallow">
                                                                         Minimum required attendees
                                                                         <select id="ne-evt-settings-attendeesnomiss" class="ui-select"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                            <?php
+                                                                            if(isset($settings["attendees"])) {
+                                                                                for($i=1;$i<=count($attendees);$i++){
+                                                                                    if($i==$settings["attendees"]["minattendees"]) {
+                                                                                        echo "<option value=\"$i\" selected>$i</option>";
+                                                                                    } else {
+                                                                                        echo "<option value=\"$i\">$i</option>";
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            ?>
                                                                         </select>
                                                                     </label>
                                                                 </td>

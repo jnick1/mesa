@@ -140,7 +140,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant</title>
     </head>
     <body>
-        <div id="wpg" class="<?php echo "uluru".rand(1,6); ?>">
+        <div id="wpg" class="<?php echo "uluru".rand(1,8); ?>">
             <div id="in-header" class="ui-container-section">
                 <?php
                 include $homedir."includes/pageassembly/header.php";

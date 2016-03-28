@@ -35,7 +35,7 @@
         <div id="wpg-signin-btns">
             <div class="wrapper-btn-general wrapper-btn-all wpg-btns-popups">
                 <div id="wpg-signin-btn-done" <?php echo " tabindex=\"".$ti++."\"";?>>
-                    Done
+                    Sign in
                 </div>
             </div>
             <div class="wrapper-btn-general wrapper-btn-all wpg-btns-popups">
