@@ -14,13 +14,15 @@ $warnings = [];
 $notifications = [];
 
 $scrubbed = array_map("spam_scrubber", $_POST);
-include $homedir."includes/protocols/signout.php";
-include $homedir."includes/protocols/deleteaccount.php";
+if(isset($scrubbed["signout"])) {
+    unset($_SESSION["pkUserid"]);
+    unset($_SESSION["email"]);
+    unset($_SESSION["lastLogin"]);
+}
 
-include $homedir."includes/protocols/changeemail.php";
-include $homedir."includes/protocols/changepassword.php";
-
-include $homedir."includes/protocols/signin.php";
+if(empty($_SESSION["pkUserid"])){
+    header("location: $homedir"."index.php");
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,9 +72,5 @@ include $homedir."includes/protocols/signin.php";
             include $homedir."includes/pageassembly/footer.php";
             ?>
         </div>
-        <?php
-        include $homedir."includes/pageassembly/signin.php";
-        include $homedir."includes/pageassembly/account.php";
-        ?>
     </body>
 </html>
