@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
 #IMPORTANT!!!
 #RE-WRITE IT SO THAT THE PRIORITY IS MANIPULATED ONLY
-BY 
+
 
 
 #using numpty for matrix
@@ -37,7 +37,7 @@ BY
     bannedtimes = f.readline() #banned granularity increments based on user input, ie not over 933 or something
     preferedTime = f.readline() #the time that the person wants to have the specifically
     durrationTime = f.readline() #how long the meeting is
-    location = f.readline() #where the place is at/want to meet
+    locationTime = f.readline() #how long it take to reach the location spot
     weekly = f.readline() #how often per week people want to meet
     f.close()#closing the file
     grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour
@@ -70,9 +70,9 @@ BY
         for(j=0; j<(24/granularity) - bannedtimes; j+granularity): #hard to tell what to increment j by because it varies with each person
         {
             if GoogleCalender[i][j] = '1':  #if there is an event in the google calender
-                peopleCalender[i][j] += '1' 
+                peopleCalender[i][j] = '1' 
             else:
-                peopleCalender[1][j] += '0'          
+                peopleCalender[1][j] = '0'          
         }
     }
      attendies.insert(peopleCalender)
@@ -80,6 +80,15 @@ BY
     
  }#END ATTENDIES IF STATEMENT
     
+
+
+
+
+
+
+
+
+
 
     #adjust this based on time and such
 for (i=7; i>0; i--):
@@ -140,9 +149,40 @@ for (i=7; i>0; i--):
         file.write(out)
      
     
+for(i = 0; i<searchWidth; i++):
+    for(j=start; j<(24/granularity) - bannedtimes; j+granularity):
+        day = DAYS[i] #for specific day
+        if(j-locationTime >= 0): #so it stays within the calender
+            if (NormCalender[day][j-locationTime] == 0):#travel time is free
+                spot = False
+                do:
+                    if(NormCalender[day][preferedTime-locationTime] == 0):
+                        if(NormCalender[day][preferedTime] == 0): #modified perfered Time of day
+                        {
+                            do{
+                                count = 0
+                                for (k=preferedTime; k<timeLength; k+granularity):
+                                    {if(peopleCalender[day][k] == '0'):
+                                        count +=1
+                                    }
+                                if(count == timeLength):
+                                {
+                                    masterCalender[day][Start] = -1
+                                }
+                                else:
+                                    Start +=granularity
+                                }while(j<(24/granularity) - bannedtimes)
+                            spot = True #get out of loop early
+                        }
+                    else:
+                        preferedTime = preferedTime + (granularity*count* (-1^count)  #branches off hour by hour          
+                }while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ) 
+                    #this way, if the perfered time is not in the middle, it will still performed the action
+            
+         
+#meeting duration time practice
     
-    
- }#end of attendee acceptance
+ 
 
 def DayLocation ( DAYS, granlarity, bannedtimes, masterCalender, NormCalender, Priority)
 {for (i=0; i<DAYS.length(); i++)
@@ -227,7 +267,7 @@ for (i =0; i <searchwidth; i++):
 
 #For {for(i = 0; i<searchWidth; i++)
 #   {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
-#       for(location
+#       for(location) must check to see if schedule is empty travelTime minutes prior to the event itself
 #          for(recursion
 #               for(day
 #                   for(time
