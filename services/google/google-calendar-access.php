@@ -124,10 +124,14 @@ function calculate_travel_times($events) {
 }
 
 function insert_mysql_info($events_array) {
-    var_dump($events_array);
     $serialized_events = serialize($events_array);
     insert_event_data($serialized_events);
     session_destroy();
+    
+    session_start();
+    $_SESSION['calendarsaved'] = array("messagetype"=>"notifications", "message"=>"Success! Your calendar data has been saved. Thank you for using MESA.");
+    redirect_local("../../index.php");
+//Page for providing calendar data
 }
 
 ?>

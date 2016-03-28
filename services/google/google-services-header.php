@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../paths-header.php'; //Now update this path for file system updates
-require_once GOOGLE_API_FILE;
+include_once GOOGLE_API_FILE;
 
 define('HOST_URI', 'http://' . $_SERVER['HTTP_HOST'] . '/mesa/services/'); //Assumes mesa will be in a folder mesa, can be changed
 session_start();

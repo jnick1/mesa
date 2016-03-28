@@ -5,7 +5,6 @@ define('FILE_PATH', substr(__DIR__, 0, strpos(__DIR__, 'services') + 8) . "\\");
 define('GOOGLE_PATH', 'google/');
 
 define('GOOGLE_CALENDAR_ACCESS_PATH', GOOGLE_PATH . 'google-calendar-access.php');
-define('GOOGLE_CALENDAR_CREATE_EVENT_PATH', GOOGLE_PATH . 'google-calendar-create-event.php');
 define('GOOGLE_SERVICES_HEADER_PATH', GOOGLE_PATH . 'google-services-header.php');
 define('GOOGLE_CALENDAR_CHOICE_PATH', GOOGLE_PATH . 'user-calendar-query.php');
 
@@ -17,6 +16,5 @@ define('SQL_ACCESS_PATH', 'services-sql-request.php');
 
 //Files require the base path
 define('CLIENT_SECRET_FILE', FILE_PATH . '../client_secret.json');
-define('SERVICE_ACCOUNT_FILE', FILE_PATH . '../MESA_Service.json');
 define('BING_SECRET_FILE', FILE_PATH . '../bing_secret.txt');
 define('GOOGLE_API_FILE', FILE_PATH . '../vendor/autoload.php');
