@@ -14,6 +14,12 @@ $warnings = [];
 $notifications = [];
 
 $scrubbed = array_map("spam_scrubber", $_POST);
+
+if(!empty($_SESSION["calendarsaved"])) {
+    array_push($$_SESSION["calendarsaved"]["messagetype"], $_SESSION["calendarsaved"]["message"]);
+    unset($_SESSION["calendarsaved"]);
+}
+
 include $homedir."includes/protocols/signout.php";
 include $homedir."includes/protocols/deleteaccount.php";
 

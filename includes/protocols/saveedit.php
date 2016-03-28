@@ -1,5 +1,5 @@
 <?php
-if(isset($scrubbed["edit"])) {
+if(isset($scrubbed["saveedit"])) {
     if($scrubbed["nmTitle"] == "" || $scrubbed["blAttendees"] == "[]") {
         if($scrubbed["blAttendees"] == "[]"){
             $warnings[] = "Your event must have at least 1 attendee to be saved.";

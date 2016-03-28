@@ -54,103 +54,6 @@ body {
 /*==========|     ID's     |==========*/
 /*====================================*/
 
-#wpg-account-notification-confirmnewpassword {
-    position: absolute;
-    top: 52%;
-    left: 105%;
-    width: 250px;
-    background-color: #fafafa;
-    padding: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    -webkit-border-top-left-radius:8px;
-    -moz-border-radius-topleft:8px;
-    border-top-left-radius:8px;
-    -webkit-border-top-right-radius:8px;
-    -moz-border-radius-topright:8px;
-    border-top-right-radius:8px;
-    -webkit-border-bottom-right-radius:8px;
-    -moz-border-radius-bottomright:8px;
-    border-bottom-right-radius:8px;
-    -webkit-border-bottom-left-radius:8px;
-    -moz-border-radius-bottomleft:8px;
-    border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
-    border: 1px solid #444;
-}
-#wpg-account-notification-email {
-    position: absolute;
-    top: 18%;
-    right: 105%;
-    width: 250px;
-    background-color: #fafafa;
-    padding: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    -webkit-border-top-left-radius:8px;
-    -moz-border-radius-topleft:8px;
-    border-top-left-radius:8px;
-    -webkit-border-top-right-radius:8px;
-    -moz-border-radius-topright:8px;
-    border-top-right-radius:8px;
-    -webkit-border-bottom-right-radius:8px;
-    -moz-border-radius-bottomright:8px;
-    border-bottom-right-radius:8px;
-    -webkit-border-bottom-left-radius:8px;
-    -moz-border-radius-bottomleft:8px;
-    border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
-    border: 1px solid #444;
-}
-#wpg-account-notification-newpassword {
-    position: absolute;
-    top: 39%;
-    left: 105%;
-    width: 250px;
-    background-color: #fafafa;
-    padding: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    -webkit-border-top-left-radius:8px;
-    -moz-border-radius-topleft:8px;
-    border-top-left-radius:8px;
-    -webkit-border-top-right-radius:8px;
-    -moz-border-radius-topright:8px;
-    border-top-right-radius:8px;
-    -webkit-border-bottom-right-radius:8px;
-    -moz-border-radius-bottomright:8px;
-    border-bottom-right-radius:8px;
-    -webkit-border-bottom-left-radius:8px;
-    -moz-border-radius-bottomleft:8px;
-    border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
-    border: 1px solid #444;
-}
-#wpg-account-notification-password {
-    position: absolute;
-    top: 18%;
-    left: 105%;
-    width: 250px;
-    background-color: #fafafa;
-    padding: 10px;
-    font-weight: bold;
-    font-size: 16px;
-    -webkit-border-top-left-radius:8px;
-    -moz-border-radius-topleft:8px;
-    border-top-left-radius:8px;
-    -webkit-border-top-right-radius:8px;
-    -moz-border-radius-topright:8px;
-    border-top-right-radius:8px;
-    -webkit-border-bottom-right-radius:8px;
-    -moz-border-radius-bottomright:8px;
-    border-bottom-right-radius:8px;
-    -webkit-border-bottom-left-radius:8px;
-    -moz-border-radius-bottomleft:8px;
-    border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
-    border: 1px solid #444;
-}
-
 #wpg {
     width: 100%;
     min-width: 600px;
@@ -241,9 +144,57 @@ body {
     font-size: 16px;
     padding: 10px 15px;
 }
+#wpg-account-notification-confirmnewpassword {
+    position: absolute;
+    top: 52%;
+    left: 105%;
+    width: 250px;
+    background-color: #fafafa;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    -webkit-border-top-left-radius:8px;
+    -moz-border-radius-topleft:8px;
+    border-top-left-radius:8px;
+    -webkit-border-top-right-radius:8px;
+    -moz-border-radius-topright:8px;
+    border-top-right-radius:8px;
+    -webkit-border-bottom-right-radius:8px;
+    -moz-border-radius-bottomright:8px;
+    border-bottom-right-radius:8px;
+    -webkit-border-bottom-left-radius:8px;
+    -moz-border-radius-bottomleft:8px;
+    border-bottom-left-radius:8px;
+    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    border: 1px solid #444;
+}
 #wpg-account-notification-email {
     position: absolute;
     top: 23%;
+    right: 105%;
+    width: 250px;
+    background-color: #fafafa;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    -webkit-border-top-left-radius:8px;
+    -moz-border-radius-topleft:8px;
+    border-top-left-radius:8px;
+    -webkit-border-top-right-radius:8px;
+    -moz-border-radius-topright:8px;
+    border-top-right-radius:8px;
+    -webkit-border-bottom-right-radius:8px;
+    -moz-border-radius-bottomright:8px;
+    border-bottom-right-radius:8px;
+    -webkit-border-bottom-left-radius:8px;
+    -moz-border-radius-bottomleft:8px;
+    border-bottom-left-radius:8px;
+    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    border: 1px solid #444;
+}
+#wpg-account-notification-newpassword {
+    position: absolute;
+    top: 39%;
     left: 105%;
     width: 250px;
     background-color: #fafafa;
@@ -267,7 +218,7 @@ body {
 }
 #wpg-account-notification-password {
     position: absolute;
-    top: 53%;
+    top: 18%;
     left: 105%;
     width: 250px;
     background-color: #fafafa;
