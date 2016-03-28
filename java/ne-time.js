@@ -26,6 +26,65 @@ function time_parser(string){
             
     return output;
 }
+function client_time(){
+    var time = Math.floor(Date.now()/1000);
+    var UTS_start = Math.ceil(time/(30*60))*(30*60);
+    var UTS_end = Math.ceil((time+3600)/(30*60))*(30*60);
+    
+    var start = new Date(UTS_start*1000);
+    var end = new Date(UTS_end*1000);
+    
+    var date_start_month = start.getMonth()+1;
+    var date_start_day = start.getDate();
+    var date_start_year = start.getFullYear();
+    
+    var date_end_month = end.getMonth()+1;
+    var date_end_day = end.getDate();
+    var date_end_year = end.getFullYear();
+    
+    var hours_start = start.getHours();
+    var hours_end = end.getHours();
+    var minutes = start.getMinutes();
+    
+    date_start_month<10?date_start_month="0"+date_start_month:"";
+    date_end_month<10?date_end_month="0"+date_end_month:"";
+    date_start_day<10?date_start_day="0"+date_start_day:"";
+    date_end_day<10?date_end_day="0"+date_end_day:"";
+
+    var suffix_start = "am";
+    var suffix_end = "am";
+
+    if (hours_start >= 12) {
+        suffix_start = "pm";
+        hours_start -= 12;
+    }
+    if (hours_start === 0) {
+        hours_start = 12;
+    }
+    
+    if(hours_end >= 12) {
+        suffix_end = "pm";
+        hours_end -= 12;
+    }
+    if (hours_end === 0) {
+        hours_end = 12;
+    }
+    
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    
+    $("#ne-evt-time-start").val(hours_start + ":" + minutes + suffix_start); //hours1 + ":" + minutes + suffix
+    $("#ne-evt-time-end").val(hours_end + ":" + minutes + suffix_end);
+    
+    $("#ne-evt-date-start").val(date_start_month + "/" + date_start_day + "/" + date_start_year);
+    $("#ne-evt-date-end").val(date_end_month + "/" + date_end_day + "/" + date_end_year);
+    
+    time_start = hours_start + ":" + minutes + suffix_start;
+    time_end = hours_end + ":" + minutes + suffix_end;
+    date_start = date_start_month + "/" + date_start_day + "/" + date_start_year;
+    date_end = date_end_month + "/" + date_end_day + "/" + date_end_year;
+}
 function compare_time(first, second){
     var a = time_parser(first);
     var b = time_parser(second);
@@ -108,64 +167,60 @@ $("#ne-evt-date-end").datepicker({
   }
 });
 
-$(document).ready(function client_time(){
-    var time = Math.floor(Date.now()/1000);
-    var UTS_start = Math.ceil(time/(30*60))*(30*60);
-    var UTS_end = Math.ceil((time+3600)/(30*60))*(30*60);
-    
-    var start = new Date(UTS_start*1000);
-    var end = new Date(UTS_end*1000);
-    
-    var date_start_month = start.getMonth()+1;
-    var date_start_day = start.getDate();
-    var date_start_year = start.getFullYear();
-    
-    var date_end_month = end.getMonth()+1;
-    var date_end_day = end.getDate();
-    var date_end_year = end.getFullYear();
-    
-    var hours_start = start.getHours();
-    var hours_end = end.getHours();
-    var minutes = start.getMinutes();
-    
-    date_start_month<10?date_start_month="0"+date_start_month:"";
-    date_end_month<10?date_end_month="0"+date_end_month:"";
-    date_start_day<10?date_start_day="0"+date_start_day:"";
-    date_end_day<10?date_end_day="0"+date_end_day:"";
+$(document).ready(function (){
+    if($("#wpg").attr("data-eventid")) {
+        var times = $(".ne-top-time");
+        var parsedtimes = {};
+        times.each(function(index, elem){
+            parsedtimes[$(elem).attr("id")] = $(elem).val();
+        });
+        for(var time in parsedtimes) {
+            var newtime;
+            var date;
+            if(time==="ne-evt-time-start") {
+                var dateO = $("#ne-evt-date-start").val();
+                date = new Date($("#ne-evt-date-start").val()+" "+$("#ne-evt-time-start").val()+":00 UTC");
+                newtime = new Date(dateO.substring(6)+"/"+dateO.substring(0,2)+"/"+dateO.substring(3,5)+" "+parsedtimes[time]+":00 UTC ");
+            } else if(time==="ne-evt-time-end") {
+                var dateO = $("#ne-evt-date-end").val();
+                date = new Date($("#ne-evt-date-end").val()+" "+$("#ne-evt-time-end").val()+":00 UTC");
+                newtime = new Date(dateO.substring(6)+"/"+dateO.substring(0,2)+"/"+dateO.substring(3,5)+" "+parsedtimes[time]+":00 UTC ");
+            }
 
-    var suffix_start = "am";
-    var suffix_end = "am";
+            var hours = newtime.getHours();
+            var minutes = newtime.getMinutes();
 
-    if (hours_start >= 12) {
-        suffix_start = "pm";
-        hours_start -= 12;
+            var suffix = "am";
+
+            if (hours >= 12) {
+                suffix = "pm";
+                hours -= 12;
+            }
+            if (hours === 0) {
+                hours = 12;
+            }
+
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+
+            $("#"+time).val(hours + ":" + minutes + suffix); //hours1 + ":" + minutes + suffix
+            
+            if(time==="ne-evt-time-start"){
+                time_start = hours + ":" + minutes + suffix;
+                $("#ne-evt-date-start").removeAttr("value");
+                $("#ne-evt-date-start").datepicker("setDate",date);
+                date_start = $("#ne-evt-date-start").val();
+            } else if(time==="ne-evt-time-end") {
+                time_end = hours + ":" + minutes + suffix;
+                $("#ne-evt-date-end").removeAttr("value");
+                $("#ne-evt-date-end").datepicker("setDate",date);
+                date_end =  $("#ne-evt-date-end").val();
+            }
+        }
+    } else {
+        client_time();
     }
-    if (hours_start === 0) {
-        hours_start = 12;
-    }
-    
-    if(hours_end >= 12) {
-        suffix_end = "pm";
-        hours_end -= 12;
-    }
-    if (hours_end === 0) {
-        hours_end = 12;
-    }
-    
-    if (minutes < 10) {
-        minutes = "0" + minutes;
-    }
-    
-    $("#ne-evt-time-start").val(hours_start + ":" + minutes + suffix_start); //hours1 + ":" + minutes + suffix
-    $("#ne-evt-time-end").val(hours_end + ":" + minutes + suffix_end);
-    
-    $("#ne-evt-date-start").val(date_start_month + "/" + date_start_day + "/" + date_start_year);
-    $("#ne-evt-date-end").val(date_end_month + "/" + date_end_day + "/" + date_end_year);
-    
-    time_start = hours_start + ":" + minutes + suffix_start;
-    time_end = hours_end + ":" + minutes + suffix_end;
-    date_start = date_start_month + "/" + date_start_day + "/" + date_start_year;
-    date_end = date_end_month + "/" + date_end_day + "/" + date_end_year;
 });
 
 $(document).on("click", "#ne-evt-time-end", generate_end_times);

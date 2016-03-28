@@ -58,11 +58,64 @@ function reset_settings(){
     $("#ne-evt-settings-maxdate").val("");
     $("input[id$='prior-low'").prop("checked",true);
     $("#ne-settings-repetition-annotation").addClass("wpg-nodisplay").removeClass("ui-container-block");
+    $("#ne-settings-display").addClass("wpg-nodisplay");
+    $("#ne-settings-edit").addClass("wpg-nodisplay");
+    $("#ne-label-settingsbox").html("Advanced settings");
 }
 
 $(document).ready(function(){
-    reset_settings();
-    save_state("#ne-settings-wrapper", settingsstate);
+    if($("#wpg").attr("data-eventid")) {
+        if(!$("#ne-evt-settings-usedefault").is(":checked")) {
+            if($("#ne-evt-settings-maxdate").attr(("data-date"))) {
+                var furthest = $("#ne-evt-settings-maxdate").attr(("data-date"));
+                $("#ne-evt-settings-maxdate").removeAttr("data-date");
+                $("#ne-evt-settings-maxdate").val(furthest);
+            }
+            if($("#ne-evt-settings-blackliststart").val()!=="") {
+                var time = $("#ne-evt-settings-blackliststart").val();
+                var start = $("#ne-evt-settings-blackliststart").attr("data-start");
+                $("#ne-evt-settings-blackliststart").removeAttr("data-start");
+                var earliest = new Date(start.substring(0,4)+"/"+start.substring(5,7)+"/"+start.substring(8,10)+" "+time+" UTC");
+                var suffix = "am";
+                var afternoon = false;
+                var hours = earliest.getHours()===0?"12":(earliest.getHours()<10?"0"+earliest.getHours():(earliest.getHours()>12?afternoon=true:earliest.getHours()));
+                var minutes = earliest.getMinutes()<10?"0"+earliest.getMinutes():earliest.getMinutes();
+
+                if(afternoon){
+                    hours = earliest.getHours()-12;
+                    suffix = "pm";
+                }
+
+                $("#ne-evt-settings-blackliststart").val(hours+":"+minutes+suffix);
+            }
+            if($("#ne-evt-settings-blacklistend").val()!=="") {
+                var time = $("#ne-evt-settings-blacklistend").val();
+                var end = $("#ne-evt-settings-blacklistend").attr("data-end");
+                $("#ne-evt-settings-blacklistend").removeAttr("data-end");
+                var latest = new Date(end.substring(0,4)+"/"+end.substring(5,7)+"/"+end.substring(8,10)+" "+time+" UTC");
+                var suffix = "am";
+                var afternoon = false;
+                var hours = latest.getHours()===0?"12":(latest.getHours()<10?"0"+latest.getHours():(latest.getHours()>=12?afternoon=true:latest.getHours()));
+                var minutes = latest.getMinutes()<10?"0"+latest.getMinutes():latest.getMinutes();
+
+                if(afternoon){
+                    hours = latest.getHours()-12;
+                    hours = hours<10?"0"+hours:hours;
+                    suffix = "pm";
+                }
+
+                $("#ne-evt-settings-blacklistend").val(hours+":"+minutes+suffix);
+            }
+            settingsset = true;
+            save_state("#ne-settings-wrapper", settingsstate);
+        } else {
+            reset_settings();
+            save_state("#ne-settings-wrapper", settingsstate);
+        }
+    } else {
+        reset_settings();
+        save_state("#ne-settings-wrapper", settingsstate);
+    }
 });
 
 $(document).on("click", "#ne-evt-settingsbox", function(){
@@ -103,6 +156,7 @@ $(document).on("click", "#ne-settings-btn-done", function(){
         $("#ne-label-settingsbox").html("Advanced settings: ");
     } else {
         settingsset = false;
+        $("#ne-evt-settings-usedefault").prop("checked",true);
         $("#ne-evt-settingsbox").prop("checked", false);
         $("#ne-settings-edit").addClass("wpg-nodisplay");
         $("#ne-settings-display").addClass("wpg-nodisplay");
@@ -170,5 +224,13 @@ $(document).on("blur", "#ne-evt-settings-maxdate,#ne-evt-settings-minduration,#n
                 $(this).val("11:59pm");
             }
             break;
+    }
+});
+
+$(document).on("click", "#ne-evt-settings-attendancegate", function(){
+    var maxguests = $(".ne-evt-guest").length;
+    $("#ne-evt-settings-attendeesnomiss").html("");
+    for(var i=1;i<=maxguests;i++){
+        $("#ne-evt-settings-attendeesnomiss").append("<option value=\""+i+"\">"+i+"</option>\n");
     }
 });

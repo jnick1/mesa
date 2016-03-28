@@ -9,10 +9,8 @@
                 Sign in
             </div>
         </div>
-        <?php } else { ?>
-        
-        <?php
-        
+        <?php } else { 
+            
         $r = hexdec(substr($_SESSION["userColor"], 1, 2));
         $g = hexdec(substr($_SESSION["userColor"], 3, 2));
         $b = hexdec(substr($_SESSION["userColor"], 5, 2));
@@ -42,6 +40,9 @@
                 My events
                 <!--<span id="wpg-header-myevents-dropdown-arrow" class="goog-icon goog-icon-dropdown-arrow-left ui-container-inline"></span>-->
             </a>
+        </span>
+        <span id="wpg-header-myaccount" class="ui-container-inline ui-unselectabletext">
+            My account
         </span>
         <?php } ?>
     </div>
