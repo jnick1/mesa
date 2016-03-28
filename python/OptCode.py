@@ -84,30 +84,6 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-
-
-    #adjust this based on time and such
-for (i=7; i>0; i--):
-        if (i = 7):#number of people attending
-            {peopleCounting(searchwidth, granularity, bannedtimes, peopleCalender)}
-    else if (i = 6): #granularity
-         #
-    else if (i = 5): #location  
-         #
-    else if (i = 4): # of times repeated
-         #
-    else if (i = 3): #Duration of meeting
-         durrationLocation (granularity, bannedtimes, startTime, durrationTime, peopleCalender, masterCalender)
-    else if (i = 2): #Day of week
-        {DayLocation ( DAYS, granlarity, bannedtimes, masterCalender, NormCalender, Priority)
-        }
-    else if (i = 1): #Time of day
-    {    TimeLocation (DAYS, NormCalender, MasterCalender, Priority, preferedTime)
-    }
     
     List [] #used to hold the numbers in the matrix
     for(i = 0; i<7; i++):
