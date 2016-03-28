@@ -27,9 +27,6 @@ and open the template in the editor.
 .details-notifications {
     margin-bottom: 5px;
 }
-.details-notifications-hidden {
-    display: none;
-}
 .details-notifications-remindertime {
     padding: 1.5px !important;
     width: 2em;
@@ -41,10 +38,6 @@ and open the template in the editor.
     width: 10px;
     height: 10px;
     background-repeat: no-repeat;
-}
-
-.details-visibility-info-hidden {
-    display: none;
 }
 
 /*====================================*/

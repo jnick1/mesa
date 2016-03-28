@@ -58,6 +58,18 @@ and open the template in the editor.
     background-color: #f2f2f2;
 }
 
+.ui-dulledlink {
+    color: #000;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    outline: none;
+}
+.ui-dulledlink:hover {
+    color: #777;
+}
+
 .ui-header {
     font-weight: bold;
 }
