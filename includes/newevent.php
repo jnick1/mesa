@@ -14,28 +14,17 @@ $warnings = [];
 $notifications = [];
 
 $scrubbed = array_map("spam_scrubber", $_POST);
-if(isset($scrubbed["signout"])) {
-    unset($_SESSION["pkUserid"]);
-    unset($_SESSION["email"]);
-    unset($_SESSION["lastLogin"]);
-}
+include $homedir."includes/protocols/signout.php";
+include $homedir."includes/protocols/deleteaccount.php";
 
 if(empty($_SESSION["pkUserid"])){
     header("location: $homedir"."index.php");
 }
 
-if(isset($scrubbed["edit"])) {
-    $q1 = "SELECT `blOptiSuggestion`, `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`, `dtRequestSent` FROM `tblevents` WHERE pkEventid = ?";
-    
-    if($stmt = $dbc->prepare($q1)){
-        $stmt->bind_param("i",$scrubbed["pkEventid"]);
-        $stmt->execute();
-        $stmt->bind_result($blOptiSuggestion,$nmTitle,$dtStart,$dtEnd,$txLocation,$txDescription,$txRRule,$nColorid,$blSettings,$blAttendees,$blNotifications,$isGuestInvite,$isGuestList,$enVisibility,$isBusy,$dtRequestSent);
-        $stmt->fetch();
-        $stmt->free_result();
-        $stmt->close();
-    }
-}
+include $homedir."includes/protocols/changeemail.php";
+include $homedir."includes/protocols/changepassword.php";
+
+include $homedir."includes/protocols/editevent.php";
 ?>
 <!DOCTYPE html>
 <!--
@@ -83,7 +72,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
-        <div id="wpg"<?php echo ((isset($scrubbed["edit"]) && isset($scrubbed["pkEventid"]))?" data-eventid=\"".$scrubbed["pkEventid"]."\"":""); ?>>
+        <div id="wpg"<?php echo ((isset($scrubbed["editevent"]) && isset($scrubbed["pkEventid"]))?" data-eventid=\"".$scrubbed["pkEventid"]."\"":""); ?>>
             <div id="ne-header" class="ui-container-section <?php echo "uluru".rand(1,8); ?>">
                 <?php
                 include $homedir."includes/pageassembly/header.php";

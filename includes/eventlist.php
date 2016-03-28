@@ -14,124 +14,19 @@ $warnings = [];
 $notifications = [];
 
 $scrubbed = array_map("spam_scrubber", $_POST);
-if(isset($scrubbed["signout"])) {
-    unset($_SESSION["pkUserid"]);
-    unset($_SESSION["email"]);
-    unset($_SESSION["lastLogin"]);
-}
+include $homedir."includes/protocols/signout.php";
+include $homedir."includes/protocols/deleteaccount.php";
 
 if(empty($_SESSION["pkUserid"])){
     header("location: $homedir"."index.php");
 }
 
-if(isset($scrubbed["delete"])) {
-    $q1 = "DELETE FROM tblevents WHERE pkEventid = ? LIMIT 1";
-    $q2 = "DELETE FROM tblusersevents WHERE fkEventid = ? AND fkUserid = ?";
-    $q3 = "SELECT pkEventid FROM tblevents WHERE pkEventid = ?";
-    
-    if($stmt = $dbc->prepare($q3)){
-        $stmt->bind_param("i", $scrubbed["pkEventid"]);
-        $stmt->execute();
-        $stmt->bind_result($eventExists);
-        $stmt->fetch();
-        $stmt->free_result();
-        $stmt->close();
-    }
-    if(!empty($eventExists)){
-        if($stmt = $dbc->prepare($q1)){
-            $stmt->bind_param("i", $scrubbed["pkEventid"]);
-            $stmt->execute();
-            $stmt->free_result();
-            $stmt->close();
-        }
-        if($stmt = $dbc->prepare($q2)){
-            $stmt->bind_param("ii", $scrubbed["pkEventid"],$_SESSION["pkUserid"]);
-            $stmt->execute();
-            $stmt->free_result();
-            $stmt->close();
-        }
-        $notifications[] = "Your event has been successfully deleted.";
-    } else {
-        $warnings[] = "The event specified cannot be found. It has likely already been deleted.";
-    }
-    
-}
-if(isset($scrubbed["create"])) {
-    if($scrubbed["nmTitle"] == "" || $scrubbed["blAttendees"] == "[]") {
-        if($scrubbed["blAttendees"] == "[]"){
-            $warnings[] = "Your event must have at least 1 attendee to be saved.";
-        } else {
-            $warnings[] = "Your event must have a title to be saved.";
-        }
-    } else {
-        $q1 = "SELECT `auto_increment` FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'tblevents'";
-        $q2 = "INSERT INTO `tblevents`(`nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $q3 = "INSERT INTO `tblusersevents`(`fkUserid`, `fkEventid`) VALUES (?,?)";
-        
-        if($stmt = $dbc->prepare($q1)){
-            $stmt->execute();
-            $stmt->bind_result($eventid);
-            $stmt->fetch();
-            $stmt->free_result();
-            $stmt->close();
-        }
-        if($stmt = $dbc->prepare($q2)){
-            $scrubbed["nColorid"] = (int) $scrubbed["nColorid"];
-            $scrubbed["isGuestInvite"] = (int) $scrubbed["isGuestInvite"];
-            $scrubbed["isGuestList"] = (int) $scrubbed["isGuestList"];
-            $scrubbed["isBusy"] = (int) $scrubbed["isBusy"];
-            $stmt->bind_param("ssssssisssiisi", $scrubbed["nmTitle"],$scrubbed["dtStart"],$scrubbed["dtEnd"],$scrubbed["txLocation"],$scrubbed["txDescription"],$scrubbed["txRRule"],$scrubbed["nColorid"],$scrubbed["blSettings"],$scrubbed["blAttendees"],$scrubbed["blNotifications"],$scrubbed["isGuestInvite"],$scrubbed["isGuestList"],$scrubbed["enVisibility"],$scrubbed["isBusy"]);
-            $stmt->execute();
-            $stmt->free_result();
-            $stmt->close();
-        }
-        if($stmt = $dbc->prepare($q3)){
-            $stmt->bind_param("ii", $_SESSION["pkUserid"],$eventid);
-            $stmt->execute();
-            $stmt->free_result();
-            $stmt->close();
-        }
-        $notifications[] = "Your event has been successfully saved.";
-    }
-}
-if(isset($scrubbed["edit"])) {
-    if($scrubbed["nmTitle"] == "" || $scrubbed["blAttendees"] == "[]") {
-        if($scrubbed["blAttendees"] == "[]"){
-            $warnings[] = "Your event must have at least 1 attendee to be saved.";
-        } else {
-            $warnings[] = "Your event must have a title to be saved.";
-        }
-    } else {
-        $q1 = "SELECT fkUserid FROM tblusersevents WHERE fkEventid = ?";
-        $q2 = "UPDATE `tblevents` SET `nmTitle`=?,`dtStart`=?,`dtEnd`=?,`txLocation`=?,`txDescription`=?,`txRRule`=?,`nColorid`=?,`blSettings`=?,`blAttendees`=?,`blNotifications`=?,`isGuestInvite`=?,`isGuestList`=?,`enVisibility`=?,`isBusy`=? WHERE pkEventid = ?";
-        
-        if($stmt = $dbc->prepare($q1)){
-            $stmt->bind_param("i",$scrubbed["pkEventid"]);
-            $stmt->execute();
-            $stmt->bind_result($owner);
-            $stmt->fetch();
-            $stmt->free_result();
-            $stmt->close();
-        }
-        if($owner === $_SESSION["pkUserid"]) {
-            if($stmt = $dbc->prepare($q2)){
-                $scrubbed["nColorid"] = (int) $scrubbed["nColorid"];
-                $scrubbed["isGuestInvite"] = (int) $scrubbed["isGuestInvite"];
-                $scrubbed["isGuestList"] = (int) $scrubbed["isGuestList"];
-                $scrubbed["isBusy"] = (int) $scrubbed["isBusy"];
-                $scrubbed["pkEventid"] = (int) $scrubbed["pkEventid"];
-                $stmt->bind_param("ssssssisssiisii", $scrubbed["nmTitle"],$scrubbed["dtStart"],$scrubbed["dtEnd"],$scrubbed["txLocation"],$scrubbed["txDescription"],$scrubbed["txRRule"],$scrubbed["nColorid"],$scrubbed["blSettings"],$scrubbed["blAttendees"],$scrubbed["blNotifications"],$scrubbed["isGuestInvite"],$scrubbed["isGuestList"],$scrubbed["enVisibility"],$scrubbed["isBusy"],$scrubbed["pkEventid"]);
-                $stmt->execute();
-                $stmt->free_result();
-                $stmt->close();
-            }
-            $notifications[] = "Your event has been successfully saved.";
-        } else {
-            $errors[] = "You do not have permission to modify this event.";
-        }
-        
-    }
-}
+include $homedir."includes/protocols/changeemail.php";
+include $homedir."includes/protocols/changepassword.php";
+
+include $homedir."includes/protocols/delete.php";
+include $homedir."includes/protocols/create.php";
+include $homedir."includes/protocols/saveedit.php";
 ?>
 <!DOCTYPE html>
 <!--

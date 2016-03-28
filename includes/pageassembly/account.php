@@ -29,6 +29,17 @@
                                             <div id="wpg-account-notification-email" class="wpg-nodisplay"></div>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="wpg-account-btns">
+                                                <div class="wrapper-btn-general wrapper-btn-all wpg-btns-popups">
+                                                    <div id="wpg-account-btn-changeemail" <?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Change
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </td>
@@ -50,7 +61,7 @@
                                         </th>
                                         <td>
                                             <input id="wpg-evt-account-password" name="wpg-evt-account-password" placeholder="Enter your current password" type="password" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
-                                            <div id="wpg-account-notification-currentpassword" class="wpg-nodisplay"></div>
+                                            <div id="wpg-account-notification-password" class="wpg-nodisplay"></div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -75,6 +86,17 @@
                                             <div id="wpg-account-notification-confirmnewpassword" class="wpg-nodisplay"></div>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="wpg-account-btns">
+                                                <div class="wrapper-btn-general wrapper-btn-all wpg-btns-popups">
+                                                    <div id="wpg-account-btn-resetpassword" <?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        Reset
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </td>
@@ -87,18 +109,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="wpg-account-btns">
-            <div class="wrapper-btn-general wrapper-btn-all wpg-btns-popups">
-                <div id="wpg-account-btn-done" <?php echo " tabindex=\"".$ti++."\"";?>>
-                    Done
-                </div>
-            </div>
-            <div class="wrapper-btn-general wrapper-btn-all wpg-btns-popups">
-                <div id="wpg-account-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
-                    Cancel
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 <div id="wpg-account-delete-wrapper" class="ui-popup">
@@ -109,6 +120,9 @@
         </div>
         <div id="wpg-account-delete-content-wrapper">
             Are you sure you want to delete your entire account?
+            <div id="wpg-account-delete-warningtext">
+                THIS WILL DELETE ALL EVENTS SAVED UNDER YOUR ACCOUNT.
+            </div>
         </div>
         <div id="wpg-account-delete-btns">
             <div class="wrapper-btn-general wrapper-btn-all wpg-btns-popups">

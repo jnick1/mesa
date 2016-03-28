@@ -45,7 +45,7 @@ $(document).on("click keyup", "#el-delete-btn-yes", function(event) {
 
 $(document).on("click", ".el-btn-edit", function() {
     post("newevent.php",{
-        "edit":true,
+        "editevent":true,
         "pkEventid":$(this).attr("id").substring(11)
     },
     "POST")

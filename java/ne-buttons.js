@@ -271,7 +271,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
         "isBusy":isBusy
     };
     if($("#wpg").attr("data-eventid")) {
-        parameters["edit"] = true;
+        parameters["saveedit"] = true;
         parameters["pkEventid"] = parseInt($("#wpg").data("eventid"));
     } else {
         parameters["create"] = true;

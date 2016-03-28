@@ -72,6 +72,67 @@ $(document).on("click", "#wpg-account-x, #wpg-account-btn-cancel", function() {
     hide_account_dialogbox();
 });
 
+$(document).on("click keyup", "#wpg-account-btn-changeemail", function(event) {
+    if(event.type === "click" || (event.type === "keyup" && (event.which===13))) {
+        if(validate_email($("#wpg-evt-account-email").val())){
+            var parameters = {
+                "changeemail":true,
+                "wpg-evt-account-email":$("#wpg-evt-account-email").val()
+            };
+            post("#",parameters,"POST");
+        } else {
+            $("#wpg-signin-notification-email").removeClass("wpg-nodisplay").html("Please enter a valid email address");
+        }
+    }
+    
+});
+
+$(document).on("click keyup", "#wpg-account-btn-resetpassword", function(event) {
+    if(event.type === "click" || (event.type === "keyup" && (event.which===13))) {
+        if($("#wpg-evt-account-newpassword").val()===$("#wpg-evt-account-confirmnewpassword").val()) {
+            post("#",{
+                "changepassword":true,
+                "wpg-evt-account-password":$("#wpg-evt-account-password").val(),
+                "wpg-evt-account-newpassword":$("#wpg-evt-account-newpassword").val()
+            }, "POST");
+        } else {
+            $("#wpg-account-notification-confirmnewpassword").removeClass("wpg-nodisplay").html("Please ensure your passwords match");
+        }
+    }
+});
+
+$(document).on("blur","#wpg-evt-account-email,#wpg-evt-account-newpassword,#wpg-evt-account-confirmnewpassword", function(){
+    switch($(this).attr("id")){
+        case "wpg-evt-account-email":
+            var goodemail = validate_email($(this).val());
+            if(!goodemail && $("#wpg-evt-account-email").val()!==""){
+                $("#wpg-account-notification-email").removeClass("wpg-nodisplay").html("Please enter a valid email address");
+            } else {
+                $("#wpg-account-notification-email").addClass("wpg-nodisplay").html("");
+            }
+            break;
+        case "wpg-evt-account-confirmnewpassword":
+            if($(this).val()!==$("#wpg-evt-account-newpassword").val()){
+                $("#wpg-account-notification-confirmnewpassword").removeClass("wpg-nodisplay").html("Please ensure your passwords match");
+            } else {
+                $("#wpg-account-notification-confirmnewpassword").addClass("wpg-nodisplay").html("");
+            }
+            break;
+        case "wpg-evt-account-newpassword":
+            $("#wpg-account-notification-newpassword").addClass("wpg-nodisplay");
+            break;
+    }
+});
+
+$(document).on("keyup","#wpg-evt-account-newpassword",function() {
+    if($(this).val()!=="") { //need to implement real password strength checker here
+        var temp = Math.floor(Math.random()*3)+1;
+        $("#wpg-account-notification-newpassword").removeClass("wpg-nodisplay").html(temp===1?"Weak":temp===2?"Medium":"Hard");
+    } else {
+        $("#wpg-account-notification-newpassword").addClass("wpg-nodisplay");
+    }
+});
+
 
 
 $(document).on("click", "#wpg-header-btn-signout", function() {
