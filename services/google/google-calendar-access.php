@@ -130,7 +130,7 @@ function insert_mysql_info($events_array) {
     
     session_start();
     $_SESSION['calendarsaved'] = array("messagetype"=>"notifications", "message"=>"Success! Your calendar data has been saved. Thank you for using MESA.");
-    redirect_local("../../index.php");
+    redirect_local("../index.php");
 //Page for providing calendar data
 }
 

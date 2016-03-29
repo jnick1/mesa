@@ -1,14 +1,14 @@
 <?php
 require_once __DIR__ . '/../paths-header.php'; //Now update this path for file system updates
 
-$_SESSION['bing-secret'] = readfile(BING_SECRET_FILE)[0];
-
 function piece_http_request($origin_location, $destination_location){
+    $bing_secret = file_get_contents(BING_SECRET_FILE);
+    var_dump($bing_secret);
     $request_url = "http://dev.virtualearth.net/REST/V1/Routes/Driving?". //Base url
             "wp.0=".urlencode($origin_location). //Filter address to match url-formatting
             "&wp.1=".urlencode($destination_location).
             "&routeAttributes=routeSummariesOnly&output=xml". //Setup XML and only route summaries
-            "&key="."AoY-PAfWGqNgSvnXbUMP3Vgsn8lnjPq0AR1bUvbAXwiTukf9tM10Twgj94vK8tp2"/*$_SESSION['bing-secret']*/; //Setup Bing key
+            "&key=".$bing_secret;
     return $request_url;
 }
 
