@@ -33,7 +33,7 @@ function sql_load_event_retrieval() {
     $event_id = $_SESSION['event_id'];
 
     if ($stmt = $dbc->prepare($query)) {
-        $stmt->bind_param("s", $event_id);
+        $stmt->bind_param("i", $event_id);
         $stmt->execute();
         $stmt->bind_result($txLocation, $dtStart, $dtEnd);
         $stmt->fetch();
