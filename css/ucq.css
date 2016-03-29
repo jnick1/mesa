@@ -1,0 +1,111 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 28, 2016, 6:30:21 PM
+    Author     : Jacob
+*/
+
+/*====================================*/
+/*========|      Classes     |========*/
+/*====================================*/
+
+html, body {
+    height: 100%;
+}
+
+.ucq-btns-popups {
+    font-size: 11px;
+}
+
+.ucq-register-label {
+    
+} /*empty*/
+
+/*====================================*/
+/*========|       ID's       |========*/
+/*====================================*/
+
+#ucq-content {
+    position: absolute;
+    top: 72px;
+    bottom: 45px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    vertical-align: middle;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+}
+#ucq-content-title {
+    position: absolute;
+    font-family: Comfortaa-Bold,Arial,sans-serif;
+    text-shadow: 2px 2px 1px #5e5e5e;
+}
+
+#ucq-header {
+    margucq-top: 0;
+    border-bottom: none;
+}
+
+#ucq-calendar-btn-cancel {
+    
+} /*empty*/
+#ucq-calendar-btn-done {
+    
+} /*empty*/
+#ucq-calendar-btns {
+    width: 50%;
+    margin: auto;
+    margucq-bottom: 15px;
+}
+#ucq-calendar-dialogbox {
+    mucq-width: 400px;
+    width: 400px;
+    font-family: Comfortaa-Bold,Arial,Sans-serif;
+    -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topleft:10px;
+    border-top-left-radius:10px;
+    -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topright:10px;
+    border-top-right-radius:10px;
+    -webkit-border-bottom-right-radius:10px;
+    -moz-border-radius-bottomright:10px;
+    border-bottom-right-radius:10px;
+    -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomleft:10px;
+    border-bottom-left-radius:10px;
+    background: rgba(255,255,255,0.8);
+}
+#ucq-calendar-dialogbox input {
+    background: rgba(255,255,255,1);
+}
+#ucq-calendar-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ucq-calendar-table-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#ucq-calendar-table-wrapper th {
+    text-align: left;
+    vertical-align: middle;
+}
+#ucq-calendar-table-wrapper td {
+    width: 100%;
+    padding: 15px 0;
+}
+#ucq-calendar-wrapper {
+    
+} /*empty*/
+
+#wpg {
+    height: 100%;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
