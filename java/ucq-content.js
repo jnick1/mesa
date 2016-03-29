@@ -21,8 +21,9 @@ $(document).on("click", "#ucq-calendar-btn-done", function() {
     var chosen = $(".checkboxvar:checked");
     var parameters = {};
     parameters["checkboxvar"] = [];
-    for(var cal in chosen){
-        parameters["checkboxvar"].push(cal.attr("id"));
-    }
+    
+    chosen.each(function() {
+        parameters["checkboxvar"].push($(this).attr("id"));
+    });
     post("#",parameters,"POST");
 });

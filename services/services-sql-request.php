@@ -3,6 +3,8 @@
 require_once __DIR__ . '/paths-header.php'; //Now update this path for file system updates
 require_once FILE_PATH . GOOGLE_SERVICES_HEADER_PATH;
 
+require_once __DIR__."/../config/mysqli_connect.php";
+
 function sql_check_token() {
     $dbc = connect_sql();
 
@@ -33,7 +35,6 @@ function sql_load_event_retrieval() {
     if ($stmt = $dbc->prepare($query)) {
         $stmt->bind_param("s", $event_id);
         $stmt->execute();
-        $stmt->store_result();
         $stmt->bind_result($txLocation, $dtStart, $dtEnd);
         $stmt->fetch();
         $stmt->free_result();
@@ -65,7 +66,6 @@ function insert_event_data($blCalendar) {
     if ($stmt = $dbc->prepare($q1)) {
         $stmt->bind_param("s", $txEmail);
         $stmt->execute();
-        $stmt->store_result();
         $stmt->bind_result($pkUserid);
         $stmt->fetch();
         $stmt->free_result();
@@ -109,9 +109,10 @@ function format_date_from_sql($date) {
 }
 
 function connect_sql() {
-    $dbc = new mysqli("localhost", "root", "", "mesadb");
-    if (mysqli_connect_errno()) {
-        redirect_local(ERROR_PATH . "/?e=sql_connection");
+    $dbc = mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die ('Could not connect to MySQL: ' . mysqli_connect_error() );
+
+    if (!mysqli_set_charset($dbc, "utf8")) {
+        printf("Error loading character set utf8: %s\n", mysqli_error($dbc));
     }
     return $dbc;
 }

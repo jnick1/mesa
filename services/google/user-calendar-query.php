@@ -15,16 +15,18 @@ $errors = [];
 $warnings = [];
 $notifications = [];
 
+$scrubbed = array_map("spam_scrubber", $_POST);
+
 if (!(isset($_SESSION['access_token']) && $_SESSION['access_token'])) {
     redirect_local(OAUTH2_PATH . '?' . $_SESSION['token_id']);
 }
 
 if (!empty($_POST['checkboxvar'])) {
-    $_SESSION['user_calendar_summaries'] = filter_var_array($_POST['checkboxvar'], FILTER_SANITIZE_STRING);
+    $_SESSION['user_calendar_summaries'] = filter_var_array(explode(",", $scrubbed['checkboxvar']), FILTER_SANITIZE_STRING);
     redirect_local(GOOGLE_CALENDAR_ACCESS_PATH);
 }
 ?>
-
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -77,7 +79,7 @@ if (!empty($_POST['checkboxvar'])) {
                                         </label>
                                     </th>
                                     <td>
-                                        <input id="<?php echo $calendar; ?>" name="ucq-evt-calendar-email" placeholder="Enter your email address" class="ui-textinput checkboxvar"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                        <input id="<?php echo $calendar; ?>" name="ucq-evt-calendar-email" class="ui-checkbox checkboxvar" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>>
                                     </td>
                                 </tr>
                                 <?php
