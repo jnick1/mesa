@@ -19,6 +19,7 @@ function retrieve_calendar_data($client) {
     if (isset($t) && isset($e)) {
         $_SESSION['token_id'] = $t;
         $_SESSION['event_id'] = $e;
+        sql_check_token();
         $auth_url = $client->createAuthUrl();
         header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
     } elseif (isset($code)) {
