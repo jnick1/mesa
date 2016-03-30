@@ -1,5 +1,11 @@
 <?php
-session_start();
+
+require_once __DIR__ . '/paths-header.php'; //Now update this path for file system updates
+require_once FILE_PATH . GOOGLE_SERVICES_HEADER_PATH;
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $error_message;
 switch (filter_input(INPUT_GET, 'e', FILTER_SANITIZE_STRING)){
     case "invalid_token":
