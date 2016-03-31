@@ -85,11 +85,12 @@ function retrieve_event_list($service, $user_calendar_list, $client) {
         'timeMin' => $_SESSION['sql_event_start'],
         'timeMax' => $_SESSION['sql_event_end'],
         'timeZone' => 'UTC');
-
+    
+    $prev_checked_distances = [];
     foreach ($user_calendar_list as $calendar) {
         $events = $service->events->listEvents($calendar->id, $optParams)->getItems();
         foreach ($events as $event) {
-            $trimmed_event = format_trim_event($event);
+            $trimmed_event = format_trim_event($event, $prev_checked_distances);
             if ($trimmed_event != NULL) {
                 $event_list[] = $trimmed_event;
             }
@@ -99,7 +100,8 @@ function retrieve_event_list($service, $user_calendar_list, $client) {
     return $event_list; //Output results
 }
 
-function format_trim_event($event) {
+function format_trim_event($event, &$prev_checked_distances) {
+    
     $trimmed_event = [];
     $trimmed_event['calendar_email'] = $_SESSION['calendar_email'];
     if ($event->start->dateTime == NULL || $event->end->dateTime == NULL) {
@@ -110,21 +112,27 @@ function format_trim_event($event) {
     $trimmed_event['location'] = $event->location;
     
     $destination_location = $_SESSION['sql_event_location'];
+    
     if ($event->location != "" && $destination_location != "") {
-        $travel_time = retrieve_travel_time($event->location, $destination_location);
-        $event['travel_time'] = $travel_time;
+        if(isset($prev_checked_distances[$event->location])){ //Minimize Bing API calls
+            $trimmed_event['travel_time'] = $prev_checked_distances[$event->location];
+        } else {
+            $travel_time = retrieve_travel_time($event->location, $destination_location);
+            $trimmed_event['travel_time'] = $travel_time;
+            $prev_checked_distances[$event->location] = $travel_time;
+        }
     } else {
-        $event['travel_time'] = 0;
+        $trimmed_event['travel_time'] = 0;
     }
     return $trimmed_event;
 }
 
 function insert_mysql_info($events_array) {
-    $serialized_events = "" . serialize($events_array);
+    $serialized_events = (string) serialize($events_array);
     insert_event_data($serialized_events);
     session_destroy();
-
+    
     session_start();
-    $_SESSION['calendarsaved'] = array("messagetype" => "notifications", "message" => "Success! Your calendar data has been saved. Thank you for using MESA.");
+    $_SESSION['calendarsaved'] = array("messagetype" => "notifications", "message" => "Success! Your calendar data has been saved. Thank you for using MESA. You may now close the page.");
     redirect_local("../index.php");
 }

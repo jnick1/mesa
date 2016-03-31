@@ -3,14 +3,14 @@
 require_once __DIR__ . '/paths-header.php'; //Now update this path for file system updates
 require_once FILE_PATH . GOOGLE_SERVICES_HEADER_PATH;
 
-require_once __DIR__."/../config/mysqli_connect.php";
+require_once __DIR__ . "/../config/mysqli_connect.php";
 
 function sql_check_token() {
     $dbc = connect_sql();
-    
+
     $query = "SELECT txEmail FROM tbltokens WHERE txTokenid = ?";
     $token = $_SESSION['token_id'];
-    
+
     if ($stmt = $dbc->prepare($query)) {
         $stmt->bind_param("s", $token);
         $stmt->execute();
@@ -79,14 +79,14 @@ function insert_event_data($blCalendar) {
         if ($stmt = $dbc->prepare($q2)) {
             $stmt->bind_param("si", $blCalendar, $pkUserid);
             $stmt->execute();
-            if($stmt->affected_rows > 0){
+            preg_match_all('/(\S[^:]+): (\d+)/', $dbc->info, $matches);
+            $info = array_combine($matches[1], $matches[2]);
+            $stmt->free_result();
+            $stmt->close();
+            if ($info['Rows matched'] > 0) { //affected_rows will not work here if calendar data is the same    
                 revoke_token($dbc);
-                $stmt->free_result();
-                $stmt->close();
             } else {
-                $stmt->free_result();
-                $stmt->close();
-                redirect_local(ERROR_PATH . "/?e=sql_connect");
+                redirect_local(ERROR_PATH . "/?e=sql_insertion");
             }
         }
     } else {
@@ -95,21 +95,20 @@ function insert_event_data($blCalendar) {
             $loginDate = gmdate("Y-m-d H:i:s");
             $stmt->bind_param("sssss", $txEmail, $placeholder, $placeholder, $blCalendar, $loginDate);
             $stmt->execute();
-            if($stmt->affected_rows > 0){
+            $affected_rows = $stmt->affected_rows;
+            $stmt->free_result();
+            $stmt->close();
+            if ($affected_rows > 0) {
                 revoke_token($dbc);
-                $stmt->free_result();
-                $stmt->close();
             } else {
-                $stmt->free_result();
-                $stmt->close();
-                redirect_local(ERROR_PATH . "/?e=sql_connect");
+                redirect_local(ERROR_PATH . "/?e=sql_insertion");
             }
         }
     }
 }
 
 function revoke_token($dbc) {
-    
+
     $query = "DELETE FROM tbltokens WHERE txTokenid = ?";
     $token = $_SESSION['token_id'];
     if ($stmt = $dbc->prepare($query)) {
@@ -128,8 +127,11 @@ function format_date_from_sql($date) {
 
 function connect_sql() {
     $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    if ($dbc->connect_errno) {
+        redirect_local(ERROR_PATH . "/?e=sql_connection");
+    }
     if (!mysqli_set_charset($dbc, "utf8")) {
-        printf("Error loading character set utf8: %s\n", mysqli_error($dbc));
+        redirect_local(ERROR_PATH . "/?e=sql_charset");
     }
     return $dbc;
 }
