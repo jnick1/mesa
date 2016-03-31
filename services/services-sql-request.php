@@ -7,9 +7,10 @@ require_once __DIR__."/../config/mysqli_connect.php";
 
 function sql_check_token() {
     $dbc = connect_sql();
-
+    
     $query = "SELECT txEmail FROM tbltokens WHERE txTokenid = ?";
     $token = $_SESSION['token_id'];
+    
     if ($stmt = $dbc->prepare($query)) {
         $stmt->bind_param("s", $token);
         $stmt->execute();
@@ -24,6 +25,7 @@ function sql_check_token() {
     } else {
         $_SESSION['sql_attendee_email'] = $event_email;
     }
+    $dbc->close();
 }
 
 function sql_load_event_retrieval() {
@@ -52,6 +54,7 @@ function sql_load_event_retrieval() {
     } else {
         redirect_local(ERROR_PATH . "/?e=invalid_event");
     }
+    $dbc->close();
 }
 
 function insert_event_data($blCalendar) {
@@ -59,7 +62,7 @@ function insert_event_data($blCalendar) {
 
     $q1 = "SELECT pkUserid FROM tblusers WHERE txEmail = ?";
     $q2 = "UPDATE tblusers SET blCalendar = ? WHERE pkUserid = ?";
-    $q3 = "INSERT INTO tblusers (txEmail, blCalendar) VALUES (?,?)";
+    $q3 = "INSERT INTO tblusers (txEmail, blSalt, txHash, blCalendar, dtLogin) VALUES (?,?,?,?,?)";
 
     $txEmail = $_SESSION['sql_attendee_email'];
 
@@ -76,24 +79,38 @@ function insert_event_data($blCalendar) {
         if ($stmt = $dbc->prepare($q2)) {
             $stmt->bind_param("si", $blCalendar, $pkUserid);
             $stmt->execute();
-            $stmt->free_result();
-            $stmt->close();
+            if($stmt->affected_rows > 0){
+                revoke_token($dbc);
+                $stmt->free_result();
+                $stmt->close();
+            } else {
+                $stmt->free_result();
+                $stmt->close();
+                redirect_local(ERROR_PATH . "/?e=sql_connect");
+            }
         }
     } else {
         if ($stmt = $dbc->prepare($q3)) {
-            $stmt->bind_param("ss", $txEmail, $blCalendar);
+            $placeholder = "placeholder"; //Have to insert a value for blSalt and txHash
+            $loginDate = gmdate("Y-m-d H:i:s");
+            $stmt->bind_param("sssss", $txEmail, $placeholder, $placeholder, $blCalendar, $loginDate);
             $stmt->execute();
-            $stmt->free_result();
-            $stmt->close();
+            if($stmt->affected_rows > 0){
+                revoke_token($dbc);
+                $stmt->free_result();
+                $stmt->close();
+            } else {
+                $stmt->free_result();
+                $stmt->close();
+                redirect_local(ERROR_PATH . "/?e=sql_connect");
+            }
         }
     }
-    revoke_token();
 }
 
-function revoke_token() {
-    $dbc = connect_sql();
-
-    $query = "DELETE FROM tblTokenid WHERE txTokenid = ?";
+function revoke_token($dbc) {
+    
+    $query = "DELETE FROM tbltokens WHERE txTokenid = ?";
     $token = $_SESSION['token_id'];
     if ($stmt = $dbc->prepare($query)) {
         $stmt->bind_param("s", $token);
@@ -101,6 +118,7 @@ function revoke_token() {
         $stmt->free_result();
         $stmt->close();
     }
+    $dbc->close();
 }
 
 function format_date_from_sql($date) {
@@ -109,8 +127,7 @@ function format_date_from_sql($date) {
 }
 
 function connect_sql() {
-    $dbc = mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die ('Could not connect to MySQL: ' . mysqli_connect_error() );
-
+    $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     if (!mysqli_set_charset($dbc, "utf8")) {
         printf("Error loading character set utf8: %s\n", mysqli_error($dbc));
     }
