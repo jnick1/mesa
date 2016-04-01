@@ -37,6 +37,7 @@ function sql_load_event_retrieval() {
     if ($stmt = $dbc->prepare($query)) {
         $stmt->bind_param("i", $event_id);
         $stmt->execute();
+        $stmt->store_result();
         $found_rows = $stmt->num_rows;
         $stmt->bind_result($txLocation, $dtStart, $dtEnd, $txRRule, $blSettings);
         $stmt->fetch();
@@ -56,12 +57,13 @@ function sql_load_event_retrieval() {
 }
 
 function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
-    $settings = json_decode($blSettings);
-    $dateStart = date_create_from_format("Y/m/d H:i:s", $dtStart, DateTimeZone::UTC);
-    $dateEnd = date_create_from_format("Y/m/d H:i:s", $dtEnd, DateTimeZone::UTC);
-
-    if ($settings["date"]) {
-        $dateEnd = date_create_from_format("Y/m/d H:i:s", $settings["date"]["furthest"], DateTimeZone::UTC);
+    $format = "Y-m-d H:i:s";
+    $settings = json_decode($blSettings, true);
+    $timeZone = new DateTimeZone("UTC");
+    $dateStart = date_create_from_format($format, $dtStart, $timeZone);
+    $dateEnd = date_create_from_format($format, $dtEnd, $timeZone);
+    if (isset($settings["date"]) && $settings["date"]) {
+        $dateEnd = date_create_from_format($format, $settings["date"]["furthest"], $timeZone);
         $offsetEnd = new DateInterval("P1D");
         $offsetStart = clone $offsetEnd;
         $offsetStart->invert = 1;
@@ -82,7 +84,7 @@ function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
             }
             $freq = $rrule["FREQ"];
             if (isset($rrule["UNTIL"])) {
-                $dateEnd = date_create_from_format("Ymd?His", $rrule["UNTIL"], DateTimeZone::UTC); //TODO: Test
+                $dateEnd = date_create_from_format("Ymd?His", $rrule["UNTIL"], $timeZone); //TODO: Test
                 switch ($freq) {
                     case "DAILY":
                         $offsetEnd = new DateInterval("P7D");
@@ -136,8 +138,8 @@ function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
         date_add($dateEnd, $offsetEnd);
         date_add($dateStart, $offsetStart);
     }
-    $_SESSION['sql_search_start'] = format_date_from_sql(date_format($dateStart, "Y/m/d H:i:s"));
-    $_SESSION['sql_search_end'] = format_date_from_sql(date_format($dateEnd, "Y/m/d H:i:s"));
+    $_SESSION['sql_search_start'] = format_date_from_sql(date_format($dateStart, $format));
+    $_SESSION['sql_search_end'] = format_date_from_sql(date_format($dateEnd, $format));
 }
 
 function insert_event_data($blCalendar) {
