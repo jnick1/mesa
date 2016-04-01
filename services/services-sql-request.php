@@ -31,30 +31,109 @@ function sql_check_token() {
 function sql_load_event_retrieval() {
     $dbc = connect_sql();
 
-    $query = "SELECT txLocation,dtStart,dtEnd FROM tblevents WHERE pkEventid = ?";
+    $query = "SELECT txLocation,dtStart,dtEnd,txRRule,blSettings FROM tblevents WHERE pkEventid = ?";
     $event_id = $_SESSION['event_id'];
 
     if ($stmt = $dbc->prepare($query)) {
         $stmt->bind_param("i", $event_id);
         $stmt->execute();
-        $stmt->bind_result($txLocation, $dtStart, $dtEnd);
+        $found_rows = $stmt->num_rows;
+        $stmt->bind_result($txLocation, $dtStart, $dtEnd, $txRRule, $blSettings);
         $stmt->fetch();
         $stmt->free_result();
         $stmt->close();
     }
 
-    if (!empty($txLocation) && !empty($dtStart) && !empty($dtEnd)) {
-        $dtStart = format_date_from_sql($dtStart);
-        $dtEnd = format_date_from_sql($dtEnd);
-
+    if ($found_rows > 0) {
         $_SESSION['sql_event_id'] = $event_id;
         $_SESSION['sql_event_location'] = $txLocation;
-        $_SESSION['sql_event_start'] = $dtStart;
-        $_SESSION['sql_event_end'] = $dtEnd;
+
+        generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings);
     } else {
         redirect_local(ERROR_PATH . "/?e=invalid_event");
     }
     $dbc->close();
+}
+
+function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
+    $settings = json_decode($blSettings);
+    $dateStart = date_create_from_format("Y/m/d H:i:s", $dtStart, DateTimeZone::UTC);
+    $dateEnd = date_create_from_format("Y/m/d H:i:s", $dtEnd, DateTimeZone::UTC);
+
+    if ($settings["date"]) {
+        $dateEnd = date_create_from_format("Y/m/d H:i:s", $settings["date"]["furthest"], DateTimeZone::UTC);
+        $offsetEnd = new DateInterval("P1D");
+        $offsetStart = clone $offsetEnd;
+        $offsetStart->invert = 1;
+        date_add($dateEnd, $offsetEnd);
+        date_add($dateStart, $offsetStart);
+    } else {
+        if (!isset($txRRule)) {
+            $offestEnd = new DateInterval("P7D");
+            $offsetStart = clone $offsetEnd;
+            $offsetStart->invert = 1;
+        } else {
+            $txRRule = str_replace(";", "&", $txRRule);
+            parse_str($txRRule, $rrule);
+            if (isset($rrule["INTERVAL"])) {
+                $interval = $rrule["INTERVAL"];
+            } else {
+                $interval = 1;
+            }
+            $freq = $rrule["FREQ"];
+            if (isset($rrule["UNTIL"])) {
+                $dateEnd = date_create_from_format("Ymd?His", $rrule["UNTIL"], DateTimeZone::UTC); //TODO: Test
+                switch ($freq) {
+                    case "DAILY":
+                        $offsetEnd = new DateInterval("P7D");
+                        break;
+                    case "WEEKLY":
+                        $offsetEnd = new DateInterval("P" . (7 * $interval) . "D");
+                        break;
+                    case "MONTHLY":
+                        $offsetEnd = new DateInterval("P" . ($interval) . "M");
+                        break;
+                    case "YEARLY":
+                        $offsetEnd = new DateInterval("P" . ($interval) . "Y");
+                        break;
+                }
+            } elseif (isset($rrule["COUNT"])) {
+                $count = $rrule["COUNT"];
+                switch ($freq) {
+                    case "DAILY":
+                        $offsetEnd = new DateInterval("P" . ($count * $interval) . "D");
+                        break;
+                    case "WEEKLY":
+                        $offsetEnd = new DateInterval("P" . ($count * 7 * $interval) . "D");
+                        break;
+                    case "MONTHLY":
+                        $offsetEnd = new DateInterval("P" . ($count * $interval) . "M");
+                        break;
+                    case "YEARLY":
+                        $offsetEnd = new DateInterval("P" . ($count * $interval) . "Y");
+                        break;
+                }
+            } else {
+                $offestEnd = new DateInterval("P1Y");
+            }
+            switch ($freq) {
+                case "DAILY":
+                    $offsetStart = new DateInterval("P7D");
+                    break;
+                case "WEEKLY":
+                    $offsetStart = new DateInterval("P" . (7) . "D");
+                    break;
+                case "MONTHLY":
+                    $offsetStart = new DateInterval("P1M");
+                    break;
+                case "YEARLY":
+                    $offsetStart = new DateInterval("P1Y");
+                    break;
+            }
+        }
+        date_add($dateEnd, $offsetEnd);
+        date_add($dateStart, $offsetStart);
+    }
 }
 
 function insert_event_data($blCalendar) {
@@ -62,7 +141,7 @@ function insert_event_data($blCalendar) {
 
     $q1 = "SELECT pkUserid FROM tblusers WHERE txEmail = ?";
     $q2 = "UPDATE tblusers SET blCalendar = ? WHERE pkUserid = ?";
-    $q3 = "INSERT INTO tblusers (txEmail, blSalt, txHash, blCalendar, dtLogin) VALUES (?,?,?,?,?)";
+    $q3 = "INSERT INTO tblusers (txEmail, txHash, blCalendar) VALUES (?,?,?)";
 
     $txEmail = $_SESSION['sql_attendee_email'];
 
@@ -91,9 +170,8 @@ function insert_event_data($blCalendar) {
         }
     } else {
         if ($stmt = $dbc->prepare($q3)) {
-            $placeholder = "placeholder"; //Have to insert a value for blSalt and txHash
-            $loginDate = gmdate("Y-m-d H:i:s");
-            $stmt->bind_param("sssss", $txEmail, $placeholder, $placeholder, $blCalendar, $loginDate);
+            $placeholder = "blah";
+            $stmt->bind_param("sss", $txEmail, $placeholder, $blCalendar);
             $stmt->execute();
             $affected_rows = $stmt->affected_rows;
             $stmt->free_result();
