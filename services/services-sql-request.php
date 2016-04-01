@@ -133,7 +133,6 @@ function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
                     break;
             }
             $offsetStart->invert = 1;
-
         }
         date_add($dateEnd, $offsetEnd);
         date_add($dateStart, $offsetStart);
@@ -148,6 +147,7 @@ function insert_event_data($blCalendar) {
     $q1 = "SELECT pkUserid FROM tblusers WHERE txEmail = ?";
     $q2 = "UPDATE tblusers SET blCalendar = ? WHERE pkUserid = ?";
     $q3 = "INSERT INTO tblusers (txEmail, txHash, blCalendar) VALUES (?,?,?)";
+    $q4 = "INSERT INTO tbltokens (txEmail, txTokenid) VALUES (?,?)";
 
     $txEmail = $_SESSION['sql_attendee_email'];
 
@@ -175,15 +175,26 @@ function insert_event_data($blCalendar) {
             }
         }
     } else {
-        if ($stmt = $dbc->prepare($q3)) {
-            $placeholder = "blah";
-            $stmt->bind_param("sss", $txEmail, $placeholder, $blCalendar);
+        $hash = hash("sha256", time());
+        if ($stmt = $dbc->prepare($q4)) {
+            $stmt->bind_param("ss", $txEmail, $hash);
             $stmt->execute();
             $affected_rows = $stmt->affected_rows;
             $stmt->free_result();
             $stmt->close();
             if ($affected_rows > 0) {
-                revoke_token($dbc);
+                if ($stmt = $dbc->prepare($q3)) {
+                    $stmt->bind_param("sss", $txEmail, $hash, $blCalendar);
+                    $stmt->execute();
+                    $affected_rows = $stmt->affected_rows;
+                    $stmt->free_result();
+                    $stmt->close();
+                    if ($affected_rows > 0) {
+                        revoke_token($dbc);
+                    } else {
+                        redirect_local(ERROR_PATH . "/?e=sql_insertion");
+                    }
+                }
             } else {
                 redirect_local(ERROR_PATH . "/?e=sql_insertion");
             }
