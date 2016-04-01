@@ -1,7 +1,7 @@
 <?php
 //Solely used for updating paths easily
 define('FILE_PATH', substr(__DIR__, 0, strpos(__DIR__, 'services') + 8) . "\\");
-define('SECURE_PATH', substr(__DIR__, 0, strpos(__DIR__, 'wamp') + 4) . "\\secure/");
+define('SECURE_PATH', substr(__DIR__, 0, strpos(__DIR__, 'wamp') + 4) . "\\secure\\");
 
 define('GOOGLE_PATH', 'google/');
 
