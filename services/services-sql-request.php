@@ -131,12 +131,13 @@ function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
                     break;
             }
             $offsetStart->invert = 1;
+
         }
         date_add($dateEnd, $offsetEnd);
         date_add($dateStart, $offsetStart);
     }
-    $_SESSION['sql_search_start'] = date_format($dateStart, "Y/m/d H:i:s");
-    $_SESSION['sql_search_end'] = date_format($dateEnd, "Y/m/d H:i:s");
+    $_SESSION['sql_search_start'] = format_date_from_sql(date_format($dateStart, "Y/m/d H:i:s"));
+    $_SESSION['sql_search_end'] = format_date_from_sql(date_format($dateEnd, "Y/m/d H:i:s"));
 }
 
 function insert_event_data($blCalendar) {
