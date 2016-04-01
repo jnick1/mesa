@@ -18,7 +18,7 @@ if __name__ == "__main__":
 #using numpty for matrix
 
 #necessary objects needed before starting the program
- Priority[] = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
+ #Priority[] = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
  DAYS[] #specific days wanted
  attendies[] = [] #list of people on the project, those who accept
   
@@ -35,13 +35,13 @@ if __name__ == "__main__":
     gran = f.readline()  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
     bannedtimes = f.readline() #banned granularity increments based on user input, ie not over 933 or something
     preferedTime = f.readline() #the time that the person wants to have the specifically
-    durrationTime = f.readline() #how long the meeting is
+    timeLength = f.readline() #how long the meeting is
     locationTime = f.readline() #how long it take to reach the location spot
     weekly = f.readline() #how often per week people want to meet
     f.close()#closing the file
     grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour   
 
- 
+    tempString = 0
  if (   ): #when OGANIZER clicks "Find Times" Btn
  {
     user = phpobject('WP_User', data)#'WP_User is the PHP function with the necessary information, data is the information necessary to transfer
@@ -124,28 +124,31 @@ for(i = 0; i<searchWidth; i++):
      #attendies.insert(peopleCalender) do i really need to put it in a list now?
     #saving the calender into a list to hold on too (hopefully)
     
+    tempString ++
  }#END ATTENDIES IF STATEMENT
-    
  
  numCalender[][] #calender to hold the amount of people at the event start
- returnCalender[][] #calender to return
+ returnCalender[][] #calender to return 
  List[] #hold the number
- k=0
- for(i = 0; i<7; i++):
-            {for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
-                #searching through masterCalender to event designated spots
-                {if (masterCalender[i][j] == -1):
-                    Attendees = peopleCalender[i][j]
-                                           
-                        for (m =0; m<length.info; m++): #don't know if its necessary or not, but will leave it in at the moment
-                            {if (0 in Attendees):
-                                attend +=1
-                            }
-                        
-                        numCalender[i][j] = attend #adding the string
-                        List.insert(attend)
-                } 
-            }
+  
+for (i=0; i<7; i++):
+    for(j=0; j<(24/granularity); j+granularity):
+        people = 0
+        for(L=0; L<tempString; L++): #for loop goes through the string's position
+            count = 0 #count if the person has free time or not
+            for (m=j; m< j + timeLength; m+granularity): #goes down through durration time starting at what j is
+                String = peopleCalender[i][m]
+                if (String[L]!=0):
+                    count++ #adds to the count i if they can't do it
+                #done with m for loop
+            if (count == 0): #if the person is free throughout, the variable won't change
+                people ++ #adds to the number of people that can attend at that spot
+            #ends L for loop
+        numCalender[i][j] = people #adding the people amount in the num calender
+        List.attend(people) #adds the amount of people into a list to sort through
+    #end j for loop
+#end i for loop  
+    
 List.sort(reverse) #biggest number is on top, easier to find most people
 
 done = False
