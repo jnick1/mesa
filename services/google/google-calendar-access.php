@@ -82,8 +82,8 @@ function retrieve_event_list($service, $user_calendar_list, $client) {
     $event_list = [];
     $optParams = array('singleEvents' => true,
         'orderBy' => 'startTime',
-        'timeMin' => $_SESSION['sql_event_start'],
-        'timeMax' => $_SESSION['sql_event_end'],
+        'timeMin' => $_SESSION['sql_search_start'],
+        'timeMax' => $_SESSION['sql_search_end'],
         'timeZone' => 'UTC');
     
     $prev_checked_distances = [];
@@ -130,9 +130,13 @@ function format_trim_event($event, &$prev_checked_distances) {
 function insert_mysql_info($events_array) {
     $serialized_events = (string) serialize($events_array);
     insert_event_data($serialized_events);
+    var_dump($events_array);
+    var_dump($_SESSION);
     session_destroy();
-    
+    /*
     session_start();
     $_SESSION['calendarsaved'] = array("messagetype" => "notifications", "message" => "Success! Your calendar data has been saved. Thank you for using MESA. You may now close the page.");
     redirect_local("../index.php");
+     * 
+     */
 }
