@@ -8,6 +8,29 @@
 if __name__ == "__main__":
     print "Hello World"
 
+ numCalender[][] #calender to hold the amount of people at the event start
+ returnCalender[][] #calender to return 
+ List[] #hold the number
+  
+for (i=0; i<7; i++):
+    for(j=0; j<(24/granularity); j+granularity):
+        if(peopleCalender[i][j] == -1):
+            #move on here
+            people = 0
+            for(L=0; L<tempString; L++): #for loop goes through the string's position
+                count = 0 #count if the person has free time or not
+                for (m=j; m< j + timeLength; m+granularity): #goes down through durration time starting at what j is
+                    String = masterCalender[i][m]
+                    if (String[L]!=0):
+                        count++ #adds to the count i if they can't do it
+                    #done with m for loop
+                if (count == 0): #if the person is free throughout, the variable won't change
+                    people ++ #adds to the number of people that can attend at that spot
+                #ends L for loop
+            numCalender[i][j] = people #adding the people amount in the num calender
+            List.attend(people) #adds the amount of people into a list to sort through
+    #end j for loop
+#end i for loop  
 
     
  
