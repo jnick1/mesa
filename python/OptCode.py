@@ -43,7 +43,8 @@ if __name__ == "__main__":
     f.close()#closing the file
     grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour   
 
-    tempString = 0
+    tempString = 0 #how many people are there/now long the string is
+    
  if (   ): #when OGANIZER clicks "Find Times" Btn
  {
     user = phpobject('WP_User', data)#'WP_User is the PHP function with the necessary information, data is the information necessary to transfer
@@ -63,68 +64,17 @@ if __name__ == "__main__":
             }
     #input the google calender 
     
-    #moving their Goolge calender to a normCalender
+    #adding their Goolge calender to the combined Master Calender
     for(i = 0; i<searchWidth; i++):
     {
         for(j=0; j<(24/granularity) - bannedtimes; j+granularity): #hard to tell what to increment j by because it varies with each person
         {
             if GoogleCalender[i][j] = '1':  #if there is an event in the google calender
-                NormCalender[i][j] = '1' 
                 masterCalender[i][j] += '1' 
             else:
                 masterCalender[1][j] += '0'
-                NormCalender[i][j] = '0' 
         }
     }
-    
-for(i = 0; i<searchWidth; i++):
-    for(j=start; j<(24/granularity) - bannedtimes; j+granularity):
-        day = DAYS[i] #for specific day
-        if(j-locationTime >= 0): #so it stays within the calender
-            if (NormCalender[day][j-locationTime] == 0):#travel time is free
-                spot = False
-                do:{
-                    if (preferedTime == null): #there is no preferedTimes
-                        if (NormCalender[day][j] == 0):
-                            do{
-                                count = 0
-                                for (k=startTime; k<timeLength; k+granularity):
-                                    {if(NormCalender[day][k] == '0'):
-                                        count +=1
-                                    }
-                                if(count == timeLength):
-                                {
-                                    peopleCalender[day][startTime] = -1 #marking the available start time, combining it for everyone
-                                }
-                                else:
-                                    Start +=granularity
-                                }while(j<(24/granularity) - bannedtimes)
-                            spot = True #get out of loop early
-                    else if(NormCalender[day][preferedTime-locationTime] == 0): #there is a preferedTime
-                        if(NormCalender[day][preferedTime] == 0): #modified perfered Time of day
-                        {
-                            do{
-                                count = 0
-                                for (k=preferedTime; k<timeLength; k+granularity):
-                                    {if(NormCalender[day][k] == '0'):
-                                        count +=1
-                                    }
-                                if(count == timeLength):
-                                {
-                                    peopleCalender[day][preferedTime] = -1 #marking the available start time, combining it for everyone
-                                }
-                                else:
-                                    Start +=granularity
-                                }while(j<(24/granularity) - bannedtimes)
-                            spot = True #get out of loop early
-                        }
-                    else:
-                        preferedTime = preferedTime + (granularity*count* (-1^count))  #branches off hour by hour          
-                    }while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ) 
-                    #this way, if the perfered time is not in the middle, it will still performed the action
-                    
-     #attendies.insert(peopleCalender) do i really need to put it in a list now?
-    #saving the calender into a list to hold on too (hopefully)
     
     tempString ++
  }#END ATTENDIES IF STATEMENT
@@ -133,25 +83,50 @@ for(i = 0; i<searchWidth; i++):
  returnCalender[][] #calender to return 
  List[] #hold the number
   
-for (i=0; i<7; i++):
-    for(j=0; j<(24/granularity); j+granularity):
-        if(peopleCalender[i][j] == -1):
-            #move on here
-            people = 0
-            for(L=0; L<tempString; L++): #for loop goes through the string's position
-                count = 0 #count if the person has free time or not
-                for (m=j; m< j + timeLength; m+granularity): #goes down through durration time starting at what j is
-                    String = masterCalender[i][m]
-                    if (String[L]!=0):
-                        count++ #adds to the count i if they can't do it
-                    #done with m for loop
-                if (count == 0): #if the person is free throughout, the variable won't change
-                    people ++ #adds to the number of people that can attend at that spot
-                #ends L for loop
-            numCalender[i][j] = people #adding the people amount in the num calender
-            List.attend(people) #adds the amount of people into a list to sort through
-    #end j for loop
-#end i for loop  
+for(i = 0; i<searchWidth; i++):
+    day = DAYS[i] #for specific day
+    for(j=start; j<(24/granularity) - bannedtimes; j+granularity):
+        if(j-locationTime >= 0): #so it stays within the calender
+            if (masterCalender[day][j-locationTime] == 0):#travel time is free before hand
+                spot = False
+                do:{
+                    if (preferedTime == null): #there is no preferedTimes
+                        people = 0
+                        for(L=0; L<tempString; L++): #for loop goes through the string's position
+                            count = 0 #count if the person has free time or not
+                            for (m=j; m< j + timeLength; m+granularity): #goes down through durration time starting at what j is
+                                String = masterCalender[i][m]
+                                if (String[L]!=0):
+                                    count++ #adds to the count i if they can't do it
+                            #done with m for loop
+                            if (count == 0): #if the person is free throughout, the variable won't change
+                                people ++ #adds to the number of people that can attend at that spot
+                        #ends L for loop
+                        numCalender[day][j] = people #adding the people amount in the num calender
+                        List.attend(people) #adds the amount of people into a list to sort through
+                        spot = False
+                    else if(masterCalender[day][preferedTime-locationTime] == 0): #there is a preferedTime
+                        if(masterCalender[day][preferedTime] == 0): #modified perfered Time of day
+                        {
+                            people = 0
+                            for(L=0; L<tempString; L++): #for loop goes through the string's position
+                                count = 0 #count if the person has free time or not
+                                for (m=preferedTime; m< preferedTime + timeLength; m+granularity): #goes down through durration time starting at what j is
+                                    String = masterCalender[i][m]
+                                    if (String[L]!=0):
+                                        count++ #adds to the count i if they can't do it
+                                #done with m for loop
+                                if (count == 0): #if the person is free throughout, the variable won't change
+                                    people ++ #adds to the number of people that can attend at that spot
+                                #ends L for loop
+                            numCalender[day][preferedTime] = people #adding the people amount in the num calender
+                            List.attend(people) #adds the amount of people into a list to sort through
+                            spot = True #get out of loop early
+                        }
+                    else:
+                        preferedTime = preferedTime + (granularity*count* (-1^count))  #branches off hour by hour          
+                    }while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ) 
+                    #this way, if the perfered time is not in the middle, it will still performed the action 
     
 List.sort(reverse) #biggest number is on top, easier to find most people
 

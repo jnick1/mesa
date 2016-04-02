@@ -11,7 +11,70 @@ if __name__ == "__main__":
  numCalender[][] #calender to hold the amount of people at the event start
  returnCalender[][] #calender to return 
  List[] #hold the number
-  
+ 
+ 
+ #moving their Goolge calender to a normCalender
+    for(i = 0; i<searchWidth; i++):
+    {
+        for(j=0; j<(24/granularity) - bannedtimes; j+granularity): #hard to tell what to increment j by because it varies with each person
+        {
+            if GoogleCalender[i][j] = '1':  #if there is an event in the google calender
+                NormCalender[i][j] = '1' 
+                masterCalender[i][j] += '1' 
+            else:
+                masterCalender[1][j] += '0'
+                NormCalender[i][j] = '0' 
+        }
+    }                  
+                   
+    #attempt 1 for shifting through code
+    for(i = 0; i<searchWidth; i++):
+    for(j=start; j<(24/granularity) - bannedtimes; j+granularity):
+        day = DAYS[i] #for specific day
+        if(j-locationTime >= 0): #so it stays within the calender
+            if (NormCalender[day][j-locationTime] == 0):#travel time is free
+                spot = False
+                do:{
+                    if (preferedTime == null): #there is no preferedTimes
+                        if (NormCalender[day][j] == 0):
+                            do{
+                                count = 0
+                                for (k=startTime; k<timeLength; k+granularity):
+                                    {if(NormCalender[day][k] == '0'):
+                                        count +=1
+                                    }
+                                if(count == timeLength):
+                                {
+                                    peopleCalender[day][startTime] = -1 #marking the available start time, combining it for everyone
+                                }
+                                else:
+                                    Start +=granularity
+                                }while(j<(24/granularity) - bannedtimes)
+                            spot = True #get out of loop early
+                    else if(NormCalender[day][preferedTime-locationTime] == 0): #there is a preferedTime
+                        if(NormCalender[day][preferedTime] == 0): #modified perfered Time of day
+                        {
+                            do{
+                                count = 0
+                                for (k=preferedTime; k<timeLength; k+granularity):
+                                    {if(NormCalender[day][k] == '0'):
+                                        count +=1
+                                    }
+                                if(count == timeLength):
+                                {
+                                    peopleCalender[day][preferedTime] = -1 #marking the available start time, combining it for everyone
+                                }
+                                else:
+                                    Start +=granularity
+                                }while(j<(24/granularity) - bannedtimes)
+                            spot = True #get out of loop early
+                        }
+                    else:
+                        preferedTime = preferedTime + (granularity*count* (-1^count))  #branches off hour by hour          
+                    }while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ) 
+                    #this way, if the perfered time is not in the middle, it will still performed the action
+                    
+#recursive method to find the durration time
 for (i=0; i<7; i++):
     for(j=0; j<(24/granularity); j+granularity):
         if(peopleCalender[i][j] == -1):
