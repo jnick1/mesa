@@ -46,13 +46,13 @@ html, body {
     
 } /*empty*/
 .el-content-event-description {
-    width: 700px;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .el-content-event-description-wrapper {
-    width: 700px;
+    width: 50%;
 }
 .el-content-event-edit {
     
@@ -61,8 +61,8 @@ html, body {
     
 } /*empty*/
 .el-content-event-title {
-    
-} /*empty*/
+    white-space: nowrap;
+}
 .el-content-event-x {
     cursor: pointer;
 }
