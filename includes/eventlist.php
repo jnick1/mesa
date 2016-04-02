@@ -28,9 +28,8 @@ include $homedir."includes/protocols/delete.php";
 include $homedir."includes/protocols/create.php";
 include $homedir."includes/protocols/saveedit.php";
 
-include $homedir."includes/protocols/createsend.php";
-include $homedir."includes/protocols/createrequest.php";
 include $homedir."includes/protocols/request.php";
+include $homedir."includes/protocols/send.php";
 ?>
 <!DOCTYPE html>
 <!--
