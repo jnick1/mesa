@@ -7,6 +7,8 @@ if(isset($scrubbed["register"])) {
         $q2 = "INSERT INTO `tblusers`(`txEmail`, `blSalt`, `txHash`, `dtLogin`) VALUES (?,?,?,?)";
         $q3 = "SELECT txEmail, dtExpires FROM tbltokens WHERE txTokenid = ?";
         $q4 = "SELECT pkUserid FROM tblusers WHERE txEmail = ?";
+        $q5 = "UPDATE `tblusers` SET `txEmail`=?,`blSalt`=?,`txHash`=?,`dtLogin`=? WHERE pkUserid = ?";
+        $q6 = "DELETE FROM `tbltokens` WHERE txTokenid = ? LIMIT 1";
 
         if($stmt = $dbc->prepare($q1)){
             $stmt->bind_param("s", $scrubbed["in-evt-register-email"]);
@@ -31,8 +33,8 @@ if(isset($scrubbed["register"])) {
                 $hash = hash("sha256",$salt.$scrubbed["in-evt-register-password"]);
                 $login = gmdate("Y-m-d H:i:s");
 
-                if($stmt = $dbc->prepare($q2)){
-                    $stmt->bind_param("ssss", $scrubbed["in-evt-register-email"],$salt,$hash,$login);
+                if($stmt = $dbc->prepare($q5)){
+                    $stmt->bind_param("ssssi", $scrubbed["in-evt-register-email"],$salt,$hash,$login,$userExists);
                     $stmt->execute();
                     $stmt->free_result();
                     $stmt->close();
@@ -42,6 +44,12 @@ if(isset($scrubbed["register"])) {
                     $stmt->execute();
                     $stmt->bind_result($pkUserid);
                     $stmt->fetch();
+                    $stmt->free_result();
+                    $stmt->close();
+                }
+                if($stmt = $dbc->prepare($q6)){
+                    $stmt->bind_param("s", $txHash);
+                    $stmt->execute();
                     $stmt->free_result();
                     $stmt->close();
                 }
