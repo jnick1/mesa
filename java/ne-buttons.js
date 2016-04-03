@@ -280,6 +280,13 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     
 });
 $(document).on("click", "#ne-btn-send", function send_evt_request() {
+    
+    if($("#wpg").attr("data-optiran")) {
+        //still working on this code here!
+    } else {
+        
+    }
+    
     if($("#wpg").attr("data-eventid")) {
         var parameters = {
             "send":true,

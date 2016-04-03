@@ -74,11 +74,11 @@ if(isset($scrubbed["request"])) {
                 . "Your attendance for this event has been marked as <b>".($attendee["optional"]?"optional":"required")."</b>.<br><br>"
                 . ""
                 . "Please click <a href=\"".$gets[$attendee["email"]]."\">here</a> to be redirected to where you can submit your calendar information.<br>"
-                . "Alternatively, if you cannot click the link above, please copy the link below into your browser: <br>".$gets[$attendee["email"]]."<br>"
+                . "Alternatively, if you cannot click the link above, please copy the link below into your browser: <br><a href=\"".$gets[$attendee["email"]]."\">".$gets[$attendee["email"]]."</a><br>"
                 . "Upon clicking the link, you will be prompted to log in to your Google account. If you would rather sign in with a different account than the one "
                 . "this email was sent to, feel free to do so (for instance, if your calendar is saved on your personal email, but this was sent to your work email).<br><br>"
                 . ""
-                . "Do not reply to this email, as it was sent from an unmonitored email address<br><br>"
+                . "Do not reply to this email, as it was sent from an unmonitored email address.<br><br>"
                 . ""
                 . "Thank you for using Mesa Organizer!";
         $altMessage = ""
@@ -92,7 +92,7 @@ if(isset($scrubbed["request"])) {
                 . "Upon clicking the link, you will be prompted to log in to your Google account. If you would rather sign in with a different account than the one "
                 . "this email was sent to, feel free to do so (for instance, if your calendar is saved on your personal email, but this was sent to your work email).\n\n"
                 . ""
-                . "Do not reply to this email, as it was sent from an unmonitored email address\n\n"
+                . "Do not reply to this email, as it was sent from an unmonitored email address.\n\n"
                 . ""
                 . "Thank you for using Mesa Organizer!";
         

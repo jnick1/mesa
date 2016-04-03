@@ -72,7 +72,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
-        <div id="wpg"<?php echo ((isset($scrubbed["editevent"]) && isset($scrubbed["pkEventid"]))?" data-eventid=\"".$scrubbed["pkEventid"]."\"":""); ?>>
+        <div id="wpg"<?php echo ((isset($scrubbed["editevent"]) && isset($scrubbed["pkEventid"]))?" data-eventid=\"".$scrubbed["pkEventid"]."\"":""); ?><?php echo ((isset($scrubbed["editevent"]) && isset($blOptiSuggestion))?" data-optiran=\"true\"":""); ?>>
             <div id="ne-header" class="ui-container-section <?php echo "uluru".rand(1,8); ?>">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
@@ -1090,6 +1090,30 @@ and open the template in the editor.
                     </div>
                     <div class="wrapper-btn-general wrapper-btn-all">
                         <div id="ne-settings-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ne-send-wrapper" class="ui-popup">
+            <div id="ne-send-dialogbox" class="ui-dialogbox">
+                <div id="ne-send-header">
+                    <span class="ui-header">Send event preemptively?</span>
+                    <span id="ne-send-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="ne-send-content-wrapper">
+                    <p>Are you sure you want to send out this event to your attendees?</p>
+                    <p>You have not run a search for optimal times yet.</p>
+                </div>
+                <div id="ne-send-btns">
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-send-btn-yes" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Yes
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-send-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
                             Cancel
                         </div>
                     </div>
