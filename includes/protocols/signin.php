@@ -5,7 +5,7 @@ if(isset($scrubbed["signin"])) {
     $q3 = "UPDATE tblusers SET dtLogin = CURRENT_TIMESTAMP";
     
     if($stmt = $dbc->prepare($q1)){
-        $stmt->bind_param("s", $scrubbed["in-evt-signin-email"]);
+        $stmt->bind_param("s", $scrubbed["wpg-evt-signin-email"]);
         $stmt->execute();
         $stmt->bind_result($salt,$hash);
         $stmt->fetch();
@@ -13,7 +13,7 @@ if(isset($scrubbed["signin"])) {
         $stmt->close();
     }
     if(!empty($hash)){
-        $hashGiven = hash("sha256",$salt.$scrubbed["in-evt-signin-password"]);
+        $hashGiven = hash("sha256",$salt.$scrubbed["wpg-evt-signin-password"]);
         if($hash === $hashGiven) {
             if($stmt = $dbc->prepare($q2)){
                 $stmt->bind_param("s", $hashGiven);
@@ -29,7 +29,7 @@ if(isset($scrubbed["signin"])) {
                 $stmt->close();
             }
             $_SESSION["pkUserid"] = $pkUserid;
-            $_SESSION["email"] = $scrubbed["in-evt-signin-email"];
+            $_SESSION["email"] = $scrubbed["wpg-evt-signin-email"];
             $_SESSION["lastLogin"] = $lastLogin;
             $_SESSION["userColor"] = "#".substr($hash, 0, 6);
         } else {

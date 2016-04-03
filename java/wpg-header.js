@@ -167,13 +167,13 @@ $(document).on("blur","#wpg-evt-signin-email,#wpg-evt-signin-password", function
     }
 });
 
-$(document).on("click keyup", "#wpg-signin-btn-done", function(event){
-    if(event.type === "click" || (event.type === "keyup" && (event.which===13))) {
+$(document).on("click keyup", "#wpg-signin-btn-done, #wpg-evt-signin-password", function(event){
+    if((event.type === "click" && $(this).attr("id")==="wpg-signin-btn-done") || (event.type === "keyup" && (event.which===13))) {
         if(validate_email($("#wpg-evt-signin-email").val())) {
             post("#",{
                 "signin":true,
-                "in-evt-signin-email":$("#wpg-evt-signin-email").val(),
-                "in-evt-signin-password":$("#wpg-evt-signin-password").val()
+                "wpg-evt-signin-email":$("#wpg-evt-signin-email").val(),
+                "wpg-evt-signin-password":$("#wpg-evt-signin-password").val()
             }, "POST");
         } else {
             $("#wpg-signin-notification-email").removeClass("wpg-nodisplay").html("Please enter a valid email address");

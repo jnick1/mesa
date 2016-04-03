@@ -28,9 +28,8 @@ include $homedir."includes/protocols/delete.php";
 include $homedir."includes/protocols/create.php";
 include $homedir."includes/protocols/saveedit.php";
 
-include $homedir."includes/protocols/createsend.php";
-include $homedir."includes/protocols/createrequest.php";
 include $homedir."includes/protocols/request.php";
+include $homedir."includes/protocols/send.php";
 ?>
 <!DOCTYPE html>
 <!--
@@ -119,7 +118,7 @@ and open the template in the editor.
                             <th class="el-content-event-title">
                                 <?php echo $events[$i]["nmTitle"]; ?>
                             </th>
-                            <td class="el-content-event-date">
+                            <td id="el-content-event-date<?php echo $i; ?>" class="el-content-event-date">
                                 <?php
                                 $sd = date_parse($events[$i]["dtStart"]);
                                 echo $sd["month"]."/".$sd["day"]."/".$sd["year"];
@@ -140,7 +139,7 @@ and open the template in the editor.
                                 echo $et["hour"].":".$et["minute"];
                                 ?>
                             </td>
-                            <td class="el-content-event-date">
+                            <td id="el-content-event-date<?php echo $i+count($events); ?>" class="el-content-event-date">
                                 <?php
                                 $ed = date_parse($events[$i]["dtEnd"]);
                                 echo $ed["month"]."/".$ed["day"]."/".$ed["year"];
