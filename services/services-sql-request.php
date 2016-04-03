@@ -83,7 +83,7 @@ function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
         date_add($dateEnd, $offsetEnd);
         date_add($dateStart, $offsetStart);
     } else {
-        if (!isset($txRRule)) {
+        if (empty($txRRule)) {
             $offestEnd = new DateInterval("P7D");
             $offsetStart = clone $offsetEnd;
             $offsetStart->invert = 1;
