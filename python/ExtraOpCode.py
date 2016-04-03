@@ -12,6 +12,11 @@ if __name__ == "__main__":
  returnCalender[][] #calender to return 
  List[] #hold the number
  
+ list_of_lists = [ [1, 2, 3], [4, 5, 6], [7, 8, 9]]
+for list in list_of_lists:
+    for x in list:
+        print x
+ 
  
  #moving their Goolge calender to a normCalender
     for(i = 0; i<searchWidth; i++):
@@ -96,6 +101,20 @@ for (i=0; i<7; i++):
 #end i for loop  
 
     
+ done = False
+count2 = 0
+q=0
+do{
+    for(i = 0; i<7; i++):
+            for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+                if(numCalender[i][j] == List[q]):
+                    returnCalender[i][j] = -1
+                    count2 ++
+    if(count2 =< weekly):
+        done = True
+    else:
+        q++ #increment to the next biggest number in the list
+  }while(done = False) #so it has the minimum number of recursion times
  
 
 def DayLocation ( DAYS, granlarity, bannedtimes, masterCalender, NormCalender, Priority)

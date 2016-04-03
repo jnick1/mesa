@@ -50,7 +50,9 @@ if __name__ == "__main__":
     user = phpobject('WP_User', data)#'WP_User is the PHP function with the necessary information, data is the information necessary to transfer
     endTime = user.endTime  #reading the endTime from the PHP object, time to stop the search
     startTime = user.startTime #reading the startTime from the PHP object, where to start the search
-        
+    DayWeekMonth = user.DayWeekMonth #how long the input would be based on the number of days there are
+    
+    
     # Load the data that PHP will dump us (var_dump($resultData)
     for(i=0; i<7; i++):
         for(j=0; j<24; j++):
@@ -60,21 +62,21 @@ if __name__ == "__main__":
                 except:
                     print ("ERROR")
                     sys.exit(1)
-                googleCalender[i][j] = data
+                GoogleCalender[i][j] = data
             }
     #input the google calender 
     
     #adding their Goolge calender to the combined Master Calender
-    for(i = 0; i<searchWidth; i++):
-    {
-        for(j=0; j<(24/granularity) - bannedtimes; j+granularity): #hard to tell what to increment j by because it varies with each person
-        {
-            if GoogleCalender[i][j] = '1':  #if there is an event in the google calender
-                masterCalender[i][j] += '1' 
+    for i in range (len(GoogleCalender)):
+        for j in xrange(0, (24/granularity) - bannedtimes, granularity):
+            if GoogleCalender[i][j] == '1':
+                test = masterCalender[i][j]
+                test += '1'
+                masterCalender[i][j] = test
             else:
-                masterCalender[1][j] += '0'
-        }
-    }
+                test = masterCalender[i][j]
+                test += '0'
+                masterCalender[i][j] = test
     
     tempString ++
  }#END ATTENDIES IF STATEMENT
@@ -83,18 +85,19 @@ if __name__ == "__main__":
  returnCalender[][] #calender to return 
  List[] #hold the number
   
-for(i = 0; i<searchWidth; i++):
+for i in range (0, searchWidth):
     day = DAYS[i] #for specific day
-    for(j=start; j<(24/granularity) - bannedtimes; j+granularity):
+    for j in xrange(startTime, (24/granularity) - bannedtimes, granularity): #Need to check on how to change incremtation in python
         if(j-locationTime >= 0): #so it stays within the calender
             if (masterCalender[day][j-locationTime] == 0):#travel time is free before hand
                 spot = False
-                do:{
+                #this way, if the perfered time is not in the middle, it will still performed the action 
+                while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ):
                     if (preferedTime == null): #there is no preferedTimes
                         people = 0
-                        for(L=0; L<tempString; L++): #for loop goes through the string's position
+                        for L in range (0, tempString-1): #for loop goes through the string's position
                             count = 0 #count if the person has free time or not
-                            for (m=j; m< j + timeLength; m+granularity): #goes down through durration time starting at what j is
+                            for m in range (j, j+timeLength-1): #goes down through durration time starting at what j is. 
                                 String = masterCalender[i][m]
                                 if (String[L]!=0):
                                     count++ #adds to the count i if they can't do it
@@ -109,9 +112,9 @@ for(i = 0; i<searchWidth; i++):
                         if(masterCalender[day][preferedTime] == 0): #modified perfered Time of day
                         {
                             people = 0
-                            for(L=0; L<tempString; L++): #for loop goes through the string's position
+                            for L in range (0, tempString-1): #for loop goes through the string's position
                                 count = 0 #count if the person has free time or not
-                                for (m=preferedTime; m< preferedTime + timeLength; m+granularity): #goes down through durration time starting at what j is
+                                for m in range (preferedTime, preferedTime + timeLength-1): #goes down through durration time starting at what j is
                                     String = masterCalender[i][m]
                                     if (String[L]!=0):
                                         count++ #adds to the count i if they can't do it
@@ -125,17 +128,16 @@ for(i = 0; i<searchWidth; i++):
                         }
                     else:
                         preferedTime = preferedTime + (granularity*count* (-1^count))  #branches off hour by hour          
-                    }while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ) 
-                    #this way, if the perfered time is not in the middle, it will still performed the action 
+                     
     
-List.sort(reverse) #biggest number is on top, easier to find most people
+List.reverse() #biggest number is on top, easier to find most people
 
 done = False
 count2 = 0
 q=0
-do{
-    for(i = 0; i<7; i++):
-            for(j=0; j<(24/granularity) - bannedtimes; j+granularity):
+while(done == False):
+    for i in range (len(numCalender)):
+        for j in range (len(numCalender[i])):
                 if(numCalender[i][j] == List[q]):
                     returnCalender[i][j] = -1
                     count2 ++
@@ -143,7 +145,8 @@ do{
         done = True
     else:
         q++ #increment to the next biggest number in the list
-  }while(done = False) #so it has the minimum number of recursion times
+  
+    
     
 #writing it to a text file
     for row in returnCalender:
