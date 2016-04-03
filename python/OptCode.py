@@ -36,10 +36,13 @@ if __name__ == "__main__":
     searchWidth = f.readline() #how many days are available
     gran = f.readline()  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
     bannedtimes = f.readline() #banned granularity increments based on user input, ie not over 933 or something
+    CutOffDate = f.readline() #don't go on beyond this point
     preferedTime = f.readline() #the time that the person wants to have the specifically
+    preferedDay = f.readline() #day that the person wants
     timeLength = f.readline() #how long the meeting is
     locationTime = f.readline() #how long it take to reach the location spot
     weekly = f.readline() #how often per week people want to meet
+    minimumPeople = f.readline() #the minimum number of people needed for the meeting
     f.close()#closing the file
     grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour   
 
@@ -137,16 +140,50 @@ count2 = 0
 q=0
 while(done == False):
     for i in range (len(numCalender)):
-        for j in range (len(numCalender[i])):
+        if (i == CutOffDate):
+            done = True
+        else:
+            for j in range (len(numCalender[i])):
                 if(numCalender[i][j] == List[q]):
                     returnCalender[i][j] = -1
                     count2 ++
-    if(count2 =< weekly):
+    if(count2 => weekly):
         done = True
     else:
         q++ #increment to the next biggest number in the list
   
-    
+
+#counting the cost
+costList = [count2] #making it as big as the amount of weekly times
+for i in range (len(returnCalnder)):
+    if (i == CutOffDate):
+        break
+    else:
+        for j in range (len(returnCalender)):
+            if (returnCalender[i][j] == -1):
+                #checking the cost of the thing
+                costTotal = 0 #if perfect, the cost would just stay 0
+                timeCost = abs(j - preferedTime) #cost of how far away from the preferedTime it is
+                if (numCalender[i][j] < minimumPeople):
+                    temp = numCalender[i][j]
+                    peoplCost = minimumPeople - temp
+            
+                seven = abs(preferedDay - i)
+                if (seven % 7 == 0): #if its on the exact same day
+                    dayCost = 0
+                else:
+                    if (seven == 1 || seven == 6): #one day off
+                        dayCost = 1
+                    else if (seven == 2 || seven == 5): ##two days off
+                        dayCost = 2
+                    else:
+                        dayCost = 3
+                    
+                #adding the cost together
+                cost = timeCost + peopleCost + dayCost
+                costList.attend(cost)
+
+
     
 #writing it to a text file
     for row in returnCalender:
