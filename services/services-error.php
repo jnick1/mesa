@@ -11,6 +11,9 @@ switch (filter_input(INPUT_GET, 'e', FILTER_SANITIZE_STRING)) {
     case "invalid_token":
         $error_message = 'Token was invalid or has already been used.';
         break;
+    case "token_expired":
+        $error_message = 'Access token has expired.';
+        break;
     case "invalid_event":
         $error_message = 'Event was invalid or has been removed.';
         break;
