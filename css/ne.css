@@ -343,6 +343,39 @@ and open the template in the editor.
     cursor: pointer;
 }
 
+#ne-send-btn-cancel {
+    
+} /*empty*/
+#ne-send-btn-yes {
+    
+} /*empty*/
+#ne-send-btns {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#ne-send-content-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#ne-send-dialogbox {
+    min-width: 400px;
+    width: 450px;
+    font-family: Arial, sans-serif;
+    background: rgba(255,255,255,1);
+}
+#ne-send-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ne-send-wrapper {
+    
+} /*empty*/
+#ne-send-x {
+    float: right;
+    cursor: pointer;
+}
+
 #ne-settings-attendees-table {
     padding-left: 15px;
 }
