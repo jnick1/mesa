@@ -248,7 +248,42 @@ and open the template in the editor.
                                                 <div class="ne-guests-guestdata-content ui-container-inline">
                                                     <span class="goog-icon <?php echo ($value["optional"]?"goog-icon-guest-optional":"goog-icon-guest-required");?> ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
                                                     <div class="ui-container-inline ne-guest-response-icon-wrapper">
-                                                        <div class="ne-guest-response-icon goog-icon<?php if($value["responseStatus"] == "needsAction") { echo " goog-icon-guest-no"; } else if($value["responseStatus"] == "accepted") { echo " goog-icon-guest-yes"; } ?>" title="<?php if($value["responseStatus"] == "needsAction") { echo "This guest has not yet responded"; } else if($value["responseStatus"] == "accepted") { echo "This guest has responded."; } ?>"></div>
+                                                        <div class="ne-guest-response-icon goog-icon
+                                                            <?php 
+                                                            if($dtRequestSent!==NULL){
+                                                            switch($value["responseStatus"]) {
+                                                                case "needsAction":
+                                                                    echo " goog-icon-guest-maybe"; 
+                                                                    break;
+                                                                case "accepted":
+                                                                    echo " goog-icon-guest-yes"; 
+                                                                    break;
+                                                                case "declined":
+                                                                    echo " goog-icon-guest-no"; 
+                                                                    break;
+                                                                case "tentative":
+                                                                    echo " goog-icon-guest-maybe";
+                                                                    break;
+                                                            }
+                                                            ?>" title="<?php 
+                                                            switch($value["responseStatus"]) {
+                                                                case "needsAction":
+                                                                    echo "This guest has not yet responded"; 
+                                                                    break;
+                                                                case "accepted":
+                                                                    echo "This guest has responded"; 
+                                                                    break;
+                                                                case "declined":
+                                                                    echo "This guest has declined to attend"; 
+                                                                    break;
+                                                                case "tentative":
+                                                                    echo "This guest has indicated they may attend";
+                                                                    break;
+                                                            }
+                                                            } else {
+                                                                echo "\"";
+                                                            }?>">
+                                                        </div>
                                                     </div>
                                                     <div id="<?php echo $value["email"] ?>@display" class="ne-guest-name-wrapper ui-container-inline">
                                                         <span class="ne-guest-name ui-unselectabletext"><?php echo $value["email"] ?></span>
