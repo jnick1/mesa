@@ -166,13 +166,14 @@ function insert_event_data($blCalendar) {
     if ($stmt = $dbc->prepare($q1)) {
         $stmt->bind_param("s", $txEmail);
         $stmt->execute();
+        $rows = $stmt->num_rows;
         $stmt->bind_result($pkUserid);
         $stmt->fetch();
         $stmt->free_result();
         $stmt->close();
     }
 
-    if (isset($pkUserid)) {
+    if ($rows > 0) {
         if ($stmt = $dbc->prepare($q2)) {
             $stmt->bind_param("si", $blCalendar, $pkUserid);
             $stmt->execute();
