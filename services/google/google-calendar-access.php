@@ -128,7 +128,7 @@ function format_trim_event($event, &$prev_checked_distances) {
 }
 
 function insert_mysql_info($events_array) {
-    $serialized_events = (string) serialize($events_array);
+    $serialized_events = (string) json_encode($events_array);
     insert_event_data($serialized_events);
     session_destroy();
     

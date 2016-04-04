@@ -157,13 +157,18 @@ function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
 function insert_event_data($blCalendar) {
     $dbc = connect_sql();
 
-    $q1 = "SELECT pkUserid FROM tblusers WHERE txEmail = ?";
-    $q2 = "UPDATE tblusers SET blCalendar = ? WHERE pkUserid = ?";
-    $q3 = "INSERT INTO tblusers (txEmail, txHash, blCalendar) VALUES (?,?,?)";
-    $q4 = "INSERT INTO tbltokens (txEmail, txTokenid) VALUES (?,?)";
+    $qsu = "SELECT pkUserid FROM tblusers WHERE txEmail = ?"; //Use again to grab pkUserid from inserted user
+    $qiu = "INSERT INTO tblusers (txEmail, txHash) VALUES (?,?)";
+
+    $qsc = "SELECT fkUserid, fkEventid FROM tblcalendars WHERE fkUserid = ? AND fkEventid = ?";
+    $quc = "UPDATE tblcalendars SET blCalendar = ? WHERE fkUserid = ? AND fkEventid = ?";
+    $qic = "INSERT INTO tblcalendars (fkUserid, fkEventid, blCalendar) VALUES (?,?,?)";
+
+    $qit = "INSERT INTO tbltokens (txEmail, txTokenid) VALUES (?,?)";
+
     $txEmail = strtolower($_SESSION['sql_attendee_email']);
 
-    if ($stmt = $dbc->prepare($q1)) {
+    if ($stmt = $dbc->prepare($qsu)) {
         $stmt->bind_param("s", $txEmail);
         $stmt->execute();
         $rows = $stmt->num_rows;
@@ -173,46 +178,65 @@ function insert_event_data($blCalendar) {
         $stmt->close();
     }
 
-    if ($rows > 0) {
-        if ($stmt = $dbc->prepare($q2)) {
-            $stmt->bind_param("si", $blCalendar, $pkUserid);
-            $stmt->execute();
-            preg_match_all('/(\S[^:]+): (\d+)/', $dbc->info, $matches);
-            $info = array_combine($matches[1], $matches[2]);
-            $stmt->free_result();
-            $stmt->close();
-            if ($info['Rows matched'] > 0) { //affected_rows will not work here if calendar data is the same    
-                revoke_token($dbc);
-                indicate_attendee_response($dbc);
-            } else {
-                redirect_local(ERROR_PATH . "/?e=sql_insertion");
-            }
-        }
-    } else {
+    if ($rows <= 0) { //Generate user if doesn't exist
         $hash = hash("sha256", time());
-        if ($stmt = $dbc->prepare($q4)) {
+        if ($stmt = $dbc->prepare($qit)) {
             $stmt->bind_param("ss", $txEmail, $hash);
             $stmt->execute();
             $affected_rows = $stmt->affected_rows;
             $stmt->free_result();
             $stmt->close();
             if ($affected_rows > 0) {
-                if ($stmt = $dbc->prepare($q3)) {
-                    $stmt->bind_param("sss", $txEmail, $hash, $blCalendar);
+                if ($stmt = $dbc->prepare($qiu)) {
+                    $stmt->bind_param("ss", $txEmail, $hash);
                     $stmt->execute();
-                    $affected_rows = $stmt->affected_rows;
                     $stmt->free_result();
                     $stmt->close();
-                    if ($affected_rows > 0) {
-                        revoke_token($dbc);
-                        indicate_attendee_response($dbc);
-                    } else {
-                        redirect_local(ERROR_PATH . "/?e=sql_insertion");
-                    }
                 }
             } else {
                 redirect_local(ERROR_PATH . "/?e=sql_insertion");
             }
+        }
+    }
+    if ($stmt = $dbc->prepare($qsu)) {
+        $stmt->bind_param("s", $txEmail);
+        $stmt->execute();
+        $stmt->bind_result($pkUserid);
+        $stmt->fetch();
+        $stmt->free_result();
+        $stmt->close();
+    }
+    if ($stmt = $dbc->prepare($qsc)) {
+        $stmt->bind_param("ii", $pkUserid, $_SESSION["event_id"]);
+        $stmt->execute();
+        $rows = $stmt->num_rows;
+        $stmt->free_result();
+        $stmt->close();
+
+        if ($rows > 0) {
+            if ($stmt = $dbc->prepare($quc)) {
+                $stmt->bind_param("sii", $blCalendar, $pkUserid, $_SESSION["event_id"]);
+                $stmt->execute();
+                preg_match_all('/(\S[^:]+): (\d+)/', $dbc->info, $matches);
+                $info = array_combine($matches[1], $matches[2]);
+                $affected_rows = $info['Rows matched'];
+                $stmt->free_result();
+                $stmt->close();
+            }
+        } else {
+            if ($stmt = $dbc->prepare($qic)) {
+                $stmt->bind_param("iis", $pkUserid, $_SESSION["event_id"], $blCalendar);
+                $stmt->execute();
+                $affected_rows = $stmt->affected_rows;
+                $stmt->free_result();
+                $stmt->close();
+            }
+        }
+        if ($affected_rows > 0) { //affected_rows will not work here if calendar data is the same    
+            revoke_token($dbc);
+            indicate_attendee_response($dbc);
+        } else {
+            redirect_local(ERROR_PATH . "/?e=sql_insertion");
         }
     }
     $dbc->close();
@@ -259,7 +283,7 @@ function indicate_attendee_response($dbc) {
             $affected_rows = $stmt->affected_rows;
             $stmt->free_result();
             $stmt->close();
-            if($affected_rows <= 0){
+            if ($affected_rows <= 0) {
                 redirect_local(ERROR_PATH . "/?e=sql_insertion");
             }
         }
