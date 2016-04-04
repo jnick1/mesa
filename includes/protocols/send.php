@@ -234,21 +234,23 @@ if(isset($scrubbed["send"])) {
             $stmt->close();
         }
         $notifications[] = "Your event has been successfully saved.";
-    }
-    $output = send_noopti_event($dbc, $scrubbed);
-    foreach($output as $notif => $info) {
-        switch(substr($notif,0,5)){
-            case "notif":
-                $notifications[] = $info;
-                break;
-            case "warni":
-                $warnings[] = $info;
-                break;
-            case "error":
-                $errors[] = $info;
-                break;
-            default:
-                $errors[] = $info;
+        
+        $scrubbed["pkEventid"] = $eventid;
+        $output = send_noopti_event($dbc, $scrubbed);
+        foreach($output as $notif => $info) {
+            switch(substr($notif,0,5)){
+                case "notif":
+                    $notifications[] = $info;
+                    break;
+                case "warni":
+                    $warnings[] = $info;
+                    break;
+                case "error":
+                    $errors[] = $info;
+                    break;
+                default:
+                    $errors[] = $info;
+            }
         }
     }
 }
