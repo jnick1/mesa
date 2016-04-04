@@ -34,6 +34,7 @@ html, body {
     position: absolute;
     top: 72px;
     bottom: 45px;
+    margin-top: 30px;
     margin-bottom: 30px;
     left: 0;
     right: 0;
@@ -62,7 +63,6 @@ html, body {
     margin-bottom: 15px;
 }
 #ucq-calendar-dialogbox {
-    margin-top: 100px;
     min-width: 400px;
     font-family: Comfortaa-Bold,Arial,Sans-serif;
     -webkit-border-top-left-radius:10px;

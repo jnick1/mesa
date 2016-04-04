@@ -33,7 +33,7 @@ function guest_conflict(){
     return false;
 }
 function add_guest(){
-    var email = $("#ne-guests-emailinput").val();
+    var email = $("#ne-guests-emailinput").val().toLowerCase();
     if(email!=="" && validate_email(email)){
         if($("#ne-guests-container-list").hasClass("wpg-nodisplay")){
             $("#ne-guests-container-list").removeClass("wpg-nodisplay");

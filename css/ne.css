@@ -60,12 +60,13 @@ and open the template in the editor.
     cursor: pointer;
 }
 .ne-guest-response-icon {
-    
-} /*empty*/
+    margin: 0 auto;
+}
 .ne-guest-response-icon-wrapper {
     width: 14px;
     height: 14px;
-} /*empty*/
+    vertical-align: middle;
+}
 
 .ne-ipt-wrapper {
     
@@ -126,6 +127,7 @@ and open the template in the editor.
     width: 100%;
     float: left;
     max-width: 850px;
+    margin-bottom: 45px;
 }
 #ne-container-guests {
     float: right;
@@ -337,6 +339,39 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-repeat-x {
+    float: right;
+    cursor: pointer;
+}
+
+#ne-send-btn-cancel {
+    
+} /*empty*/
+#ne-send-btn-yes {
+    
+} /*empty*/
+#ne-send-btns {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#ne-send-content-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#ne-send-dialogbox {
+    min-width: 400px;
+    width: 450px;
+    font-family: Arial, sans-serif;
+    background: rgba(255,255,255,1);
+}
+#ne-send-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ne-send-wrapper {
+    
+} /*empty*/
+#ne-send-x {
     float: right;
     cursor: pointer;
 }
