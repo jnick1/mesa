@@ -25,7 +25,6 @@ function save_event(destination, addonParameters){
     var blSettings = {};
     var blAttendees = [];
     var blNotifications = {};
-    var isGuestInvite = $("#ne-evt-guests-inviteothers").is(":checked")?1:0;
     var isGuestList = $("#ne-evt-guests-seeguestlist").is(":checked")?1:0;
     var enVisibility = $("#ne-evt-visibility-public").is(":checked")?"public":$("#ne-evt-visibility-private").is(":checked")?"private":"default";
     var isBusy = $("#ne-evt-busy").is(":checked")?1:0;
@@ -259,7 +258,6 @@ function save_event(destination, addonParameters){
         "blSettings":JSON.stringify(blSettings),
         "blAttendees":JSON.stringify(blAttendees),
         "blNotifications":JSON.stringify(blNotifications),
-        "isGuestInvite":isGuestInvite,
         "isGuestList":isGuestList,
         "enVisibility":enVisibility,
         "isBusy":isBusy

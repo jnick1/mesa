@@ -308,10 +308,6 @@ and open the template in the editor.
                             </div>
                             <div>
                                 <label class="ne-guests-container-checkbox ui-unselectabletext">
-                                    <input id="ne-evt-guests-inviteothers" name="guestsettings" value="inviteothers" type="checkbox" class="ui-checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo ($isGuestInvite==1?" checked":""); } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
-                                    invite others
-                                </label>
-                                <label class="ne-guests-container-checkbox ui-unselectabletext">
                                     <input id="ne-evt-guests-seeguestlist" name="guestsettings" value="seeguestlist" type="checkbox" class="ui-checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo ($isGuestList==1?" checked":""); } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                     see guest list
                                 </label>

@@ -5,14 +5,14 @@ if(isset($scrubbed["send"])) {
         
         $warnings[] = "This button has not been fully implemented";
         
-        $q1 = "SELECT `blOptiSuggestion`, `nmTitle`, `txDescription`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated` FROM `tblevents` WHERE pkEventid = ?";
+        $q1 = "SELECT `blOptiSuggestion`, `nmTitle`, `txDescription`, `blAttendees`, `blNotifications`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated` FROM `tblevents` WHERE pkEventid = ?";
         $q2 = "SELECT txEmail from tblusers JOIN tblusersevents ON tblusersevents.fkUserid = tblusers.pkUserid WHERE tblusersevents.fkEventid = ?";
         $pkEventid = $scrubbed["pkEventid"];
         
         if($stmt = $dbc->prepare($q1)){
             $stmt->bind_param("i",$scrubbed["pkEventid"]);
             $stmt->execute();
-            $stmt->bind_result($blOptiSuggestion,$nmTitle,$txDescription,$blAttendees,$blNotifications,$isGuestInvite,$isGuestList,$enVisibility,$isBusy,$dtCreated,$dtLastUpdated);
+            $stmt->bind_result($blOptiSuggestion,$nmTitle,$txDescription,$blAttendees,$blNotifications,$isGuestList,$enVisibility,$isBusy,$dtCreated,$dtLastUpdated);
             $stmt->fetch();
             $stmt->free_result();
             $stmt->close();
@@ -28,14 +28,14 @@ if(isset($scrubbed["send"])) {
         
         
     } else {
-        $q1 = "SELECT `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated` FROM `tblevents` WHERE pkEventid = ?";
+        $q1 = "SELECT `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blAttendees`, `blNotifications`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated` FROM `tblevents` WHERE pkEventid = ?";
         $q2 = "SELECT txEmail from tblusers JOIN tblusersevents ON tblusersevents.fkUserid = tblusers.pkUserid WHERE tblusersevents.fkEventid = ?";
         $pkEventid = $scrubbed["pkEventid"];
         
         if($stmt = $dbc->prepare($q1)){
             $stmt->bind_param("i",$pkEventid);
             $stmt->execute();
-            $stmt->bind_result($nmTitle,$dtStart,$dtEnd,$txLocation,$txDescription,$txRRule,$nColorid,$blAttendees,$blNotifications,$isGuestInvite,$isGuestList,$enVisibility,$isBusy,$dtCreated,$dtLastUpdated);
+            $stmt->bind_result($nmTitle,$dtStart,$dtEnd,$txLocation,$txDescription,$txRRule,$nColorid,$blAttendees,$blNotifications,$isGuestInvite,$enVisibility,$isBusy,$dtCreated,$dtLastUpdated);
             $stmt->fetch();
             $stmt->free_result();
             $stmt->close();
@@ -183,7 +183,7 @@ if(isset($scrubbed["send"])) {
         }
     } else {
         $q1 = "SELECT `auto_increment` FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'tblevents'";
-        $q2 = "INSERT INTO `tblevents`(`nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestInvite`, `isGuestList`, `enVisibility`, `isBusy`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $q2 = "INSERT INTO `tblevents`(`nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blSettings`, `blAttendees`, `blNotifications`, `isGuestList`, `enVisibility`, `isBusy`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         $q3 = "INSERT INTO `tblusersevents`(`fkUserid`, `fkEventid`) VALUES (?,?)";
         
         if($stmt = $dbc->prepare($q1)){
@@ -195,10 +195,9 @@ if(isset($scrubbed["send"])) {
         }
         if($stmt = $dbc->prepare($q2)){
             $scrubbed["nColorid"] = (int) $scrubbed["nColorid"];
-            $scrubbed["isGuestInvite"] = (int) $scrubbed["isGuestInvite"];
             $scrubbed["isGuestList"] = (int) $scrubbed["isGuestList"];
             $scrubbed["isBusy"] = (int) $scrubbed["isBusy"];
-            $stmt->bind_param("ssssssisssiisi", $scrubbed["nmTitle"],$scrubbed["dtStart"],$scrubbed["dtEnd"],$scrubbed["txLocation"],$scrubbed["txDescription"],$scrubbed["txRRule"],$scrubbed["nColorid"],$scrubbed["blSettings"],$scrubbed["blAttendees"],$scrubbed["blNotifications"],$scrubbed["isGuestInvite"],$scrubbed["isGuestList"],$scrubbed["enVisibility"],$scrubbed["isBusy"]);
+            $stmt->bind_param("ssssssisssisi", $scrubbed["nmTitle"],$scrubbed["dtStart"],$scrubbed["dtEnd"],$scrubbed["txLocation"],$scrubbed["txDescription"],$scrubbed["txRRule"],$scrubbed["nColorid"],$scrubbed["blSettings"],$scrubbed["blAttendees"],$scrubbed["blNotifications"],$scrubbed["isGuestList"],$scrubbed["enVisibility"],$scrubbed["isBusy"]);
             $stmt->execute();
             $stmt->free_result();
             $stmt->close();
