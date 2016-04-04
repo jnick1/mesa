@@ -1,5 +1,5 @@
 <?php
-require $homedir."vendor/phpmailer/phpmailer/PHPMailerAutoload.php";
+require_once $homedir."vendor/phpmailer/phpmailer/PHPMailerAutoload.php";
 if(isset($scrubbed["send"])) {
 //    $ical = "BEGIN:VCALENDAR".
 //            "VERSION:2.0".

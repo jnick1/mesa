@@ -198,7 +198,11 @@ and open the template in the editor.
                                         foreach($attendees as $value){
                                             switch($value["responseStatus"]){
                                                 case "needsAction":
-                                                    $guestsWaiting++;
+                                                    if(time() - strtotime($dtStart)>=0) {
+                                                        $guestsNo++;
+                                                    } else {
+                                                        $guestsWaiting++;
+                                                    }
                                                     break;
                                                 case "declined":
                                                     $guestsNo++;
@@ -235,16 +239,16 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php } else { 
+                                        <?php } else {
                                             $attendees = json_decode($blAttendees, true);
                                             foreach($attendees as $value){
                                             ?>
-                                        <div id="<?php echo $value["email"]; ?>" class="ne-evt-guest" data-required="<?php echo !$value["optional"]?"true":"false"; ?>" title="<?php echo $value["email"]; ?>">
+                                        <div id="<?php echo $value["email"]; ?>" class="ne-evt-guest" data-required="<?php echo !$value["optional"]?"true":"false"; ?>" data-responseStatus="<?php echo $value["responseStatus"]; ?>" title="<?php echo $value["email"]; ?>">
                                             <div class="ne-guests-guestdata">
                                                 <div class="ne-guests-guestdata-content ui-container-inline">
                                                     <span class="goog-icon <?php echo ($value["optional"]?"goog-icon-guest-optional":"goog-icon-guest-required");?> ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
                                                     <div class="ui-container-inline ne-guest-response-icon-wrapper">
-                                                        <div class="ne-guest-response-icon"></div>
+                                                        <div class="ne-guest-response-icon goog-icon<?php if($value["responseStatus"] == "needsAction") { echo " goog-icon-guest-no"; } else if($value["responseStatus"] == "accepted") { echo " goog-icon-guest-yes"; } ?>" title="<?php if($value["responseStatus"] == "needsAction") { echo "This guest has not yet responded"; } else if($value["responseStatus"] == "accepted") { echo "This guest has responded."; } ?>"></div>
                                                     </div>
                                                     <div id="<?php echo $value["email"] ?>@display" class="ne-guest-name-wrapper ui-container-inline">
                                                         <span class="ne-guest-name ui-unselectabletext"><?php echo $value["email"] ?></span>

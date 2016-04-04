@@ -6,11 +6,11 @@
 
 
 $(document).ready(function(){
-    $("#ucq-calendar-dialogbox").center(window);
+    $("#ucq-calendar-dialogbox").center($("#ucq-calendar-dialogbox").parent(), "leftright");
 });
 
 $(window).on("resize", function(){
-    $("#ucq-calendar-dialogbox").center(window);
+    $("#ucq-calendar-dialogbox").center($("#ucq-calendar-dialogbox").parent(), "leftright");
 });
 
 $(document).on("click", "#ucq-calendar-btn-cancel", function() {

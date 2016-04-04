@@ -162,7 +162,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
         attendees.push({
             "email":$(this).attr("id"),
             "optional":($(this).data("required"))===true?false:true,
-            "responseStatus":"needsAction"
+            "responseStatus":((typeof $(this).data("responsestatus") !== typeof undefined && $(this).data("responsestatus") !== false)?$(this).data("responsestatus"):"needsAction")
         });
     });
     blAttendees = attendees;

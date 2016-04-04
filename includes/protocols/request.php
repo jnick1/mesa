@@ -1,5 +1,5 @@
 <?php
-require $homedir."vendor/phpmailer/phpmailer/PHPMailerAutoload.php";
+require_once $homedir."vendor/phpmailer/phpmailer/PHPMailerAutoload.php";
 ob_start();
 if(isset($scrubbed["request"])) {
     $pkEventid = $scrubbed["pkEventid"];

@@ -60,12 +60,13 @@ and open the template in the editor.
     cursor: pointer;
 }
 .ne-guest-response-icon {
-    
-} /*empty*/
+    margin: 0 auto;
+}
 .ne-guest-response-icon-wrapper {
     width: 14px;
     height: 14px;
-} /*empty*/
+    vertical-align: middle;
+}
 
 .ne-ipt-wrapper {
     
@@ -126,6 +127,7 @@ and open the template in the editor.
     width: 100%;
     float: left;
     max-width: 850px;
+    margin-bottom: 45px;
 }
 #ne-container-guests {
     float: right;
