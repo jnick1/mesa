@@ -21,7 +21,6 @@ if(isset($scrubbed["saveedit"])) {
         if($owner === $_SESSION["pkUserid"]) {
             if($stmt = $dbc->prepare($q2)){
                 $scrubbed["nColorid"] = (int) $scrubbed["nColorid"];
-                $scrubbed["isGuestInvite"] = (int) $scrubbed["isGuestInvite"];
                 $scrubbed["isGuestList"] = (int) $scrubbed["isGuestList"];
                 $scrubbed["isBusy"] = (int) $scrubbed["isBusy"];
                 $scrubbed["pkEventid"] = (int) $scrubbed["pkEventid"];
