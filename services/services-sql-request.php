@@ -84,7 +84,7 @@ function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
         date_add($dateStart, $offsetStart);
     } else {
         if (empty($txRRule)) {
-            $offestEnd = new DateInterval("P7D");
+            $offsetEnd = new DateInterval("P7D");
             $offsetStart = clone $offsetEnd;
             $offsetStart->invert = 1;
         } else {
@@ -161,7 +161,7 @@ function insert_event_data($blCalendar) {
     $q2 = "UPDATE tblusers SET blCalendar = ? WHERE pkUserid = ?";
     $q3 = "INSERT INTO tblusers (txEmail, txHash, blCalendar) VALUES (?,?,?)";
     $q4 = "INSERT INTO tbltokens (txEmail, txTokenid) VALUES (?,?)";
-    $txEmail = $_SESSION['sql_attendee_email'];
+    $txEmail = strtolower($_SESSION['sql_attendee_email']);
 
     if ($stmt = $dbc->prepare($q1)) {
         $stmt->bind_param("s", $txEmail);

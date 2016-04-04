@@ -90,17 +90,30 @@ function post(path, parameters, method) {
     $(document.body).append(form);
     form.submit();
 }
-jQuery.fn.center = function(parent) {
+jQuery.fn.center = function(parent, direction) {
     if (parent) {
         parent = this.parent();
     } else {
         parent = window;
     }
-    this.css({
-        "position": "absolute",
-        "top": ((($(parent).height() - this.outerHeight()) / 2) + $(parent).scrollTop() + "px"),
-        "left": ((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft() + "px")
-    });
+    if(direction==="leftright") {
+        this.css({
+            "position": "absolute",
+            "left": ((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft() + "px")
+        });
+    } else if(direction==="topbottom"){
+        this.css({
+            "position": "absolute",
+            "top": ((($(parent).height() - this.outerHeight()) / 2) + $(parent).scrollTop() + "px"),
+        });
+    } else {
+        this.css({
+            "position": "absolute",
+            "top": ((($(parent).height() - this.outerHeight()) / 2) + $(parent).scrollTop() + "px"),
+            "left": ((($(parent).width() - this.outerWidth()) / 2) + $(parent).scrollLeft() + "px")
+        });
+    }
+    
 return this;
 };
 

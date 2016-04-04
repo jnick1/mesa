@@ -1,5 +1,6 @@
 <?php
 if(isset($scrubbed["signin"])) {
+    $scrubbed["wpg-evt-signin-email"] = strtolower($scrubbed["wpg-evt-signin-email"]);
     $q1 = "SELECT blSalt, txHash FROM tblusers WHERE txEmail = ?";
     $q2 = "SELECT pkUserid, dtLogin FROM tblusers WHERE txHash = ?";
     $q3 = "UPDATE tblusers SET dtLogin = CURRENT_TIMESTAMP";

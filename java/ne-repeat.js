@@ -535,6 +535,10 @@ function hide_repeat_dialogbox(){
     }
 }
 
+$(window).on("resize", function(){
+    $("#ne-repeat-dialogbox").center();
+});
+
 $(document).keydown(function(event) {
     if (event.keyCode === 27) {
         hide_repeat_dialogbox();

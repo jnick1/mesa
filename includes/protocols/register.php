@@ -3,6 +3,7 @@ if(isset($scrubbed["register"])) {
     if(isset($_SESSION["pkUserid"]) && is_numeric($_SESSION["pkUserid"])) {
         $warnings[] = "You cannot register a new user account while logged in.";
     } else {
+        $scrubbed["in-evt-register-email"] = strtolower($scrubbed["in-evt-register-email"]);
         $q1 = "SELECT pkUserid, txHash FROM tblusers WHERE txEmail = ?";
         $q2 = "INSERT INTO `tblusers`(`txEmail`, `blSalt`, `txHash`, `dtLogin`) VALUES (?,?,?,?)";
         $q3 = "SELECT txEmail, dtExpires FROM tbltokens WHERE txTokenid = ?";

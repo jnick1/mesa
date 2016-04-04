@@ -63,6 +63,10 @@ function reset_settings(){
     $("#ne-label-settingsbox").html("Advanced settings");
 }
 
+$(window).on("resize", function(){
+    $("#ne-settings-dialogbox").center();
+});
+
 $(document).ready(function(){
     if($("#wpg").attr("data-eventid")) {
         if(!$("#ne-evt-settings-usedefault").is(":checked")) {
