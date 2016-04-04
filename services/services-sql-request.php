@@ -78,14 +78,14 @@ function generate_constraint_times($txRRule, $dtStart, $dtEnd, $blSettings) {
     if (isset($settings["date"]) && $settings["date"]) {
         $dateEnd = date_create_from_format($format, $settings["date"]["furthest"], $timeZone);
         $offsetEnd = new DateInterval("P1D");
-        $offsetStart = clone $offsetEnd;
+        $offsetStart = new DateInterval("P7D");
         $offsetStart->invert = 1;
         date_add($dateEnd, $offsetEnd);
         date_add($dateStart, $offsetStart);
     } else {
         if (empty($txRRule)) {
             $offsetEnd = new DateInterval("P7D");
-            $offsetStart = clone $offsetEnd;
+            $offsetStart = new DateInterval("P7D");
             $offsetStart->invert = 1;
         } else {
             $txRRule = str_replace(";", "&", $txRRule);
@@ -171,6 +171,7 @@ function insert_event_data($blCalendar) {
     if ($stmt = $dbc->prepare($qsu)) {
         $stmt->bind_param("s", $txEmail);
         $stmt->execute();
+        $stmt->store_result();
         $rows = $stmt->num_rows;
         $stmt->bind_result($pkUserid);
         $stmt->fetch();
@@ -194,7 +195,7 @@ function insert_event_data($blCalendar) {
                     $stmt->close();
                 }
             } else {
-                redirect_local(ERROR_PATH . "/?e=sql_insertion");
+                redirect_local(ERROR_PATH . "/?e=sql_insertion"); //Not it
             }
         }
     }
@@ -209,11 +210,14 @@ function insert_event_data($blCalendar) {
     if ($stmt = $dbc->prepare($qsc)) {
         $stmt->bind_param("ii", $pkUserid, $_SESSION["event_id"]);
         $stmt->execute();
-        $rows = $stmt->num_rows;
+        $stmt->store_result();
+        $found_rows = $stmt->num_rows;
+        $stmt->bind_result($fkUserid, $fkEventid);
+        $stmt->fetch();
         $stmt->free_result();
         $stmt->close();
 
-        if ($rows > 0) {
+        if ($found_rows > 0) {
             if ($stmt = $dbc->prepare($quc)) {
                 $stmt->bind_param("sii", $blCalendar, $pkUserid, $_SESSION["event_id"]);
                 $stmt->execute();
@@ -280,7 +284,9 @@ function indicate_attendee_response($dbc) {
             $updatedAttendees = json_encode($attendees);
             $stmt->bind_param("si", $updatedAttendees, $event_id);
             $stmt->execute();
-            $affected_rows = $stmt->affected_rows;
+            preg_match_all('/(\S[^:]+): (\d+)/', $dbc->info, $matches);
+            $info = array_combine($matches[1], $matches[2]);
+            $affected_rows = $info['Rows matched'];
             $stmt->free_result();
             $stmt->close();
             if ($affected_rows <= 0) {
