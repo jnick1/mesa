@@ -5,48 +5,45 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 import numpty as np
+pip install phpserialize 
 phpserialize import 
 import sys, json #for taking in data from php
 if __name__ == "__main__":
     print "Hello World"
-
-#IMPORTANT!!!
-#RE-WRITE IT SO THAT THE PRIORITY IS MANIPULATED ONLY
-
-
-
 #using numpty for matrix
 
 #necessary objects needed before starting the program
- #Priority[] = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
- DAYS[] #specific days wanted
- attendies[] = [] #list of people on the project, those who accept
+ Priority[7] = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
+ DAYS[7] #specific days wanted
   
  #matrices necessary   check the row number because will might have it on years and I don't really want to deal with that nonsense
         #Note: make 2 matrixes for "Full Span" matrix for the year and the "Active Span" which is a weekly thing, 
         #convert the time to UTC
- masterCalender = [ [ 0 for i in range(7) ] for j in range(24) ] #calender for the final date selection, full week 7 days/24hrs
- peopleCalender = [ [ 0 for i in range(7) ] for j in range(24) ] #calender to keep track of the number of people
- googleCalender[]
- googleCal = [ [ 0 for i in range(7) ] for j in range(24) ] #calender to import 
+ 
  
  #first, enter the necessary data
-    f = open('WillsBasicInfo', 'r') #the order of the text file should be as the following: 
     
-    searchWidth = f.readline() #how many days are available
-    gran = f.readline()  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
-    bannedtimes = f.readline() #banned granularity increments based on user input, ie not over 933 or something
-    CutOffDate = f.readline() #don't go on beyond this point
-    preferedTime = f.readline() #the time that the person wants to have the specifically
-    preferedDay = f.readline() #day that the person wants
-    timeLength = f.readline() #how long the meeting is
-    locationTime = f.readline() #how long it take to reach the location spot
-    weekly = f.readline() #how often per week people want to meet
-    minimumPeople = f.readline() #the minimum number of people needed for the meeting
-    f.close()#closing the file
-    grularity = gran/60 #search it by what people wanted, else it's automatically 1 hour   
+testDATA = unserialize(phpDATA) #idk if this is right or not, highly doubt it, but this should make testData a list with the inputs
+searchWidth = testDATA[0] #how many days are available
+gran = testDATA[1]  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
+bannedtimes = testDATA[3] #banned granularity increments based on user input, ie not over 933 or something
+startDate = testDATA[4] #when the calender starts at
+CutOffDate = testDATA[5] #don't go on beyond this point
+preferedTime = testDATA[6] #the time that the person wants to have the specifically
+preferedDay = testDATA[7] #day that the person wants
+timeLength = testDATA[8] #how long the meeting is
+locationTime = testDATA[9] #how long it take to reach the location spot
+weekly = testDATA[10] #how often per week people want to meet
+minimumPeople = testDATA[11] #the minimum number of people needed for the meeting
+maxPeople = testData[12] #the amount of people invited, including the event organizer
 
-    tempString = 0 #how many people are there/now long the string is
+granularity = gran/60 #search it by what people wanted, else it's automatically 1 hour   
+    
+ 
+masterCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24/granularity) ] #calender for the final date selection, full week 7 days/24hrs
+peopleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24/granularity) ] #calender to keep track of the number of people
+GoogleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24/granularity) ] #calender to import 
+tempString = 0 #how many people are there/now long the string is
     
  if (   ): #when OGANIZER clicks "Find Times" Btn
  {
@@ -57,8 +54,8 @@ if __name__ == "__main__":
     
     
     # Load the data that PHP will dump us (var_dump($resultData)
-    for(i=0; i<7; i++):
-        for(j=0; j<24; j++):
+    for(i=0; i<searchWidth; i++):
+        for(j=0; j<24/granularity; j++):
             {
                 try:
                     data = json.loads(sys.argv[i])[j]
@@ -84,9 +81,9 @@ if __name__ == "__main__":
     tempString ++
  }#END ATTENDIES IF STATEMENT
  
- numCalender[][] #calender to hold the amount of people at the event start
- returnCalender[][] #calender to return 
- List[] #hold the number
+ numCalender[searchWidth][24/granularity] #calender to hold the amount of people at the event start
+ returnCalender[searchWidth][24/granularity] #calender to return 
+ List[maxPeople] #hold the number of people that the people can attend
   
 for i in range (0, searchWidth):
     day = DAYS[i] #for specific day
@@ -172,9 +169,9 @@ for i in range (len(returnCalnder)):
                 if (seven % 7 == 0): #if its on the exact same day
                     dayCost = 0
                 else:
-                    if (seven == 1 || seven == 6): #one day off
+                    if ((seven + 1)%7 ==0  || (seven + 6)%7 == 0): #one day off
                         dayCost = 1
-                    else if (seven == 2 || seven == 5): ##two days off
+                    else if ((seven + 2)%7 ==0  || (seven + 5)%7 == 0): ##two days off
                         dayCost = 2
                     else:
                         dayCost = 3
