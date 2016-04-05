@@ -277,16 +277,22 @@ function hide_send_dialogbox(){
     $("#wpg").removeClass("ui-popup-background-effect");
     $("#ne-send-wrapper").removeClass("ui-popup-active");
 }
+function show_opti_dialogbox(){
+    $("#wpg").addClass("ui-popup-background-effect");
+    $("#ne-opti-wrapper").addClass("ui-popup-active");
+}
+function hide_opti_dialogbox(){
+    $("#wpg").removeClass("ui-popup-background-effect");
+    $("#ne-opti-wrapper").removeClass("ui-popup-active");
+}
 
 $(window).on("resize", function(){
     $("#ne-send-dialogbox").center();
+    $("#ne-opti-dialogbox").center();
 });
 
 $(document).on("click", "#ne-btn-back", function back_evt_request() {
     window.location = "eventlist.php";
-});
-$(document).on("click", "#ne-btn-findtimes", function find_evt_request() {
-    alert("placeholder");
 });
 $(document).on("click", "#ne-btn-save", function save_evt_request() {
     var parameters = {};
@@ -298,6 +304,7 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
     }
     save_event("eventlist.php",parameters);
 });
+
 $(document).on("click", "#ne-btn-send", function send_evt_request() {
     if($("#wpg").attr("data-optiran")) {
         var parameters = {
@@ -311,11 +318,9 @@ $(document).on("click", "#ne-btn-send", function send_evt_request() {
         $("#ne-send-dialogbox").center();
     }
 });
-
 $(document).on("click", "#ne-send-x, #ne-send-btn-cancel", function(){
     hide_send_dialogbox();
 });
-
 $(document).on("click", "#ne-send-btn-yes", function() {
     if($("#wpg").attr("data-eventid")) {
         var parameters = {
@@ -330,4 +335,12 @@ $(document).on("click", "#ne-send-btn-yes", function() {
         };
         save_event("eventlist.php", parameters);
     }
+});
+
+$(document).on("click", "#ne-btn-findtimes", function find_evt_request() {
+    show_opti_dialogbox();
+    $("#ne-opti-dialogbox").center();
+});
+$(document).on("click", "#ne-opti-x, #ne-opti-btn-cancel", function() {
+    hide_opti_dialogbox();
 });

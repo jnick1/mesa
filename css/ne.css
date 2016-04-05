@@ -12,6 +12,10 @@ and open the template in the editor.
 /*========|      Classes     |========*/
 /*====================================*/
 
+.ne-btns-popups {
+    
+} /*empty*/
+
 .ne-dropdown-repeat-repeatevery-item {
     
 } /*empty*/
@@ -279,6 +283,39 @@ and open the template in the editor.
 #ne-label-settingsbox {
     
 } /*empty*/
+
+#ne-opti-btn-cancel {
+    
+} /*empty*/
+#ne-opti-btn-yes {
+    
+} /*empty*/
+#ne-opti-btns {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+#ne-opti-content-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#ne-opti-dialogbox {
+    min-width: 400px;
+    width: 450px;
+    font-family: Arial, sans-serif;
+    background: rgba(255,255,255,1);
+}
+#ne-opti-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ne-opti-wrapper {
+    
+} /*empty*/
+#ne-opti-x {
+    float: right;
+    cursor: pointer;
+}
 
 #ne-repeat-btn-cancel {
     font-size: 11px;
