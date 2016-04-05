@@ -22,36 +22,38 @@ if __name__ == "__main__":
  
  
  #first, enter the necessary data
-    
-testDATA = unserialize(phpDATA) #idk if this is right or not, highly doubt it, but this should make testData a list with the inputs
-searchWidth = testDATA[0] #how many days are available
-gran = testDATA[1]  #How many minutes do want to increment the search by hour, can also be wither 15mins or 1 mins depending on user input
-bannedtimes = testDATA[3] #banned granularity increments based on user input, ie not over 933 or something
-startDate = testDATA[4] #when the calender starts at
-CutOffDate = testDATA[5] #don't go on beyond this point
-preferedTime = testDATA[6] #the time that the person wants to have the specifically
-preferedDay = testDATA[7] #day that the person wants
-timeLength = testDATA[8] #how long the meeting is
-locationTime = testDATA[9] #how long it take to reach the location spot
-weekly = testDATA[10] #how often per week people want to meet
-minimumPeople = testDATA[11] #the minimum number of people needed for the meeting
-maxPeople = testData[12] #the amount of people invited, including the event organizer
+data = json.loads(blSettings)#look over blSettings later    
 
-granularity = gran/60 #search it by what people wanted, else it's automatically 1 hour   
+searchWidth = data[''] #how many days are available
+bannedtimesStart = data['blacklist']['earliest'] #start of times that we don't use
+bannedtimesEnd = data['blacklist']['latest'] #start of times that we don't use
+startDate = DTstart #when the calender starts at
+CutOffDate = data['date']['furthest'] #don't go on beyond this point, double check this
+preferedTime = data['time'] #the time that the person wants to have the specifically
+preferedDate = data['date'] #day that the person wants, *go through code with new updated stuff*
+timeLength = data['durration'] #how long the meeting is *so far for the max length* 
+weekly = txRRule #how often per week people want to meet
+minimumPeople = data['attendees']['minattendees'] #the minimum number of people needed for the meeting
+
+
+granularity = 60/15 #search it by what people wanted, else it's automatically 1 hour   
     
  
-masterCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24/granularity) ] #calender for the final date selection, full week 7 days/24hrs
-peopleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24/granularity) ] #calender to keep track of the number of people
-GoogleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24/granularity) ] #calender to import 
+masterCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24*granularity) ] #calender for the final date selection, full week 7 days/24hrs
+peopleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24*granularity) ] #calender to keep track of the number of people
+GoogleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24*granularity) ] #calender to import 
 tempString = 0 #how many people are there/now long the string is
-    
+
  if (   ): #when OGANIZER clicks "Find Times" Btn
  {
+    data = json.loads(blAttendees)#list of users and email addresses, optional(false if have to be there), response status()
+        #go to table users, find said user (pk user id), table calenders, get the calender data there that matches the user id here
+        
     user = phpobject('WP_User', data)#'WP_User is the PHP function with the necessary information, data is the information necessary to transfer
     endTime = user.endTime  #reading the endTime from the PHP object, time to stop the search
     startTime = user.startTime #reading the startTime from the PHP object, where to start the search
     DayWeekMonth = user.DayWeekMonth #how long the input would be based on the number of days there are
-    
+    locationTime = data[''] #how long it take to reach the location spot, changes per user
     
     # Load the data that PHP will dump us (var_dump($resultData)
     for(i=0; i<searchWidth; i++):
@@ -68,7 +70,7 @@ tempString = 0 #how many people are there/now long the string is
     
     #adding their Goolge calender to the combined Master Calender
     for i in range (len(GoogleCalender)):
-        for j in xrange(0, (24/granularity) - bannedtimes, granularity):
+        for j in xrange(0, (24*granularity) - bannedtimes, granularity):
             if GoogleCalender[i][j] == '1':
                 test = masterCalender[i][j]
                 test += '1'
@@ -81,13 +83,13 @@ tempString = 0 #how many people are there/now long the string is
     tempString ++
  }#END ATTENDIES IF STATEMENT
  
- numCalender[searchWidth][24/granularity] #calender to hold the amount of people at the event start
- returnCalender[searchWidth][24/granularity] #calender to return 
+ numCalender[searchWidth][24*granularity] #calender to hold the amount of people at the event start
+ returnCalender[searchWidth][24*granularity] #calender to return 
  List[maxPeople] #hold the number of people that the people can attend
   
 for i in range (0, searchWidth):
     day = DAYS[i] #for specific day
-    for j in xrange(startTime, (24/granularity) - bannedtimes, granularity): #Need to check on how to change incremtation in python
+    for j in xrange(startTime, (24*granularity) - bannedtimes, granularity): #Need to check on how to change incremtation in python
         if(j-locationTime >= 0): #so it stays within the calender
             if (masterCalender[day][j-locationTime] == 0):#travel time is free before hand
                 spot = False
