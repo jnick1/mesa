@@ -88,6 +88,10 @@ and open the template in the editor.
     border-spacing: 0;
 }
 
+.ne-opti-table-checkbox {
+    
+} /*empty*/
+
 .ne-repeat-repeatson-checkbox {
     margin-right: 0;
     margin-left: 0;
@@ -309,6 +313,9 @@ and open the template in the editor.
     font-size: 16px;
     padding: 10px 15px;
 }
+#ne-opti-table-wrapper {
+    
+} /*empty*/
 #ne-opti-wrapper {
     
 } /*empty*/

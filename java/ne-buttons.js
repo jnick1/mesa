@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+var optimizestate = {};
+
 function save_event(destination, addonParameters){
     var nmTitle = $("#ne-evt-title").val();
     if(nmTitle === "") {
@@ -307,9 +309,15 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
 
 $(document).on("click", "#ne-btn-send", function send_evt_request() {
     if($("#wpg").attr("data-optiran")) {
+        var chosen = "";
+        $(".ne-opti-table-checkbox:checked").each(function() {
+            chosen+=$(this).attr("id").substring(21,1)+",";
+        });
+        chosen = chosen.substr(0, chosen.length-1);
         var parameters = {
             "send":true,
             "optiran":true,
+            "optichosen":chosen,
             "pkEventid":$("#wpg").attr("data-eventid")
         };
         post("eventlist.php",parameters,"POST");
@@ -342,5 +350,16 @@ $(document).on("click", "#ne-btn-findtimes", function find_evt_request() {
     $("#ne-opti-dialogbox").center();
 });
 $(document).on("click", "#ne-opti-x, #ne-opti-btn-cancel", function() {
+    hide_opti_dialogbox();
+});
+$(document).on("click", "#ne-opti-btn-yes", function() {
+    var parameters = {
+        "optimize":true,
+        "pkEventid":$("#wpg").attr("data-eventid")
+    };
+    post("eventlist.php",parameters,"POST");
+});
+$(document).on("click", "#ne-opti-btn-done", function(){
+    save_state("#ne-opti-table-wrapper", optimizestate);
     hide_opti_dialogbox();
 });
