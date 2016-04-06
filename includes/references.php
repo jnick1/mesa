@@ -52,7 +52,7 @@ if(empty($_SESSION["pkUserid"])){
     </head>
     <body>
         <div id="wpg">
-            <div id="re-header" class="ui-container-section">
+            <div id="re-header" class="ui-container-section <?php echo "uluru".rand(1,8); ?>">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
                 ?>
