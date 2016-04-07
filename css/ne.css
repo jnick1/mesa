@@ -295,8 +295,9 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-opti-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #ne-opti-content-wrapper {
@@ -331,8 +332,9 @@ and open the template in the editor.
     font-size: 11px;
 }
 #ne-repeat-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #ne-repeat-dialogbox {
@@ -394,8 +396,9 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-send-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #ne-send-content-wrapper {
@@ -451,8 +454,9 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-settings-btns {
-    width: 200px;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #ne-settings-day-table {

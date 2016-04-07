@@ -110,8 +110,9 @@ html, body {
     
 } /*empty*/
 #el-delete-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #el-delete-dialogbox {

@@ -40,16 +40,30 @@ function hide_account_delete_dialogbox(){
     $("#wpg-account-delete-wrapper").removeClass("ui-popup-active");
 }
 
+function show_forgotpassword_dialogbox() {
+    $("#wpg-signin-wrapper").addClass("ui-popup-background-effect");
+    $("#wpg-forgotpassword-wrapper").addClass("ui-popup-active");
+}
+function hide_forgotpassword_dialogbox() {
+    $("#wpg-signin-wrapper").removeClass("ui-popup-background-effect");
+    $("#wpg-forgotpassword-wrapper").removeClass("ui-popup-active");
+}
+
 function reset_signin(){
     $("#wpg-signin-notification-email").addClass("wpg-nodisplay").html("");
     $("#wpg-signin-notification-password").addClass("wpg-nodisplay");
     $("#wpg-evt-signin-email,#wpg-evt-signin-password").val("");
+}
+function reset_forgotpassword() {
+    $("#wpg-forgotpassword-notification-email").addClass("wpg-nodisplay").html("");
+    $("#wpg-evt-forgotpassword-email").val("");
 }
 
 $(window).on("resize", function(){
     $("#wpg-signin-dialogbox").center();
     $("#wpg-account-dialogbox").center();
     $("#wpg-account-delete-dialogbox").center();
+    $("#wpg-forgotpassword-dialogbox").center();
 });
 
 $(document).keydown(function(event) {
@@ -57,6 +71,7 @@ $(document).keydown(function(event) {
         hide_signin_dialogbox();
         hide_account_dialogbox();
         hide_account_delete_dialogbox();
+        hide_forgotpassword_dialogbox();
         reset_signin();
     }
 });
@@ -79,18 +94,17 @@ $(document).on("click keyup", "#wpg-account-btn-changeemail", function(event) {
                 "changeemail":true,
                 "wpg-evt-account-email":$("#wpg-evt-account-email").val()
             };
-            post("#",parameters,"POST");
+            post((location.protocol + '//' + location.host + location.pathname),parameters,"POST");
         } else {
             $("#wpg-signin-notification-email").removeClass("wpg-nodisplay").html("Please enter a valid email address");
         }
     }
-    
 });
 
 $(document).on("click keyup", "#wpg-account-btn-resetpassword", function(event) {
     if(event.type === "click" || (event.type === "keyup" && (event.which===13))) {
         if($("#wpg-evt-account-newpassword").val()===$("#wpg-evt-account-confirmnewpassword").val()) {
-            post("#",{
+            post((location.protocol + '//' + location.host + location.pathname),{
                 "changepassword":true,
                 "wpg-evt-account-password":$("#wpg-evt-account-password").val(),
                 "wpg-evt-account-newpassword":$("#wpg-evt-account-newpassword").val()
@@ -136,7 +150,7 @@ $(document).on("keyup","#wpg-evt-account-newpassword",function() {
 
 
 $(document).on("click", "#wpg-header-btn-signout", function() {
-    post("#",{
+    post((location.protocol + '//' + location.host + location.pathname),{
         "signout":true
     }, "POST");
 });
@@ -170,7 +184,7 @@ $(document).on("blur","#wpg-evt-signin-email,#wpg-evt-signin-password", function
 $(document).on("click keyup", "#wpg-signin-btn-done, #wpg-evt-signin-password", function(event){
     if((event.type === "click" && $(this).attr("id")==="wpg-signin-btn-done") || (event.type === "keyup" && (event.which===13))) {
         if(validate_email($("#wpg-evt-signin-email").val())) {
-            post("#",{
+            post((location.protocol + '//' + location.host + location.pathname),{
                 "signin":true,
                 "wpg-evt-signin-email":$("#wpg-evt-signin-email").val(),
                 "wpg-evt-signin-password":$("#wpg-evt-signin-password").val()
@@ -196,7 +210,56 @@ $(document).on("click", "#wpg-account-delete-btn-yes", function() {
     var parameters = {
         "deleteaccount":true
     };
-    post("#",parameters,"POST");
+    post((location.protocol + '//' + location.host + location.pathname),parameters,"POST");
+});
+
+
+$(document).on("click", "#wpg-signin-forgotpassword", function() {
+    show_forgotpassword_dialogbox();
+    $("#wpg-forgotpassword-dialogbox").center();
+    $("#wpg-evt-forgotpassword-email").focus();
+});
+
+$(document).on("click", "#wpg-forgotpassword-x, #wpg-forgotpassword-btn-cancel", function() {
+    hide_forgotpassword_dialogbox();
+    reset_forgotpassword();
+});
+
+$(document).on("blur", "#wpg-evt-forgotpassword-email", function() {
+    var goodemail = validate_email($(this).val());
+    if(!goodemail && $("#wpg-evt-forgotpassword-email").val()!==""){
+        $("#wpg-forgotpassword-notification-email").removeClass("wpg-nodisplay").html("Please enter a valid email address");
+    } else {
+        $("#wpg-forgotpassword-notification-email").addClass("wpg-nodisplay").html("");
+    }
+});
+
+$(document).on("click keyup", "#wpg-forgotpassword-btn-send", function(event) {
+    if(event.type === "click" || (event.type === "keyup" && (event.which===13))) {
+        if(validate_email($("#wpg-evt-forgotpassword-email").val())){
+            var parameters = {
+                "forgotpassword":true,
+                "email":$("#wpg-evt-forgotpassword-email").val().toLowerCase()
+            }
+            post((location.protocol + '//' + location.host + location.pathname),parameters,"POST");
+        } else {
+            $("#wpg-forgotpassword-notification-email").removeClass("wpg-nodisplay").html("Please enter a valid email address");
+        }
+    }
+});
+
+$(document).on("keyup", "#wpg-evt-forgotpassword-email", function(event) {
+    if(event.which===13) {
+        if(validate_email($("#wpg-evt-forgotpassword-email").val())){
+            var parameters = {
+                "forgotpassword":true,
+                "email":$("#wpg-evt-forgotpassword-email").val().toLowerCase()
+            }
+            post((location.protocol + '//' + location.host + location.pathname),parameters,"POST");
+        } else {
+            $("#wpg-forgotpassword-notification-email").removeClass("wpg-nodisplay").html("Please enter a valid email address");
+        }
+    }
 });
 
 /*
