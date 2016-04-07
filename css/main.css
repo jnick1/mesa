@@ -74,8 +74,9 @@ body {
     
 } /*empty*/
 #wpg-account-delete-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #wpg-account-delete-content-wrapper {
@@ -278,6 +279,99 @@ body {
     text-align: center;
 }
 
+#wpg-forgotpassword-btn-cancel {
+    
+} /*empty*/
+#wpg-forgotpassword-btn-done {
+    
+} /*empty*/
+#wpg-forgotpassword-btns {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+}
+#wpg-forgotpassword-dialogbox {
+    min-width: 400px;
+    width: 400px;
+    font-family: Comfortaa-Bold,Arial,Sans-serif;
+    -webkit-border-top-left-radius:10px;
+    -moz-border-radius-topleft:10px;
+    border-top-left-radius:10px;
+    -webkit-border-top-right-radius:10px;
+    -moz-border-radius-topright:10px;
+    border-top-right-radius:10px;
+    -webkit-border-bottom-right-radius:10px;
+    -moz-border-radius-bottomright:10px;
+    border-bottom-right-radius:10px;
+    -webkit-border-bottom-left-radius:10px;
+    -moz-border-radius-bottomleft:10px;
+    border-bottom-left-radius:10px;
+    background: rgba(255,255,255,0.8);
+}
+#wpg-forgotpassword-dialogbox input {
+    width: 80%;
+    background: rgba(255,255,255,1);
+}
+#wpg-forgotpassword-forgotpassword {
+    
+} /*empty*/
+#wpg-forgotpassword-forgotpassword-wrapper {
+    text-align: right;
+    width: 90%;
+}
+#wpg-forgotpassword-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#wpg-forgotpassword-info {
+    text-align: center;
+    margin: 0 15px;
+}
+#wpg-forgotpassword-notification-email {
+    position: absolute;
+    top: 43%;
+    left: 105%;
+    width: 250px;
+    background-color: #fafafa;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    -webkit-border-top-left-radius:8px;
+    -moz-border-radius-topleft:8px;
+    border-top-left-radius:8px;
+    -webkit-border-top-right-radius:8px;
+    -moz-border-radius-topright:8px;
+    border-top-right-radius:8px;
+    -webkit-border-bottom-right-radius:8px;
+    -moz-border-radius-bottomright:8px;
+    border-bottom-right-radius:8px;
+    -webkit-border-bottom-left-radius:8px;
+    -moz-border-radius-bottomleft:8px;
+    border-bottom-left-radius:8px;
+    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    border: 1px solid #444;
+}
+#wpg-forgotpassword-table-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#wpg-forgotpassword-table-wrapper th {
+    text-align: left;
+    vertical-align: middle;
+}
+#wpg-forgotpassword-table-wrapper td {
+    width: 100%;
+    padding: 15px 0;
+}
+#wpg-forgotpassword-wrapper {
+    
+} /*empty*/
+#wpg-forgotpassword-x {
+    float: right;
+    cursor: pointer;
+}
+
 #wpg-header {
     
 } /*empty*/
@@ -393,8 +487,9 @@ body {
     
 } /*empty*/
 #wpg-signin-btns {
-    width: 200px;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #wpg-signin-dialogbox {
@@ -418,6 +513,13 @@ body {
 #wpg-signin-dialogbox input {
     width: 80%;
     background: rgba(255,255,255,1);
+}
+#wpg-signin-forgotpassword {
+    
+} /*empty*/
+#wpg-signin-forgotpassword-wrapper {
+    text-align: right;
+    width: 90%;
 }
 #wpg-signin-header {
     font-size: 16px;

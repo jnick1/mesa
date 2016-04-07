@@ -58,8 +58,9 @@ html, body {
     
 } /*empty*/
 #ucq-calendar-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #ucq-calendar-dialogbox {

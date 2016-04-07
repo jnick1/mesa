@@ -1,5 +1,4 @@
 <?php
-require_once $homedir."vendor/phpmailer/phpmailer/PHPMailerAutoload.php";
 if(isset($scrubbed["request"])) {
     $pkEventid = $scrubbed["pkEventid"];
     $q1 = "SELECT nmTitle, blAttendees FROM tblevents WHERE pkEventid = ?";
@@ -41,24 +40,10 @@ if(isset($scrubbed["request"])) {
         $stmt->close();
     }
     
-    $mail = new PHPMailer;
     $mailfail = false;
     $mailnotsofail = 0;
 
-    $mail->Timeout = 10;
-
-    $mail->isSMTP();                                // Set mailer to use SMTP
-    $mail->CharSet="UTF-8";
-    $mail->Host = "smtp.gmail.com";                 // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                         // Enable SMTP authentication
-    $mail->Username = "mesaorganizer@gmail.com";    // SMTP username
-    $mail->Password = "wicora thicsh";              // SMTP password
-    $mail->SMTPSecure = "ssl";                      // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 465;                              // TCP port to connect to
-    
-    $mail->setFrom("mesaorganizer@gmail.com", "Mesa Organizer");
-    $mail->addReplyTo("mesaorganizer@gmail.com", "Mesa Organizer");
-    $mail->isHTML(true);                            // Set email format to HTML
+    include $homedir."config/phpmailer_init.php";
     
     foreach($attendees as $attendee) {
         $mail->clearAddresses();
@@ -87,7 +72,7 @@ if(isset($scrubbed["request"])) {
                 . "Your attendance for this event has been marked as ".($attendee["optional"]?"optional":"required").".\n\n"
                 . ""
                 . "To be redirected to where you can submit your calendar information, please copy the link below into your browser: \n".$gets[$attendee["email"]]." .\n"
-                . "Upon clicking the link, you will be prompted to log in to your Google account. If you would rather sign in with a different account than the one "
+                . "Upon traveling to the link, you will be prompted to log in to your Google account. If you would rather sign in with a different account than the one "
                 . "this email was sent to, feel free to do so (for instance, if your calendar is saved on your personal email, but this was sent to your work email).\n\n"
                 . ""
                 . "Do not reply to this email, as it was sent from an unmonitored email address.\n\n"
@@ -195,24 +180,10 @@ if(isset($scrubbed["request"])) {
         $stmt->close();
     }
     
-    $mail = new PHPMailer;
     $mailfail = false;
     $mailnotsofail = 0;
 
-    $mail->Timeout = 10;
-
-    $mail->isSMTP();                                // Set mailer to use SMTP
-    $mail->CharSet="UTF-8";
-    $mail->Host = "smtp.gmail.com";                 // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                         // Enable SMTP authentication
-    $mail->Username = "mesaorganizer@gmail.com";    // SMTP username
-    $mail->Password = "wicora thicsh";              // SMTP password
-    $mail->SMTPSecure = "ssl";                      // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 465;                              // TCP port to connect to
-    
-    $mail->setFrom("mesaorganizer@gmail.com", "Mesa Organizer");
-    $mail->addReplyTo("mesaorganizer@gmail.com", "Mesa Organizer");
-    $mail->isHTML(true);                            // Set email format to HTML
+    include $homedir."config/phpmailer_init.php";
     
     foreach($attendees as $attendee) {
         $mail->clearAddresses();

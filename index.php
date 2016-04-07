@@ -29,6 +29,9 @@ include $homedir."includes/protocols/changepassword.php";
 include $homedir."includes/protocols/register.php";
 include $homedir."includes/protocols/signin.php";
 
+include $homedir."includes/protocols/resetpassword.php";
+include $homedir."includes/protocols/forgotpassword.php";
+
 ?>
 <!DOCTYPE html>
 <!--
@@ -147,6 +150,64 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        <?php
+        if(isset($_SESSION["resetpassword"])) {
+        ?>
+        <div id="in-resetpassword-wrapper" class="ui-popup">
+            <div id="in-resetpassword-dialogbox" class="ui-dialogbox" data-token="<?php echo $_SESSION["resetpassword-token"]; ?>">
+                <div id="in-resetpassword-header">
+                    <span class="ui-header">Reset password</span>
+                    <span id="in-resetpassword-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="in-resetpassword-info">
+                    Please enter your new password.
+                </div>
+                <div id="in-resetpassword-table-wrapper">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <label class="in-resetpassword-label ui-unselectabletext">
+                                        Password
+                                    </label>
+                                </th>
+                                <td>
+                                    <input id="in-evt-resetpassword-password" name="in-evt-resetpassword-password" placeholder="Enter a password" type="password" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <div id="in-resetpassword-notification-password" class="wpg-nodisplay"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label class="in-resetpassword-label ui-unselectabletext">
+                                        Confirm Password
+                                    </label>
+                                </th>
+                                <td>
+                                    <input id="in-evt-resetpassword-confpassword" name="in-evt-resetpassword-confpassword" placeholder="Reenter your password" type="password" class="ui-textinput"<?php echo " tabindex=\"".$ti++."\"";?>>
+                                    <div id="in-resetpassword-notification-confpassword" class="wpg-nodisplay"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="in-resetpassword-btns">
+                    <div class="wrapper-btn-general wrapper-btn-all in-btns-popups">
+                        <div id="in-resetpassword-btn-done" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Done
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all in-btns-popups">
+                        <div id="in-resetpassword-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php 
+            unset($_SESSION["resetpassword"]);
+            unset($_SESSION["resetpassword-token"]);
+        } ?>
         <?php
         include $homedir."includes/pageassembly/signin.php";
         include $homedir."includes/pageassembly/account.php";

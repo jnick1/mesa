@@ -1155,6 +1155,107 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
+        <div id="ne-opti-wrapper" class="ui-popup">
+            <div id="ne-opti-dialogbox" class="ui-dialogbox">
+                <div id="ne-opti-header">
+                    <span class="ui-header">Event optimization</span>
+                    <span id="ne-opti-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="ne-opti-content-wrapper">
+                    <?php  
+                    if(isset($scrubbed["pkEventid"])) {
+                        if(isset($dtRequestSent)) {
+                            if(isset($blOptiSuggestion)) { ?>
+                    <div id="ne-opti-table-wrapper">
+                        <table class="ui-table">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        Choose which solutions to include
+                                    </th>
+                                </tr>
+                                <?php
+                                $suggestions = json_decode($blOptiSuggestion);
+                                for($i=0; $i<count($suggestions); $i++) {
+                                ?>
+                                <tr>
+                                    <td> <?php // start date ?>
+                                        
+                                    </td>
+                                    <td><?php // start time ?>
+                                        
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                    <td><?php // end date ?>
+                                        
+                                    </td>
+                                    <td><?php // end time ?>
+                                        
+                                    </td>
+                                    <td><?php // location ?>
+                                        
+                                    </td>
+                                    <td><?php // attendees ?>
+                                        
+                                    </td>
+                                    <td><?php // checkbox ?>
+                                        <input id="ne-opti-table-checkbox<?php echo $i; ?>" class="ne-opti-table-checkbox ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                      <?php } else { ?>
+                    You have not yet run an optimization search. Would you like to run one now?
+                      <?php }
+                        } else { ?>
+                    You must have requested calendar data from your attendees before running an optimization search.
+                  <?php }
+                    } else  { ?>
+                    You must save your event before running an optimization search.
+              <?php }
+                    ?>
+                </div>
+                <div id="ne-opti-btns">
+                    <?php  
+                    if(isset($scrubbed["pkEventid"])) {
+                        if(isset($dtRequestSent)) {
+                            if(isset($blOptiSuggestion)) { ?>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-done"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Done
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-cancel"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                      <?php } else { ?>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-yes" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Yes
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                      <?php }
+                        } else { ?>
+                    
+                  <?php }
+                    } else  { ?>
+                    
+              <?php }
+                    ?>
+                </div>
+            </div>
+        </div>
         <?php
         include $homedir."includes/pageassembly/account.php";
         ?>
