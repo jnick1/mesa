@@ -8,7 +8,7 @@ if(isset($scrubbed["saveedit"])) {
         }
     } else {
         $q1 = "SELECT fkUserid FROM tblusersevents WHERE fkEventid = ?";
-        $q2 = "UPDATE `tblevents` SET `nmTitle`=?,`dtStart`=?,`dtEnd`=?,`txLocation`=?,`txDescription`=?,`txRRule`=?,`nColorid`=?,`blSettings`=?,`blAttendees`=?,`blNotifications`=?,`isGuestInvite`=?,`isGuestList`=?,`enVisibility`=?,`isBusy`=? WHERE pkEventid = ?";
+        $q2 = "UPDATE `tblevents` SET `nmTitle`=?,`dtStart`=?,`dtEnd`=?,`txLocation`=?,`txDescription`=?,`txRRule`=?,`nColorid`=?,`blSettings`=?,`blAttendees`=?,`blNotifications`=?,`isGuestList`=?,`enVisibility`=?,`isBusy`=? WHERE pkEventid = ?";
         
         if($stmt = $dbc->prepare($q1)){
             $stmt->bind_param("i",$scrubbed["pkEventid"]);
@@ -21,11 +21,10 @@ if(isset($scrubbed["saveedit"])) {
         if($owner === $_SESSION["pkUserid"]) {
             if($stmt = $dbc->prepare($q2)){
                 $scrubbed["nColorid"] = (int) $scrubbed["nColorid"];
-                $scrubbed["isGuestInvite"] = (int) $scrubbed["isGuestInvite"];
                 $scrubbed["isGuestList"] = (int) $scrubbed["isGuestList"];
                 $scrubbed["isBusy"] = (int) $scrubbed["isBusy"];
                 $scrubbed["pkEventid"] = (int) $scrubbed["pkEventid"];
-                $stmt->bind_param("ssssssisssiisii", $scrubbed["nmTitle"],$scrubbed["dtStart"],$scrubbed["dtEnd"],$scrubbed["txLocation"],$scrubbed["txDescription"],$scrubbed["txRRule"],$scrubbed["nColorid"],$scrubbed["blSettings"],$scrubbed["blAttendees"],$scrubbed["blNotifications"],$scrubbed["isGuestInvite"],$scrubbed["isGuestList"],$scrubbed["enVisibility"],$scrubbed["isBusy"],$scrubbed["pkEventid"]);
+                $stmt->bind_param("ssssssisssisii", $scrubbed["nmTitle"],$scrubbed["dtStart"],$scrubbed["dtEnd"],$scrubbed["txLocation"],$scrubbed["txDescription"],$scrubbed["txRRule"],$scrubbed["nColorid"],$scrubbed["blSettings"],$scrubbed["blAttendees"],$scrubbed["blNotifications"],$scrubbed["isGuestList"],$scrubbed["enVisibility"],$scrubbed["isBusy"],$scrubbed["pkEventid"]);
                 $stmt->execute();
                 $stmt->free_result();
                 $stmt->close();

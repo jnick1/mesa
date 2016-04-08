@@ -535,6 +535,10 @@ function hide_repeat_dialogbox(){
     }
 }
 
+$(window).on("resize", function(){
+    $("#ne-repeat-dialogbox").center();
+});
+
 $(document).keydown(function(event) {
     if (event.keyCode === 27) {
         hide_repeat_dialogbox();
@@ -625,7 +629,7 @@ $(document).on("change", "#ne-evt-repeat-repeats", function(){
         case "0":
             $("#ne-repeat-table-1").removeClass("wpg-nodisplay");
             $("#ne-repeat-table-2, #ne-repeat-table-3").addClass("wpg-nodisplay");
-            $("#ne-repeat-repeatevery-label").html("days");
+            $("#ne-label-repeat-repeatevery").html("days");
             break;
         case "1":
         case "2":

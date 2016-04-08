@@ -176,14 +176,11 @@ $(document).ready(function (){
         });
         for(var time in parsedtimes) {
             var newtime;
-            var date;
             if(time==="ne-evt-time-start") {
                 var dateO = $("#ne-evt-date-start").val();
-                date = new Date($("#ne-evt-date-start").val()+" "+$("#ne-evt-time-start").val()+":00 UTC");
                 newtime = new Date(dateO.substring(6)+"/"+dateO.substring(0,2)+"/"+dateO.substring(3,5)+" "+parsedtimes[time]+":00 UTC ");
             } else if(time==="ne-evt-time-end") {
                 var dateO = $("#ne-evt-date-end").val();
-                date = new Date($("#ne-evt-date-end").val()+" "+$("#ne-evt-time-end").val()+":00 UTC");
                 newtime = new Date(dateO.substring(6)+"/"+dateO.substring(0,2)+"/"+dateO.substring(3,5)+" "+parsedtimes[time]+":00 UTC ");
             }
 
@@ -209,12 +206,12 @@ $(document).ready(function (){
             if(time==="ne-evt-time-start"){
                 time_start = hours + ":" + minutes + suffix;
                 $("#ne-evt-date-start").removeAttr("value");
-                $("#ne-evt-date-start").datepicker("setDate",date);
+                $("#ne-evt-date-start").datepicker("setDate",newtime);
                 date_start = $("#ne-evt-date-start").val();
             } else if(time==="ne-evt-time-end") {
                 time_end = hours + ":" + minutes + suffix;
                 $("#ne-evt-date-end").removeAttr("value");
-                $("#ne-evt-date-end").datepicker("setDate",date);
+                $("#ne-evt-date-end").datepicker("setDate",newtime);
                 date_end =  $("#ne-evt-date-end").val();
             }
         }

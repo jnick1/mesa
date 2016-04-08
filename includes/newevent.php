@@ -72,7 +72,7 @@ and open the template in the editor.
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
     <body>
-        <div id="wpg"<?php echo ((isset($scrubbed["editevent"]) && isset($scrubbed["pkEventid"]))?" data-eventid=\"".$scrubbed["pkEventid"]."\"":""); ?>>
+        <div id="wpg"<?php echo ((isset($scrubbed["editevent"]) && isset($scrubbed["pkEventid"]))?" data-eventid=\"".$scrubbed["pkEventid"]."\"":""); ?><?php echo ((isset($scrubbed["editevent"]) && isset($blOptiSuggestion))?" data-optiran=\"true\"":""); ?>>
             <div id="ne-header" class="ui-container-section <?php echo "uluru".rand(1,8); ?>">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
@@ -198,7 +198,11 @@ and open the template in the editor.
                                         foreach($attendees as $value){
                                             switch($value["responseStatus"]){
                                                 case "needsAction":
-                                                    $guestsWaiting++;
+                                                    if(time() - strtotime($dtStart)>=0) {
+                                                        $guestsNo++;
+                                                    } else {
+                                                        $guestsWaiting++;
+                                                    }
                                                     break;
                                                 case "declined":
                                                     $guestsNo++;
@@ -235,16 +239,51 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                         </div>
-                                        <?php } else { 
+                                        <?php } else {
                                             $attendees = json_decode($blAttendees, true);
                                             foreach($attendees as $value){
                                             ?>
-                                        <div id="<?php echo $value["email"]; ?>" class="ne-evt-guest" data-required="<?php echo !$value["optional"]?"true":"false"; ?>" title="<?php echo $value["email"]; ?>">
+                                        <div id="<?php echo $value["email"]; ?>" class="ne-evt-guest" data-required="<?php echo !$value["optional"]?"true":"false"; ?>" data-responseStatus="<?php echo $value["responseStatus"]; ?>" title="<?php echo $value["email"]; ?>">
                                             <div class="ne-guests-guestdata">
                                                 <div class="ne-guests-guestdata-content ui-container-inline">
                                                     <span class="goog-icon <?php echo ($value["optional"]?"goog-icon-guest-optional":"goog-icon-guest-required");?> ui-container-inline ne-guest-required" title="Click to mark this attendee as optional"></span>
                                                     <div class="ui-container-inline ne-guest-response-icon-wrapper">
-                                                        <div class="ne-guest-response-icon"></div>
+                                                        <div class="ne-guest-response-icon goog-icon
+                                                            <?php 
+                                                            if($dtRequestSent!==NULL){
+                                                            switch($value["responseStatus"]) {
+                                                                case "needsAction":
+                                                                    echo " goog-icon-guest-maybe"; 
+                                                                    break;
+                                                                case "accepted":
+                                                                    echo " goog-icon-guest-yes"; 
+                                                                    break;
+                                                                case "declined":
+                                                                    echo " goog-icon-guest-no"; 
+                                                                    break;
+                                                                case "tentative":
+                                                                    echo " goog-icon-guest-maybe";
+                                                                    break;
+                                                            }
+                                                            ?>" title="<?php 
+                                                            switch($value["responseStatus"]) {
+                                                                case "needsAction":
+                                                                    echo "This guest has not yet responded"; 
+                                                                    break;
+                                                                case "accepted":
+                                                                    echo "This guest has responded"; 
+                                                                    break;
+                                                                case "declined":
+                                                                    echo "This guest has declined to attend"; 
+                                                                    break;
+                                                                case "tentative":
+                                                                    echo "This guest has indicated they may attend";
+                                                                    break;
+                                                            }
+                                                            } else {
+                                                                echo "\"";
+                                                            }?>">
+                                                        </div>
                                                     </div>
                                                     <div id="<?php echo $value["email"] ?>@display" class="ne-guest-name-wrapper ui-container-inline">
                                                         <span class="ne-guest-name ui-unselectabletext"><?php echo $value["email"] ?></span>
@@ -268,10 +307,6 @@ and open the template in the editor.
                                 Guests can
                             </div>
                             <div>
-                                <label class="ne-guests-container-checkbox ui-unselectabletext">
-                                    <input id="ne-evt-guests-inviteothers" name="guestsettings" value="inviteothers" type="checkbox" class="ui-checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo ($isGuestInvite==1?" checked":""); } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
-                                    invite others
-                                </label>
                                 <label class="ne-guests-container-checkbox ui-unselectabletext">
                                     <input id="ne-evt-guests-seeguestlist" name="guestsettings" value="seeguestlist" type="checkbox" class="ui-checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo ($isGuestList==1?" checked":""); } else { echo " checked"; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                     see guest list
@@ -1093,6 +1128,131 @@ and open the template in the editor.
                             Cancel
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div id="ne-send-wrapper" class="ui-popup">
+            <div id="ne-send-dialogbox" class="ui-dialogbox">
+                <div id="ne-send-header">
+                    <span class="ui-header">Send event preemptively?</span>
+                    <span id="ne-send-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="ne-send-content-wrapper">
+                    <p>Are you sure you want to send out this event to your attendees?</p>
+                    <p>You have not run a search for optimal times yet.</p>
+                </div>
+                <div id="ne-send-btns">
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-send-btn-yes" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Yes
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-send-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="ne-opti-wrapper" class="ui-popup">
+            <div id="ne-opti-dialogbox" class="ui-dialogbox">
+                <div id="ne-opti-header">
+                    <span class="ui-header">Event optimization</span>
+                    <span id="ne-opti-x" class="goog-icon goog-icon-x-medium ui-container-inline"<?php echo " tabindex=\"".$ti++."\"";?>></span>
+                </div>
+                <div id="ne-opti-content-wrapper">
+                    <?php  
+                    if(isset($scrubbed["pkEventid"])) {
+                        if(isset($dtRequestSent)) {
+                            if(isset($blOptiSuggestion)) { ?>
+                    <div id="ne-opti-table-wrapper">
+                        <table class="ui-table">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        Choose which solutions to include
+                                    </th>
+                                </tr>
+                                <?php
+                                $suggestions = json_decode($blOptiSuggestion);
+                                for($i=0; $i<count($suggestions); $i++) {
+                                ?>
+                                <tr>
+                                    <td> <?php // start date ?>
+                                        
+                                    </td>
+                                    <td><?php // start time ?>
+                                        
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                    <td><?php // end date ?>
+                                        
+                                    </td>
+                                    <td><?php // end time ?>
+                                        
+                                    </td>
+                                    <td><?php // location ?>
+                                        
+                                    </td>
+                                    <td><?php // attendees ?>
+                                        
+                                    </td>
+                                    <td><?php // checkbox ?>
+                                        <input id="ne-opti-table-checkbox<?php echo $i; ?>" class="ne-opti-table-checkbox ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                    </td>
+                                </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                      <?php } else { ?>
+                    You have not yet run an optimization search. Would you like to run one now?
+                      <?php }
+                        } else { ?>
+                    You must have requested calendar data from your attendees before running an optimization search.
+                  <?php }
+                    } else  { ?>
+                    You must save your event before running an optimization search.
+              <?php }
+                    ?>
+                </div>
+                <div id="ne-opti-btns">
+                    <?php  
+                    if(isset($scrubbed["pkEventid"])) {
+                        if(isset($dtRequestSent)) {
+                            if(isset($blOptiSuggestion)) { ?>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-done"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Done
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-cancel"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                      <?php } else { ?>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-yes" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Yes
+                        </div>
+                    </div>
+                    <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-cancel" <?php echo " tabindex=\"".$ti++."\"";?>>
+                            Cancel
+                        </div>
+                    </div>
+                      <?php }
+                        } else { ?>
+                    
+                  <?php }
+                    } else  { ?>
+                    
+              <?php }
+                    ?>
                 </div>
             </div>
         </div>

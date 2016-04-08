@@ -43,26 +43,21 @@ html, body {
     padding-left: 20px;
 }
 .el-content-event-date {
-    
-} /*empty*/
-.el-content-event-description {
-    width: 700px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding: 0 5px;
 }
 .el-content-event-description-wrapper {
-    width: 700px;
-}
+    
+} /*empty*/
 .el-content-event-edit {
     
 } /*empty*/
 .el-content-event-time {
-    
-} /*empty*/
+    padding: 0 5px;
+}
 .el-content-event-title {
-    
-} /*empty*/
+    white-space: nowrap;
+    padding: 0 10px;
+}
 .el-content-event-x {
     cursor: pointer;
 }
@@ -72,6 +67,7 @@ html, body {
     border-radius: 3px;
 }
 .el-content-event-x-wrapper {
+    padding-left: 20px;
     padding-right: 50px;
 }
 
@@ -90,9 +86,21 @@ html, body {
 #el-content {
     margin-bottom: 45px;
 }
-#el-content table {
+#el-content > table {
     width: 100%;
     border-collapse: collapse;
+}
+#el-content > table table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 0;
+}
+#el-content > table table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #el-delete-btn-cancel {
@@ -102,8 +110,9 @@ html, body {
     
 } /*empty*/
 #el-delete-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #el-delete-dialogbox {

@@ -63,6 +63,10 @@ function reset_settings(){
     $("#ne-label-settingsbox").html("Advanced settings");
 }
 
+$(window).on("resize", function(){
+    $("#ne-settings-dialogbox").center();
+});
+
 $(document).ready(function(){
     if($("#wpg").attr("data-eventid")) {
         if(!$("#ne-evt-settings-usedefault").is(":checked")) {
@@ -227,10 +231,15 @@ $(document).on("blur", "#ne-evt-settings-maxdate,#ne-evt-settings-minduration,#n
     }
 });
 
-$(document).on("click", "#ne-evt-settings-attendancegate", function(){
+$(document).on("click", "#ne-settings-edit, #ne-evt-settingsbox", function(){
     var maxguests = $(".ne-evt-guest").length;
+    var current = parseInt($("#ne-evt-settings-attendeesnomiss").val());
     $("#ne-evt-settings-attendeesnomiss").html("");
     for(var i=1;i<=maxguests;i++){
-        $("#ne-evt-settings-attendeesnomiss").append("<option value=\""+i+"\">"+i+"</option>\n");
+        if(i === current) {
+            $("#ne-evt-settings-attendeesnomiss").append("<option value=\""+i+"\" selected>"+i+"</option>\n");
+        } else {
+            $("#ne-evt-settings-attendeesnomiss").append("<option value=\""+i+"\">"+i+"</option>\n");
+        }
     }
 });

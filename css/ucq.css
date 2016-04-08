@@ -34,18 +34,16 @@ html, body {
     position: absolute;
     top: 72px;
     bottom: 45px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     left: 0;
     right: 0;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     vertical-align: middle;
     text-align: center;
     color: #fff;
-    overflow: hidden;
-}
-#ucq-content-title {
-    position: absolute;
-    font-family: Comfortaa-Bold,Arial,sans-serif;
-    text-shadow: 2px 2px 1px #5e5e5e;
+    overflow: auto;
 }
 
 #ucq-header {
@@ -60,8 +58,9 @@ html, body {
     
 } /*empty*/
 #ucq-calendar-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #ucq-calendar-dialogbox {
@@ -80,6 +79,7 @@ html, body {
     -moz-border-radius-bottomleft:10px;
     border-bottom-left-radius:10px;
     background: rgba(255,255,255,0.8);
+    overflow: auto;
 }
 #ucq-calendar-dialogbox input {
     background: rgba(255,255,255,1);
@@ -109,6 +109,7 @@ html, body {
 } /*empty*/
 
 #wpg {
+    position: relative;
     height: 100%;
     overflow: hidden;
     background-repeat: no-repeat;

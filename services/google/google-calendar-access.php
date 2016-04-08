@@ -82,8 +82,8 @@ function retrieve_event_list($service, $user_calendar_list, $client) {
     $event_list = [];
     $optParams = array('singleEvents' => true,
         'orderBy' => 'startTime',
-        'timeMin' => $_SESSION['sql_event_start'],
-        'timeMax' => $_SESSION['sql_event_end'],
+        'timeMin' => $_SESSION['sql_search_start'],
+        'timeMax' => $_SESSION['sql_search_end'],
         'timeZone' => 'UTC');
     
     $prev_checked_distances = [];
@@ -128,7 +128,7 @@ function format_trim_event($event, &$prev_checked_distances) {
 }
 
 function insert_mysql_info($events_array) {
-    $serialized_events = (string) serialize($events_array);
+    $serialized_events = (string) json_encode($events_array);
     insert_event_data($serialized_events);
     session_destroy();
     

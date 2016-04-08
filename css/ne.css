@@ -12,6 +12,10 @@ and open the template in the editor.
 /*========|      Classes     |========*/
 /*====================================*/
 
+.ne-btns-popups {
+    
+} /*empty*/
+
 .ne-dropdown-repeat-repeatevery-item {
     
 } /*empty*/
@@ -60,12 +64,13 @@ and open the template in the editor.
     cursor: pointer;
 }
 .ne-guest-response-icon {
-    
-} /*empty*/
+    margin: 0 auto;
+}
 .ne-guest-response-icon-wrapper {
     width: 14px;
     height: 14px;
-} /*empty*/
+    vertical-align: middle;
+}
 
 .ne-ipt-wrapper {
     
@@ -82,6 +87,10 @@ and open the template in the editor.
     padding-right: 5px;
     border-spacing: 0;
 }
+
+.ne-opti-table-checkbox {
+    
+} /*empty*/
 
 .ne-repeat-repeatson-checkbox {
     margin-right: 0;
@@ -126,6 +135,7 @@ and open the template in the editor.
     width: 100%;
     float: left;
     max-width: 850px;
+    margin-bottom: 45px;
 }
 #ne-container-guests {
     float: right;
@@ -278,6 +288,43 @@ and open the template in the editor.
     
 } /*empty*/
 
+#ne-opti-btn-cancel {
+    
+} /*empty*/
+#ne-opti-btn-yes {
+    
+} /*empty*/
+#ne-opti-btns {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+}
+#ne-opti-content-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#ne-opti-dialogbox {
+    min-width: 400px;
+    width: 450px;
+    font-family: Arial, sans-serif;
+    background: rgba(255,255,255,1);
+}
+#ne-opti-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ne-opti-table-wrapper {
+    
+} /*empty*/
+#ne-opti-wrapper {
+    
+} /*empty*/
+#ne-opti-x {
+    float: right;
+    cursor: pointer;
+}
+
 #ne-repeat-btn-cancel {
     font-size: 11px;
 }
@@ -285,8 +332,9 @@ and open the template in the editor.
     font-size: 11px;
 }
 #ne-repeat-btns {
-    width: 50%;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #ne-repeat-dialogbox {
@@ -341,6 +389,40 @@ and open the template in the editor.
     cursor: pointer;
 }
 
+#ne-send-btn-cancel {
+    
+} /*empty*/
+#ne-send-btn-yes {
+    
+} /*empty*/
+#ne-send-btns {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+}
+#ne-send-content-wrapper {
+    margin: 15px;
+    text-align: center;
+}
+#ne-send-dialogbox {
+    min-width: 400px;
+    width: 450px;
+    font-family: Arial, sans-serif;
+    background: rgba(255,255,255,1);
+}
+#ne-send-header {
+    font-size: 16px;
+    padding: 10px 15px;
+}
+#ne-send-wrapper {
+    
+} /*empty*/
+#ne-send-x {
+    float: right;
+    cursor: pointer;
+}
+
 #ne-settings-attendees-table {
     padding-left: 15px;
 }
@@ -372,8 +454,9 @@ and open the template in the editor.
     
 } /*empty*/
 #ne-settings-btns {
-    width: 200px;
-    margin: auto;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 15px;
 }
 #ne-settings-day-table {
