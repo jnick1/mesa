@@ -21,6 +21,44 @@ function validate_duration(string){
     return /^\d{2}:\d{2}$/.test(string);
 }
 
+function validate_Aentropy(string) {
+    var chars = {};
+    for(var i=0; i < string.length; i++) {
+        if(string.charAt(i) in chars) {
+            chars[string.charAt(i)]++;
+        } else {
+            chars[string.charAt(i)] = 1;
+        }
+    }
+    var h=0, p;
+    for(var char in chars) {
+        p = chars[char]/(Object.keys(chars).length*1.0);
+        h -= Math.log(p)/Math.log(2);
+    }
+    return h;
+}
+function validate_Rentropy(string) {
+    var lowers = /[a-z]/;
+    var uppers = /[A-Z]/;
+    var digits = /\d/;
+    var specials = /[^a-zA-Z0-9]/;
+    var size = (lowers.test(string)?26:0)+(uppers.test(string)?26:0)+(digits.test(string)?10:0)+(specials.test(string)?32:0);
+    var chars = {};
+    for(var i=0; i < string.length; i++) {
+        if(string.charAt(i) in chars) {
+            chars[string.charAt(i)]++;
+        } else {
+            chars[string.charAt(i)] = 1;
+        }
+    }
+    var h=0, p;
+    for(var char in chars) {
+        p = chars[char]/(size*1.0);
+        h -= Math.log(p)/Math.log(2);
+    }
+    return h;
+}
+
 function save_state(scope, saveloc){
     for(var id in saveloc) {
         if(id.endsWith("nodisplay") && !$(id.substring(0,id.length-9)).hasClass("wpg-nodisplay")) {

@@ -1,6 +1,4 @@
 <?php
-require_once $homedir."vendor/phpmailer/phpmailer/PHPMailerAutoload.php";
-
 function send_noopti_event($dbc, $scrubbed) {
     $q1 = "SELECT `nmTitle`, `dtStart`, `dtEnd`, `txLocation`, `txDescription`, `txRRule`, `nColorid`, `blAttendees`, `blNotifications`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated` FROM `tblevents` WHERE pkEventid = ?";
     $q2 = "SELECT txEmail from tblusers JOIN tblusersevents ON tblusersevents.fkUserid = tblusers.pkUserid WHERE tblusersevents.fkEventid = ?";
@@ -80,24 +78,10 @@ function send_noopti_event($dbc, $scrubbed) {
         $icals[$attendee["email"]] = $ical;
     }
     
-    $mail = new PHPMailer;
     $mailfail = false;
     $mailnotsofail = 0;
     
-    $mail->Timeout = 10;
-    
-    $mail->isSMTP();                                // Set mailer to use SMTP
-    $mail->CharSet="UTF-8";
-    $mail->Host = "smtp.gmail.com";                 // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                         // Enable SMTP authentication
-    $mail->Username = "mesaorganizer@gmail.com";    // SMTP username
-    $mail->Password = "wicora thicsh";              // SMTP password
-    $mail->SMTPSecure = "ssl";                      // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 465;                              // TCP port to connect to
-    
-    $mail->setFrom("mesaorganizer@gmail.com", "Mesa Organizer");
-    $mail->addReplyTo("mesaorganizer@gmail.com", "Mesa Organizer");
-    $mail->isHTML(true);                            // Set email format to HTML
+    include $homedir."config/phpmailer_init.php";
     
     foreach($attendees as $attendee) {
         $mail->clearAddresses();

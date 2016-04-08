@@ -30,6 +30,7 @@ include $homedir."includes/protocols/saveedit.php";
 
 include $homedir."includes/protocols/request.php";
 include $homedir."includes/protocols/send.php";
+include $homedir."includes/protocols/optimize.php";
 ?>
 <!DOCTYPE html>
 <!--
@@ -146,9 +147,15 @@ and open the template in the editor.
                                 ?>
                             </td>
                             <td class="el-content-event-description-wrapper">
-                                <div class="el-content-event-description">
-                                    <?php echo $events[$i]["txDescription"]; ?>
-                                </div>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <?php echo $events[$i]["txDescription"]; ?>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                             <td class="el-content-event-edit">
                                 <div class="wrapper-btn-all wrapper-btn-general">

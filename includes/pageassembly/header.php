@@ -14,7 +14,7 @@
         $r = hexdec(substr($_SESSION["userColor"], 1, 2));
         $g = hexdec(substr($_SESSION["userColor"], 3, 2));
         $b = hexdec(substr($_SESSION["userColor"], 5, 2));
-        $color = dechex(((0.21*$r + 0.72*$g + 0.07*$b)/3)<=127.5?255:0);
+        $color = dechex(((0.21*$r + 0.72*$g + 0.07*$b)/2)<=85?255:3);
         ?>
         
         <span id="wpg-header-user-namedisplay" class="ui-container-inline ui-unselectabletext"> Welcome, <?php echo $_SESSION["email"]; ?></span>

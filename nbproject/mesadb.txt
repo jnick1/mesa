@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 04, 2016 at 07:48 PM
+-- Generation Time: Apr 07, 2016 at 06:03 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `tblevents` (
   KEY `dtRequestSent` (`dtRequestSent`),
   FULLTEXT KEY `nmTitle` (`nmTitle`),
   FULLTEXT KEY `txDescription` (`txDescription`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about events' AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about events' AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `tblevents`
@@ -84,19 +84,20 @@ DROP TABLE IF EXISTS `tbltokens`;
 CREATE TABLE IF NOT EXISTS `tbltokens` (
   `pkTokenid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Unique identifier for a token.',
   `txEmail` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Email address that this token was sent to.',
+  `blGet` blob COMMENT 'Blob used to store GET data. Alternative to sending GET data, as this is more secure.',
   `txTokenid` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'The token id of an active token.',
   `dtExpires` datetime DEFAULT NULL COMMENT 'Date and time when this token expires; used for backup checks when validating token authenticity.',
   PRIMARY KEY (`pkTokenid`),
   UNIQUE KEY `pkTokenid` (`pkTokenid`),
   KEY `dtExpires` (`dtExpires`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='A list of active tokens for use in receiving calendar info.' AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='A list of active tokens for use in receiving calendar info.' AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `tbltokens`
 --
 
-INSERT INTO `tbltokens` (`pkTokenid`, `txEmail`, `txTokenid`, `dtExpires`) VALUES
-(2, 'bob@test2.com', 'asdf', NULL);
+INSERT INTO `tbltokens` (`pkTokenid`, `txEmail`, `blGet`, `txTokenid`, `dtExpires`) VALUES
+(2, 'bob@test2.com', NULL, 'asdf', NULL);
 
 -- --------------------------------------------------------
 
@@ -116,15 +117,15 @@ CREATE TABLE IF NOT EXISTS `tblusers` (
   UNIQUE KEY `pkUserid` (`pkUserid`),
   UNIQUE KEY `txEmail` (`txEmail`),
   KEY `dtCreated` (`dtCreated`,`dtLogin`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about users' AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores information about users' AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `tblusers`
 --
 
 INSERT INTO `tblusers` (`pkUserid`, `txEmail`, `blSalt`, `txHash`, `dtCreated`, `dtLogin`) VALUES
-(2, 'bob@test.com', 0x0e73cc4797b0e1a9293aed59717dce63, '96932c124fb2e96f362557951f45da00bed675285c2e996d6ba8f07277c17317', '2016-03-23 02:35:11', '2016-04-04 15:45:14'),
-(9, 'test@bob.com', 0xd5b9c677978b0726d985075f3653d7cf, '3d51ae5550bea1e2ba25e53b820e32583ed2d864f9d5a5b1c02c0b47f49c1183', '2016-03-24 06:42:10', '2016-04-04 15:45:14');
+(2, 'bob@test.com', 0x0e73cc4797b0e1a9293aed59717dce63, '96932c124fb2e96f362557951f45da00bed675285c2e996d6ba8f07277c17317', '2016-03-23 02:35:11', '2016-04-07 10:01:38'),
+(9, 'test@bob.com', 0xd5b9c677978b0726d985075f3653d7cf, '3d51ae5550bea1e2ba25e53b820e32583ed2d864f9d5a5b1c02c0b47f49c1183', '2016-03-24 06:42:10', '2016-04-07 10:01:38');
 
 -- --------------------------------------------------------
 

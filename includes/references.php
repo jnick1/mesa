@@ -14,15 +14,18 @@ $warnings = [];
 $notifications = [];
 
 $scrubbed = array_map("spam_scrubber", $_POST);
-if(isset($scrubbed["signout"])) {
-    unset($_SESSION["pkUserid"]);
-    unset($_SESSION["email"]);
-    unset($_SESSION["lastLogin"]);
-}
 
-if(empty($_SESSION["pkUserid"])){
-    header("location: $homedir"."index.php");
-}
+include $homedir."includes/protocols/signout.php";
+include $homedir."includes/protocols/deleteaccount.php";
+
+include $homedir."includes/protocols/changeemail.php";
+include $homedir."includes/protocols/changepassword.php";
+
+include $homedir."includes/protocols/signin.php";
+
+include $homedir."includes/protocols/forgotpassword.php";
+include $homedir."includes/protocols/resetpassword.php";
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -52,7 +55,7 @@ if(empty($_SESSION["pkUserid"])){
     </head>
     <body>
         <div id="wpg">
-            <div id="re-header" class="ui-container-section">
+            <div id="re-header" class="ui-container-section <?php echo "uluru".rand(1,8); ?>">
                 <?php
                 include $homedir."includes/pageassembly/header.php";
                 ?>
@@ -72,5 +75,9 @@ if(empty($_SESSION["pkUserid"])){
             include $homedir."includes/pageassembly/footer.php";
             ?>
         </div>
+        <?php
+        include $homedir."includes/pageassembly/signin.php";
+        include $homedir."includes/pageassembly/account.php";
+        ?>
     </body>
 </html>
