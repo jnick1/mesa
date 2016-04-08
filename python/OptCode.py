@@ -24,7 +24,7 @@ if __name__ == "__main__":
  #first, enter the necessary data
 data = json.loads(blSettings)#look over blSettings later    
 
-searchWidth = data[''] #how many days are available
+
 bannedtimesStart = data['blacklist']['earliest'] #start of times that we don't use
 bannedtimesEnd = data['blacklist']['latest'] #start of times that we don't use
 startDate = DTstart #when the calender starts at
@@ -35,6 +35,7 @@ timeLength = data['durration'] #how long the meeting is *so far for the max leng
 weekly = txRRule #how often per week people want to meet
 minimumPeople = data['attendees']['minattendees'] #the minimum number of people needed for the meeting
 
+searchWidth = CutOffDate-startDate
 
 granularity = 60/15 #search it by what people wanted, else it's automatically 1 hour   
     
@@ -57,8 +58,8 @@ tempString = 0 #how many people are there/now long the string is
     locationTime = data[''] #how long it take to reach the location spot, changes per user
     
     # Load the data that PHP will dump us (var_dump($resultData)
-    for(i=0; i<searchWidth; i++):
-        for(j=0; j<24*granularity; j++):
+    for i in range (0, searchWidth):
+        for j in xrange (0, 24*granularity, granularity):
             {
                 try:
                     data = json.loads(sys.argv[i])[j]
@@ -194,7 +195,7 @@ for i in range (len(returnCalnder)):
                 returnList += StringFinal
 
 
-json.dumps 
+print returnList
     
 #writing it to a text file
     for row in returnCalender:
