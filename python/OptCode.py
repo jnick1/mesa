@@ -49,6 +49,7 @@ tempString = 0 #how many people are there/now long the string is
     data = json.loads(blAttendees)#list of users and email addresses, optional(false if have to be there), response status()
         #go to table users, find said user (pk user id), table calenders, get the calender data there that matches the user id here
         
+    
     user = phpobject('WP_User', data)#'WP_User is the PHP function with the necessary information, data is the information necessary to transfer
     endTime = user.endTime  #reading the endTime from the PHP object, time to stop the search
     startTime = user.startTime #reading the startTime from the PHP object, where to start the search
@@ -57,7 +58,7 @@ tempString = 0 #how many people are there/now long the string is
     
     # Load the data that PHP will dump us (var_dump($resultData)
     for(i=0; i<searchWidth; i++):
-        for(j=0; j<24/granularity; j++):
+        for(j=0; j<24*granularity; j++):
             {
                 try:
                     data = json.loads(sys.argv[i])[j]
@@ -85,52 +86,58 @@ tempString = 0 #how many people are there/now long the string is
  
  numCalender[searchWidth][24*granularity] #calender to hold the amount of people at the event start
  returnCalender[searchWidth][24*granularity] #calender to return 
+ durrationCal[searchWidth][24*granularity]
  List[maxPeople] #hold the number of people that the people can attend
-  
-for i in range (0, searchWidth):
-    day = DAYS[i] #for specific day
-    for j in xrange(startTime, (24*granularity) - bannedtimes, granularity): #Need to check on how to change incremtation in python
-        if(j-locationTime >= 0): #so it stays within the calender
-            if (masterCalender[day][j-locationTime] == 0):#travel time is free before hand
-                spot = False
-                #this way, if the perfered time is not in the middle, it will still performed the action 
-                while ( spot == False && preferedTime >=  || spot == False && preferedTime <= end ):
-                    if (preferedTime == null): #there is no preferedTimes
-                        people = 0
-                        for L in range (0, tempString-1): #for loop goes through the string's position
-                            count = 0 #count if the person has free time or not
-                            for m in range (j, j+timeLength-1): #goes down through durration time starting at what j is. 
-                                String = masterCalender[i][m]
-                                if (String[L]!=0):
-                                    count++ #adds to the count i if they can't do it
-                            #done with m for loop
-                            if (count == 0): #if the person is free throughout, the variable won't change
-                                people ++ #adds to the number of people that can attend at that spot
-                        #ends L for loop
-                        numCalender[day][j] = people #adding the people amount in the num calender
-                        List.attend(people) #adds the amount of people into a list to sort through
-                        spot = False
-                    else if(masterCalender[day][preferedTime-locationTime] == 0): #there is a preferedTime
-                        if(masterCalender[day][preferedTime] == 0): #modified perfered Time of day
-                        {
+
+for D in xrange(timeLength, 0, -15): #going through the durration times to decrease it too 
+    for i in range (0, searchWidth):
+        day = DAYS[i] #for specific day
+        for j in xrange(startTime, (24*granularity) - bannedtimes, granularity): #Need to check on how to change incremtation in python
+            if(j-locationTime >= 0): #so it stays within the calender
+                if (masterCalender[day][j-locationTime] == 0):#travel time is free before hand
+                    spot = False
+                    #this way, if the perfered time is not in the middle, it will still performed the action 
+                    while ( spot == False && preferedTime >=startTime  || spot == False && preferedTime <= endTime ):
+                        if (preferedTime is None): #there is no preferedTimes
                             people = 0
                             for L in range (0, tempString-1): #for loop goes through the string's position
                                 count = 0 #count if the person has free time or not
-                                for m in range (preferedTime, preferedTime + timeLength-1): #goes down through durration time starting at what j is
+                                for m in range (j, j+D-1): #goes down through durration time starting at what j is. 
                                     String = masterCalender[i][m]
                                     if (String[L]!=0):
                                         count++ #adds to the count i if they can't do it
                                 #done with m for loop
                                 if (count == 0): #if the person is free throughout, the variable won't change
                                     people ++ #adds to the number of people that can attend at that spot
-                                #ends L for loop
-                            numCalender[day][preferedTime] = people #adding the people amount in the num calender
+                            #ends L for loop
+                            numCalender[day][j] = people #adding the people amount in the num calender
+                            if (durrationCal[day][j] is None): #adding the durration time if case it is modulated
+                                durrationCal[day][j] = timeLength
                             List.attend(people) #adds the amount of people into a list to sort through
-                            spot = True #get out of loop early
-                        }
-                    else:
-                        preferedTime = preferedTime + (granularity*count* (-1^count))  #branches off hour by hour          
-                     
+                            spot = False
+                        else if(masterCalender[day][preferedTime-locationTime] == 0): #there is a preferedTime
+                            if(masterCalender[day][preferedTime] == 0): #modified perfered Time of day
+                            {
+                                people = 0
+                                for L in range (0, tempString-1): #for loop goes through the string's position
+                                    count = 0 #count if the person has free time or not
+                                    for m in range (preferedTime, preferedTime + D-1): #goes down through durration time starting at what j is
+                                        String = masterCalender[i][m]
+                                        if (String[L]!=0):
+                                            count++ #adds to the count i if they can't do it
+                                    #done with m for loop
+                                    if (count == 0): #if the person is free throughout, the variable won't change
+                                        people ++ #adds to the number of people that can attend at that spot
+                                    #ends L for loop
+                                numCalender[day][preferedTime] = people #adding the people amount in the num calender
+                                if (durrationCal[day][preferedTime] is None): #adding the durration time if case it is modulated
+                                    durrationCal[day][preferedTime] = timeLength
+                                List.attend(people) #adds the amount of people into a list to sort through
+                                spot = True #get out of loop early
+                            }
+                        else:
+                            preferedTime = preferedTime + (granularity*count* (-1^count))  #branches off hour by hour          
+                            
     
 List.reverse() #biggest number is on top, easier to find most people
 
@@ -153,7 +160,7 @@ while(done == False):
   
 
 #counting the cost
-costList = [count2] #making it as big as the amount of weekly times
+returnList = " " #making it as big as the amount of weekly times
 for i in range (len(returnCalnder)):
     if (i == CutOffDate):
         break
@@ -177,12 +184,17 @@ for i in range (len(returnCalnder)):
                         dayCost = 2
                     else:
                         dayCost = 3
-                    
+                
+                durCost = abs(timeLength - durrationCal[i][j] )
+                
                 #adding the cost together
-                cost = timeCost + peopleCost + dayCost
-                costList.attend(cost)
+                cost = timeCost + peopleCost + dayCost + durCost
+                StringFinal = "day: " + i + " StartTime: " + j + "EndTime: " + j+ durrationCal[i][j] + "Durration: " +durrationCal[i][j] 
+                    +  "Location: " + locationTime +  " Cost: " + cost "/n"
+                returnList += StringFinal
 
 
+json.dumps 
     
 #writing it to a text file
     for row in returnCalender:
