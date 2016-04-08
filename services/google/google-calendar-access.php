@@ -130,9 +130,22 @@ function format_trim_event($event, &$prev_checked_distances) {
 function insert_mysql_info($events_array) {
     $serialized_events = (string) json_encode($events_array);
     insert_event_data($serialized_events);
-    session_destroy();
-    
-    session_start();
+    unset_session_variables();
     $_SESSION['calendarsaved'] = array("messagetype" => "notifications", "message" => "Success! Your calendar data has been saved. Thank you for using MESA. You may now close the page.");
     redirect_local("../index.php");
+    exit();
+}
+
+function unset_session_veriables(){
+    unset($_SESSION['token_id']);
+    unset($_SESSION['event_id']);
+    unset($_SESSION['sql_attendee_email']);
+    unset($_SESSION['access_token']);
+    unset($_SESSION['calendar_summaries']);
+    unset($_SESSION['user_calendar_summaries']);
+    unset($_SESSION['sql_event_id']);
+    unset($_SESSION['sql_event_location']);
+    unset($_SESSION['sql_search_start']);
+    unset($_SESSION['sql_search_end']);
+    unset($_SESSION['calendar_email']);
 }
