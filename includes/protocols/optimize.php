@@ -22,6 +22,6 @@ if(isset($scrubbed["optimize"])) {
         $stmt->free_result();
         $stmt->close();
     }
-    $notifications[] = "Mesa has finished calculating optimal meeting times, return to the event page for $nmTitle to view suggestions.";
+    $notifications[] = "Mesa has finished calculating optimal meeting times, return to the event page for <b><i>$nmTitle</i></b> to view suggestions.";
 }
 ?>
