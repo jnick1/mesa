@@ -1,12 +1,7 @@
 #!/usr/bin/env python2
 #encoding: UTF-8
 
-# To change this license header, choose License Headers in Project Properties.
-# To change this template file, choose Tools | Templates
-# and open the template in the editor.
-import numpty as np
-pip install phpserialize 
-phpserialize import 
+
 import sys, json #for taking in data from php
 if __name__ == "__main__":
     print "Hello World"
@@ -22,7 +17,7 @@ if __name__ == "__main__":
  
  
  #first, enter the necessary data
-data = json.loads(blSettings)#look over blSettings later    
+data = json.loads(blSettings)  
 
 
 bannedtimesStart = data['blacklist']['earliest'] #start of times that we don't use
@@ -45,20 +40,48 @@ peopleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24*granulari
 GoogleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24*granularity) ] #calender to import 
 tempString = 0 #how many people are there/now long the string is
 
- if (   ): #when OGANIZER clicks "Find Times" Btn
- {
-    data = json.loads(blAttendees)#list of users and email addresses, optional(false if have to be there), response status()
+user1 = json.loads(blAttendees)#list of users and email addresses, optional(false if have to be there), response status()
         #go to table users, find said user (pk user id), table calenders, get the calender data there that matches the user id here
+
         
-    
-    user = phpobject('WP_User', data)#'WP_User is the PHP function with the necessary information, data is the information necessary to transfer
-    endTime = user.endTime  #reading the endTime from the PHP object, time to stop the search
-    startTime = user.startTime #reading the startTime from the PHP object, where to start the search
-    DayWeekMonth = user.DayWeekMonth #how long the input would be based on the number of days there are
-    locationTime = data[''] #how long it take to reach the location spot, changes per user
+for i in range (len(user1))
+    attend1 = user1[i]['responseStatus'] #see whether they acepted or not
+    if (attend1 == True): #if they did accept
+        email = user1[i]['email']
+        
+        sql = ('INSERT INTO {} (fkUserid, fkEventid) VALUES '
+       '(%s, %s)'.format(self.db_scan_table))
+        self.cursor.execute(sql, (email, fkEventid))
+        
+        #don't know if there is another step between searching for the calender and loading it. leave this as a reminder
+        
+        calTest = json.loads(blCalendar)#load calender that matches the id
+
+        for h in range (len(calTest)):
+            startTime = calTest[h]['start_time'] #gets the day/time for the start time
+            StartI = int(startTime.replace('z', ' ')split('T')[0])
+            EndI = int(startTime.replace('z', ' ')split('T')[1])
+            endTime = calTest[h]['end_time'] #gets the day/time for the end time
+            StartJ = int(endTime.replace('z', ' ')split('T')[0])
+            EndJ = int(endTime.replace('z', ' ')split('T')[1])
+            
+            for i in range (StartI, EndI):
+                for j in xrange (StartJ, EndJ, granularity):
+                    GoogleCalender[i][j] = '1'
+
+
+
+
+
+
+endTime = user.endTime  #reading the endTime from the PHP object, time to stop the search
+startTime = user.startTime #reading the startTime from the PHP object, where to start the search
+DayWeekMonth = user.DayWeekMonth #how long the input would be based on the number of days there are
+locationTime = data[''] #how long it take to reach the location spot, changes per user
+ 
     
     # Load the data that PHP will dump us (var_dump($resultData)
-    for i in range (0, searchWidth):
+    for i in range (len):
         for j in xrange (0, 24*granularity, granularity):
             {
                 try:
@@ -84,6 +107,7 @@ tempString = 0 #how many people are there/now long the string is
     
     tempString ++
  }#END ATTENDIES IF STATEMENT
+ 
  
  numCalender[searchWidth][24*granularity] #calender to hold the amount of people at the event start
  returnCalender[searchWidth][24*granularity] #calender to return 
@@ -197,11 +221,4 @@ for i in range (len(returnCalnder)):
 
 print returnList
     
-#writing it to a text file
-    for row in returnCalender:
-        for column, data in enumerate(row):
-            out += formats[column].format(data)
-        out += "\n"
 
-    with open("Times.txt","wt") as file:
-        file.write(out)
