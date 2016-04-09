@@ -1,7 +1,8 @@
 #!/usr/bin/env python2
 #encoding: UTF-8
-import json #for taking in data from php
+import sys, json #for taking in data from php
 
+fkEventid = sys.argv[1]
 
 #using numpty for matrix
 print "START/n"
@@ -194,10 +195,10 @@ for i in range (len(returnCalnder)):
                 
                 #adding the cost together
                 cost = timeCost + peopleCost + dayCost + durCost
-                StringFinal = "day:" + i + "StartTime:" + j + "EndTime:" + j+ durrationCal[i][j] + "Durration:" +durrationCal[i][j] +  "Location:" + locationTime +  "Cost:" + cost
+                StringFinal = "{day:" + i + ",StartTime:" + j + ",EndTime:" + j+ durrationCal[i][j] + ",Durration:" +durrationCal[i][j] +  ",Location:" + locationTime +  ",Cost:" + cost + "}"
                 returnList += StringFinal
 
-json.dumps(returnList)
-print returnList
+print (json.dumps(returnList)) #printing it via JSON style
+print returnList    #printing it normal style
     
 
