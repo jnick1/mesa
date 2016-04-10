@@ -10,6 +10,7 @@ __date__ ="$Apr 10, 2016 3:30:13 AM$"
 print ("test")
 import sys
 import json
+from datetime import datetime, date, time
 import functions
 import classes
 
@@ -32,6 +33,7 @@ RRule = functions.parseRRule(txRRule)
 print ("RRule: ")
 print (RRule)
 
-test = classes.Calendar(calendars[0])
+test = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
+test2 = classes.CalendarMatrix(test, datetime.strptime("2016-04-04T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),datetime.strptime("2016-04-08T23:59:59Z", "%Y-%m-%dT%H:%M:%SZ"),30)
 
 print (test)

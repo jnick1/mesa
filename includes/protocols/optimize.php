@@ -3,18 +3,32 @@ if(isset($scrubbed["optimize"])) {
     $warnings[] = "This button has not been fully implemented yet.";
     $pkEventid = $scrubbed["pkEventid"];
     
-    $q1 = "SELECT blCalendar FROM tblcalendars cals JOIN tblusers users ON users.pkUserid = cals.fkUserid WHERE cals.fkEventid = ?";
+    $q1 = "SELECT blCalendar FROM tblcalendars cals JOIN tblusers users ON users.pkUserid = cals.fkUserid WHERE cals.fkEventid = ? AND users.txEmail = ?";
+    $q5 = "SELECT blAttendees FROM tblevents WHERE pkEventid = ?";
     
-    $calendars = [];
-    if($stmt = $dbc->prepare($q1)){
+    if($stmt = $dbc->prepare($q5)){
         $stmt->bind_param("i", $pkEventid);
         $stmt->execute();
-        $stmt->bind_result($blCalendar);
-        while($stmt->fetch()) {
-            $calendars[] = $blCalendar;
-        }
+        $stmt->bind_result($blAttendees);
+        $stmt->fetch();
         $stmt->free_result();
         $stmt->close();
+    }
+    $attendees = json_decode($blAttendees, true);
+    $calendars = [];
+    foreach($attendees as $attendee) {
+        if($attendee["responseStatus"]=="accepted") {
+            if($stmt = $dbc->prepare($q1)){
+                $stmt->bind_param("is", $pkEventid, $attendee["email"]);
+                $stmt->execute();
+                $stmt->bind_result($blCalendar);
+                $stmt->fetch();
+                $calendars[$attendee["email"]] = $blCalendar;
+                $calendars["attendance"][$attendee["email"]] = $attendee["optional"];
+                $stmt->free_result();
+                $stmt->close();
+            }
+        }
     }
     if(count($calendars) != 0) {
         
