@@ -15,13 +15,13 @@ class Matrix:
     def __init__(self, startdate, enddate, starttime, endtime, granularity):
         rows = math.ceil(((endtime-starttime).seconds)/(granularity*60))
         cols = (enddate-startdate).days + (1 if (enddate-startdate).seconds%86400!=0 else 0)
-        self.matrix = [[0 for x in range(cols)] for x in range(rows)]
+        self.matrix = [["0" for x in range(cols)] for x in range(rows)]
         self.dates = [0 for x in range(cols)]
         self.times = [0 for x in range(rows)]
         for j in range(cols):
-            self.dates[j] = (startdate+timedelta(days=1*j)).strftime("%Y-%m-%d")
+            self.dates[j] = (startdate+timedelta(days=1*j)).date()
         for i in range(rows):
-            self.times[i] = (starttime+timedelta(minutes=granularity*i)).strftime("%H:%M:%S")
+            self.times[i] = (starttime+timedelta(minutes=granularity*i)).time()
     
     def __str__(self):
         output = ""
@@ -31,13 +31,17 @@ class Matrix:
                 output+=str(self.matrix[row][col])+" "
             output+="]\n"
         return output
+    
+    def __add__(self, other):
+        print("n")
 
 class CalendarMatrix(Matrix):
     def __init__(self, calendar, startdate, enddate, starttime, endtime, granularity):
         if(isinstance(calendar, Calendar)):
             Matrix.__init__(self, startdate, enddate, starttime, endtime, granularity)
 #            for event in calendar.events:
-                
+#                for i in range(math.ceil(((event.end-event.start).seconds)/(granularity*60))):
+                    
         else:
             raise TypeError("Incorrect class supplied at argument: calendar. Please use a Calendar object")
     
