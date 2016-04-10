@@ -21,7 +21,7 @@ function time_parser(string){
     var outstart = string.match(regex);
     var output = new Date(
             parseInt(outstart[3]), parseInt(outstart[1]-1), 
-            parseInt(outstart[2]), (((outstart[4]==="12" && outstart[6]==="am")?0:parseInt(outstart[4]))+(outstart[6]==="pm"?12:0)),
+            parseInt(outstart[2]), (((outstart[4]==="12" && outstart[6]==="am")?0:parseInt(outstart[4]))+(outstart[6]==="pm" && outstart[4]!=="12"?12:0)),
             parseInt(outstart[5]),0);
             
     return output;
