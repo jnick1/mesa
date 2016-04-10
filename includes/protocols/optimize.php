@@ -24,12 +24,15 @@ if(isset($scrubbed["optimize"])) {
             $stmt->bind_param("i", $pkEventid);
             $stmt->execute();
             $stmt->bind_result($dtStart, $dtEnd, $txLocation, $blSettings, $txRRule);
+            $stmt->fetch();
             $stmt->free_result();
             $stmt->close();
         }
         
         $calendars = json_encode($calendars);
-        exec("python \"".$homedir."python/OptCode.py\" \"$dtStart\" \"$dtEnd\" \"$txLocation\" $blSettings $txRRule $calendars", $output);
+        file_put_contents($homedir."python/temp1.json", $calendars);
+        file_put_contents($homedir."python/temp2.json", $blSettings);
+        exec("python \"".$homedir."python/optimize.py\" \"$dtStart\" \"$dtEnd\" \"$txLocation\" \"$txRRule\" 2>&1", $output, $err);
         $blOptiSuggestion = implode("\n",$output);
         
         var_dump($output);

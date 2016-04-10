@@ -7,5 +7,17 @@
 __author__="Jacob"
 __date__ ="$Apr 9, 2016 11:56:14 PM$"
 
-def parseRRule():
-    print ("WIP")
+def parseRRule(txRRule):
+    if(txRRule != ""):
+        rules = txRRule.split(";")
+        RRule = {}
+        for rule in rules:
+            if(rule != ""):
+                keyval = rule.split("=")
+                if(keyval[1].isdigit()):
+                    RRule[keyval[0]] = int(keyval[1])
+                else:
+                    RRule[keyval[0]] = keyval[1]
+        return RRule
+    else:
+        return txRRule

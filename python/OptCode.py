@@ -3,39 +3,50 @@
 print ("test")
 import sys
 import json #for taking in data from php
-import functions
+from functions import parseRRule
 
 dtStart = sys.argv[1]
 dtEnd = sys.argv[2]
 txLocation = sys.argv[3]
-settings = json.loads(sys.argv[4])
-txRRule = sys.argv[5].replace(";", "&")
-calendars = json.loads(sys.argv[6])
-print ("i got here")
-RRule = txRRule
+txRRule = sys.argv[4]
+
+temp = open("C:/wamp/www/mesa/python/temp1.json", "r")
+calendars = json.loads(temp.read())
+temp.close()
+temp = open("C:/wamp/www/mesa/python/temp2.json", "r")
+blSettings = json.loads(temp.read())
+temp.close()
+print(blSettings)
+
+RRule = parseRRule(txRRule)
 print (RRule)
 #using numpty for matrix
 print ("START/n")
 #necessary objects needed before starting the program
 Priority = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
 #DAYS = [0] * 7 #specific days wanted
-  
+
+startDate = dtStart #when the calender starts at
+
 #matrices necessary   check the row number because will might have it on years and I don't really want to deal with that nonsense
         #Note: make 2 matrixes for "Full Span" matrix for the year and the "Active Span" which is a weekly thing, 
         #convert the time to UTC
 
 #first, enter the necessary data
-
-data = json.loads(blSettings)
-
-bannedtimesStart = data['blacklist']['earliest'] #start of times that we don't use
-bannedtimesEnd = data['blacklist']['latest'] #start of times that we don't use
-startDate = DTstart #when the calender starts at
-CutOffDate = data['date']['furthest'] #don't go on beyond this point, double check this
-preferedTime = data['time'] #the time that the person wants to have the specifically
-preferedDate = data['date'] #day that the person wants, *go through code with new updated stuff*
-timeLength = data['durration'] #how long the meeting is *so far for the max length* 
-minimumPeople = data['attendees']['minattendees'] #the minimum number of people needed for the meeting
+if(blSettings["useDefault"]!=True):
+    bannedtimesStart = blSettings['blacklist']['earliest'] #start of times that we don't use
+    bannedtimesEnd = blSettings['blacklist']['latest'] #start of times that we don't use
+    CutOffDate = blSettings['date']['furthest'] #don't go on beyond this point, double check this
+    preferedTime = blSettings['time'] #the time that the person wants to have the specifically
+    preferedDate = blSettings['date'] #day that the person wants, *go through code with new updated stuff*
+    timeLength = blSettings['durration'] #how long the meeting is *so far for the max length* 
+    minimumPeople = blSettings['attendees']['minattendees'] #the minimum number of people needed for the meeting
+else:
+    bannedtimesStart = "00:00:00"
+    bannedtimesEnd = "23:59:59"
+    CutOffDate = ""
+    
+    
 
 if(nest[FREQ] == 'WEEKLY'): #how often per week people want to meet
     weekly = 1
@@ -207,5 +218,3 @@ for i in range (len(returnCalnder)):
 print (json.dumps(returnList)) #printing it via JSON style
 print (returnList)    #printing it normal style
     
-cursor.close()
-cnx.close()
