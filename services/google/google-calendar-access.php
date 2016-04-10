@@ -136,7 +136,7 @@ function insert_mysql_info($events_array) {
     exit();
 }
 
-function unset_session_veriables(){
+function unset_session_variables(){
     unset($_SESSION['token_id']);
     unset($_SESSION['event_id']);
     unset($_SESSION['sql_attendee_email']);

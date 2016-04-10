@@ -1,31 +1,52 @@
 #!/usr/bin/env python2
 #encoding: UTF-8
-import sys, json #for taking in data from php
+print ("test")
+import sys
+import json #for taking in data from php
+from functions import parseRRule
 
-fkEventid = sys.argv[1]
+dtStart = sys.argv[1]
+dtEnd = sys.argv[2]
+txLocation = sys.argv[3]
+txRRule = sys.argv[4]
 
+temp = open("C:/wamp/www/mesa/python/temp1.json", "r")
+calendars = json.loads(temp.read())
+temp.close()
+temp = open("C:/wamp/www/mesa/python/temp2.json", "r")
+blSettings = json.loads(temp.read())
+temp.close()
+print(blSettings)
+
+RRule = parseRRule(txRRule)
+print (RRule)
 #using numpty for matrix
-print "START/n"
+print ("START/n")
 #necessary objects needed before starting the program
-Priority[7] = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
-DAYS[7] #specific days wanted
-  
+Priority = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
+#DAYS = [0] * 7 #specific days wanted
+
+startDate = dtStart #when the calender starts at
+
 #matrices necessary   check the row number because will might have it on years and I don't really want to deal with that nonsense
         #Note: make 2 matrixes for "Full Span" matrix for the year and the "Active Span" which is a weekly thing, 
         #convert the time to UTC
 
 #first, enter the necessary data
-data = json.loads(blSettings)
-nest = json.loads(txrRule)
-
-bannedtimesStart = data['blacklist']['earliest'] #start of times that we don't use
-bannedtimesEnd = data['blacklist']['latest'] #start of times that we don't use
-startDate = DTstart #when the calender starts at
-CutOffDate = data['date']['furthest'] #don't go on beyond this point, double check this
-preferedTime = data['time'] #the time that the person wants to have the specifically
-preferedDate = data['date'] #day that the person wants, *go through code with new updated stuff*
-timeLength = data['durration'] #how long the meeting is *so far for the max length* 
-minimumPeople = data['attendees']['minattendees'] #the minimum number of people needed for the meeting
+if(blSettings["useDefault"]!=True):
+    bannedtimesStart = blSettings['blacklist']['earliest'] #start of times that we don't use
+    bannedtimesEnd = blSettings['blacklist']['latest'] #start of times that we don't use
+    CutOffDate = blSettings['date']['furthest'] #don't go on beyond this point, double check this
+    preferedTime = blSettings['time'] #the time that the person wants to have the specifically
+    preferedDate = blSettings['date'] #day that the person wants, *go through code with new updated stuff*
+    timeLength = blSettings['durration'] #how long the meeting is *so far for the max length* 
+    minimumPeople = blSettings['attendees']['minattendees'] #the minimum number of people needed for the meeting
+else:
+    bannedtimesStart = "00:00:00"
+    bannedtimesEnd = "23:59:59"
+    CutOffDate = ""
+    
+    
 
 if(nest[FREQ] == 'WEEKLY'): #how often per week people want to meet
     weekly = 1
@@ -44,16 +65,12 @@ tempString = 0 #how many people are there/now long the string is
 user1 = json.loads(blAttendees)#list of users and email addresses, optional(false if have to be there), response status()
         #go to table users, find said user (pk user id), table calenders, get the calender data there that matches the user id here
 
-print "data load, calendar retrival start/n"        
+print ("data load, calendar retrival start/n")
 for l in range (len(user1)):
     attend1 = user1[l]['responseStatus'] #see whether they acepted or not
     if (attend1 == True): #if they did accept
         
         email = user1[l]['email']
-        
-        sql = ('INSERT INTO {} (fkUserid, fkEventid) VALUES '
-            '(%s, %s)'.format(self.db_scan_table))
-        self.cursor.execute(sql, (email, fkEventid))
         
         #don't know if there is another step between searching for the calender and loading it. leave this as a reminder
         
@@ -86,13 +103,13 @@ for l in range (len(user1)):
                     masterCalender[i][j] = test
         
     #END ATTENDIES IF STATEMENT
-print "master calendar complete/n"  
+print ("master calendar complete/n")  
 numCalender[searchWidth][24*granularity] #calender to hold the amount of people at the event start
 returnCalender[searchWidth][24*granularity] #calender to return 
 durrationCal[searchWidth][24*granularity]
 List[maxPeople] #hold the number of people that the people can attend
 
-print "search through calendar/n" 
+print ("search through calendar/n") 
 for D in xrange(timeLength, 0, -15): #going through the durration times to decrease it too 
     for i in range (0, searchWidth):
         day = i #DAYS[i] for specific day, code it to fix it later
@@ -141,11 +158,11 @@ for D in xrange(timeLength, 0, -15): #going through the durration times to decre
                             preferedTime = preferedTime + (granularity*count* (-1^count))  #branches off hour by hour          
                      
 
-print "found spot options/n" 
+print ("found spot options/n") 
 
 List.reverse() #biggest number is on top, easier to find most people
 
-print "searching for people in spots/n" 
+print ("searching for people in spots/n") 
 done = False
 C2 = 0
 q=0
@@ -163,7 +180,7 @@ while(done == False):
     else:
         q+=1 #increment to the next biggest number in the list
   
-print "found most people spots /n finding cost of them " 
+print ("found most people spots /n finding cost of them ") 
 
 #counting the cost
 returnList = "" #making it as big as the amount of weekly times
@@ -195,10 +212,9 @@ for i in range (len(returnCalnder)):
                 
                 #adding the cost together
                 cost = timeCost + peopleCost + dayCost + durCost
-                StringFinal = "{day:" + i + ",StartTime:" + j + ",EndTime:" + j+ durrationCal[i][j] + ",Durration:" +durrationCal[i][j] +  ",Location:" + locationTime +  ",Cost:" + cost + "}"
+                StringFinal = "{day:" + i + ",StartTime:" + j + ",EndTime:" + j+ durrationCal[i][j] + ",Duration:" +durrationCal[i][j] +  ",Location:" + locationTime +  ",Cost:" + cost + "}"
                 returnList += StringFinal
 
 print (json.dumps(returnList)) #printing it via JSON style
-print returnList    #printing it normal style
+print (returnList)    #printing it normal style
     
-
