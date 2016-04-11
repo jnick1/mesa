@@ -46,6 +46,11 @@ class PersonalMatrixFunctions:
     def InputMatrix(self, i, j):
         self.Matrix[i][j] = '1'
     
+    def eventMatrix(self):
+        for i in range (self.StartDay, self.EndDay):
+            for j in xrange (self.StartTime, self.EndTime, self.granularity):
+                self.Matrix[i][j] = '1'
+                
     def AddingMatrix(self, MasterMatrix, start, end, gran):{
         for i in range (self.Matrix):{
             for j in xrange(start, (24*gran)-end, gran):{
@@ -80,7 +85,10 @@ class MasterMatrix:
         self.granularity = granularity
         self.mostPeople = most
         self.preferedDate = preferedDate
-       
+    
+    def getGranularity(self):
+        return granularity
+    
     def findTimes(self, MasterMatrix, BannedStart, BannedEnd, granularity):
         output = ""
         for D in xrange(self.timeLength, 0, -granularity): #going through the durration times to decrease it too 
