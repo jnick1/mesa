@@ -21,3 +21,23 @@ def parseRRule(txRRule):
         return RRule
     else:
         return txRRule
+
+def strptime(string, format):
+    from datetime import datetime
+    format = "%Y-%m-%dT" + format
+    return datetime.strptime("2016-01-01T"+string, format).time()
+
+def index(list, search):
+    index = 0
+    for item in list:
+        if (item == search):
+            return index
+        index+=1
+    return -1
+
+def is_number(test):
+    try:
+        float(test)
+        return True
+    except ValueError:
+        return False
