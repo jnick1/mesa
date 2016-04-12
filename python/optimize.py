@@ -36,7 +36,9 @@ print(calendars)
 RRule = functions.parseRRule(txRRule)
 print ("RRule: ")
 print (RRule)
+print("\n")
 
+<<<<<<< HEAD
 test = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
 test2 = classes.CalendarMatrix(test, datetime.strptime("2016-04-04T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),datetime.strptime("2016-04-08T23:59:59Z", "%Y-%m-%dT%H:%M:%SZ"),30)
 print (test)
@@ -48,3 +50,30 @@ print ("{3}/n")
 
 
 
+=======
+cal1 = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
+cal2 = classes.Calendar(calendars["in7.4.1776@gmail.com"], "in7.4.1776@gmail.com")
+args1 = {
+    "calendar":cal1,
+    "startdate":datetime.strptime("2016-04-04T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"),
+    "enddate":datetime.strptime("2016-04-16T20:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),
+    "starttime":functions.strptime("18:10:00", "%H:%M:%S"),
+    "endtime":functions.strptime("23:59:59", "%H:%M:%S"),
+    "granularity":30
+}
+args2 = {
+    "calendar":cal2,
+    "startdate":datetime.strptime("2016-04-04T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"),
+    "enddate":datetime.strptime("2016-04-16T20:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),
+    "starttime":functions.strptime("18:10:00", "%H:%M:%S"),
+    "endtime":functions.strptime("23:59:59", "%H:%M:%S"),
+    "granularity":30
+}
+matrix1 = classes.CalendarMatrix(args1)
+matrix2 = classes.CalendarMatrix(args2)
+matrix3 = matrix1+matrix2
+
+print(matrix3.print_labeled())
+
+print (cal1)
+>>>>>>> refs/remotes/origin/master
