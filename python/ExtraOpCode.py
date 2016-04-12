@@ -195,7 +195,17 @@ for (i =0; i <searchwidth; i++):
             }while(j<(24/granularity) - bannedtimes)
     }
 }
-    
+
+#writing it to a text file
+    for row in returnCalender:
+        for column, data in enumerate(row):
+            out += formats[column].format(data)
+        out += "\n"
+
+    with open("Times.txt","wt") as file:
+        file.write(out)
+        
+        
 #MAY OR MAY NOT USE DEPENDING
     #having the priority set list seperate because idk if there will be exact results if its at the end of the other file
     #g = open('PriorityTextFile', 'r') 

@@ -61,21 +61,12 @@ function collect_calendars_from_summaries($service) {
     $user_calendar_list = [];
     foreach ($user_calendar_summaries as $calendar_summary) {
         foreach ($calendar_list as $calendar) {
-            check_for_attendee_email($calendar);
-
             if ($calendar->summary == $calendar_summary) {
                 array_push($user_calendar_list, $calendar);
             }
         }
     }
     return $user_calendar_list;
-}
-
-//Retrieve email based upon primary calendar summary
-function check_for_attendee_email($calendar) {
-    if ($calendar->primary) {
-        $_SESSION['calendar_email'] = $calendar->summary;
-    }
 }
 
 function retrieve_event_list($service, $user_calendar_list, $client) {
@@ -103,7 +94,7 @@ function retrieve_event_list($service, $user_calendar_list, $client) {
 function format_trim_event($event, &$prev_checked_distances) {
     
     $trimmed_event = [];
-    $trimmed_event['calendar_email'] = $_SESSION['calendar_email'];
+    $trimmed_event['calendar_email'] = $_SESSION['sql_attendee_email'];
     if ($event->start->dateTime == NULL || $event->end->dateTime == NULL) {
         return NULL; //Ignore all-day events
     }
@@ -136,7 +127,7 @@ function insert_mysql_info($events_array) {
     exit();
 }
 
-function unset_session_veriables(){
+function unset_session_variables(){
     unset($_SESSION['token_id']);
     unset($_SESSION['event_id']);
     unset($_SESSION['sql_attendee_email']);
