@@ -17,7 +17,7 @@ import SClass
 import SOptCode
 
 
-
+print ("hello")
 dtStart = sys.argv[1]
 dtEnd = sys.argv[2]
 txLocation = sys.argv[3]
