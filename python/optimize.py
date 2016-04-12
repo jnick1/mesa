@@ -12,9 +12,9 @@ import sys
 import json
 from datetime import datetime, date, time
 import functions
-import classes
+import Classes
 import SClass
-import SOptCode
+#import SOptCode
 
 
 print ("hello")
@@ -38,9 +38,9 @@ print ("RRule: ")
 print (RRule)
 print("\n")
 
-<<<<<<< HEAD
-test = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
-test2 = classes.CalendarMatrix(test, datetime.strptime("2016-04-04T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),datetime.strptime("2016-04-08T23:59:59Z", "%Y-%m-%dT%H:%M:%SZ"),30)
+
+test = Classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
+test2 = Classes.CalendarMatrix(test, datetime.strptime("2016-04-04T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),datetime.strptime("2016-04-08T23:59:59Z", "%Y-%m-%dT%H:%M:%SZ"),30)
 print (test)
 
 Priority = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
@@ -50,7 +50,7 @@ print ("{3}/n")
 
 
 
-=======
+
 cal1 = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
 cal2 = classes.Calendar(calendars["in7.4.1776@gmail.com"], "in7.4.1776@gmail.com")
 args1 = {
@@ -74,6 +74,7 @@ matrix2 = classes.CalendarMatrix(args2)
 matrix3 = matrix1+matrix2
 
 print(matrix3.print_labeled())
-
 print (cal1)
->>>>>>> refs/remotes/origin/master
+print("testing my code")
+
+

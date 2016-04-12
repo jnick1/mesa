@@ -10,10 +10,6 @@ fkEventid = sys.argv[1]
 Priority = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
 DAYS = [0, 1, 2, 3, 4, 5, 6] #specific days wanted
 
-masterCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24*granularity) ] #calender for the final date selection, full week 7 days/24hrs
-GoogleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24*granularity) ] #calender to import 
-tempString = 0 #how many people are there/now long the string i
-
 locaArray = []
 
 #first, enter the necessary data
@@ -32,8 +28,12 @@ minimumPeople = int(data['attendees']['minattendees']) #the minimum number of pe
 granularity = 60/15 #search it by what people wanted, else it's automatically 1 hour   
 user1 = json.loads(blAttendees)#list of users and email addresses, optional(false if have to be there), response status()\
 locationTime = 0
- 
 
+
+masterCalender = [ [ " " for i in range(searchWidth) ] for j in range(24*granularity) ] #calender for the final date selection, full week 7 days/24hrs
+GoogleCalender = [ [ 0 for i in range(searchWidth) ] for j in range(24*granularity) ] #calender to import 
+tempString = 0 #how many people are there/now long the string i
+ 
 Param = MasterMatrix(timeLength, startDate, CutOffDate, locationTime, preferedTime, minimumPeople, granularity, len(user1), preferedDate)
 
 print ("{data load, calendar retrival start/}n")        
@@ -65,9 +65,10 @@ for p in range (len(user1)):
                 
                 Person1 = PersonalMatrixFunctions(StartJ, EndJ, StartI, EndI, Param.getGranularity() )
                 Person1.eventMatrix()
+            
                 
-                locaArray.append(Person1.getLocation)
-                masterCalender= Person1.AddingMatrix(masterCalender, Person1.getStartTime, Person1.getEndTime, Person1.getGranularity)
+            locaArray.append(Person1.getLocation)
+            masterCalender= Person1.AddingMatrix(masterCalender, Person1.getStartTime, Person1.getEndTime, Person1.getGranularity)
                 
             print ("{made matrix}/n")          
             #adding their Goolge calender to the combined Master Calender
