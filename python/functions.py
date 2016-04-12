@@ -41,3 +41,21 @@ def is_number(test):
         return True
     except ValueError:
         return False
+    
+def construct_master_matrix(blCalendar, granularity):
+    attendees = blCalendar["attendance"]
+    MasterMatrix = [] #Matrix("construct_null"), fix this later
+    i = 0
+    for attendee in attendees:
+        args = {
+            "rawcalendar":blCalendar[attendee],
+            "owner":attendee,
+            "granularity":granularity
+        }
+        matrix = CalendarMatrix("construct_from_blcalendar", args)
+        if(i==0):
+            MasterMatrix = matrix
+        else:
+            MasterMatrix += matrix
+        
+        
