@@ -38,7 +38,7 @@ cal1 = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
 cal2 = classes.Calendar(calendars["in7.4.1776@gmail.com"], "in7.4.1776@gmail.com")
 args1 = {
     "calendar":cal1,
-    "startdate":functions.strpdate("2016-04-04", "%Y-%m-%d"),
+    "startdate":functions.strpdate("2016-04-11", "%Y-%m-%d"),
     "enddate":functions.strpdate("2016-04-16", "%Y-%m-%d"),
     "starttime":functions.strptime("18:10:00", "%H:%M:%S"),
     "endtime":functions.strptime("23:59:59", "%H:%M:%S"),
@@ -46,7 +46,7 @@ args1 = {
 }
 args2 = {
     "calendar":cal2,
-    "startdate":functions.strpdate("2016-04-08", "%Y-%m-%d"),
+    "startdate":functions.strpdate("2016-04-11", "%Y-%m-%d"),
     "enddate":functions.strpdate("2016-04-20", "%Y-%m-%d"),
     "starttime":functions.strptime("16:10:00", "%H:%M:%S"),
     "endtime":functions.strptime("23:59:59", "%H:%M:%S"),
@@ -55,8 +55,10 @@ args2 = {
 
 matrix1 = classes.CalendarMatrix("construct_from_calendar",args1)
 matrix2 = classes.CalendarMatrix("construct_from_calendar",args2)
-matrix3 = classes.Matrix("construct_from_additive_intersection", {"self":matrix1, "other":matrix2})
+matrix3 = matrix1 + matrix2
 
-print(matrix3.print_labelled())
+#print(matrix3.print_labelled())
 
-#functions.construct_master_matrix(calendars, 30)
+masterMatrix = functions.construct_master_matrix(calendars, 30)
+
+print(masterMatrix.print_labelled())

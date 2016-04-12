@@ -24,6 +24,7 @@ def construct_master_matrix(blCalendar, granularity):
         else:
             MasterMatrix += matrix
         i+=1
+    return MasterMatrix
 
 def index(list, search):
     index = 0
@@ -97,3 +98,8 @@ def strptime(string, format):
     format = "%Y-%m-%dT" + format
     return datetime.strptime("2016-01-01T"+string, format).time()
 
+def swap(a, b):
+    temp = a
+    a = b
+    b = temp
+    return {"newa":a,"newb":b}

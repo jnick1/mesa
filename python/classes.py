@@ -53,6 +53,49 @@ class Matrix:
         else:
             raise ValueError("Invalid inittype passed. Please refer to documentation to see valid inittypes")
     
+    #performs addition of two Matrix objects (A + B)
+    #   This method first verifies that the passed object is of type Matrix,
+    #   and it then proceeds to add the two together. By default, addition follows
+    #   the scheme defined in construct_from_additive_intersection, but will
+    #   switch to the scheme defined in construct_from_addition to speed up
+    #   calculation time if possible. In order to use the addition scheme defined
+    #   in construct_from_union, a Matrix object must be instantiated
+    #   with that construction method explicitly called.
+    #
+    #See also: construct_from_additive_intersection, construct_from_addition,
+    #           construct_from_union
+    def __add__(self, other):
+        if(not isinstance(other, Matrix)):
+            raise TypeError("Erroneous argument type supplied. Please use a Matrix object")
+        args = {
+            "self":self,
+            "other":other,
+        }
+        return Matrix("construct_from_additive_intersection", args)
+    
+    #performs augmented assignment with addition
+    #
+    #See also: Matrix.__add__
+    def __iadd__(self, other):
+        return self.__add__(other)
+    
+    #outputs the contents of this Matrix object in a standard form
+    #
+    #Sample output:
+    #   [ 0 0 0 ]
+    #   [ 1 0 0 ]
+    #   [ 1 0 1 ]
+    def __str__(self):
+        output = ""
+        for row in range(len(self.matrix)):
+            output+="[ "
+            for col in range(len(self.matrix[0])):
+                output+=str(self.matrix[row][col])+" "
+            output+="]"
+            if(row!=len(self.matrix)-1):
+                output+="\n"
+        return output
+    
     #constructs a new Matrix object from the addition of two other Matrix objects
     #   This method essentially defines matrix addition for the Matrix object.
     #   According to our aggreed upon definition of matrix addition, this method
@@ -133,8 +176,13 @@ class Matrix:
         enddate = args["enddate"]
         starttime = (datetime.combine(startdate, args["starttime"])+(timedelta(minutes=args["granularity"]-args["starttime"].minute%args["granularity"]) if args["starttime"].minute%args["granularity"]!=0 else timedelta(minutes=0))).time()
         endtime = args["endtime"]
+        if(starttime>endtime):
+            swap = functions.swap(starttime, endtime)
+            starttime = swap["newa"]
+            endtime = swap["newb"]
         granularity = args["granularity"]
         rows = math.ceil(((datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds)/(granularity*60))
+        #rows = math.ceil((((datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)) if endtime > starttime else (datetime.combine(startdate,endtime)+timedelta(days=1)-datetime.combine(startdate,starttime))).seconds)/(granularity*60))
         cols = (datetime.combine(enddate,starttime)-datetime.combine(startdate,starttime)).days + (1 if (datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds!=0 else 0)
         self.matrix = [["0" for x in range(cols)] for x in range(rows)]
         self.dates = ["" for x in range(cols)]
@@ -229,47 +277,10 @@ class Matrix:
         self.times = []
         self.matrix = [["" for x in range(args["height"])] for x in range(args["width"])]
     
-    #performs addition of two Matrix objects (A + B)
-    #   This method first verifies that both matrices are of equal dimensions,
-    #   as otherwise matrix addtion would be undefined. See documentation for
-    #   construct_from_addition for additional details
-    def __add__(self, other):
-        if(isinstance(other, Matrix)):
-            args = {
-                "self":self,
-                "other":other,
-            }
-            return Matrix("construct_from_additive_intersection", args)
-        else:
-            raise TypeError("Erroneous argument type supplied. Please use a Matrix object")
-    
-    #performs augmented assignment with addition
-    #
-    #See also: Matrix.__add__
-    def __iadd__(self, other):
-        return self.__add__(other)
-    
-    #outputs the contents of this Matrix object in a standard form
-    #
-    #Sample output:
-    #   [ 0 0 0 ]
-    #   [ 1 0 0 ]
-    #   [ 1 0 1 ]
-    def __str__(self):
-        output = ""
-        for row in range(len(self.matrix)):
-            output+="[ "
-            for col in range(len(self.matrix[0])):
-                output+=str(self.matrix[row][col])+" "
-            output+="]"
-            if(row!=len(self.matrix)-1):
-                output+="\n"
-        return output
-    
     #returns the index of the column (date) at the specified date
     #
     #retuires: when must be a date object
-    def get_col_index_from_time(self, when):
+    def get_col_index_from_date(self, when):
         if(isinstance(when, date)):
             return functions.index(self.dates, when)
         else:
@@ -286,7 +297,7 @@ class Matrix:
     #returns the index of the row (time) at the specified time
     #
     #retuires: when must be a time object
-    def get_row_index_from_date(self, when):
+    def get_row_index_from_time(self, when):
         if(isinstance(when, time)):
             return functions.index(self.times, when)
         else:
@@ -311,7 +322,7 @@ class Matrix:
             raise TypeError("Erroneous argument type supplied. Please use a datetime object")
     
     #returns the value at a cell in the matrix given a row and column index
-    def get_value_from_index(self,row,col):
+    def get_value_from_rowcol(self,row,col):
         return self.matrix[row][col]
     
     #maps the shape of this Matrix object to a unique float
@@ -368,14 +379,23 @@ class CalendarMatrix(Matrix):
     #       address.
     #
     #required args: varies
-    #   inittype: construct_from_calendar
-    #       calendar, startdate, enddate, starttime, endtime, granularity
+    #   inittype: construct_from_additive_intersection
+    #       self, other
     #   inittype: construct_from_blcalendar
     #       rawcalendar, owner, granularity
+    #   inittype: construct_from_calendar
+    #       calendar, startdate, enddate, starttime, endtime, granularity
+    #   inittype: construct_from_direct_assignment
+    #       Matrix, attendees
+    #   inittype: construct_from_union
+    #       self, other
     def __init__(self, inittype, args):
         constructors = {
-            "construct_from_blcalendar":    self.construct_from_blcalendar,
-            "construct_from_calendar":      self.construct_from_calendar
+            "construct_from_additive_intersection":     self.construct_from_additive_intersection,
+            "construct_from_blcalendar":                self.construct_from_blcalendar,
+            "construct_from_calendar":                  self.construct_from_calendar,
+            "construct_from_direct_assignment":         self.construct_from_direct_assignment,
+            "construct_from_union":                     self.construct_from_union
         }
         constructor = constructors.get(inittype,-1)
         
@@ -383,9 +403,76 @@ class CalendarMatrix(Matrix):
             constructor(args)
         else:
             raise ValueError("Invalid inittype passed. Please refer to documentation to see valid inittypes")
+        
+    #performs addition of two CalendarMatrix objects (A + B)
+    #   This method first verifies that the passed object is of type CalendarMatrix,
+    #   and it then proceeds to add the two together. By default, addition follows
+    #   the scheme defined in Matrix.construct_from_additive_intersection, but will
+    #   switch to the scheme defined in Matrix.construct_from_addition to speed up
+    #   calculation time if possible. In order to use the addition scheme defined
+    #   in Matrix.construct_from_union, a CalendarMatrix object must be instantiated
+    #   with that construction method explicitly called.
+    #
+    #See also: Matrix.construct_from_additive_intersection, Matrix.__add__
+    #           Matrix.construct_from_addition, construct_from_additive_intersection,
+    #           Matrix.construct_from_union, construct_from_union
+    def __add__(self, other):
+        if(not isinstance(other, CalendarMatrix)):
+            raise TypeError("Erroneous argument type supplied. Please use a CalendarMatrix object")
+        args = {
+            "self":self,
+            "other":other
+        }
+        matrix = CalendarMatrix("construct_from_additive_intersection", args)
+        return matrix
+    
+    #constructs a new CalendarMatrix object by adding the intersection of two other CalendarMatrix objects
+    #   This method builds upon the highly robust 
+    #   Matrix.construct_from_additive_intersection, adding support for updating
+    #   the list of attendees in a CalendarMatrix object
+    #
+    #required args: self, other
+    #
+    #See also: Matrix.construct_from_additive_intersection
+    def construct_from_additive_intersection(self, args):
+        newargs = {
+            "Matrix":Matrix("construct_from_additive_intersection", args),
+            "attendees":(args["self"].attendees + args["other"].attendees)
+        }
+        self.construct_from_direct_assignment(newargs)
+    
+    #constructs a new CalendarMatrix object, automaticlly assuming dimensions based on calendar data
+    #   This method acts as a more advanced constructor compared to
+    #   construct_from_calendar (hereafter referred to as cfc). As opposed to cfc,
+    #   this
+    #
+    #required args: rawcalendar, owner, granularity
+    def construct_from_blcalendar(self, args):
+        owner = args["owner"]
+        calendar = Calendar(args["rawcalendar"], owner)
+        start = calendar.earliest_start()
+        end = calendar.latest_end()
+        starttime = start.time()
+        endtime = end.time()
+        print(datetime.combine(start, starttime))
+        print(datetime.combine(end, endtime))
+        if(starttime>endtime):
+            swap = functions.swap(starttime, endtime)
+            starttime = swap["newa"]
+            endtime = swap["newb"]
+        newargs = {
+            "calendar":calendar,
+            "startdate":start,
+            "enddate":end,
+            "starttime":starttime,
+            "endtime":endtime,
+            "granularity":args["granularity"]
+        }
+        self.construct_from_calendar(newargs)
     
     #constructs a new CalendarMatrix object a calendar and various dimension parameters
-    #   
+    #   This method instantiates a new Calendar object by taking the manual inputs
+    #   given to create the bounds for the calendar. This class builds off of 
     #
     #required args: calendar, startdate, enddate, starttime, endtime, granularity
     def construct_from_calendar(self, args):
@@ -398,32 +485,37 @@ class CalendarMatrix(Matrix):
             for i in range(math.ceil(((event.end-event.start).seconds)/(granularity*60))):
                 date = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
                 time = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
-                dateindex = functions.index(self.dates, date)
-                timeindex = functions.index(self.times, time)
+                dateindex = self.get_col_index_from_date(date)
+                timeindex = self.get_row_index_from_time(time)
                 if(dateindex!=-1 and timeindex!=-1):
                     self.matrix[timeindex][dateindex] = "1"
-        self.attendees = args["calendar"].email
-    
-    #constructs a new CalendarMatrix object, automaticlly assuming dimensions based on calendar data
-    #   
+        self.attendees = [args["calendar"].email]
+        
+    #constructs a new CalendarMatrix object by directly assigning all instance variables
+    #   Intended for internal class use only, this method directly assigns
+    #   all instance variables their values based on the provided arguments.
     #
-    #required args: rawcalendar, owner, granularity
-    def construct_from_blcalendar(self, args):
-        owner = args["owner"]
-        calendar = Calendar(args["rawcalendar"], owner)
-        start = calendar.earliest_start()
-        end = calendar.latest_end()
-        starttime = start.time()
-        endtime = end.time()
-        newargs = {
-            "calendar":calendar,
-            "startdate":start,
-            "enddate":end,
-            "starttime":starttime,
-            "endtime":endtime,
-            "granularity":args["granularity"]
-        }
-        self.construct_from_calendar(newargs)
+    #required args: Matrix, attendees
+    #
+    #See also Matrix.construct_from_direct_assignment
+    def construct_from_direct_assignment(self, args):
+        self.matrix = args["Matrix"].matrix
+        self.dates = args["Matrix"].dates
+        self.times = args["Matrix"].times
+        self.attendees = args["attendees"]
+    
+    #constructs a new CalendarMatrix object as the union of two other CalendarMatrix objects
+    #   This method instantiates a CalendarMatrix object according to the scheme
+    #   defined in Matrix.construct_from_union. However, in addition to that
+    #   scheme, this method also defines how attendees are tracked when adding
+    #   matrices.
+    #
+    #required args: self, other
+    #
+    #See also: Matrix.construct_from_union
+    def construct_from_union(self, args):
+        Matrix.__init__(self,"construct_from_union",args)
+        self.attendees += args["other"].attendees
     
     #Sets the value of a cell for an attendee at the given row and column to value
     #
@@ -494,10 +586,14 @@ class _Event:
         self.location = blEvent["location"]
         self.travelTime = int(blEvent["travel_time"])
 
+    #returns a rough (incomplete/unbounded) json formatted string representing this event
     def __str__(self):
         output = "\"start_time\":\""+self.start.strftime("%Y-%m-%dT%H:%M:%SZ")+"\",\"end_time\":\""+self.end.strftime("%Y-%m-%dT%H:%M:%SZ")+"\",\"location\":\""+self.location+",\"travel_time\":"+str(self.travelTime)+""
         return output
 
+    #returns true if the given datetime occurs during this event, otherwise False
+    #
+    #requires: when must be a datetime object
     def is_busy(self, when):
         if(when > self.start and when < self.end):
             return True
