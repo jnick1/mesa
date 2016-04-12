@@ -21,3 +21,41 @@ def parseRRule(txRRule):
         return RRule
     else:
         return txRRule
+
+def strptime(string, format):
+    from datetime import datetime
+    format = "%Y-%m-%dT" + format
+    return datetime.strptime("2016-01-01T"+string, format).time()
+
+def index(list, search):
+    index = 0
+    for item in list:
+        if (item == search):
+            return index
+        index+=1
+    return -1
+
+def is_number(test):
+    try:
+        float(test)
+        return True
+    except ValueError:
+        return False
+    
+def construct_master_matrix(blCalendar, granularity):
+    attendees = blCalendar["attendance"]
+    MasterMatrix = [] #Matrix("construct_null"), fix this later
+    i = 0
+    for attendee in attendees:
+        args = {
+            "rawcalendar":blCalendar[attendee],
+            "owner":attendee,
+            "granularity":granularity
+        }
+        matrix = CalendarMatrix("construct_from_blcalendar", args)
+        if(i==0):
+            MasterMatrix = matrix
+        else:
+            MasterMatrix += matrix
+        
+        
