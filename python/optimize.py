@@ -13,6 +13,10 @@ import json
 from datetime import datetime, date, time
 import functions
 import classes
+import SClass
+import SOptCode
+
+
 
 dtStart = sys.argv[1]
 dtEnd = sys.argv[2]
@@ -35,6 +39,12 @@ print (RRule)
 
 test = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
 test2 = classes.CalendarMatrix(test, datetime.strptime("2016-04-04T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),datetime.strptime("2016-04-08T23:59:59Z", "%Y-%m-%dT%H:%M:%SZ"),30)
-
-
 print (test)
+
+Priority = [1, 2, 3, 4, 5, 6, 7] #each one is a different function
+DAYS = [0, 1, 2, 3, 4, 5, 6] #specific days wanted
+print ("{3}/n")
+
+
+
+
