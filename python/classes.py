@@ -71,7 +71,7 @@ class Matrix:
     def construct_from_addition(self, args):
         self.dates = args["dates"]
         self.times = args["times"]
-        self.matrix = [["0" for x in range(len(self.dates))] for x in range(len(self.times))]
+        self.matrix = [["" for x in range(len(self.dates))] for x in range(len(self.times))]
         for i in range(len(self.times)):
             for j in range(len(self.dates)):
                 self.matrix[i][j] = str(args["self.matrix"][i][j]) + str(args["other.matrix"][i][j])
@@ -94,9 +94,7 @@ class Matrix:
     def construct_from_additive_intersection(self, args):
         A = args["self"]
         B = args["other"]
-        print(A.length())
-        print(B.length())
-        if(math.isclose(A.length(),B.length())):
+        if(not (math.isclose(A.length(),B.length()) and A.times == B.times and A.dates == B.dates)):
             for i in range(len(A.matrix)):
                 for j in range(len(A.matrix[0])):
                     when = A.get_datetime_from_rowcol(i,j)
@@ -142,7 +140,7 @@ class Matrix:
         self.dates = ["" for x in range(cols)]
         self.times = ["" for x in range(rows)]
         for j in range(cols):
-            self.dates[j] = (datetime.combine(startdate,starttime)+timedelta(days=1*j)).date()
+            self.dates[j] = (datetime.combine(startdate,starttime)+timedelta(days=j)).date()
         for i in range(rows):
             self.times[i] = (datetime.combine(startdate,starttime)+timedelta(minutes=granularity*i)).time()
     
@@ -175,23 +173,23 @@ class Matrix:
     def construct_from_union(self, args):
         A = args["self"]
         B = args["other"]
-        if(math.isclose(A.length(),B.length())):
+        if(not (math.isclose(A.length(),B.length()) and A.times == B.times and A.dates == B.dates)):
             dates = A.dates + B.dates
             times = A.times + B.times
             startdate = functions.mindate(dates)
             enddate = functions.maxdate(dates)
             starttime = functions.mintime(times)
             endtime = functions.maxtime(times)
-            granularity = (A.times[1]-A.times[0]).seconds/60
-            rows = math.ceil(((endtime-starttime).seconds)/(granularity*60))
-            cols = (enddate-startdate).days + (1 if (endtime-starttime).seconds!=0 else 0)
+            granularity = (datetime.combine(startdate,A.times[1])-datetime.combine(startdate,A.times[0])).seconds/60
+            rows = math.ceil(((datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds)/(granularity*60))+1
+            cols = (datetime.combine(enddate,starttime)-datetime.combine(startdate,starttime)).days + (1 if (datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds!=0 else 0)
             self.matrix = [["" for x in range(cols)] for x in range(rows)]
             self.dates = ["" for x in range(cols)]
             self.times = ["" for x in range(rows)]
             for j in range(cols):
-                self.dates[j] = (startdate+timedelta(days=1*j))
+                self.dates[j] = (datetime.combine(startdate,starttime)+timedelta(days=j)).date()
             for i in range(rows):
-                self.times[i] = (starttime+timedelta(minutes=granularity*i))
+                self.times[i] = (datetime.combine(startdate,starttime)+timedelta(minutes=granularity*i)).time()
                 for j in range(cols):
                     when = datetime.combine(self.dates[j], self.times[i])
                     Aval = A.get_value_from_datetime(when)
@@ -330,7 +328,7 @@ class Matrix:
     #              2016-04-04 2016-04-05
     #   12:00:00 [     0          1     ]
     #   12:30:00 [     1          0     ]
-    def print_labeled(self):
+    def print_labelled(self):
         datelabelpadding_before = ((" " * int(math.floor((len(self.matrix[0][0])-len(str(self.dates[0])))/2))) if len(str(self.dates[0])) < len(self.matrix[0][0]) else "")
         datelabelpadding_after = ((" " * int(math.ceil((len(self.matrix[0][0])-len(str(self.dates[0])))/2))) if len(str(self.dates[0])) < len(self.matrix[0][0]) else "")
         valuepadding_before = ((" " * int(math.floor((len(str(self.dates[0]))-len(self.matrix[0][0]))/2))) if len(self.matrix[0][0]) < len(str(self.dates[0])) else "")

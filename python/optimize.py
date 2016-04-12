@@ -46,15 +46,17 @@ args1 = {
 }
 args2 = {
     "calendar":cal2,
-    "startdate":functions.strpdate("2016-04-04", "%Y-%m-%d"),
-    "enddate":functions.strpdate("2016-04-16", "%Y-%m-%d"),
-    "starttime":functions.strptime("18:10:00", "%H:%M:%S"),
+    "startdate":functions.strpdate("2016-04-08", "%Y-%m-%d"),
+    "enddate":functions.strpdate("2016-04-20", "%Y-%m-%d"),
+    "starttime":functions.strptime("16:10:00", "%H:%M:%S"),
     "endtime":functions.strptime("23:59:59", "%H:%M:%S"),
     "granularity":30
 }
 
 matrix1 = classes.CalendarMatrix("construct_from_calendar",args1)
 matrix2 = classes.CalendarMatrix("construct_from_calendar",args2)
-matrix3 = matrix1+matrix2
+matrix3 = classes.Matrix("construct_from_additive_intersection", {"self":matrix1, "other":matrix2})
 
-functions.construct_master_matrix(calendars, 30)
+print(matrix3.print_labelled())
+
+#functions.construct_master_matrix(calendars, 30)
