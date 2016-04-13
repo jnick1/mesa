@@ -39,17 +39,17 @@ class Matrix:
     #       width, height
     def __init__(self, inittype, args):
         constructors = {
-            "construct_from_addition":                  self.construct_from_addition,
-            "construct_from_additive_intersection":     self.construct_from_additive_intersection,
-            "construct_from_bounds":                    self.construct_from_bounds,
-            "construct_from_direct_assignment":         self.construct_from_direct_assignment,
-            "construct_from_union":                     self.construct_from_union,
-            "null":                                     self.construct_null
+            "construct_from_addition":                  Matrix.construct_from_addition,
+            "construct_from_additive_intersection":     Matrix.construct_from_additive_intersection,
+            "construct_from_bounds":                    Matrix.construct_from_bounds,
+            "construct_from_direct_assignment":         Matrix.construct_from_direct_assignment,
+            "construct_from_union":                     Matrix.construct_from_union,
+            "null":                                     Matrix.construct_null
         }
         constructor = constructors.get(inittype,-1)
         
         if(constructor != -1):
-            constructor(args)
+            constructor(self,args)
         else:
             raise ValueError("Invalid inittype passed. Please refer to documentation to see valid inittypes")
     
@@ -391,16 +391,16 @@ class CalendarMatrix(Matrix):
     #       self, other
     def __init__(self, inittype, args):
         constructors = {
-            "construct_from_additive_intersection":     self.construct_from_additive_intersection,
-            "construct_from_blcalendar":                self.construct_from_blcalendar,
-            "construct_from_calendar":                  self.construct_from_calendar,
-            "construct_from_direct_assignment":         self.construct_from_direct_assignment,
-            "construct_from_union":                     self.construct_from_union
+            "construct_from_additive_intersection":     CalendarMatrix.construct_from_additive_intersection,
+            "construct_from_blcalendar":                CalendarMatrix.construct_from_blcalendar,
+            "construct_from_calendar":                  CalendarMatrix.construct_from_calendar,
+            "construct_from_direct_assignment":         CalendarMatrix.construct_from_direct_assignment,
+            "construct_from_union":                     CalendarMatrix.construct_from_union
         }
         constructor = constructors.get(inittype,-1)
         
         if(constructor != -1):
-            constructor(args)
+            constructor(self,args)
         else:
             raise ValueError("Invalid inittype passed. Please refer to documentation to see valid inittypes")
         
@@ -450,20 +450,20 @@ class CalendarMatrix(Matrix):
     def construct_from_blcalendar(self, args):
         owner = args["owner"]
         calendar = Calendar(args["rawcalendar"], owner)
-        start = calendar.earliest_start()
-        end = calendar.latest_end()
-        starttime = start.time()
-        endtime = end.time()
-        print(datetime.combine(start, starttime))
-        print(datetime.combine(end, endtime))
+        startdate = calendar.earliest_date()
+        enddate = calendar.latest_date()
+        starttime = calendar.earliest_time()
+        endtime = calendar.latest_time()
+        print(datetime.combine(startdate, starttime))
+        print(datetime.combine(enddate, endtime))
         if(starttime>endtime):
             swap = functions.swap(starttime, endtime)
             starttime = swap["newa"]
             endtime = swap["newb"]
         newargs = {
             "calendar":calendar,
-            "startdate":start,
-            "enddate":end,
+            "startdate":startdate,
+            "enddate":enddate,
             "starttime":starttime,
             "endtime":endtime,
             "granularity":args["granularity"]
@@ -553,13 +553,21 @@ class Calendar:
         output = output[:-1]+"]";
         return output
     
-    #returns a datetime object representing the earliest start time of any event in this Calendar object
-    def earliest_start(self):
-        mindate = datetime.max
+    #returns a date object representing the earliest start date of any event in this Calendar object
+    def earliest_date(self):
+        mindate = date.max
         for event in self.events:
-            if(event.start<mindate):
-                mindate = event.start
+            if(event.start.date()<mindate):
+                mindate = event.start.date()
         return mindate
+    
+    #returns a time object representing the earliest start time of any event in this Calendar object
+    def earliest_time(self):
+        mintime = time.max
+        for event in self.events:
+            if(event.start.time()<mintime):
+                mintime = event.start.time()
+        return mintime
     
     #returns True if any event in the Calendar occurs during the specified time, otherwise False
     #
@@ -570,14 +578,22 @@ class Calendar:
                 return True
         return False
     
-    #returns a datetime object representing the latest end time of any event in this Calendar object
-    def latest_end(self):
-        maxdate = datetime.min
+    #returns a date object representing the latest end date of any event in this Calendar object
+    def latest_date(self):
+        maxdate = date.min
         for event in self.events:
-            if(event.end > maxdate):
-                maxdate = event.end
+            if(event.end.date() > maxdate):
+                maxdate = event.end.date()
         return maxdate
-        
+    
+    #returns a time object representing the latest end time of any event in this Calendar object
+    def latest_time(self):
+        maxtime = time.min
+        for event in self.events:
+            if(event.end.time() > maxtime):
+                maxtime = event.end.time()
+        return maxtime
+    
 class _Event:
 
     def __init__(self, blEvent):

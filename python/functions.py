@@ -22,7 +22,7 @@ def construct_master_matrix(blCalendar, granularity):
         if(i==0):
             MasterMatrix = matrix
         else:
-            MasterMatrix += matrix
+            MasterMatrix = classes.CalendarMatrix("construct_from_union", {"self":MasterMatrix,"other":matrix})
         i+=1
     return MasterMatrix
 
