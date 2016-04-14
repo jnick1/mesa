@@ -7,6 +7,7 @@
 __author__="Jacob"
 __date__ ="$Apr 9, 2016 11:56:14 PM$"
 
+#constructs the master matrix from semi-json-semi-raw calendar data
 def construct_master_matrix(blCalendar, granularity):
     import classes
     attendees = blCalendar["attendance"]
@@ -16,9 +17,10 @@ def construct_master_matrix(blCalendar, granularity):
         args = {
             "rawcalendar":blCalendar[attendee],
             "owner":attendee,
+            "optional":attendees[attendee],
             "granularity":granularity
         }
-        matrix = classes.CalendarMatrix("construct_from_blcalendar", args)
+        matrix = classes.CalendarMatrix("construct_from_rawcalendar", args)
         if(i==0):
             MasterMatrix = matrix
         else:
@@ -26,6 +28,7 @@ def construct_master_matrix(blCalendar, granularity):
         i+=1
     return MasterMatrix
 
+#returns the position in a list of a given item, -1 if not found
 def index(list, search):
     index = 0
     for item in list:
@@ -34,6 +37,7 @@ def index(list, search):
         index+=1
     return -1
 
+#returns True if a string is a number (float parsable)
 def is_number(test):
     try:
         float(test)
@@ -41,6 +45,7 @@ def is_number(test):
     except ValueError:
         return False
 
+#returns the latest date in a list of dates
 def maxdate(dates):
     from datetime import date
     maxdate = date.min
@@ -49,6 +54,7 @@ def maxdate(dates):
             maxdate = when
     return maxdate
 
+#returns the latest time in a list of times
 def maxtime(times):
     from datetime import time
     maxtime = time.min
@@ -57,6 +63,7 @@ def maxtime(times):
             maxtime = when
     return maxtime
 
+#returns the earliest date in a list of dates
 def mindate(dates):
     from datetime import date
     mindate = date.max
@@ -65,6 +72,7 @@ def mindate(dates):
             mindate = when
     return mindate
 
+#returns the earliest time in a list of times
 def mintime(times):
     from datetime import time
     mintime = time.max
@@ -73,6 +81,7 @@ def mintime(times):
             mintime = when
     return mintime
 
+#parses txRRule into a dictionary
 def parseRRule(txRRule):
     if(txRRule != ""):
         rules = txRRule.split(";")
@@ -88,18 +97,19 @@ def parseRRule(txRRule):
     else:
         return txRRule
 
+#converts a string representing a date into a date based on a given format
 def strpdate(string, format):
     from datetime import datetime
     format += "T%H:%M:%S"
     return datetime.strptime(string+"T00:00:00", format).date()
 
+#converts a string representing a time into a time based on a given format
 def strptime(string, format):
     from datetime import datetime
     format = "%Y-%m-%dT" + format
     return datetime.strptime("2016-01-01T"+string, format).time()
 
+#returns a dictionary of swapped values
 def swap(a, b):
-    temp = a
-    a = b
-    b = temp
-    return {"newa":a,"newb":b}
+    import copy
+    return {"newa":copy.deepcopy(b),"newb":copy.deepcopy(a)}

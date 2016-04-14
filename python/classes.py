@@ -12,9 +12,231 @@ import math
 from datetime import datetime, date, time, timedelta
 import functions
 
+class Calendar:
+    #instantiates a new Calendar object from raw json data
+    #
+    #requires:
+    #   blCalendar is raw json data
+    #   owner is a string
+    #   optional is True or False
+    def __init__(self, blCalendar, owner, optional):
+        calendar = json.loads(blCalendar)
+        self.email = owner
+        self.optional = optional
+        self.events = []
+        for event in calendar:
+            self.events.append(Event("construct_from_blevent", {"blEvent":event}))
+    
+    #returns the number of events in this Calendar object
+    def __len__(self):
+        return len(self.events)
+    
+    #returns a json-formatted string representing this Calendar object
+    def __str__(self):
+        output = "["
+        for event in self.events:
+            output+="{\"calendar_email\":\""+self.email+"\","+str(event)+"},"
+        output = output[:-1]+"]";
+        return output
+    
+    #Performs a more advanced/thorough search of the earliest time in a calendar
+    #   While the below functions do well to find the earliest time that any
+    #   event starts at in a calendar, they only consider when an event starts.
+    #   If an event starts too close to the end of the day, i.e. 23:30:00, and
+    #   runs until, say 01:00:00, the below methods won't consider the time
+    #   between as the earliest time an event occurs (the desired answer of
+    #   00:00:00 should be returned). This method corrects this.
+    #
+    #requires: granularity is an int > 0, < 1440
+    def calculate_time_bound_start(self, granularity):
+        import copy
+        prototime = self.earliest_time()
+        startdate = self.earliest_date()
+        enddate = self.latest_date()
+        starttime = copy.deepcopy(prototime)
+        width = (enddate - startdate).days+2
+        for i in range(width):
+            while(True):
+                if(self.is_busy(datetime.combine(startdate, prototime)+timedelta(days=i))):
+                    starttime = copy.deepcopy(prototime)
+                if(prototime == time(hour=0,minute=0)):
+                    break
+                prototime = (datetime.combine(startdate, prototime)-timedelta(minutes=granularity)).time()
+            if(starttime == time(hour=0,minute=0)):
+                break
+            prototime = copy.deepcopy(starttime)
+        return starttime
+    
+    #Performs a more advanced/thorough search of the latest time in a calendar
+    #   Similar to calculate_time_bound_start, this method will perform a check
+    #   for busy-ness to find the latest time any event in a calendar occurs.
+    #
+    #requires: granularity is an int > 0, < 1440
+    #
+    #See also: calculate_time_bound_start
+    def calculate_time_bound_end(self, granularity):
+        import copy
+        prototime = self.latest_time()
+        startdate = self.earliest_date()
+        enddate = self.latest_date()
+        endtime = copy.deepcopy(prototime)
+        prototime = (datetime.combine(startdate, prototime)-timedelta(minutes=prototime.minute%granularity)).time()
+        width = (enddate - startdate).days+2
+        for i in range(width):
+            while(True):
+                if(self.is_busy(datetime.combine(startdate, prototime)+timedelta(days=i))):
+                    endtime = copy.deepcopy(prototime)
+                if(prototime == (datetime.combine(startdate,time(hour=23,minute=59))-timedelta(minutes=granularity-1)).time()):
+                    break
+                prototime = (datetime.combine(startdate, prototime)+timedelta(minutes=granularity)).time()
+            if(endtime == (datetime.combine(startdate,time(hour=23,minute=59))-timedelta(minutes=granularity-1)).time()):
+                break
+            prototime = copy.deepcopy(endtime)
+        return endtime
+    
+    #returns a date object representing the earliest start date of any event in this Calendar object
+    def earliest_date(self):
+        mindate = date.max
+        for event in self.events:
+            if(event.start.date()<mindate):
+                mindate = event.start.date()
+        return mindate
+    
+    #returns a time object representing the earliest start time of any event in this Calendar object
+    def earliest_time(self):
+        mintime = time.max
+        for event in self.events:
+            if(event.start.time()<mintime):
+                mintime = event.start.time()
+        return mintime
+    
+    #returns True if any event in the Calendar occurs during the specified time, otherwise False
+    #
+    #requires: when must be a datetime object
+    def is_busy(self, when):
+        for event in self.events:
+            if(event.is_busy(when)):
+                return True
+        return False
+    
+    #returns True if any event in the calendar occurs during the specified time, for a given duration
+    #   In this instance of this method, the busy-ness is checked continuously,
+    #   whereas in the CalendarMatrix class's implementation, a discrete check
+    #   is performed.
+    #
+    #requires: when must be a datetime object, duration must be an int > 0
+    #   (representing minutes)
+    #
+    #See also: CalendarMatrix.is_busy_for_duration
+    def is_busy_for_duration(self, when, duration):
+        tempevent = Event("construct_from_duration", {"start":when, "duration":duration, "location":"", "travelTime":0})
+        for event in self.events:
+            if(tempevent.conflict(event)):
+                return True
+        return False
+    
+    #returns a date object representing the latest end date of any event in this Calendar object
+    def latest_date(self):
+        maxdate = date.min
+        for event in self.events:
+            if(event.end.date() > maxdate):
+                maxdate = event.end.date()
+        return maxdate
+    
+    #returns a time object representing the latest end time of any event in this Calendar object
+    def latest_time(self):
+        maxtime = time.min
+        for event in self.events:
+            if(event.end.time() > maxtime):
+                maxtime = event.end.time()
+        return maxtime
+    
+class Event:
+    
+    #instantiates a new Event object
+    #   This method, similar to Matrix.__init__, allows for multiple constructors
+    #   to be called based off of what is passed to inittype. An Event is
+    #   most commonly constructed from raw event data.
+    #   
+    #required args: varies
+    #   inittype: construct_from_blevent
+    #       blEvent
+    def __init__(self, inittype, args):
+        constructors = {
+            "construct_from_blevent":       self.construct_from_blevent,
+            "construct_from_duration":      self.construct_from_duration
+        }
+        constructor = constructors.get(inittype, -1)
+        
+        if(constructor != -1):
+            constructor(args)
+        else:
+            raise ValueError("Invalid inittype passed. Please refer to documentation to see valid inittypes")
+    
+    #constructs a new Event object based on raw event data
+    #   This method assumes much about the structure of the data passed to it,
+    #   i.e. the format being saved to in the database.
+    #
+    #required args: blEvent
+    def construct_from_blevent(self, args):
+        self.start = datetime.strptime(args["blEvent"]["start_time"], "%Y-%m-%dT%H:%M:%SZ")
+        self.end = datetime.strptime(args["blEvent"]["end_time"], "%Y-%m-%dT%H:%M:%SZ")
+        self.location = args["blEvent"]["location"]
+        self.travelTime = int(args["blEvent"]["travel_time"])
+    
+    #constructs a new Event object based on various parameters
+    #
+    #required args: start, duration, location, travelTime
+    #
+    #requires: start must be a datetime object, duration is an int > 0 
+    #   (representing minutes)
+    def construct_from_duration(self, args):
+        self.start = args["start"]
+        self.end = args["start"]+timedelta(minutes=args["duration"])
+        self.location = args["location"]
+        self.travelTime = args["travelTime"]
+    
+    #returns the duration of the event in seconds
+    def __len__(self):
+        return (self.end-self.start).seconds
+    
+    #returns a rough (incomplete/unbounded) json formatted string representing this event
+    def __str__(self):
+        output = "\"start_time\":\""+self.start.strftime("%Y-%m-%dT%H:%M:%SZ")+"\",\"end_time\":\""+self.end.strftime("%Y-%m-%dT%H:%M:%SZ")+"\",\"location\":\""+self.location+",\"travel_time\":"+str(self.travelTime)+""
+        return output
+    
+    #returns True if a given event "conflicts" with the current event
+    #   To explain further, if there is any instant of time taken up by both
+    #   events, this method will return True.
+    #
+    #Note: start times are considered inclusively, whereas end times are considered
+    #   exclusively
+    #
+    #requires: other must be and Event object
+    def conflict(self, other):
+        if(not isinstance(other, Event)):
+            raise TypeError("Erroneous argument type supplied. Please use an Event object")
+        if(
+        (self.start >= other.start and self.start < other.end) or 
+        (self.end > other.start and self.end < other.end) or 
+        (self.start <= other.start and self.end >= other.end)):
+            return True
+        return False
+    
+    #returns True if the given datetime occurs during this event, otherwise False
+    #
+    #Note: start times are considered inclusively, whereas end times are considered
+    #   exclusively
+    #
+    #requires: when must be a datetime object
+    def is_busy(self, when):
+        if(when >= self.start and when < self.end):
+            return True
+        return False
+
 #Todo: complete full class documentation
 #
-#CONSTRAINTS: matrices must have at least 1 day, and at least 2 times for all methods
+#CONSTRAINTS: matrices must have at least 2 days, and at least 2 times for all methods
 #               to function properly (some exceptions exist, i.e. null matrix)
 class Matrix:
     
@@ -39,17 +261,17 @@ class Matrix:
     #       width, height
     def __init__(self, inittype, args):
         constructors = {
-            "construct_from_addition":                  Matrix.construct_from_addition,
-            "construct_from_additive_intersection":     Matrix.construct_from_additive_intersection,
-            "construct_from_bounds":                    Matrix.construct_from_bounds,
-            "construct_from_direct_assignment":         Matrix.construct_from_direct_assignment,
-            "construct_from_union":                     Matrix.construct_from_union,
-            "null":                                     Matrix.construct_null
+            "construct_from_addition":                  self.construct_from_addition,
+            "construct_from_additive_intersection":     self.construct_from_additive_intersection,
+            "construct_from_bounds":                    self.construct_from_bounds,
+            "construct_from_direct_assignment":         self.construct_from_direct_assignment,
+            "construct_from_union":                     self.construct_from_union,
+            "null":                                     self.construct_null
         }
         constructor = constructors.get(inittype,-1)
         
         if(constructor != -1):
-            constructor(self,args)
+            constructor(args)
         else:
             raise ValueError("Invalid inittype passed. Please refer to documentation to see valid inittypes")
     
@@ -229,7 +451,7 @@ class Matrix:
             starttime = functions.mintime(times)
             endtime = functions.maxtime(times)
             granularity = (datetime.combine(startdate,A.times[1])-datetime.combine(startdate,A.times[0])).seconds/60
-            rows = math.ceil(((datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds)/(granularity*60))+1
+            rows = math.ceil(((datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds)/(granularity*60))
             cols = (datetime.combine(enddate,starttime)-datetime.combine(startdate,starttime)).days + (1 if (datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds!=0 else 0)
             self.matrix = [["" for x in range(cols)] for x in range(rows)]
             self.dates = ["" for x in range(cols)]
@@ -277,10 +499,98 @@ class Matrix:
         self.times = []
         self.matrix = [["" for x in range(args["height"])] for x in range(args["width"])]
     
+    #fills a section of the matrix with a given value based on filltype
+    #
+    #Note: all times are considered inclusive at the start, and exclusive at the
+    #   end, except for filltype square, which is entirely inclusive
+    #
+    #required args: varies
+    #   filltype: fullrows
+    #       starttime, endtime              fills rows from startime to endtime
+    #   filltype: fullcols
+    #       startdate, enddate              fills columns from startdate to enddate
+    #   filltype: timetotime
+    #       startdatetime, enddatetime      fills cells from startdatetime to enddatetime
+    #   filltype: date
+    #       date                            fills a column at date
+    #   filltype: time
+    #       time                            fills a row at time
+    #   filltype: square
+    #       startdatetime, enddatetime      fills rows and columns in a square bounded by startdatetime and enddatetime
+    def fill(self, filltype, fillwith, args):
+        def date():
+            col = self.get_col_from_date(args["date"])
+            if(col == -1):
+                raise ValueError("Unable to find given date. The specified date may not be within the date range of this matrix")
+            length = len(self.matrix[0][0])
+            for i in range(len(self.times)):
+                self.matrix[i][col] = str(fillwith) * length
+        def fullcols():
+            length = len(self.matrix[0][0])
+            for date in self.dates:
+                if(date >= args["startdate"] and date < args["enddate"]):
+                    for i in range(len(self.times)):
+                        self.matrix[i][self.get_col_from_date(date)] = str(fillwith) * length
+        def fullrows():
+            length = len(self.matrix[0][0])
+            for time in self.times:
+                if(time >= args["starttime"] and time < args["endtime"]):
+                    for j in range(len(self.dates)):
+                        self.matrix[self.get_row_from_time(time)][j] = str(fillwith) * length
+        def square():
+            granularity = int((datetime.combine(self.dates[0], self.times[1])-datetime.combine(self.dates[0], self.times[0])).seconds/60)
+            startrow = self.get_row_from_time((args["startdatetime"]+timedelta(minutes=(granularity-args["startdatetime"].time().minute%granularity)%granularity)).time())
+            startcol = self.get_col_from_date(args["startdatetime"].date())
+            endrow = self.get_row_from_time((args["enddatetime"]-timedelta(minutes=args["enddatetime"].time().minute%granularity)).time())
+            endcol = self.get_col_from_date(args["enddatetime"].date())
+            if(startrow == -1 or startcol == -1 or endrow == -1 or endcol == -1):
+                raise ValueError("Unable to find given date or time. The specified range may not be within the range of this matrix")
+            length = len(self.matrix[0][0])
+            for j in range(startcol, endcol+1):
+                for i in range(len(self.times)):
+                    if(i>=startrow and i<=endrow):
+                        self.matrix[i][j] = str(fillwith) * length
+        def time():
+            row = self.get_row_from_time(args["time"])
+            if(row == -1):
+                raise ValueError("Unable to find given time. The specified time may not be on an increment of granularity")
+            length = len(self.matrix[0][0])
+            for j in range(len(self.dates)):
+                self.matrix[row][j] = str(fillwith) * length
+        def timetotime():
+            granularity = int((datetime.combine(self.dates[0], self.times[1])-datetime.combine(self.dates[0], self.times[0])).seconds/60)
+            startrow = self.get_row_from_time((args["startdatetime"]+timedelta(minutes=(granularity-args["startdatetime"].time().minute%granularity)%granularity)).time())
+            startcol = self.get_col_from_date(args["startdatetime"].date())
+            endrow = self.get_row_from_time((args["enddatetime"]-timedelta(minutes=args["enddatetime"].time().minute%granularity)).time())
+            endcol = self.get_col_from_date(args["enddatetime"].date())
+            if(startrow == -1 or startcol == -1 or endrow == -1 or endcol == -1):
+                raise ValueError("Unable to find given date or time. The specified range may not be within the range of this matrix")
+            length = len(self.matrix[0][0])
+            for j in range(startcol, endcol+1):
+                for i in range(len(self.times)):
+                    if((i>=startrow and j==startcol) or (i<endrow and j==endcol) or(j>startcol and j<endcol)):
+                        self.matrix[i][j] = str(fillwith) * length
+        
+        methods = {
+            "fullrows":         fullrows,
+            "fullcols":         fullcols,
+            "timetotime":       timetotime,
+            "date":             date,
+            "time":             time,
+            "square":           square
+        }
+        method = methods.get(filltype, -1)
+        
+        if(method != -1):
+            method()
+        else:
+            raise ValueError("Invalid filltype passed. Please refer to documentation to see valid filltypes")
+        
+    
     #returns the index of the column (date) at the specified date
     #
     #retuires: when must be a date object
-    def get_col_index_from_date(self, when):
+    def get_col_from_date(self, when):
         if(isinstance(when, date)):
             return functions.index(self.dates, when)
         else:
@@ -297,7 +607,7 @@ class Matrix:
     #returns the index of the row (time) at the specified time
     #
     #retuires: when must be a time object
-    def get_row_index_from_time(self, when):
+    def get_row_from_time(self, when):
         if(isinstance(when, time)):
             return functions.index(self.times, when)
         else:
@@ -324,6 +634,25 @@ class Matrix:
     #returns the value at a cell in the matrix given a row and column index
     def get_value_from_rowcol(self,row,col):
         return self.matrix[row][col]
+    
+    #returns True if any event in the calendar occurs during the specified time, for a given duration
+    #   In this instance of this method, the busy-ness is checked at discrete
+    #   intervals of granularity, whereas in the Calendar class's implementation,
+    #   a continuous check is performed.
+    #
+    #requires: when must be a datetime object, duration must be an int > 0
+    #   (representing minutes)
+    #
+    #See also: Calendar.is_busy_for_duration
+    def is_busy_for_duration(self, when, duration):
+        granularity = int((datetime.combine(self.dates[0], self.times[1])-datetime.combine(self.dates[0], self.times[0])).seconds/60)
+        startrow = self.get_row_from_time((when+timedelta(minutes=(granularity-when.time().minute%granularity)%granularity)).time())
+        startcol = self.get_col_from_date(when.date())
+        distance = duration//granularity
+        for i in range(distance):
+            if(int(self.matrix[(startrow+i)%len(self.times)][startcol+i//(len(self.times))]) != 0):
+                return True
+        return False
     
     #maps the shape of this Matrix object to a unique float
     #   This is an injective function from the set of shapes of an n x m matrix
@@ -366,7 +695,7 @@ class Matrix:
     #requires: value is either 0 or 1, e.g. not "000"
     def set_cell(self,row,col,value):
         self.matrix[row][col] = str(value) * len(self.matrix[row][col])
-    
+
 class CalendarMatrix(Matrix):
     
     #instantiates a new CalendarMatrix object
@@ -381,7 +710,7 @@ class CalendarMatrix(Matrix):
     #required args: varies
     #   inittype: construct_from_additive_intersection
     #       self, other
-    #   inittype: construct_from_blcalendar
+    #   inittype: construct_from_rawcalendar
     #       rawcalendar, owner, granularity
     #   inittype: construct_from_calendar
     #       calendar, startdate, enddate, starttime, endtime, granularity
@@ -391,16 +720,16 @@ class CalendarMatrix(Matrix):
     #       self, other
     def __init__(self, inittype, args):
         constructors = {
-            "construct_from_additive_intersection":     CalendarMatrix.construct_from_additive_intersection,
-            "construct_from_blcalendar":                CalendarMatrix.construct_from_blcalendar,
-            "construct_from_calendar":                  CalendarMatrix.construct_from_calendar,
-            "construct_from_direct_assignment":         CalendarMatrix.construct_from_direct_assignment,
-            "construct_from_union":                     CalendarMatrix.construct_from_union
+            "construct_from_additive_intersection":     self.construct_from_additive_intersection,
+            "construct_from_rawcalendar":               self.construct_from_rawcalendar,
+            "construct_from_calendar":                  self.construct_from_calendar,
+            "construct_from_direct_assignment":         self.construct_from_direct_assignment,
+            "construct_from_union":                     self.construct_from_union_cm
         }
         constructor = constructors.get(inittype,-1)
         
         if(constructor != -1):
-            constructor(self,args)
+            constructor(args)
         else:
             raise ValueError("Invalid inittype passed. Please refer to documentation to see valid inittypes")
         
@@ -446,16 +775,15 @@ class CalendarMatrix(Matrix):
     #   construct_from_calendar (hereafter referred to as cfc). As opposed to cfc,
     #   this
     #
-    #required args: rawcalendar, owner, granularity
-    def construct_from_blcalendar(self, args):
+    #required args: rawcalendar, owner, granularity, optional
+    def construct_from_rawcalendar(self, args):
         owner = args["owner"]
-        calendar = Calendar(args["rawcalendar"], owner)
+        optional = args["optional"]
+        calendar = Calendar(args["rawcalendar"], owner, optional)
         startdate = calendar.earliest_date()
         enddate = calendar.latest_date()
-        starttime = calendar.earliest_time()
-        endtime = calendar.latest_time()
-        print(datetime.combine(startdate, starttime))
-        print(datetime.combine(enddate, endtime))
+        starttime = calendar.calculate_time_bound_start(args["granularity"])
+        endtime = calendar.calculate_time_bound_end(args["granularity"])
         if(starttime>endtime):
             swap = functions.swap(starttime, endtime)
             starttime = swap["newa"]
@@ -485,11 +813,11 @@ class CalendarMatrix(Matrix):
             for i in range(math.ceil(((event.end-event.start).seconds)/(granularity*60))):
                 date = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
                 time = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
-                dateindex = self.get_col_index_from_date(date)
-                timeindex = self.get_row_index_from_time(time)
+                dateindex = self.get_col_from_date(date)
+                timeindex = self.get_row_from_time(time)
                 if(dateindex!=-1 and timeindex!=-1):
                     self.matrix[timeindex][dateindex] = "1"
-        self.attendees = [args["calendar"].email]
+        self.attendees = [{"email":args["calendar"].email,"optional":args["calendar"].optional}]
         
     #constructs a new CalendarMatrix object by directly assigning all instance variables
     #   Intended for internal class use only, this method directly assigns
@@ -513,9 +841,9 @@ class CalendarMatrix(Matrix):
     #required args: self, other
     #
     #See also: Matrix.construct_from_union
-    def construct_from_union(self, args):
+    def construct_from_union_cm(self, args):
         Matrix.__init__(self,"construct_from_union",args)
-        self.attendees += args["other"].attendees
+        self.attendees = args["self"].attendees + args["other"].attendees
     
     #Sets the value of a cell for an attendee at the given row and column to value
     #
@@ -526,92 +854,12 @@ class CalendarMatrix(Matrix):
     #requires: value is either 0 or 1, e.g. not "000"
     def set_specific_cell(self,row,col,attendee,value):
         newval = list(self.matrix[row][col])
-        i = functions.index(self.attendees, attendee)
+        attendeeslist = []
+        for who in self.attendees:
+            attendeeslist += [who["email"]]
+        i = functions.index(attendeeslist, attendee)
         if(i != -1):
-            newval[functions.index(self.attendees, attendee)] = value
+            newval[i] = value
             self.matrix[row][col] = "".join(newval)
         else:
             raise IndexError("Unable to find attendee in attendee list")
-
-class Calendar:
-    def __init__(self, blCalendar, owner):
-        calendar = json.loads(blCalendar)
-        self.email = owner
-        self.events = []
-        for event in calendar:
-            self.events.append(_Event(event))
-    
-    #returns the number of events in this Calendar object
-    def __len__(self):
-        return len(self.events)
-    
-    #returns a json-formatted string representing this Calendar object
-    def __str__(self):
-        output = "["
-        for event in self.events:
-            output+="{\"calendar_email\":\""+self.email+"\","+str(event)+"},"
-        output = output[:-1]+"]";
-        return output
-    
-    #returns a date object representing the earliest start date of any event in this Calendar object
-    def earliest_date(self):
-        mindate = date.max
-        for event in self.events:
-            if(event.start.date()<mindate):
-                mindate = event.start.date()
-        return mindate
-    
-    #returns a time object representing the earliest start time of any event in this Calendar object
-    def earliest_time(self):
-        mintime = time.max
-        for event in self.events:
-            if(event.start.time()<mintime):
-                mintime = event.start.time()
-        return mintime
-    
-    #returns True if any event in the Calendar occurs during the specified time, otherwise False
-    #
-    #requires: when must be a datetime object
-    def is_busy(self, when):
-        for event in self.events:
-            if(event.is_busy(when)):
-                return True
-        return False
-    
-    #returns a date object representing the latest end date of any event in this Calendar object
-    def latest_date(self):
-        maxdate = date.min
-        for event in self.events:
-            if(event.end.date() > maxdate):
-                maxdate = event.end.date()
-        return maxdate
-    
-    #returns a time object representing the latest end time of any event in this Calendar object
-    def latest_time(self):
-        maxtime = time.min
-        for event in self.events:
-            if(event.end.time() > maxtime):
-                maxtime = event.end.time()
-        return maxtime
-    
-class _Event:
-
-    def __init__(self, blEvent):
-        self.start = datetime.strptime(blEvent["start_time"], "%Y-%m-%dT%H:%M:%SZ")
-        self.end = datetime.strptime(blEvent["end_time"], "%Y-%m-%dT%H:%M:%SZ")
-        self.location = blEvent["location"]
-        self.travelTime = int(blEvent["travel_time"])
-
-    #returns a rough (incomplete/unbounded) json formatted string representing this event
-    def __str__(self):
-        output = "\"start_time\":\""+self.start.strftime("%Y-%m-%dT%H:%M:%SZ")+"\",\"end_time\":\""+self.end.strftime("%Y-%m-%dT%H:%M:%SZ")+"\",\"location\":\""+self.location+",\"travel_time\":"+str(self.travelTime)+""
-        return output
-
-    #returns true if the given datetime occurs during this event, otherwise False
-    #
-    #requires: when must be a datetime object
-    def is_busy(self, when):
-        if(when > self.start and when < self.end):
-            return True
-        else:
-            return False

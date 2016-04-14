@@ -34,31 +34,6 @@ print ("RRule: ")
 print (RRule)
 print("\n")
 
-cal1 = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
-cal2 = classes.Calendar(calendars["in7.4.1776@gmail.com"], "in7.4.1776@gmail.com")
-args1 = {
-    "calendar":cal1,
-    "startdate":functions.strpdate("2016-04-11", "%Y-%m-%d"),
-    "enddate":functions.strpdate("2016-04-16", "%Y-%m-%d"),
-    "starttime":functions.strptime("18:10:00", "%H:%M:%S"),
-    "endtime":functions.strptime("23:59:59", "%H:%M:%S"),
-    "granularity":30
-}
-args2 = {
-    "calendar":cal2,
-    "startdate":functions.strpdate("2016-04-11", "%Y-%m-%d"),
-    "enddate":functions.strpdate("2016-04-20", "%Y-%m-%d"),
-    "starttime":functions.strptime("16:10:00", "%H:%M:%S"),
-    "endtime":functions.strptime("23:59:59", "%H:%M:%S"),
-    "granularity":30
-}
-
-matrix1 = classes.CalendarMatrix("construct_from_calendar",args1)
-matrix2 = classes.CalendarMatrix("construct_from_calendar",args2)
-matrix3 = matrix1 + matrix2
-
-#print(matrix3.print_labelled())
-
 masterMatrix = functions.construct_master_matrix(calendars, 30)
 
 print(masterMatrix.print_labelled())
