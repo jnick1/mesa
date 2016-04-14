@@ -26,8 +26,6 @@ blSettings = json.loads(temp.read())
 temp.close()
 print("settings: ")
 print(blSettings)
-print("calendars: ")
-print(calendars)
 
 RRule = functions.parseRRule(txRRule)
 print ("RRule: ")

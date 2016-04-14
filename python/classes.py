@@ -25,7 +25,7 @@ class Calendar:
         self.optional = optional
         self.events = []
         for event in calendar:
-            self.events.append(Event("construct_from_blevent", {"blEvent":event}))
+            self.events.append(Event("blevent", {"blEvent":event}))
     
     #returns the number of events in this Calendar object
     def __len__(self):
@@ -129,7 +129,7 @@ class Calendar:
     #
     #See also: CalendarMatrix.is_busy_for_duration
     def is_busy_for_duration(self, when, duration):
-        tempevent = Event("construct_from_duration", {"start":when, "duration":duration, "location":"", "travelTime":0})
+        tempevent = Event("duration", {"start":when, "duration":duration, "location":"", "travelTime":0})
         for event in self.events:
             if(tempevent.conflict(event)):
                 return True
@@ -159,12 +159,17 @@ class Event:
     #   most commonly constructed from raw event data.
     #   
     #required args: varies
-    #   inittype: construct_from_blevent
-    #       blEvent
+    #   inittype: blevent
+    #       blEvent                         json formatted string of event data, non-parsed
+    #   inittype: duration
+    #       duration                        int representing minutes
+    #       location                        string
+    #       start                           datetime object
+    #       travelTime                      int representing ???
     def __init__(self, inittype, args):
         constructors = {
-            "construct_from_blevent":       self.construct_from_blevent,
-            "construct_from_duration":      self.construct_from_duration
+            "blevent":       self.construct_from_blevent,
+            "duration":      self.construct_from_duration
         }
         constructor = constructors.get(inittype, -1)
         
@@ -248,25 +253,37 @@ class Matrix:
     #
     #required args: varies
     #   inittype: construct_from_addition
-    #       self.matrix, other.matrix, dates, times
-    #   inittype: construct_from_additive_intersection:
-    #       self other
+    #       self.matrix                     2D list of strings
+    #       other.matrix                    2D list of strings
+    #       dates                           list of date objects
+    #       times                           list of time objects
+    #   inittype: construct_from_additive_intersection
+    #       self                            Matrix object
+    #       other                           Matrix object
     #   inittype: construct_from_bounds
-    #       startdate, enddate, starttime, endtime, granularity
-    #   inittype: construct_from_direct_assignment:
-    #       self.matrix, self.dates, self.times
-    #   inittype: construct_from_union:
-    #       self, other
+    #       startdate                       date object
+    #       enddate                         date object
+    #       starttime                       time object
+    #       endtime                         time object
+    #       granularity                     int representing minutes
+    #   inittype: construct_from_direct_assignment
+    #       self.matrix                     2D list of strings
+    #       self.dates                      list of date objects
+    #       self.times                      list of time objects
+    #   inittype: construct_from_union
+    #       self                            Matrix object
+    #       other                           Matrix object
     #   inittype: null
-    #       width, height
+    #       width                           int
+    #       height                          int
     def __init__(self, inittype, args):
         constructors = {
-            "construct_from_addition":                  self.construct_from_addition,
-            "construct_from_additive_intersection":     self.construct_from_additive_intersection,
-            "construct_from_bounds":                    self.construct_from_bounds,
-            "construct_from_direct_assignment":         self.construct_from_direct_assignment,
-            "construct_from_union":                     self.construct_from_union,
-            "null":                                     self.construct_null
+            "addition":                  self.construct_from_addition,
+            "additive_intersection":     self.construct_from_additive_intersection,
+            "bounds":                    self.construct_from_bounds,
+            "direct_assignment":         self.construct_from_direct_assignment,
+            "union":                     self.construct_from_union,
+            "null":                      self.construct_null
         }
         constructor = constructors.get(inittype,-1)
         
@@ -293,7 +310,7 @@ class Matrix:
             "self":self,
             "other":other,
         }
-        return Matrix("construct_from_additive_intersection", args)
+        return Matrix("additive_intersection", args)
     
     #performs augmented assignment with addition
     #
@@ -451,7 +468,7 @@ class Matrix:
             starttime = functions.mintime(times)
             endtime = functions.maxtime(times)
             granularity = (datetime.combine(startdate,A.times[1])-datetime.combine(startdate,A.times[0])).seconds/60
-            rows = math.ceil(((datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds)/(granularity*60))
+            rows = math.ceil(((datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds)/(granularity*60))+1
             cols = (datetime.combine(enddate,starttime)-datetime.combine(startdate,starttime)).days + (1 if (datetime.combine(startdate,endtime)-datetime.combine(startdate,starttime)).seconds!=0 else 0)
             self.matrix = [["" for x in range(cols)] for x in range(rows)]
             self.dates = ["" for x in range(cols)]
@@ -497,26 +514,115 @@ class Matrix:
     def construct_null(self, args):
         self.dates = []
         self.times = []
-        self.matrix = [["" for x in range(args["height"])] for x in range(args["width"])]
+        self.matrix = [["" for x in range(args["width"])] for x in range(args["height"])]
     
+    #deletes parts of a matrix based on the given deletetype
+    #   This method will call various sub-functions to delete the specified sections
+    #   of the current matrix. Options include the deletion of specific columns
+    #   and rows by their indices, deletion of columns by days of the week, or
+    #   deletion of times by time objects.
+    #
+    #required args: varies
+    #   deletetype: column
+    #       col                             int
+    #   deletetype: days
+    #       days                            list of days of the week (ints) (monday = 0, sunday = 6)
+    #   deletetype: row
+    #       row                             int
+    #   deletetype: times
+    #       times                           list of time objects
+    #
+    #See also: Matrix.construct_null, Matrix.construct_from_additive_intersection
+    def delete(self, deletetype, args):
+        #deletes a column from a matrix given a column index
+        #
+        #required args: col
+        def delete_column():
+            Odates = self.dates
+            Mdates = []
+            for i in range(len(Odates)):
+                if(i != args["col"]):
+                    Mdates.append(Odates[i])
+            nullmatrix = Matrix("null", {"width":len(Mdates),"height":len(self.times)})
+            nullmatrix.times = self.times
+            nullmatrix.dates = Mdates
+            Mmatrix = nullmatrix + self
+            self.dates = Mdates
+            self.matrix = Mmatrix.matrix
+            
+        #deletes a row from a matrix given a row index
+        #
+        #required args: row
+        def delete_row():
+            Otimes = self.times
+            Mtimes = []
+            for i in range(len(Otimes)):
+                if(i != args["row"]):
+                    Mtimes.append(Otimes[i])
+            nullmatrix = Matrix("null", {"width":len(self.dates),"height":len(Mtimes)})
+            nullmatrix.times = Mtimes
+            nullmatrix.dates = self.dates
+            Mmatrix = nullmatrix + self
+            self.times = Mtimes
+            self.matrix = Mmatrix.matrix
+        #deletes columns from a matrix based on a list of days
+        #
+        #required args: days
+        def delete_days():
+            chopBlock = []
+            print(self.dates[9].weekday())
+            for day in self.dates:
+                if(functions.index(args["days"], day.weekday()) != -1):
+                    chopBlock.append(functions.index(self.dates, day)-len(chopBlock))
+            for chop in chopBlock:
+                self.delete_column({"col":chop})
+
+        #deletes rows from a matrix based on a list of times
+        #
+        #required args: times
+        def delete_times():
+            chopBlock = []
+            for time in self.times:
+                if(functions.index(args["times"], time) != -1):
+                    chopBlock.append(functions.index(self.times, time)-len(chopBlock))
+            for chop in chopBlock:
+                self.delete_row({"row":chop})
+        
+        deletors = {
+            "column":       delete_column,
+            "days":         delete_days,
+            "row":          delete_row,
+            "times":        delete_times
+        }
+        deletor = deletors.get(deletetype, -1)
+        
+        if(deletor != -1):
+            deletor()
+        else:
+            raise ValueError("Invalid deletetype passed. Please refer to documentation to see valid inittypes")
+        
     #fills a section of the matrix with a given value based on filltype
     #
     #Note: all times are considered inclusive at the start, and exclusive at the
     #   end, except for filltype square, which is entirely inclusive
     #
     #required args: varies
-    #   filltype: fullrows
-    #       starttime, endtime              fills rows from startime to endtime
-    #   filltype: fullcols
-    #       startdate, enddate              fills columns from startdate to enddate
-    #   filltype: timetotime
-    #       startdatetime, enddatetime      fills cells from startdatetime to enddatetime
-    #   filltype: date
-    #       date                            fills a column at date
-    #   filltype: time
-    #       time                            fills a row at time
-    #   filltype: square
-    #       startdatetime, enddatetime      fills rows and columns in a square bounded by startdatetime and enddatetime
+    #   filltype: fullrows              fills rows from startime to endtime
+    #       starttime                       time object
+    #       endtime                         time object
+    #   filltype: fullcols              fills columns from startdate to enddate
+    #       startdate                       date object
+    #       enddate                         date object
+    #   filltype: timetotime            fills cells from startdatetime to enddatetime
+    #       startdatetime                   datetime object
+    #       enddatetime                     datetime object
+    #   filltype: date                  fills a column at date
+    #       date                            date object
+    #   filltype: time                  fills a row at time
+    #       time                            time object
+    #   filltype: square                fills rows and columns in a square bounded by startdatetime and enddatetime
+    #       startdatetime                   datetime object
+    #       enddatetime                     datetime object
     def fill(self, filltype, fillwith, args):
         def date():
             col = self.get_col_from_date(args["date"])
@@ -708,23 +814,33 @@ class CalendarMatrix(Matrix):
     #       address.
     #
     #required args: varies
-    #   inittype: construct_from_additive_intersection
-    #       self, other
-    #   inittype: construct_from_rawcalendar
-    #       rawcalendar, owner, granularity
-    #   inittype: construct_from_calendar
-    #       calendar, startdate, enddate, starttime, endtime, granularity
-    #   inittype: construct_from_direct_assignment
-    #       Matrix, attendees
-    #   inittype: construct_from_union
-    #       self, other
+    #   inittype: additive_intersection
+    #       self                        CalendarMatrix object
+    #       other                       CalendarMatrix object
+    #   inittype: rawcalendar
+    #       rawcalendar                 json formatted string (not parsed by json.loads)
+    #       owner                       email of calendar owner
+    #       granularity                 int representing minutes
+    #   inittype: calendar
+    #       calendar                    json parsed calendar (with json formatted events, non-parsed)
+    #       startdate                   date object
+    #       enddate                     date object
+    #       starttime                   time object
+    #       endtime                     time object
+    #       granularity                 int representing minutes
+    #   inittype: direct_assignment
+    #       Matrix                      Matrix object
+    #       attendees                   list of dictionaries {"email":"a@b.c","optional":True/False}
+    #   inittype: union
+    #       self                        CalendarMatrix object
+    #       other                       CalendarMatrix object
     def __init__(self, inittype, args):
         constructors = {
-            "construct_from_additive_intersection":     self.construct_from_additive_intersection,
-            "construct_from_rawcalendar":               self.construct_from_rawcalendar,
-            "construct_from_calendar":                  self.construct_from_calendar,
-            "construct_from_direct_assignment":         self.construct_from_direct_assignment,
-            "construct_from_union":                     self.construct_from_union_cm
+            "additive_intersection":     self.construct_from_additive_intersection,
+            "rawcalendar":               self.construct_from_rawcalendar,
+            "calendar":                  self.construct_from_calendar,
+            "direct_assignment":         self.construct_from_direct_assignment,
+            "union":                     self.construct_from_union_cm
         }
         constructor = constructors.get(inittype,-1)
         
@@ -752,7 +868,7 @@ class CalendarMatrix(Matrix):
             "self":self,
             "other":other
         }
-        matrix = CalendarMatrix("construct_from_additive_intersection", args)
+        matrix = CalendarMatrix("additive_intersection", args)
         return matrix
     
     #constructs a new CalendarMatrix object by adding the intersection of two other CalendarMatrix objects
@@ -765,7 +881,7 @@ class CalendarMatrix(Matrix):
     #See also: Matrix.construct_from_additive_intersection
     def construct_from_additive_intersection(self, args):
         newargs = {
-            "Matrix":Matrix("construct_from_additive_intersection", args),
+            "Matrix":Matrix("additive_intersection", args),
             "attendees":(args["self"].attendees + args["other"].attendees)
         }
         self.construct_from_direct_assignment(newargs)
@@ -806,7 +922,7 @@ class CalendarMatrix(Matrix):
     def construct_from_calendar(self, args):
         if(not isinstance(args["calendar"], Calendar)):
             raise TypeError("Incorrect class supplied at argument: calendar. Please use a Calendar object")
-        Matrix.__init__(self, "construct_from_bounds", args)
+        Matrix.__init__(self, "bounds", args)
         calendar = args["calendar"]
         granularity = args["granularity"]
         for event in calendar.events:
@@ -842,7 +958,7 @@ class CalendarMatrix(Matrix):
     #
     #See also: Matrix.construct_from_union
     def construct_from_union_cm(self, args):
-        Matrix.__init__(self,"construct_from_union",args)
+        Matrix.__init__(self,"union",args)
         self.attendees = args["self"].attendees + args["other"].attendees
     
     #Sets the value of a cell for an attendee at the given row and column to value

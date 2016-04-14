@@ -20,11 +20,11 @@ def construct_master_matrix(blCalendar, granularity):
             "optional":attendees[attendee],
             "granularity":granularity
         }
-        matrix = classes.CalendarMatrix("construct_from_rawcalendar", args)
+        matrix = classes.CalendarMatrix("rawcalendar", args)
         if(i==0):
             MasterMatrix = matrix
         else:
-            MasterMatrix = classes.CalendarMatrix("construct_from_union", {"self":MasterMatrix,"other":matrix})
+            MasterMatrix = classes.CalendarMatrix("union", {"self":MasterMatrix,"other":matrix})
         i+=1
     return MasterMatrix
 
