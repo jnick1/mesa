@@ -379,8 +379,8 @@ class Matrix:
         if(not (math.isclose(A.length(),B.length()) and A.times == B.times and A.dates == B.dates)):
             for i in range(len(A.matrix)):
                 for j in range(len(A.matrix[0])):
-                    when = A.get_datetime_from_rowcol(i,j)
-                    match = B.get_value_from_datetime(when)
+                    when = A.get("datetime",{"row":i,"col":j})
+                    match = B.get("value_dt",{"when":when})
                     if(match != -1):
                         A.matrix[i][j]+=str(match)
                     else:
@@ -479,8 +479,8 @@ class Matrix:
                 self.times[i] = (datetime.combine(startdate,starttime)+timedelta(minutes=granularity*i)).time()
                 for j in range(cols):
                     when = datetime.combine(self.dates[j], self.times[i])
-                    Aval = A.get_value_from_datetime(when)
-                    Bval = B.get_value_from_datetime(when)
+                    Aval = A.get("value_dt",{"when":when})
+                    Bval = B.get("value_dt",{"when":when})
                     if(Aval != -1):
                         self.matrix[i][j] += Aval
                     else:
@@ -550,6 +550,18 @@ class Matrix:
             self.dates = Mdates
             self.matrix = Mmatrix.matrix
             
+        #deletes columns from a matrix based on a range of dates
+        #
+        #required args: startdate, enddate
+        def delete_date_range():
+            startdate = args["startdate"]
+            enddate = args["enddate"]
+            startcol = self.get("col",{"date":startdate})
+            endcol = self.get("col",{"date":enddate})
+            chopBlock = [startcol for x in range(endcol-startcol)]
+            for chop in chopBlock:
+                self.delete("column",{"col":chop})
+        
         #deletes a row from a matrix given a row index
         #
         #required args: row
@@ -577,6 +589,19 @@ class Matrix:
             for chop in chopBlock:
                 self.delete_column({"col":chop})
 
+        #deletes rows from a matrix based on a range of times
+        #
+        #required args: starttime, endtime
+        def delete_time_range():
+            granularity = int((datetime.combine(self.dates[0], self.times[1])-datetime.combine(self.dates[0], self.times[0])).seconds/60)
+            starttime = (datetime.combine(self.dates[0], args["starttime"])+(timedelta(minutes=granularity-args["starttime"].minute%granularity) if args["starttime"].minute%granularity!=0 else timedelta(minutes=0))).time()
+            endtime = (datetime.combine(self.dates[0], args["endtime"])+(timedelta(minutes=granularity-args["endtime"].minute%granularity) if args["endtime"].minute%granularity!=0 else timedelta(minutes=0))).time()
+            startrow = self.get("row",{"time":starttime})
+            endrow = self.get("row",{"time":endtime})
+            chopBlock = [startrow for x in range(endrow-startrow)]
+            for chop in chopBlock:
+                self.delete("row",{"row":chop})
+
         #deletes rows from a matrix based on a list of times
         #
         #required args: times
@@ -588,11 +613,14 @@ class Matrix:
             for chop in chopBlock:
                 self.delete_row({"row":chop})
         
+        
         deletors = {
             "column":       delete_column,
             "days":         delete_days,
+            "dRange":       delete_date_range,
             "row":          delete_row,
-            "times":        delete_times
+            "times":        delete_times,
+            "tRange":       delete_time_range
         }
         deletor = deletors.get(deletetype, -1)
         
@@ -625,7 +653,7 @@ class Matrix:
     #       enddatetime                     datetime object
     def fill(self, filltype, fillwith, args):
         def date():
-            col = self.get_col_from_date(args["date"])
+            col = self.get("col",{"date":args["date"]})
             if(col == -1):
                 raise ValueError("Unable to find given date. The specified date may not be within the date range of this matrix")
             length = len(self.matrix[0][0])
@@ -636,19 +664,19 @@ class Matrix:
             for date in self.dates:
                 if(date >= args["startdate"] and date < args["enddate"]):
                     for i in range(len(self.times)):
-                        self.matrix[i][self.get_col_from_date(date)] = str(fillwith) * length
+                        self.matrix[i][self.get("col",{"date":date})] = str(fillwith) * length
         def fullrows():
             length = len(self.matrix[0][0])
             for time in self.times:
                 if(time >= args["starttime"] and time < args["endtime"]):
                     for j in range(len(self.dates)):
-                        self.matrix[self.get_row_from_time(time)][j] = str(fillwith) * length
+                        self.matrix[self.get("row",{"time":time})][j] = str(fillwith) * length
         def square():
             granularity = int((datetime.combine(self.dates[0], self.times[1])-datetime.combine(self.dates[0], self.times[0])).seconds/60)
-            startrow = self.get_row_from_time((args["startdatetime"]+timedelta(minutes=(granularity-args["startdatetime"].time().minute%granularity)%granularity)).time())
-            startcol = self.get_col_from_date(args["startdatetime"].date())
-            endrow = self.get_row_from_time((args["enddatetime"]-timedelta(minutes=args["enddatetime"].time().minute%granularity)).time())
-            endcol = self.get_col_from_date(args["enddatetime"].date())
+            startrow = self.get("row",{"time":(args["startdatetime"]+timedelta(minutes=(granularity-args["startdatetime"].time().minute%granularity)%granularity)).time()})
+            startcol = self.get("col",{"date":args["startdatetime"].date()})
+            endrow = self.get("row",{"time":(args["enddatetime"]-timedelta(minutes=args["enddatetime"].time().minute%granularity)).time()})
+            endcol = self.get("col",{"date":args["enddatetime"].date()})
             if(startrow == -1 or startcol == -1 or endrow == -1 or endcol == -1):
                 raise ValueError("Unable to find given date or time. The specified range may not be within the range of this matrix")
             length = len(self.matrix[0][0])
@@ -657,7 +685,7 @@ class Matrix:
                     if(i>=startrow and i<=endrow):
                         self.matrix[i][j] = str(fillwith) * length
         def time():
-            row = self.get_row_from_time(args["time"])
+            row = self.get("row",{"time":args["time"]})
             if(row == -1):
                 raise ValueError("Unable to find given time. The specified time may not be on an increment of granularity")
             length = len(self.matrix[0][0])
@@ -665,10 +693,10 @@ class Matrix:
                 self.matrix[row][j] = str(fillwith) * length
         def timetotime():
             granularity = int((datetime.combine(self.dates[0], self.times[1])-datetime.combine(self.dates[0], self.times[0])).seconds/60)
-            startrow = self.get_row_from_time((args["startdatetime"]+timedelta(minutes=(granularity-args["startdatetime"].time().minute%granularity)%granularity)).time())
-            startcol = self.get_col_from_date(args["startdatetime"].date())
-            endrow = self.get_row_from_time((args["enddatetime"]-timedelta(minutes=args["enddatetime"].time().minute%granularity)).time())
-            endcol = self.get_col_from_date(args["enddatetime"].date())
+            startrow = self.get("row",{"time":(args["startdatetime"]+timedelta(minutes=(granularity-args["startdatetime"].time().minute%granularity)%granularity)).time()})
+            startcol = self.get("col",{"date":args["startdatetime"].date()})
+            endrow = self.get("row",{"time":(args["enddatetime"]-timedelta(minutes=args["enddatetime"].time().minute%granularity)).time()})
+            endcol = self.get("col",{"date":args["enddatetime"].date()})
             if(startrow == -1 or startcol == -1 or endrow == -1 or endcol == -1):
                 raise ValueError("Unable to find given date or time. The specified range may not be within the range of this matrix")
             length = len(self.matrix[0][0])
@@ -692,54 +720,90 @@ class Matrix:
         else:
             raise ValueError("Invalid filltype passed. Please refer to documentation to see valid filltypes")
         
-    
-    #returns the index of the column (date) at the specified date
+    #returns various pieces of information based on gettype
     #
-    #retuires: when must be a date object
-    def get_col_from_date(self, when):
-        if(isinstance(when, date)):
-            return functions.index(self.dates, when)
-        else:
-            raise TypeError("Erroneous argument type supplied. Please use a time object")
-    
-    #returns a date object for the given column index
-    def get_date_from_col_index(self, col):
-        return self.dates[col]
-    
-    #returns a datetime object at the intersection found at the specifed row and column
-    def get_datetime_from_rowcol(self,row,col):
-        return datetime.combine(self.dates[col], self.times[row])
-    
-    #returns the index of the row (time) at the specified time
-    #
-    #retuires: when must be a time object
-    def get_row_from_time(self, when):
-        if(isinstance(when, time)):
-            return functions.index(self.times, when)
-        else:
-            raise TypeError("Erroneous argument type supplied. Please use a date object")
-    
-    #returns a time object for the given row index
-    def get_time_from_row_index(self, row):
-        return self.times[row]
-    
-    #returns the value at a cell in the matrix given the date and time 
-    #
-    #retuires: when must be a datetime object
-    def get_value_from_datetime(self, when):
-        if(isinstance(when, datetime)):
-            row = functions.index(self.times, when.time())
-            col = functions.index(self.dates, when.date())
-            if(row!=-1 and col!=-1):
-                return self.matrix[row][col]
+    #required args: varies
+    #   gettype: col
+    #       when                            date object
+    #   gettype: date
+    #       col                             int
+    #   gettype: datetime
+    #       row                             int
+    #       col                             int
+    #   gettype: row
+    #       time                            time object
+    #   gettype: time
+    #       row                             int
+    #   gettype: value_dt
+    #       when                            datetime object
+    #   gettype: value_rc
+    #       row                             int
+    #       col                             int
+    def get(self, gettype, args):
+        
+        #returns the index of the column (date) at the specified date
+        #
+        #retuires: date must be a date object
+        def get_col_from_date():
+            if(isinstance(args["date"], date)):
+                return functions.index(self.dates, args["date"])
             else:
-                return -1
+                raise TypeError("Erroneous argument type supplied. Please use a time object")
+
+        #returns a date object for the given column index
+        def get_date_from_col_index():
+            return self.dates[args["col"]]
+
+        #returns a datetime object at the intersection found at the specifed row and column
+        def get_datetime_from_rowcol():
+            return datetime.combine(self.dates[args["col"]], self.times[args["row"]])
+
+        #returns the index of the row (time) at the specified time
+        #
+        #retuires: time must be a time object
+        def get_row_from_time():
+            if(isinstance(args["time"], time)):
+                return functions.index(self.times, args["time"])
+            else:
+                raise TypeError("Erroneous argument type supplied. Please use a date object")
+
+        #returns a time object for the given row index
+        def get_time_from_row_index():
+            return self.times[args["row"]]
+
+        #returns the value at a cell in the matrix given the date and time 
+        #
+        #retuires: when must be a datetime object
+        def get_value_from_datetime():
+            if(isinstance(args["when"], datetime)):
+                row = functions.index(self.times, args["when"].time())
+                col = functions.index(self.dates, args["when"].date())
+                if(row!=-1 and col!=-1):
+                    return self.matrix[row][col]
+                else:
+                    return -1
+            else:
+                raise TypeError("Erroneous argument type supplied. Please use a datetime object")
+
+        #returns the value at a cell in the matrix given a row and column index
+        def get_value_from_rowcol():
+            return self.matrix[args["row"]][args["col"]]
+        
+        gets = {
+            "col":              get_col_from_date,
+            "date":             get_date_from_col_index,
+            "datetime":         get_datetime_from_rowcol,
+            "row":              get_row_from_time,
+            "time":             get_time_from_row_index,
+            "value_dt":         get_value_from_datetime,
+            "value_rc":         get_value_from_rowcol
+        }
+        get = gets.get(gettype, -1)
+        
+        if(get != -1):
+            return get()
         else:
-            raise TypeError("Erroneous argument type supplied. Please use a datetime object")
-    
-    #returns the value at a cell in the matrix given a row and column index
-    def get_value_from_rowcol(self,row,col):
-        return self.matrix[row][col]
+            raise ValueError("Invalid gettype passed. Please refer to documentation to see valid gettypes")
     
     #returns True if any event in the calendar occurs during the specified time, for a given duration
     #   In this instance of this method, the busy-ness is checked at discrete
@@ -752,8 +816,8 @@ class Matrix:
     #See also: Calendar.is_busy_for_duration
     def is_busy_for_duration(self, when, duration):
         granularity = int((datetime.combine(self.dates[0], self.times[1])-datetime.combine(self.dates[0], self.times[0])).seconds/60)
-        startrow = self.get_row_from_time((when+timedelta(minutes=(granularity-when.time().minute%granularity)%granularity)).time())
-        startcol = self.get_col_from_date(when.date())
+        startrow = self.get("row",{"time":(when+timedelta(minutes=(granularity-when.time().minute%granularity)%granularity)).time()})
+        startcol = self.get("col",{"date":when.date()})
         distance = duration//granularity
         for i in range(distance):
             if(int(self.matrix[(startrow+i)%len(self.times)][startcol+i//(len(self.times))]) != 0):
@@ -929,8 +993,8 @@ class CalendarMatrix(Matrix):
             for i in range(math.ceil(((event.end-event.start).seconds)/(granularity*60))):
                 date = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
                 time = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
-                dateindex = self.get_col_from_date(date)
-                timeindex = self.get_row_from_time(time)
+                dateindex = self.get("col",{"date":date})
+                timeindex = self.get("row",{"time":time})
                 if(dateindex!=-1 and timeindex!=-1):
                     self.matrix[timeindex][dateindex] = "1"
         self.attendees = [{"email":args["calendar"].email,"optional":args["calendar"].optional}]
