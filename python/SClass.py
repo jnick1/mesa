@@ -9,13 +9,6 @@ from datetime import datetime, date, time
 
 class PersonalMatrixFunctions:
     
-    StartTime = 0
-    EndTime = 0
-    StartDay = 0
-    EndDay = 0
-    granularity = 0
-    Matrix = [ [ None for j in range(0) ] for i in range(0) ]
-
     def __init__(self, StartTime, EndTime, StartDay, EndDay, granularity):
         self.StartTime = StartTime
         self.EndTime = EndTime
@@ -82,7 +75,7 @@ class MasterMatrix:
     
     def __init__(self, BannedStart, BannedEnd, timeLength, startDay, endDay, locationTime, preferedTime, minimumPeople, granularity, mostPeople, preferedDate):
         self.timeLength = timeLength
-        self.searchWidth = endDay-startDay
+        self.searchWidth = endDay-startDay #will work with ints with time stamps or with date time objects to get a time delta object
         self.locationTime = locationTime
         self.preferedTime = preferedTime
         self.minimumPeople = minimumPeople
@@ -98,7 +91,7 @@ class MasterMatrix:
     def findTimes(self, MasterMatrix, BannedStart, BannedEnd, granularity, locationArray):
         output = ""
         for D in xrange(self.timeLength, 0, -granularity): #going through the durration times to decrease it too 
-            for i in range (0, self.searchWidth):
+            for i in range (0, self.searchWidth): #dates
                 for j in xrange(BannedStart, (24*granularity) - BannedEnd, granularity): #Need to check on how to change incremtation in python
                     #if(j-self.locationTime >= 0): #so it stays within the calender
                         #if (MasterMatrix[i][j-selflocationTime] == 0):#travel time is free before hand
@@ -108,45 +101,59 @@ class MasterMatrix:
                                 count+=1
                                 String = MasterMatrix[i][j]
                                 if (self.preferedTime == 0): #there is no preferedTimes
-                                    output += findPeopleCost(self, MasterMatrix, i, j, D, String, locationArray)
-                                    spot = True
+                                    trial = find_people_cost(MasterMatrix, i, j, D, String, locationArray)
+                                    if (trial == False): #if teh findPeopleCost did not find a spot there
+                                        spot = trial
+                                    else:
+                                        output+= trial
+                                        spot = True
                                     # end PREFEREDTIME IS NONE if statement
                                 elif (self.preferedTime != 0):
-                                #if(masterCalender[i][preferedTime-locationTime] == 0): #there is a preferedTime
-                                    #if(masterCalender[day][preferedTime] == 0): #modified perfered Time of day
-                                        output += findPeopleCost(self, MasterMatrix, i, self.TempPreferedTime, D, MasterMatrix[i][self.TempPreferedTime])
+                                    trial =  findPeopleCost(MasterMatrix, i, self.TempPreferedTime, D, MasterMatrix[i][self.TempPreferedTime], locationArray)
+                                    if(trial == False):
+                                        spot = trial
+                                    else:
+                                        output +=trial
                                         spot = True
                                 else:
                                     self.TempPreferedTime = self.TempPreferedTime + (granularity*count* (-1^count))  #branches off hour by hour       
         
         return output
         
-    def findPeopleCost(self, MasterMatrix, i, j, D, string, locationArray):
+    def find_people_cost(self, MasterMatrix, i, j, D, string, locationArray):
         people = 0
         for x in range (0, len(string)-1):
             count = 0 #count if the person has free time or not
             travelTime = locationArray[x]
-            for m in range(j-travelTime, j+D-1):
-                String = MasterMatrix[i][m] #goes down through durration time starting at what j is. 
-                if (String[x] != 0):
-                    count +=1 #adds the count i if they can't do it
-            if (count == 0): #if the person is free throughout, the variable won't change
-                people +=1#adds to the number of people that can attend at that spot
+            if(j-travelTime !=0):
+                for m in range(j-travelTime, j+D-1):
+                    String = MasterMatrix[i][m] #goes down through durration time starting at what j is. 
+                    if (String[x] != 0):
+                        count +=1 #adds the count i if they can't do it
+                if (count == 0): #if the person is free throughout, the variable won't change
+                    people +=1#adds to the number of people that can attend at that spot
         #ends v for loop
                   
         if (people > self.minimumPeople):
-            costCount(self, i, j, people, D) #doing the costFunction
-            return toString(self, i, j, D)
+            costCount(i, j, people, D) #doing the costFunction
+            return to_string(i, j, D)
+        else:
+            return False
         
 
     
-    def costCount(self, i, j, people, D):
+    def cost_count(self, i, j, people, D):
+            #TO DO: insert priority for the cost
+            #check each priority to see how far away it is from where the most people can attend
+            #min events has to be 10
+            #make a temp matrix to use
+            
         timeCost = abs(j - self.preferedTime)
         peopleCost = abs(self.mostPeople - people)
         dayCost=0
                         
         WD1 = self.preferedDate
-        WD2 = Dayconverter(i)
+        WD2 = day_converter(i)
             
         if (WD1.isoweekday() == WD2.isoweekday): #if its on the exact same day (monday, etc)
             dayCost = 0
@@ -160,12 +167,15 @@ class MasterMatrix:
                 dayCost = 3
         durCost = abs(self.timeLength - D)
         self.cost = timeCost + peopleCost + dayCost + durCost
+        #make case statement for "time", "attendees", "day" etc. 
+        #try and save cost
         
-    def toString(self, i, j, D):
+        
+    def to_string(self, i, j, D):
         return "{'day':" + i + ",'StartTimre':" + j + "','EndTime':'" + j+D + "','Duratiion':'" + D + "','Location':'" + self.locationTime + "','Cost:" + self.cost + "]"
         
         
-    def Dayconverter(self, date):
+    def day_converter(self, date):
         
         year1 = date.split('-')[0]
         month1 = date.split('-')[1]
@@ -176,5 +186,37 @@ class MasterMatrix:
         return d1
         
         
+    [10: "time", 200 : "durration"] #etc
+    
+    deg get_nth(self, n, dictionary)
+        for key in dictionary:
+            return minikey
+        
+    def modify_time(self, priority, discrete events, matrix):
+        for time in matrix:
+            if not is busy for duration(time, duration):
+                good event [].append new event(time)
+                cost[].append (cost of time)
+                
+            if reach matrix:
+                return reached max ""
+solution sets []
+for number of solution sets
+    matrix = subset [modified matrix]
+    while
+    switch priority:
+        good events []
+        case "time":
+            modify_time()
+        etc
+
+#check to see if you can use miltidimensional lists/dictionaries
+4matrix = []#4 dimension matrix
+        def get_lowest_priority():
+            
+            #get the priority on the list/changes depending on the 
+            #make it a for loop for number of solution sets
+            #check for cost matrix
+            
         
         
