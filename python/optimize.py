@@ -32,6 +32,6 @@ print ("RRule: ")
 print (RRule)
 print("\n")
 
-modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, 15)
+modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, 30)
 
 print(modifiedMatrix.print_labelled())

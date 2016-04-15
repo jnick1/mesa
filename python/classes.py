@@ -556,11 +556,25 @@ class Matrix:
         def delete_date_range():
             startdate = args["startdate"]
             enddate = args["enddate"]
-            startcol = self.get("col",{"date":startdate})
-            endcol = self.get("col",{"date":enddate})
+            
+            if(startdate >= self.dates[0] and startdate <= self.dates[-1]):
+                startcol = self.get("col",{"date":startdate})
+            elif(startdate < self.dates[0]):
+                startcol = -1
+            elif(startdate > self.dates[-1]):
+                startcol = self.get("col",{"date":self.dates[-1]})+1
+            
+            if(enddate <= self.dates[-1] and enddate >= self.dates[0]):
+                endcol = self.get("col",{"date":enddate})
+            elif(enddate > self.dates[-1]):
+                endcol = self.get("col",{"date":self.dates[-1]})+1
+            elif(enddate < self.dates[0]):
+                endcol = 0
+                
             chopBlock = [startcol for x in range(endcol-startcol)]
             for chop in chopBlock:
-                self.delete("column",{"col":chop})
+                if(chop <= len(self.dates)):
+                    self.delete("column",{"col":chop})
         
         #deletes a row from a matrix given a row index
         #
@@ -723,7 +737,7 @@ class Matrix:
     #
     #required args: varies
     #   gettype: col
-    #       when                            date object
+    #       date                            date object
     #   gettype: date
     #       col                             int
     #   gettype: datetime
@@ -864,7 +878,22 @@ class Matrix:
     #requires: value is either 0 or 1, e.g. not "000"
     def set_cell(self,row,col,value):
         self.matrix[row][col] = str(value) * len(self.matrix[row][col])
-
+        
+    #returns a new Matrix which is a subset (date wise) of another matrix
+    #
+    #requires: startdate is a date object, enddate is a date object
+    def subset(self, startdate, enddate):
+        import copy
+        startbeforerange = self.dates[0] if startdate != self.dates[0] else (datetime.combine(startdate, time(0,0,0))-timedelta(days=1)).date()
+        endbeforerange = startdate
+        startafterrange = enddate
+        endafterrange = (datetime.combine(self.dates[-1], time(0,0,0))+timedelta(days=1)).date() if enddate != self.dates[-1] else (datetime.combine(enddate, time(0,0,0))+timedelta(days=1)).date()
+        subsetMatrix = copy.deepcopy(self)
+        subsetMatrix.delete("dRange",{"startdate":startbeforerange,"enddate":endbeforerange})
+        subsetMatrix.delete("dRange",{"startdate":startafterrange,"enddate":endafterrange})
+        return subsetMatrix
+        
+        
 class CalendarMatrix(Matrix):
     
     #instantiates a new CalendarMatrix object
@@ -880,10 +909,6 @@ class CalendarMatrix(Matrix):
     #   inittype: additive_intersection
     #       self                        CalendarMatrix object
     #       other                       CalendarMatrix object
-    #   inittype: rawcalendar
-    #       rawcalendar                 json formatted string (not parsed by json.loads)
-    #       owner                       email of calendar owner
-    #       granularity                 int representing minutes
     #   inittype: calendar
     #       calendar                    json parsed calendar (with json formatted events, non-parsed)
     #       startdate                   date object
@@ -894,6 +919,16 @@ class CalendarMatrix(Matrix):
     #   inittype: direct_assignment
     #       Matrix                      Matrix object
     #       attendees                   list of dictionaries {"email":"a@b.c","optional":True/False}
+    #   inittype: rawcalendar
+    #       rawcalendar                 json formatted string (not parsed by json.loads)
+    #       owner                       email of calendar owner
+    #       granularity                 int representing minutes
+    #       optional                    True/False
+    #   inittype: traveltime
+    #       rawcalendar                 json formatted string (not parsed by json.loads)
+    #       owner                       email of calendar owner
+    #       granularity                 int representing minutes
+    #       optional                    True/False
     #   inittype: union
     #       self                        CalendarMatrix object
     #       other                       CalendarMatrix object
@@ -1088,13 +1123,34 @@ class CalendarMatrix(Matrix):
     #
     #requires: when is a datetime object, duration is an int (representing minutes)
     def available_attendees(self, when, duration):
-        print("n")
+        availableList = []
+        granularity = (datetime.combine(self.dates[0],self.times[1])-datetime.combine(self.dates[0],self.times[0])).seconds/60
+        start = when+timedelta(minutes=(granularity-when.minute%granularity)%granularity)
+        for j in range(len(self.attendees)):
+            busyString = ""
+            for i in range(int(duration//granularity)):
+                check = start+timedelta(minutes = i*granularity)
+                busyString += list(self.get("value_dt",{"when":check}))[j]
+            if(int(busyString)==0):
+                availableList.append(self.attendees[j]["email"])
+        return availableList
     
-    #returns true if any required attendees are busy for a duration at a given datetime
+    #returns True if any required attendees are busy for a duration at a given datetime
     #
     #requires: when is a datetime object, duration is an int (representing minutes)
     def is_required_attendees_busy(self, when, duration):
-        print("n")
+        busyString = ""
+        granularity = (datetime.combine(self.dates[0],self.times[1])-datetime.combine(self.dates[0],self.times[0])).seconds/60
+        start = when+timedelta(minutes=(granularity-when.minute%granularity)%granularity)
+        for i in range(int(duration//granularity)):
+            check = start+timedelta(minutes = i*granularity)
+            string = list(self.get("value_dt",{"when":check}))
+            for j in range(len(self.attendees)):
+                if(self.attendees[j]["optional"] == False):
+                    busyString += string[j]
+        if(int(busyString)!=0):
+            return True
+        return False
         
     #Sets the value of a cell for an attendee at the given row and column to value
     #
