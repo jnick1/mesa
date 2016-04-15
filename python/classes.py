@@ -582,7 +582,6 @@ class Matrix:
         #required args: days
         def delete_days():
             chopBlock = []
-            print(self.dates[9].weekday())
             for day in self.dates:
                 if(functions.index(args["days"], day.weekday()) != -1):
                     chopBlock.append(functions.index(self.dates, day)-len(chopBlock))
@@ -900,11 +899,12 @@ class CalendarMatrix(Matrix):
     #       other                       CalendarMatrix object
     def __init__(self, inittype, args):
         constructors = {
-            "additive_intersection":     self.construct_from_additive_intersection,
-            "rawcalendar":               self.construct_from_rawcalendar,
-            "calendar":                  self.construct_from_calendar,
-            "direct_assignment":         self.construct_from_direct_assignment,
-            "union":                     self.construct_from_union_cm
+            "additive_intersection":        self.construct_from_additive_intersection,
+            "calendar":                     self.construct_from_calendar,
+            "direct_assignment":            self.construct_from_direct_assignment,
+            "rawcalendar":                  self.construct_from_rawcalendar,
+            "traveltime":                   self.construct_from_rawcalendar_with_traveltimes,
+            "union":                        self.construct_from_union_cm
         }
         constructor = constructors.get(inittype,-1)
         
@@ -950,10 +950,12 @@ class CalendarMatrix(Matrix):
         }
         self.construct_from_direct_assignment(newargs)
     
-    #constructs a new CalendarMatrix object, automaticlly assuming dimensions based on calendar data
+    #constructs a new CalendarMatrix object, automatically assuming dimensions based on calendar data
     #   This method acts as a more advanced constructor compared to
     #   construct_from_calendar (hereafter referred to as cfc). As opposed to cfc,
-    #   this
+    #   this method will construct the CalendarMatrix object by automatically
+    #   finding the bounds of data in the Calendar, and using those as limits for
+    #   its dimensions.
     #
     #required args: rawcalendar, owner, granularity, optional
     def construct_from_rawcalendar(self, args):
@@ -977,6 +979,63 @@ class CalendarMatrix(Matrix):
             "granularity":args["granularity"]
         }
         self.construct_from_calendar(newargs)
+        
+    #constructs a new CalendarMatrix object, automatically assuming dimensions based on calendar data, includes travel time padding
+    #   This method acts as (yet again) a more advanced constructor compared to
+    #   construct_from_rawcalendar. As opposed to that method, this one also takes
+    #   event travel time into consideration, and pads each event with 1's for
+    #   its specified travel time (int in minutes)
+    #
+    #required args: rawcalendar, owner, granularity, optional
+    def construct_from_rawcalendar_with_traveltimes(self, args):
+        owner = args["owner"]
+        optional = args["optional"]
+        calendar = Calendar(args["rawcalendar"], owner, optional)
+        startdate = calendar.earliest_date()
+        enddate = calendar.latest_date()
+        starttime = calendar.calculate_time_bound_start(args["granularity"])
+        endtime = calendar.calculate_time_bound_end(args["granularity"])
+        if(starttime>endtime):
+            swap = functions.swap(starttime, endtime)
+            starttime = swap["newa"]
+            endtime = swap["newb"]
+        newargs = {
+            "calendar":calendar,
+            "startdate":startdate,
+            "enddate":enddate,
+            "starttime":starttime,
+            "endtime":endtime,
+            "granularity":args["granularity"]
+        }
+        if(not isinstance(newargs["calendar"], Calendar)):
+            raise TypeError("Incorrect class supplied at argument: calendar. Please use a Calendar object")
+        Matrix.__init__(self, "bounds", newargs)
+        calendar = newargs["calendar"]
+        granularity = newargs["granularity"]
+        for event in calendar.events:
+            for i in range(math.ceil(((event.end-event.start).seconds)/(granularity*60))):
+                date = (event.start-timedelta(minutes=event.start.minute%granularity,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
+                time = (event.start+timedelta(minutes=(granularity-event.start.minute%granularity)%granularity,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
+                dateindex = self.get("col",{"date":date})
+                timeindex = self.get("row",{"time":time})
+                if(dateindex!=-1 and timeindex!=-1):
+                    self.matrix[timeindex][dateindex] = "1"
+            for j in range(event.travelTime//granularity):
+                newstart = (event.start-timedelta(minutes=granularity*(j+1)))
+                newend = (event.end+timedelta(minutes=granularity*(j+1)))
+                startdate = (newstart+timedelta(minutes=(granularity-newstart.minute%granularity)%granularity,seconds=newstart.second)).date()
+                starttime = (newstart+timedelta(minutes=(granularity-newstart.minute%granularity)%granularity,seconds=newstart.second)).time()
+                enddate = (newend-timedelta(minutes=newend.minute%granularity,seconds=newend.second)).date()
+                endtime = (newend-timedelta(minutes=newend.minute%granularity,seconds=newend.second)).time()
+                startdateindex = self.get("col",{"date":startdate})
+                starttimeindex = self.get("row",{"time":starttime})
+                enddateindex = self.get("col",{"date":enddate})
+                endtimeindex = self.get("row",{"time":endtime})
+                if(startdateindex!=-1 and starttimeindex!=-1):
+                    self.matrix[starttimeindex][startdateindex] = "2"
+                if(enddateindex!=-1 and endtimeindex!=-1):
+                    self.matrix[endtimeindex][enddateindex] = "2"
+        self.attendees = [{"email":newargs["calendar"].email,"optional":newargs["calendar"].optional}]
     
     #constructs a new CalendarMatrix object a calendar and various dimension parameters
     #   This method instantiates a new Calendar object by taking the manual inputs
@@ -991,8 +1050,8 @@ class CalendarMatrix(Matrix):
         granularity = args["granularity"]
         for event in calendar.events:
             for i in range(math.ceil(((event.end-event.start).seconds)/(granularity*60))):
-                date = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
-                time = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
+                date = (event.start-timedelta(minutes=(granularity-event.start.minute%granularity)%granularity,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
+                time = (event.start-timedelta(minutes=(granularity-event.start.minute%granularity)%granularity,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
                 dateindex = self.get("col",{"date":date})
                 timeindex = self.get("row",{"time":time})
                 if(dateindex!=-1 and timeindex!=-1):
@@ -1025,6 +1084,18 @@ class CalendarMatrix(Matrix):
         Matrix.__init__(self,"union",args)
         self.attendees = args["self"].attendees + args["other"].attendees
     
+    #returns a list of attendees who are not busy for a duration at a given datetime
+    #
+    #requires: when is a datetime object, duration is an int (representing minutes)
+    def available_attendees(self, when, duration):
+        print("n")
+    
+    #returns true if any required attendees are busy for a duration at a given datetime
+    #
+    #requires: when is a datetime object, duration is an int (representing minutes)
+    def is_required_attendees_busy(self, when, duration):
+        print("n")
+        
     #Sets the value of a cell for an attendee at the given row and column to value
     #
     #Sample output:
