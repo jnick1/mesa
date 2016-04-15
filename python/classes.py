@@ -556,11 +556,25 @@ class Matrix:
         def delete_date_range():
             startdate = args["startdate"]
             enddate = args["enddate"]
-            startcol = self.get("col",{"date":startdate})
-            endcol = self.get("col",{"date":enddate})
+            
+            if(startdate >= self.dates[0] and startdate <= self.dates[-1]):
+                startcol = self.get("col",{"date":startdate})
+            elif(startdate < self.dates[0]):
+                startcol = -1
+            elif(startdate > self.dates[-1]):
+                startcol = self.get("col",{"date":self.dates[-1]})+1
+            
+            if(enddate <= self.dates[-1] and enddate >= self.dates[0]):
+                endcol = self.get("col",{"date":enddate})
+            elif(enddate > self.dates[-1]):
+                endcol = self.get("col",{"date":self.dates[-1]})+1
+            elif(enddate < self.dates[0]):
+                endcol = 0
+                
             chopBlock = [startcol for x in range(endcol-startcol)]
             for chop in chopBlock:
-                self.delete("column",{"col":chop})
+                if(chop <= len(self.dates)):
+                    self.delete("column",{"col":chop})
         
         #deletes a row from a matrix given a row index
         #
@@ -582,7 +596,6 @@ class Matrix:
         #required args: days
         def delete_days():
             chopBlock = []
-            print(self.dates[9].weekday())
             for day in self.dates:
                 if(functions.index(args["days"], day.weekday()) != -1):
                     chopBlock.append(functions.index(self.dates, day)-len(chopBlock))
@@ -724,7 +737,7 @@ class Matrix:
     #
     #required args: varies
     #   gettype: col
-    #       when                            date object
+    #       date                            date object
     #   gettype: date
     #       col                             int
     #   gettype: datetime
@@ -865,7 +878,22 @@ class Matrix:
     #requires: value is either 0 or 1, e.g. not "000"
     def set_cell(self,row,col,value):
         self.matrix[row][col] = str(value) * len(self.matrix[row][col])
-
+        
+    #returns a new Matrix which is a subset (date wise) of another matrix
+    #
+    #requires: startdate is a date object, enddate is a date object
+    def subset(self, startdate, enddate):
+        import copy
+        startbeforerange = self.dates[0] if startdate != self.dates[0] else (datetime.combine(startdate, time(0,0,0))-timedelta(days=1)).date()
+        endbeforerange = startdate
+        startafterrange = enddate
+        endafterrange = (datetime.combine(self.dates[-1], time(0,0,0))+timedelta(days=1)).date() if enddate != self.dates[-1] else (datetime.combine(enddate, time(0,0,0))+timedelta(days=1)).date()
+        subsetMatrix = copy.deepcopy(self)
+        subsetMatrix.delete("dRange",{"startdate":startbeforerange,"enddate":endbeforerange})
+        subsetMatrix.delete("dRange",{"startdate":startafterrange,"enddate":endafterrange})
+        return subsetMatrix
+        
+        
 class CalendarMatrix(Matrix):
     
     #instantiates a new CalendarMatrix object
@@ -881,10 +909,6 @@ class CalendarMatrix(Matrix):
     #   inittype: additive_intersection
     #       self                        CalendarMatrix object
     #       other                       CalendarMatrix object
-    #   inittype: rawcalendar
-    #       rawcalendar                 json formatted string (not parsed by json.loads)
-    #       owner                       email of calendar owner
-    #       granularity                 int representing minutes
     #   inittype: calendar
     #       calendar                    json parsed calendar (with json formatted events, non-parsed)
     #       startdate                   date object
@@ -895,16 +919,27 @@ class CalendarMatrix(Matrix):
     #   inittype: direct_assignment
     #       Matrix                      Matrix object
     #       attendees                   list of dictionaries {"email":"a@b.c","optional":True/False}
+    #   inittype: rawcalendar
+    #       rawcalendar                 json formatted string (not parsed by json.loads)
+    #       owner                       email of calendar owner
+    #       granularity                 int representing minutes
+    #       optional                    True/False
+    #   inittype: traveltime
+    #       rawcalendar                 json formatted string (not parsed by json.loads)
+    #       owner                       email of calendar owner
+    #       granularity                 int representing minutes
+    #       optional                    True/False
     #   inittype: union
     #       self                        CalendarMatrix object
     #       other                       CalendarMatrix object
     def __init__(self, inittype, args):
         constructors = {
-            "additive_intersection":     self.construct_from_additive_intersection,
-            "rawcalendar":               self.construct_from_rawcalendar,
-            "calendar":                  self.construct_from_calendar,
-            "direct_assignment":         self.construct_from_direct_assignment,
-            "union":                     self.construct_from_union_cm
+            "additive_intersection":        self.construct_from_additive_intersection,
+            "calendar":                     self.construct_from_calendar,
+            "direct_assignment":            self.construct_from_direct_assignment,
+            "rawcalendar":                  self.construct_from_rawcalendar,
+            "traveltime":                   self.construct_from_rawcalendar_with_traveltimes,
+            "union":                        self.construct_from_union_cm
         }
         constructor = constructors.get(inittype,-1)
         
@@ -950,10 +985,12 @@ class CalendarMatrix(Matrix):
         }
         self.construct_from_direct_assignment(newargs)
     
-    #constructs a new CalendarMatrix object, automaticlly assuming dimensions based on calendar data
+    #constructs a new CalendarMatrix object, automatically assuming dimensions based on calendar data
     #   This method acts as a more advanced constructor compared to
     #   construct_from_calendar (hereafter referred to as cfc). As opposed to cfc,
-    #   this
+    #   this method will construct the CalendarMatrix object by automatically
+    #   finding the bounds of data in the Calendar, and using those as limits for
+    #   its dimensions.
     #
     #required args: rawcalendar, owner, granularity, optional
     def construct_from_rawcalendar(self, args):
@@ -977,6 +1014,63 @@ class CalendarMatrix(Matrix):
             "granularity":args["granularity"]
         }
         self.construct_from_calendar(newargs)
+        
+    #constructs a new CalendarMatrix object, automatically assuming dimensions based on calendar data, includes travel time padding
+    #   This method acts as (yet again) a more advanced constructor compared to
+    #   construct_from_rawcalendar. As opposed to that method, this one also takes
+    #   event travel time into consideration, and pads each event with 1's for
+    #   its specified travel time (int in minutes)
+    #
+    #required args: rawcalendar, owner, granularity, optional
+    def construct_from_rawcalendar_with_traveltimes(self, args):
+        owner = args["owner"]
+        optional = args["optional"]
+        calendar = Calendar(args["rawcalendar"], owner, optional)
+        startdate = calendar.earliest_date()
+        enddate = calendar.latest_date()
+        starttime = calendar.calculate_time_bound_start(args["granularity"])
+        endtime = calendar.calculate_time_bound_end(args["granularity"])
+        if(starttime>endtime):
+            swap = functions.swap(starttime, endtime)
+            starttime = swap["newa"]
+            endtime = swap["newb"]
+        newargs = {
+            "calendar":calendar,
+            "startdate":startdate,
+            "enddate":enddate,
+            "starttime":starttime,
+            "endtime":endtime,
+            "granularity":args["granularity"]
+        }
+        if(not isinstance(newargs["calendar"], Calendar)):
+            raise TypeError("Incorrect class supplied at argument: calendar. Please use a Calendar object")
+        Matrix.__init__(self, "bounds", newargs)
+        calendar = newargs["calendar"]
+        granularity = newargs["granularity"]
+        for event in calendar.events:
+            for i in range(math.ceil(((event.end-event.start).seconds)/(granularity*60))):
+                date = (event.start-timedelta(minutes=event.start.minute%granularity,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
+                time = (event.start+timedelta(minutes=(granularity-event.start.minute%granularity)%granularity,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
+                dateindex = self.get("col",{"date":date})
+                timeindex = self.get("row",{"time":time})
+                if(dateindex!=-1 and timeindex!=-1):
+                    self.matrix[timeindex][dateindex] = "1"
+            for j in range(event.travelTime//granularity):
+                newstart = (event.start-timedelta(minutes=granularity*(j+1)))
+                newend = (event.end+timedelta(minutes=granularity*(j+1)))
+                startdate = (newstart+timedelta(minutes=(granularity-newstart.minute%granularity)%granularity,seconds=newstart.second)).date()
+                starttime = (newstart+timedelta(minutes=(granularity-newstart.minute%granularity)%granularity,seconds=newstart.second)).time()
+                enddate = (newend-timedelta(minutes=newend.minute%granularity,seconds=newend.second)).date()
+                endtime = (newend-timedelta(minutes=newend.minute%granularity,seconds=newend.second)).time()
+                startdateindex = self.get("col",{"date":startdate})
+                starttimeindex = self.get("row",{"time":starttime})
+                enddateindex = self.get("col",{"date":enddate})
+                endtimeindex = self.get("row",{"time":endtime})
+                if(startdateindex!=-1 and starttimeindex!=-1):
+                    self.matrix[starttimeindex][startdateindex] = "2"
+                if(enddateindex!=-1 and endtimeindex!=-1):
+                    self.matrix[endtimeindex][enddateindex] = "2"
+        self.attendees = [{"email":newargs["calendar"].email,"optional":newargs["calendar"].optional}]
     
     #constructs a new CalendarMatrix object a calendar and various dimension parameters
     #   This method instantiates a new Calendar object by taking the manual inputs
@@ -991,8 +1085,8 @@ class CalendarMatrix(Matrix):
         granularity = args["granularity"]
         for event in calendar.events:
             for i in range(math.ceil(((event.end-event.start).seconds)/(granularity*60))):
-                date = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
-                time = (event.start-timedelta(minutes=event.start.minute%15,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
+                date = (event.start-timedelta(minutes=(granularity-event.start.minute%granularity)%granularity,seconds=event.start.second)+timedelta(minutes=granularity*i)).date()
+                time = (event.start-timedelta(minutes=(granularity-event.start.minute%granularity)%granularity,seconds=event.start.second)+timedelta(minutes=granularity*i)).time()
                 dateindex = self.get("col",{"date":date})
                 timeindex = self.get("row",{"time":time})
                 if(dateindex!=-1 and timeindex!=-1):
@@ -1025,6 +1119,39 @@ class CalendarMatrix(Matrix):
         Matrix.__init__(self,"union",args)
         self.attendees = args["self"].attendees + args["other"].attendees
     
+    #returns a list of attendees who are not busy for a duration at a given datetime
+    #
+    #requires: when is a datetime object, duration is an int (representing minutes)
+    def available_attendees(self, when, duration):
+        availableList = []
+        granularity = (datetime.combine(self.dates[0],self.times[1])-datetime.combine(self.dates[0],self.times[0])).seconds/60
+        start = when+timedelta(minutes=(granularity-when.minute%granularity)%granularity)
+        for j in range(len(self.attendees)):
+            busyString = ""
+            for i in range(int(duration//granularity)):
+                check = start+timedelta(minutes = i*granularity)
+                busyString += list(self.get("value_dt",{"when":check}))[j]
+            if(int(busyString)==0):
+                availableList.append(self.attendees[j]["email"])
+        return availableList
+    
+    #returns True if any required attendees are busy for a duration at a given datetime
+    #
+    #requires: when is a datetime object, duration is an int (representing minutes)
+    def is_required_attendees_busy(self, when, duration):
+        busyString = ""
+        granularity = (datetime.combine(self.dates[0],self.times[1])-datetime.combine(self.dates[0],self.times[0])).seconds/60
+        start = when+timedelta(minutes=(granularity-when.minute%granularity)%granularity)
+        for i in range(int(duration//granularity)):
+            check = start+timedelta(minutes = i*granularity)
+            string = list(self.get("value_dt",{"when":check}))
+            for j in range(len(self.attendees)):
+                if(self.attendees[j]["optional"] == False):
+                    busyString += string[j]
+        if(int(busyString)!=0):
+            return True
+        return False
+        
     #Sets the value of a cell for an attendee at the given row and column to value
     #
     #Sample output:
