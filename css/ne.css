@@ -88,6 +88,78 @@ and open the template in the editor.
     border-spacing: 0;
 }
 
+
+
+.ne-opti-attendees {
+    
+} /*empty*/
+.ne-opti-checkbox {
+    
+} /*empty*/
+.ne-opti-enddate {
+    
+} /*empty*/
+.ne-opti-endtime {
+    
+} /*empty*/
+.ne-opti-location {
+    
+} /*empty*/
+.ne-opti-startdate {
+    
+} /*empty*/
+.ne-opti-starttime {
+    
+} /*empty*/
+.ne-opti-table-accordion-attendees-content {
+    padding: 2px;
+}
+.ne-opti-table-accordion-attendees-header {
+    padding: 2px;
+    text-align: left;
+    border: 1px #bbb solid;
+    border-radius: 5px;
+    background: #ddd;
+    background: -webkit-linear-gradient(#ddd,#eaeaea,#ddd);
+    background: -moz-linear-gradient(#ddd,#eaeaea,#ddd);
+    background: linear-gradient(#ddd,#eaeaea,#ddd);
+    cursor: pointer !important;
+}
+.ne-opti-table-accordion-attendees-hidden {
+    height: 0;
+    overflow: hidden;
+}
+.ne-opti-table-accordion-content {
+    padding: 2px;
+}
+.ne-opti-table-accordion-hidden {
+    height: 0;
+    overflow: hidden;
+}
+.ne-opti-table-accordion-header {
+    padding: 2px;
+    text-align: left;
+    font-size: 16px;
+    border: 1px #bbb solid;
+    border-radius: 5px;
+    background: #ddd;
+    background: -webkit-linear-gradient(#ddd,#eaeaea,#ddd);
+    background: -moz-linear-gradient(#ddd,#eaeaea,#ddd);
+    background: linear-gradient(#ddd,#eaeaea,#ddd);
+    cursor: pointer !important;
+}
+.ne-opti-table-accordion-header-open {
+    background: #eaeaea;
+    background: -webkit-linear-gradient(#eaeaea,#fff,#eaeaea);
+    background: -moz-linear-gradient(#eaeaea,#fff,#eaeaea);
+    background: linear-gradient(#eaeaea,#fff,#eaeaea);
+}
+.ne-opti-table-accordion-header > div {
+    margin-left: 10px;
+}
+.ne-opti-table-accordion-header-title {
+    cursor: pointer;
+}
 .ne-opti-table-checkbox {
     
 } /*empty*/
@@ -306,7 +378,6 @@ and open the template in the editor.
 }
 #ne-opti-dialogbox {
     min-width: 400px;
-    width: 450px;
     font-family: Arial, sans-serif;
     background: rgba(255,255,255,1);
 }

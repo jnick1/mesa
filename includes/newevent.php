@@ -57,6 +57,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-ui.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-accordion.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-buttons.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-colors-selector.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-guest.js"?>"></script>
@@ -1175,33 +1176,85 @@ and open the template in the editor.
                                     </th>
                                 </tr>
                                 <?php
-                                $suggestions = json_decode($blOptiSuggestion);
-                                for($i=0; $i<count($suggestions); $i++) {
+                                $suggestions = json_decode($blOptiSuggestion, true);
+                                foreach($suggestions as $setid => $suggestion) {
                                 ?>
                                 <tr>
-                                    <td> <?php // start date ?>
-                                        
-                                    </td>
-                                    <td><?php // start time ?>
-                                        
-                                    </td>
                                     <td>
-                                        -
-                                    </td>
-                                    <td><?php // end date ?>
-                                        
-                                    </td>
-                                    <td><?php // end time ?>
-                                        
-                                    </td>
-                                    <td><?php // location ?>
-                                        
-                                    </td>
-                                    <td><?php // attendees ?>
-                                        
-                                    </td>
-                                    <td><?php // checkbox ?>
-                                        <input id="ne-opti-table-checkbox<?php echo $i; ?>" class="ne-opti-table-checkbox ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                        <div class="ne-opti-table-accordion-header ui-unselectabletext">
+                                            <div class="goog-icon goog-icon-dropdown-arrow-right ui-container-inline"></div>
+                                            <span class="ne-opti-table-accordion-header-title">
+                                                Solutions near 
+                                                <span>
+                                                <?php
+                                                $averagetime = 0;
+                                                foreach($suggestion as $event){
+                                                    $averagetime += strtotime($event["start"]);
+                                                }
+                                                echo (int)($averagetime / count($suggestion));
+                                                ?>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="ne-opti-table-accordion-content ne-opti-table-accordion-hidden">
+                                            <table>
+                                                <tbody>
+                                                    <?php
+                                                    $sorted = [];
+                                                    foreach($suggestion as $eventid => $event){
+                                                        $sorted[] = $eventid;
+                                                    }
+                                                    sort($sorted,SORT_NUMERIC);
+                                                    ?>
+                                                    <?php
+                                                    for($i = 0; $i<count($sorted); $i++){
+                                                    ?>
+                                                    <tr>
+                                                        <td class="ne-opti-startdate">
+                                                            <?php echo strtotime($suggestion[$sorted[$i]]["start"]) ?>
+                                                        </td>
+                                                        <td class="ne-opti-starttime">
+                                                            <?php echo strtotime($suggestion[$sorted[$i]]["start"]) ?>
+                                                        </td>
+                                                        <td>
+                                                            -
+                                                        </td>
+                                                        <td class="ne-opti-enddate">
+                                                            <?php echo strtotime($suggestion[$sorted[$i]]["end"]) ?>
+                                                        </td>
+                                                        <td class="ne-opti-endtime">
+                                                            <?php echo strtotime($suggestion[$sorted[$i]]["end"]) ?>
+                                                        </td>
+                                                        <td class="ne-opti-location">
+                                                            <?php echo $suggestion[$sorted[$i]]["location"] ?>
+                                                        </td>
+                                                        <td class="ne-opti-attendees">
+                                                            <div class="ne-opti-table-accordion-attendees-header ui-unselectabletext">
+                                                                <div class="goog-icon goog-icon-dropdown-arrow-right ui-container-inline"></div>
+                                                                <span class="ne-opti-table-accordion-header-title">
+                                                                    Attendees available
+                                                                </span>
+                                                            </div>
+                                                            <div class="ne-opti-table-accordion-attendees-content ne-opti-table-accordion-hidden">
+                                                                <table>
+                                                                    <tbody>
+                                                                <?php
+                                                                foreach($suggestion[$sorted[$i]]["attendees"] as $email => $available) {
+                                                                ?>
+                                                                
+                                                                <?php } ?>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                        <td class="ne-opti-checkbox">
+                                                            <input id="ne-opti-table-checkbox<?php echo "_".$setid."_".$sorted[$i]?>" class="ne-opti-table-checkbox ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php } ?>
