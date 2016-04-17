@@ -143,16 +143,14 @@ function send_noopti_event($dbc, $scrubbed) {
 if(isset($scrubbed["send"])) {
     if($scrubbed["optiran"] != "false") {
         
-        $warnings[] = "This button has not been fully implemented";
-        
-        $q1 = "SELECT `blOptiSuggestion`, `nmTitle`, `txDescription`, `blNotifications`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated` FROM `tblevents` WHERE pkEventid = ?";
+        $q1 = "SELECT `blOptiSuggestion`, `nmTitle`, `txDescription`, `blNotifications`, `blAttendees`, `isGuestList`, `enVisibility`, `isBusy`, `dtCreated`, `dtLastUpdated` FROM `tblevents` WHERE pkEventid = ?";
         $q2 = "SELECT txEmail from tblusers JOIN tblusersevents ON tblusersevents.fkUserid = tblusers.pkUserid WHERE tblusersevents.fkEventid = ?";
         $pkEventid = $scrubbed["pkEventid"];
         
         if($stmt = $dbc->prepare($q1)){
-            $stmt->bind_param("i",$scrubbed["pkEventid"]);
+            $stmt->bind_param("i",$pkEventid);
             $stmt->execute();
-            $stmt->bind_result($blOptiSuggestion,$nmTitle,$txDescription,$blNotifications,$isGuestList,$enVisibility,$isBusy,$dtCreated,$dtLastUpdated);
+            $stmt->bind_result($blOptiSuggestion,$nmTitle,$txDescription,$blNotifications,$blAttendees,$isGuestList,$enVisibility,$isBusy,$dtCreated,$dtLastUpdated);
             $stmt->fetch();
             $stmt->free_result();
             $stmt->close();
@@ -164,6 +162,136 @@ if(isset($scrubbed["send"])) {
             $stmt->fetch();
             $stmt->free_result();
             $stmt->close();
+        }
+        $events = explode(",",$scrubbed["optichosen"]);
+        $icals = [];
+        $dbattendees = json_decode($blAttendees, true);
+        $notifs = json_decode($blNotifications, true);
+        $suggestions = json_decode($blOptiSuggestion, true);
+        $ivsize = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
+        $i = 0;
+        foreach($events as $event){
+            $setid = explode("_",$event)[0];
+            $eventid = explode("_",$event)[1];
+            $dtStart = $suggestions["$setid"]["$eventid"]["start"];
+            $dtEnd = $suggestions["$setid"]["$eventid"]["end"];
+            $txLocation = $suggestions["$setid"]["$eventid"]["location"];
+            $attendees = $suggestions["$setid"]["$eventid"]["attendees"];
+            
+            $uidhelper = mcrypt_create_iv($ivsize, MCRYPT_DEV_URANDOM);
+            foreach($attendees as $attendee => $available) {
+                if($available){
+                    $ical = "BEGIN:VCALENDAR"."\n"
+                            . "PRODID:-//CSE280//MESA Organizer//EN"."\n"
+                            . "VERSION:2.0"."\n"
+                            . "CALSCALE:GREGORIAN"."\n"
+                            . "METHOD:PUBLISH"."\n"
+                            . "BEGIN:VEVENT"."\n"
+                            . "DTSTART:".str_replace(array("-",":"),"",$dtStart)."\n"
+                            . "DTEND:".str_replace(array("-",":"),"",$dtEnd)."\n";
+                    $ical.= "DTSTAMP:".str_replace(" ","T",str_replace(array("-",":"),"",$dtCreated))."Z"."\n"
+                            . "UID:".hash("sha256",$pkEventid.$uidhelper)."@mesaorganizer"."\n"
+                            . "ORGANIZER:MAILTO:$txEmail"."\n";
+                    if($isGuestList) {
+                        foreach($dbattendees as $attendee2){
+                            if($attendee != $attendee2["email"] && in_array($attendee2["email"], array_keys($attendees))) {
+                                $ical.="ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=".($attendee2["optional"]?"OPT":"REQ")."-PARTICIPANT"
+                                    .";PARTSTAT=".str_replace(" ","-",strtoupper($attendee2["responseStatus"])).";X-NUM-GUESTS=0"
+                                    .":MAILTO:".$attendee2["email"]."\n";
+                            }
+                        }
+                    }
+                    if($enVisibility=="public" || $enVisibility=="private") {
+                        $ical.="CLASS=".strtoupper($enVisibility)."\n";
+                    }
+                    $ical.="CREATED:".str_replace(" ","T",str_replace(array("-",":"),"",$dtCreated))."Z"."\n"
+                            . "DESCRIPTION:$txDescription"."\n"
+                            . "LAST-MODIFIED:".str_replace(" ","T",str_replace(array("-",":"),"",$dtLastUpdated))."Z"."\n"
+                            . "LOCATION:$txLocation"."\n"
+                            . "SEQUENCE:0"."\n"
+                            . "STATUS:CONFIRMED"."\n"
+                            . "SUMMARY:$nmTitle"."\n"
+                            . "TRANSP:".($isBusy?"OPAQUE":"TRANSPARENT")."\n";
+                    if(count($notifs["overrides"])>0) {
+                        foreach($notifs["overrides"] as $notification) {
+                            $ical.="BEGIN:VALARM"."\n"
+                                    . "ACTION:".($notification["method"]=="popup"?"DISPLAY":"EMAIL")."\n"
+                                    . "DESCRIPTION:This is an event reminder"."\n"
+                                    . "TRIGGER:-P".(floor($notification["minutes"]/1440))."D".($notification["minutes"]%1440!=0?((floor(($notification["minutes"]%1440)/60))."H".($notification["minutes"]%60)."M0S"):"")."\n";
+                            if($notification["method"]=="email") {
+                                $ical.="SUMMARY:Alarm notification"."\n"
+                                        . "ATTENDEE:MAILTO:".$attendee["email"]."\n";
+                            }
+                            $ical.="END:VALARM"."\n";
+                        }
+                    }
+                    $ical.="END:VEVENT"."\n"
+                            . "END:VCALENDAR"."\n";
+                    $icals[$attendee][$i] = $ical;
+                }
+            }
+            $i++;
+        }
+        
+        $mailfail = false;
+        $mailnotsofail = 0;
+        
+        include $homedir."config/phpmailer_init.php";
+        foreach($dbattendees as $attendee) {
+            if($attendee["responseStatus"]=="accepted"){
+                $mail->clearAddresses();
+                $mail->clearAttachments();
+                $mail->addAddress($attendee["email"]);
+
+                $message = ""
+                        . "Hello,<br><br>"
+                        . ""
+                        . "This is an automated message sent by Mesa Organizer send you details for an event you've been invited to.<br>"
+                        . "You have been invited by <b>$txEmail</b> to attend an event/meeting titled: <b><i>$nmTitle</i></b><br>"
+                        . "Your attendance for this event has been marked as <b>".($attendee["optional"]?"optional":"required")."</b>.<br><br>"
+                        . ""
+                        . "Attached to this email, you will find an ICalendar (.ics) file which you may import into your calendar to add the event and any relevant information.<br>"
+                        . "If you would rather add this event to a different account's calendar than the one "
+                        . "this email was sent to, feel free to do so (for instance, if your calendar is saved on your personal email, but this was sent to your work email).<br><br>"
+                        . ""
+                        . "Do not reply to this email, as it was sent from an unmonitored email address.<br><br>"
+                        . ""
+                        . "Thank you for using Mesa Organizer!";
+                $altMessage = ""
+                        . "Hello,\n\n"
+                        . ""
+                        . "This is an automated message sent by Mesa Organizer send you details for an event you've been invited to.\n"
+                        . "You have been invited by $txEmail to attend an event/meeting titled: $nmTitle\n"
+                        . "Your attendance for this event has been marked as ".($attendee["optional"]?"optional":"required").".\n\n"
+                        . ""
+                        . "Attached to this email, you will find an ICalendar (.ics) file which you may import into your calendar to add the event and any relevant information.\n"
+                        . "If you would rather add this event to a different account's calendar than the one "
+                        . "this email was sent to, feel free to do so (for instance, if your calendar is saved on your personal email, but this was sent to your work email).\n\n"
+                        . ""
+                        . "Do not reply to this email, as it was sent from an unmonitored email address.\n\n"
+                        . ""
+                        . "Thank you for using Mesa Organizer!";
+
+                $mail->Subject = "Mesa Organizer: Event Invite: $nmTitle";
+                $mail->Body    = $message;
+                $mail->AltBody = $altMessage;
+                for($i=0;$i<count($icals[$attendee["email"]]);$i++){
+                    $mail->addStringAttachment($icals[$attendee["email"]][$i], str_replace(" ", "_", $nmTitle.($i>0?$i:"")), "base64", "text/calendar");
+                }
+
+                if(!$mail->send()) {
+                    $mailfail = true;
+                    break;
+                } else {
+                    $mailnotsofail++;
+                }
+            }
+        }
+        if($mailfail) {
+                $errors[] = "Your event invite email could not be sent. $mailnotsofail recipients were successfully emailed. Please include the following error message in support requests:";
+                $errors[] = "Mailer Error: " . $mail->ErrorInfo;
+            } else {
+                $notifications[] = "Your attendees have been sent an email containing all the details of your event. Thank you for using Mesa Organizer!";
         }
     } else {
         $output = send_noopti_event($dbc, $scrubbed);

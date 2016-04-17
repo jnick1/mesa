@@ -1200,33 +1200,44 @@ and open the template in the editor.
                                             <table>
                                                 <tbody>
                                                     <?php
-                                                    $sorted = [];
-                                                    foreach($suggestion as $eventid => $event){
-                                                        $sorted[] = $eventid;
+                                                    
+                                                    function compare($eventa,$eventb) {
+                                                        if(((int) $eventa["cost"]) == ((int) $eventb["cost"])) {
+                                                            return 0;
+                                                        } else if(((int) $eventa["cost"]) > ((int) $eventb["cost"])) {
+                                                            return 1;
+                                                        } else {
+                                                            return -1;
+                                                        }
                                                     }
-                                                    sort($sorted,SORT_NUMERIC);
+                                                    
+                                                    $sorted = [];
+                                                    foreach($suggestion as $event){
+                                                        $sorted[] = $event;
+                                                    }
+                                                    usort($sorted,"compare");
                                                     ?>
                                                     <?php
                                                     for($i = 0; $i<count($sorted); $i++){
                                                     ?>
                                                     <tr>
                                                         <td class="ne-opti-startdate">
-                                                            <?php echo strtotime($suggestion[$sorted[$i]]["start"]) ?>
+                                                            <?php echo strtotime($sorted[$i]["start"]) ?>
                                                         </td>
                                                         <td class="ne-opti-starttime">
-                                                            <?php echo strtotime($suggestion[$sorted[$i]]["start"]) ?>
+                                                            <?php echo strtotime($sorted[$i]["start"]) ?>
                                                         </td>
                                                         <td>
                                                             -
                                                         </td>
                                                         <td class="ne-opti-endtime">
-                                                            <?php echo strtotime($suggestion[$sorted[$i]]["end"]) ?>
+                                                            <?php echo strtotime($sorted[$i]["end"]) ?>
                                                         </td>
                                                         <td class="ne-opti-enddate">
-                                                            <?php echo strtotime($suggestion[$sorted[$i]]["end"]) ?>
+                                                            <?php echo strtotime($sorted[$i]["end"]) ?>
                                                         </td>
                                                         <td class="ne-opti-location">
-                                                            <?php echo $suggestion[$sorted[$i]]["location"] ?>
+                                                            <?php echo $sorted[$i]["location"] ?>
                                                         </td>
                                                         <td class="ne-opti-attendees">
                                                             <div class="ne-opti-table-accordion-attendees-header ui-unselectabletext">
@@ -1239,7 +1250,7 @@ and open the template in the editor.
                                                                 <table>
                                                                     <tbody>
                                                                         <?php
-                                                                        foreach($suggestion[$sorted[$i]]["attendees"] as $email => $available) {
+                                                                        foreach($sorted[$i]["attendees"] as $email => $available) {
                                                                         ?>
                                                                         <tr>
                                                                             <td class="ne-opti-table-accordion-attendees-email">
@@ -1256,7 +1267,7 @@ and open the template in the editor.
                                                             </div>
                                                         </td>
                                                         <td class="ne-opti-checkbox">
-                                                            <input id="ne-opti-table-checkbox<?php echo "_".$setid."_".$sorted[$i]?>" class="ne-opti-table-checkbox ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                                            <input id="ne-opti-table-checkbox<?php echo "_".$setid."_".$sorted[$i]["id"]?>" class="ne-opti-table-checkbox ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>> 
                                                         </td>
                                                     </tr>
                                                     <?php } ?>

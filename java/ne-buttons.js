@@ -311,18 +311,23 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
 
 $(document).on("click", "#ne-btn-send", function send_evt_request() {
     if($("#wpg").attr("data-optiran")) {
-        var chosen = "";
-        $(".ne-opti-table-checkbox:checked").each(function() {
-            chosen+=$(this).attr("id").substring(21,1)+",";
-        });
-        chosen = chosen.substr(0, chosen.length-1);
-        var parameters = {
-            "send":true,
-            "optiran":true,
-            "optichosen":chosen,
-            "pkEventid":$("#wpg").attr("data-eventid")
-        };
-        post("eventlist.php",parameters,"POST");
+        if($(".ne-opti-table-checkbox:checked").length>0) {
+            var chosen = "";
+            $(".ne-opti-table-checkbox:checked").each(function() {
+                chosen+=$(this).attr("id").substring(23)+",";
+            });
+            chosen = chosen.substring(0, chosen.length-1);
+            var parameters = {
+                "send":true,
+                "optiran":true,
+                "optichosen":chosen,
+                "pkEventid":$("#wpg").attr("data-eventid")
+            };
+            post("eventlist.php",parameters,"POST");
+        } else {
+            $("#wpg-header-warning").append("<div><span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Warning: </b>Please select at least one solution before sending out event.</div>");
+            $("#wpg-header-errordisplay-warningwrapper").removeClass("wpg-nodisplay");
+        }
     } else {
         show_send_dialogbox();
         $("#ne-send-dialogbox").center();
