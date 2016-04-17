@@ -314,9 +314,10 @@ class CostFunction:
             
             
             people = defaultMax - Vattend #check to see if wanted the list of actual people attending or just a number
-                        
+            #right now its just a number
+                                    
             return to_string(i, j, D, Vcost, solution, End, defaultLoc, people)
-            
+        
             
             #work in progress, but the basic is still pretty good
         def to_string(self, i, j, D, cost, sol, End, people):
