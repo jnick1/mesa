@@ -79,8 +79,10 @@ class Calendar:
         prototime = self.latest_time()
         startdate = self.earliest_date()
         enddate = self.latest_date()
-        endtime = copy.deepcopy(prototime)
+        
         prototime = (datetime.combine(startdate, prototime)-timedelta(minutes=prototime.minute%granularity)).time()
+        endtime = copy.deepcopy(prototime)
+        print (str(prototime))
         width = (enddate - startdate).days+2
         for i in range(width):
             while(True):
@@ -89,6 +91,7 @@ class Calendar:
                 if(prototime == (datetime.combine(startdate,time(hour=23,minute=59))-timedelta(minutes=granularity-1)).time()):
                     break
                 prototime = (datetime.combine(startdate, prototime)+timedelta(minutes=granularity)).time()
+                
             if(endtime == (datetime.combine(startdate,time(hour=23,minute=59))-timedelta(minutes=granularity-1)).time()):
                 break
             prototime = copy.deepcopy(endtime)
@@ -600,7 +603,7 @@ class Matrix:
                 if(functions.index(args["days"], day.weekday()) != -1):
                     chopBlock.append(functions.index(self.dates, day)-len(chopBlock))
             for chop in chopBlock:
-                self.delete_column({"col":chop})
+                self.delete("column",{"col":chop})
 
         #deletes rows from a matrix based on a range of times
         #
@@ -624,7 +627,7 @@ class Matrix:
                 if(functions.index(args["times"], time) != -1):
                     chopBlock.append(functions.index(self.times, time)-len(chopBlock))
             for chop in chopBlock:
-                self.delete_row({"row":chop})
+                self.delete("row",{"row":chop})
         
         
         deletors = {
@@ -1130,8 +1133,9 @@ class CalendarMatrix(Matrix):
             busyString = ""
             for i in range(int(duration//granularity)):
                 check = start+timedelta(minutes = i*granularity)
-                busyString += list(self.get("value_dt",{"when":check}))[j]
-            if(int(busyString)==0):
+                if(self.get("value_dt",{"when":check}) != -1):
+                    busyString += list(self.get("value_dt",{"when":check}))[j]
+            if(busyString != "" and int(busyString)==0):
                 availableList.append(self.attendees[j]["email"])
         return availableList
     
@@ -1144,11 +1148,12 @@ class CalendarMatrix(Matrix):
         start = when+timedelta(minutes=(granularity-when.minute%granularity)%granularity)
         for i in range(int(duration//granularity)):
             check = start+timedelta(minutes = i*granularity)
-            string = list(self.get("value_dt",{"when":check}))
-            for j in range(len(self.attendees)):
-                if(self.attendees[j]["optional"] == False):
-                    busyString += string[j]
-        if(int(busyString)!=0):
+            if(self.get("value_dt",{"when":check}) != -1):
+                string = list(self.get("value_dt",{"when":check}))
+                for j in range(len(self.attendees)):
+                    if(self.attendees[j]["optional"] == False):
+                        busyString += string[j]
+        if(not busyString == "" and int(busyString)!=0):
             return True
         return False
         

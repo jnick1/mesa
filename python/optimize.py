@@ -13,6 +13,9 @@ import json
 from datetime import datetime, date, time
 import functions
 import classes
+import pointListGenerator
+
+granularity = 15
 
 dtStart = sys.argv[1]
 dtEnd = sys.argv[2]
@@ -34,5 +37,9 @@ print("\n")
 
 priorities = functions.parsePriorities(blSettings)
 originalEvent = classes.Event("blevent", {"blEvent":{"start_time":dtStart.replace(" ", "T")+"Z", "end_time":dtEnd.replace(" ", "T")+"Z", "location":txLocation, "travel_time":0}})
-modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, 30)
+print (originalEvent)
+modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, granularity)
 
+pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent)
+
+print (str(pointList))

@@ -5,17 +5,22 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-import datetime
+from datetime import datetime, date, time, timedelta
+import classes
+import math
 
 def construct_point_list(masterMatrix, granularity, baseEvent):
-    startTime = baseEvent.start - -timedelta(minutes=start.minute%granularity)
-    startingDuration = (baseEvent.end - startTime).seconds()/60
+    startTime = baseEvent.start - timedelta(minutes=baseEvent.start.minute%granularity)
+    startingDuration = (baseEvent.end - startTime).seconds/60
     startingDuration = startingDuration + (granularity - startingDuration%granularity)
+    print(startTime)
+    print(startingDuration)
     
-    canModulateAttendees = true;
-    canModulateDuration = true;
-    canModulateDate = true;
-    canModulateTime = true;
+    canModulateAttendees = True
+    canModulateDuration = True
+    canModulateDate = True
+    canModulateTime = True
+    minAttendees = 1
 
     finalPointList = []
 
@@ -26,34 +31,35 @@ def construct_point_list(masterMatrix, granularity, baseEvent):
         if(time.date() != startTime.date()):
             return NULL
         attendees = masterMatrix #(GET ATTENDEES FOR DURATION AND STARTTIME)
-        if(attendees.size() < masterMatrix.attendees):
+        if(len(attendees) < len(masterMatrix.attendees)):
             return NULL
         return [0][0,0,0,0]
     else:
         unconstrained_list = generate_unconstrained_list(masterMatrix)
         duration_list = generate_duration_list(canModulateDuration, granularity, startingDuration)
-
-        for (durationIncrement, duration) in duration_list:
-            for time in unconstrained_list:
+        durationIncrement = 0
+        for duration in duration_list:
+            for eventTime in unconstrained_list:
                 if(not canModulateTime):
-                    if(time.time() != startTime.time()):
+                    if(eventTime.time() != startTime.time()):
                         continue
                 if(not canModulateDate):
-                    if(time.date() != startTime.date()):
+                    if(eventTime.date() != startTime.date()):
                         continue
-                attendees = masterMatrix.availableAttendees(time, duration);
-                if(masterMatrix.is_required_attendees_busy(time, duration)):
+                attendees = masterMatrix.available_attendees(eventTime, duration);
+                if(masterMatrix.is_required_attendees_busy(eventTime, duration)):
                     continue
                 if(not canModulateAttendees):
-                    if(attendees.size() < masterMatrix.attendees):
+                    if(len(attendees) < masterMatrix.attendees):
                         continue
-                if(attendees.size() < minAttendees):
+                if(len(attendees) < minAttendees):
                     continue
-                diffDates = startTime.date() - time.date()
-                diffTimes = (startTime.time() - time.time())
-                diffTimes = divmod(diffTimes, granularity) #Only thing I don't know if works
-                datetimePoint = [diffTimes,diffDates.days,durationIncrement,(masterMatrix.attendees.size() - attendees.size)]
-                finalPointList.append(datetimePoint);
+                diffDates = (datetime.combine(startTime.date(),time(0,0,0)) - datetime.combine(eventTime.date(), time(0,0,0))).days
+                diffTimes = (datetime.combine(date(1,1,1),startTime.time()) - datetime.combine(date(1,1,1),eventTime.time())).seconds
+                diffTimes = math.ceil(diffTimes/(60*granularity)) #Only thing I don't know if works
+                datetimePoint = [diffTimes,diffDates,durationIncrement,(len(masterMatrix.attendees) - len(attendees))]
+                finalPointList.append(datetimePoint)
+            durationIncrement += 1
     return finalPointList
         
 def generate_unconstrained_list(masterMatrix):
