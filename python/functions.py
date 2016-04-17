@@ -125,6 +125,32 @@ def mintime(times):
             mintime = when
     return mintime
 
+#parses blSettings into a dictionary of priorities
+def parsePriorities(blSettings):
+    priorities = {
+        "time":         1,
+        "date":         2,
+        "duration":     3,
+        "repeat":       4,
+        "location":     5,
+        "granularity":  6,
+        "attendees":    7,
+    }
+    if(not blSettings["useDefault"]):
+        if(blSettings["time"]):
+            priorities["time"] = priorities["time"]*int(blSettings["time"]["prioritization"])
+        if(blSettings["date"]):
+            priorities["date"] = priorities["date"]*int(blSettings["date"]["prioritization"])
+        if(blSettings["duration"]):
+            priorities["duration"] = priorities["duration"]*int(blSettings["duration"]["prioritization"])
+        if(blSettings["repeat"]):
+            priorities["repeat"] = priorities["repeat"]*int(blSettings["repeat"]["prioritization"])
+        if(blSettings["location"]):
+            priorities["location"] = priorities["location"]*int(blSettings["location"]["prioritization"])
+        if(blSettings["attendees"]):
+            priorities["attendees"] = priorities["attendees"]*int(blSettings["attendees"]["prioritization"])
+    return priorities
+
 #parses txRRule into a dictionary
 def parseRRule(txRRule):
     if(txRRule != ""):
