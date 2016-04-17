@@ -372,6 +372,14 @@ and open the template in the editor.
 #ne-opti-btn-cancel {
     
 } /*empty*/
+#ne-opti-btn-redo {
+    
+} /*empty*/
+#ne-opti-btn-redo-wrapper {
+    float: right;
+    width: 120px;
+    margin-right: 20px;
+}
 #ne-opti-btn-yes {
     
 } /*empty*/

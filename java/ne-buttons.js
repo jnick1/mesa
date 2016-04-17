@@ -370,3 +370,10 @@ $(document).on("click", "#ne-opti-btn-done", function(){
     save_state("#ne-opti-table-wrapper", optimizestate);
     hide_opti_dialogbox();
 });
+$(document).on("click", "#ne-opti-btn-redo", function() {
+    var parameters = {
+        "optimize":true,
+        "pkEventid":$("#wpg").attr("data-eventid")
+    };
+    post("eventlist.php",parameters,"POST");
+});

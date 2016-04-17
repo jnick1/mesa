@@ -1296,6 +1296,9 @@ and open the template in the editor.
                     if(isset($scrubbed["pkEventid"])) {
                         if(isset($dtRequestSent)) {
                             if(isset($blOptiSuggestion)) { ?>
+                        <div id="ne-opti-btn-redo"<?php echo " tabindex=\"".$ti++."\"";?>>
+                        </div>
+                    </div>
                     <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
                         <div id="ne-opti-btn-done"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Done
