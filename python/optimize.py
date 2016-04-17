@@ -26,14 +26,12 @@ blSettings = json.loads(temp.read())
 temp.close()
 print("settings: ")
 print(blSettings)
-print("calendars: ")
-print(calendars)
 
 RRule = functions.parseRRule(txRRule)
 print ("RRule: ")
 print (RRule)
 print("\n")
 
-masterMatrix = functions.construct_master_matrix(calendars, 30)
+modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, 30)
 
-print(masterMatrix.print_labelled())
+print(modifiedMatrix.print_labelled())
