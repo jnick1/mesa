@@ -82,7 +82,6 @@ class Calendar:
         
         prototime = (datetime.combine(startdate, prototime)-timedelta(minutes=prototime.minute%granularity)).time()
         endtime = copy.deepcopy(prototime)
-        print (str(prototime))
         width = (enddate - startdate).days+2
         for i in range(width):
             while(True):

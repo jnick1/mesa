@@ -40,6 +40,6 @@ originalEvent = classes.Event("blevent", {"blEvent":{"start_time":dtStart.replac
 print (originalEvent)
 modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, granularity)
 
-pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent)
+pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent, blSettings)
 
 print (str(pointList))
