@@ -8,7 +8,7 @@
 import functions
 import datetime
 
-def construct_point_list():
+def construct_point_list(masterMatrix):
     
     canModulateAttendees = true;
     canModulateDuration = true;
@@ -28,7 +28,7 @@ def construct_point_list():
             return NULL
         return [0][0,0,0,0]
     else:
-        unconstrained_list = generate_unconstrained_list()
+        unconstrained_list = generate_unconstrained_list(masterMatrix)
         duration_list = generate_duration_list(canModulateDuration, granularity, startingDuration)
 
         for (durationIncrement, duration) in duration_list:
@@ -39,9 +39,9 @@ def construct_point_list():
                 if(not canModulateDate):
                     if(time.date() != startTime.date()):
                         continue
-                attendees = masterMatrix #(GET ATTENDEES FOR DURATION AND STARTTIME)
+                attendees = masterMatrix.availableAttendees(time, duration);
                 if(masterMatrix.is_required_attendees_busy(time, duration)):
-                    continue  
+                    continue
                 if(not canModulateAttendees):
                     if(attendees.size() < masterMatrix.attendees):
                         continue
@@ -49,13 +49,12 @@ def construct_point_list():
                     continue
                 diffDates = startTime.date() - time.date()
                 diffTimes = (startTime.time() - time.time())
-                diffTimes = divmod(diffTimes, granularity)
+                diffTimes = divmod(diffTimes, granularity) #Only thing I don't know if works
                 datetimePoint = [diffTimes,diffDates.days,durationIncrement,(masterMatrix.attendees.size() - attendees.size)]
                 finalPointList.append(datetimePoint);
     return finalPointList
         
-def generate_unconstrained_list():
-    masterMatrix = functions.construct_master_matrix(calendars, 15)
+def generate_unconstrained_list(masterMatrix):
     unconstrained_list = []
     for date in masterMatrix.dates:
         for time in masterMatrix.times:
@@ -67,7 +66,7 @@ def generate_duration_list(canModulateDuration, granularity, startingDuration):
     duration_list = [startingDuration]
     if(canModulateDuration):
         duration = startingDuration - granularity
-        while(duration > granularity):
+        while(duration >= granularity):
             duration_list.append(duration)
             duration -= granularity
     return duration_list
