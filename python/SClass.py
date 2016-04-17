@@ -74,10 +74,11 @@ class MasterMatrix:
     BannedEnd = 0
     cost = 0
     
-    def __init__(self, BannedStart, BannedEnd, timeLength, startDay, endDay, locationTime, preferedTime, minimumPeople, granularity, mostPeople, preferedDate):
+    def __init__(self, BannedStart, BannedEnd, timeLength, startDay, endDay, locationTime, preferedTime, minimumPeople, granularity, mostPeople, preferedDate, locationPlace):
         self.timeLength = timeLength
         self.searchWidth = endDay-startDay #will work with ints with time stamps or with date time objects to get a time delta object
         self.locationTime = locationTime
+        self.locationPlace = locationPlace
         self.preferedTime = preferedTime
         self.minimumPeople = minimumPeople
         self.granularity = granularity
@@ -95,11 +96,17 @@ class MasterMatrix:
     def get_minimumPeople(self):
         return self.minimumPeople
     
+    def get_mostPeople(self):
+        return self.mostPeople
+    
     def get_timeLength(self):
         return self.timeLength
     
     def getGranularity(self):
         return self.granularity
+    
+    def get_Location(self):
+        return self.locationPlace
     
     def findTimes(self, MasterMatrix, BannedStart, BannedEnd, granularity, locationArray):
         output = ""
@@ -182,7 +189,7 @@ class MasterMatrix:
         self.cost = timeCost + peopleCost + dayCost + durCost
         #make case statement for "time", "attendees", "day" etc. 
         #try and save cost
-        
+        #get all points, dictionary of priorities, 
         
     def to_string(self, i, j, D):
         return "{'day':" + i + ",'StartTimre':" + j + "','EndTime':'" + j+D + "','Duratiion':'" + D + "','Location':'" + self.locationTime + "','Cost:" + self.cost + "]"
@@ -199,7 +206,7 @@ class MasterMatrix:
         return d1
     
         
-class CostFunction
+class CostFunction:
         
     #sum of distance on axix * priotiy of axis
     #Will gets me the point list, Jacob gets me
@@ -240,49 +247,54 @@ class CostFunction
         def get_key(item):
             return item[4]
     
-        def smallest_cost(self, POINT, Priority, Default-settings):
-            costList []
+    #note, i don't know if I will have the Defaults already, or if it will be pass to me, so 'til then I'm using it as an object
+        def smallest_cost(self, POINT, Priority, Defaultsettings):  
+            costList [len(POINT)]
             if (POINT is None):
-                return null
+                return None
             else:
                 output = ""
                 for i in range (len(POINT)):
                     cost1 = vector_cost(POINT[i], Priority)
                     costList.attend(cost1)
                 sorted(costList, key=getKey)
-                for i in range (0, 10, 1)
-                    stringOutput = date_of_cost(costList[i], Default-settings)
+                for i in range (0, 10, 1): #solutions 0 through 9
+                    stringOutput = date_of_cost(costList[i], Defaultsettings, i)
                     output += stringOutput
                 return output    
                 
+        
+        #priority: date, granularity, attendies, duration, repeat, location, time 
     
-    
-        def vector_cost(self, point, Priority):
+        def vector_cost(self, point, Priority, Defaultsettings):
             self.TIME = point[1] #this is in minutes? assume so for now
             self.DATE = point[2]
-            self.DUR = point[3]
-            self.ATTEND = point[4] #ask will if this is the num of people under the minimum?, that way it is neg when over minimum
+            self.DUR = point[3] #0 = original duration, 2 = 2 granularity below duration, etc
+            self.ATTEND = point[4] #0 = Max People, 2 = 2 people under Max
             
-            timeCost = abs(TIME) * point[1] #what if the time and such is the other direction away from the goal time?
-            dateCost = abs(DATE) * point[2] #so take the absolute value
-            durCost = DUR * point[3]
-            attendCost = ATTEND* point[4]
+                                    
+            timeCost = abs(TIME) * Priority.get('time') #what if the time and such is the other direction away from the goal time?
+            dateCost = abs(DATE) * Priority.get('date') #so take the absolute value
+            durCost = abs(DUR) * Priority.get('duration')
+            attendCost = abs(ATTEND) * Priority.get('attendies') 
             
             cost = timeCost + dateCost + durCost + attendCost
             costobj = make_object(TIME, DATE, DUR, ATTEND, cost)
             return costobj
         
-        def date_of_cost(self, objDate, Default-settings):
+        def date_of_cost(self, objDate, Defaultsettings, solution):
             VTime = objDate.get_VtimeAWAY()
             VDay = objDate.get_VdateAWAY()
             VDur = objDate.get_Vduration()
             Vattend = objDate.get_Vattendies()
             Vcost = objDate.Vcost()
-        
-            defaultTime = Default-settings.get_prefered_time()
-            defaultDate = Default-settings.get_prefered_date()
-            defaultMinPeople = Default-settings.get_minimumPeople()
-            defaultDur = Default-settings.get_timeLength()
+            
+            defaultTime = Defaultsettings.get_prefered_time()
+            defaultDate = Defaultsettings.get_prefered_date()
+            defaultMax = Defaultsettings.get_mostPeople()
+            defaultDur = Defaultsettings.get_timeLength()
+            defaultLoc = Defaultsettings.get_location()
+            granularity = Defaultsettings.getGranularity()
             
             #this assumes that the defaults are already in datetime
             daysAway = datetime.timedelta(days = VDay)
@@ -291,49 +303,59 @@ class CostFunction
             
             timeAway = datetime.timedelta(hours = VTime)
             newTime = defaultTime + timeAway
+            j = newTime.time() #the time the event starts at 
             
-            j = newTime.time()
-            D = datetime.timedelta(hours = VDur)
+            timeLess = VDur * granularity #amount of time less it is 
+            DTless = datetime.timedelta(hours = timeLess) #timeLes is datetime format
+            D = defaultDur - DTless #full duration of the event
             
-            return to_string(i, j, D, Vcost)
+            EndTime = newTime + D
+            End = EndTime.time()
             
             
-        def to_string(self, i, j, D, cost):
-            return "{'Day':" + i + ",'StartTimre':" + j + "','EndTime':'" + j+D + "','Duratiion':'" + D  + "','Cost:" + cost + "]"
-            #double check code to input location + "','Location':'" + self.locationTime
+            people = defaultMax - Vattend #check to see if wanted the list of actual people attending or just a number
+                        
+            return to_string(i, j, D, Vcost, solution, End, defaultLoc, people)
+            
+            
+            #work in progress, but the basic is still pretty good
+        def to_string(self, i, j, D, cost, sol, End, people):
+            return "{'Solution':'" + sol + "','Day':" + i + ",'StartTime':" + j + "','EndTime':'" + End + "','Duration':'" + D + "','Location':'" + defaultLoc + "','Cost':" + cost + "','Attendees':" + people + "]"
+            #just have to check whether or not to return the actual list of attendies who can make it
+            
             
             
             
         
         
         
-    [10: "time", 200 : "durration"] #etc
+  #  [10: "time", 200 : "durration"] #etc
     
-    deg get_nth(self, n, dictionary)
-        for key in dictionary:
-            return minikey
+   # deg get_nth(self, n, dictionary)
+    #    for key in dictionary:
+     #       return minikey
         
-    def modify_time(self, priority, discrete events, matrix, duration):
-        for time in matrix:
-            if not is_busy_for_duration(time, duration):
-                good event [].append new event(time)
-                cost[].append (cost of time)
+    #def modify_time(self, priority, discrete events, matrix, duration):
+     #   for time in matrix:
+      #      if not is_busy_for_duration(time, duration):
+       #         good event [].append new event(time)
+        #        cost[].append (cost of time)
                 
-            if reach matrix:
-                return reached max ""
-solution sets []
-for number of solution sets
-    matrix = subset [modified matrix]
-    while
-    switch priority:
-        good events []
-        case "time":
-            modify_time()
-        etc
+         #   if reach matrix:
+          #      return reached max ""
+#solution sets []
+#for number of solution sets
+ #   matrix = subset [modified matrix]
+  #  while
+   # switch priority:
+    #    good events []
+     #   case "time":
+      #      modify_time()
+       # etc
 
 #check to see if you can use miltidimensional lists/dictionaries
-4matrix = []#4 dimension matrix
-        def get_lowest_priority():
+#4matrix = []#4 dimension matrix
+ #       def get_lowest_priority():
             
             #get the priority on the list/changes depending on the 
             #make it a for loop for number of solution sets
