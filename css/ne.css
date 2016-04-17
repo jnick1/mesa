@@ -88,8 +88,6 @@ and open the template in the editor.
     border-spacing: 0;
 }
 
-
-
 .ne-opti-attendees {
     
 } /*empty*/
@@ -111,9 +109,20 @@ and open the template in the editor.
 .ne-opti-starttime {
     
 } /*empty*/
+.ne-opti-table-accordion-attendees-available {
+    font-weight: bold;
+}
 .ne-opti-table-accordion-attendees-content {
     padding: 2px;
+    text-align: left;
 }
+.ne-opti-table-accordion-content > table > tbody > tr > td {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+.ne-opti-table-accordion-attendees-email {
+    
+} /*empty*/
 .ne-opti-table-accordion-attendees-header {
     padding: 2px;
     text-align: left;

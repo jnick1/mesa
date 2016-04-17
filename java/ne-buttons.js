@@ -294,9 +294,6 @@ $(window).on("resize", function(){
     $("#ne-send-dialogbox").center();
     $("#ne-opti-dialogbox").center();
 });
-$(document).on("resize", "#ne-opti-dialogbox", function(){
-    $("#ne-opti-dialogbox").center();
-});
 
 $(document).on("click", "#ne-btn-back", function back_evt_request() {
     window.location = "eventlist.php";

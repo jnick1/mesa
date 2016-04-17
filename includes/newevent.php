@@ -1219,10 +1219,10 @@ and open the template in the editor.
                                                         <td>
                                                             -
                                                         </td>
-                                                        <td class="ne-opti-enddate">
+                                                        <td class="ne-opti-endtime">
                                                             <?php echo strtotime($suggestion[$sorted[$i]]["end"]) ?>
                                                         </td>
-                                                        <td class="ne-opti-endtime">
+                                                        <td class="ne-opti-enddate">
                                                             <?php echo strtotime($suggestion[$sorted[$i]]["end"]) ?>
                                                         </td>
                                                         <td class="ne-opti-location">
@@ -1235,14 +1235,22 @@ and open the template in the editor.
                                                                     Attendees available
                                                                 </span>
                                                             </div>
-                                                            <div class="ne-opti-table-accordion-attendees-content ne-opti-table-accordion-hidden">
+                                                            <div class="ne-opti-table-accordion-attendees-content ne-opti-table-accordion-attendees-hidden">
                                                                 <table>
                                                                     <tbody>
-                                                                <?php
-                                                                foreach($suggestion[$sorted[$i]]["attendees"] as $email => $available) {
-                                                                ?>
-                                                                
-                                                                <?php } ?>
+                                                                        <?php
+                                                                        foreach($suggestion[$sorted[$i]]["attendees"] as $email => $available) {
+                                                                        ?>
+                                                                        <tr>
+                                                                            <td class="ne-opti-table-accordion-attendees-email">
+                                                                                <div class="goog-icon ui-container-inline <?php echo ($available?"goog-icon-guest-yes":"goog-icon-guest-no"); ?>" title="<?php echo ($available?"This guest is able to attend":"This guest is unable to attend") ?>"></div>
+                                                                                <?php echo $email ?>
+                                                                            </td>
+                                                                            <td class="ne-opti-table-accordion-attendees-available">
+                                                                                <?php echo $available?"Yes":"No"; ?>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <?php } ?>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
