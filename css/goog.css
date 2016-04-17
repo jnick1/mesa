@@ -21,6 +21,11 @@ and open the template in the editor.
     margin: 2px;
     background-position: -95px -50px;
 }
+.goog-icon-dropdown-arrow-down {
+    width: 11px;
+    height: 11px;
+    background-position: -60px -83px;
+}
 .goog-icon-dropdown-arrow-left {
     width: 11px;
     height: 11px;
@@ -31,10 +36,15 @@ and open the template in the editor.
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
 }
-.goog-icon-dropdown-arrow-down {
+.goog-icon-dropdown-arrow-right {
     width: 11px;
     height: 11px;
     background-position: -60px -83px;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }
 .goog-icon-gmail {
     width: 14px;

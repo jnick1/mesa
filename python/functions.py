@@ -20,13 +20,57 @@ def construct_master_matrix(blCalendar, granularity):
             "optional":attendees[attendee],
             "granularity":granularity
         }
-        matrix = classes.CalendarMatrix("construct_from_rawcalendar", args)
+        matrix = classes.CalendarMatrix("rawcalendar", args)
         if(i==0):
             MasterMatrix = matrix
         else:
-            MasterMatrix = classes.CalendarMatrix("construct_from_union", {"self":MasterMatrix,"other":matrix})
+            MasterMatrix = classes.CalendarMatrix("union", {"self":MasterMatrix,"other":matrix})
         i+=1
     return MasterMatrix
+
+#constructs the modified matrix from the master matrix, and blSettings
+def construct_modified_matrix(blCalendar, settings, granularity):
+    import classes
+    import copy
+    attendees = blCalendar["attendance"]
+    preModifiedMatrix = []
+    i = 0
+    for attendee in attendees:
+        args = {
+            "rawcalendar":blCalendar[attendee],
+            "owner":attendee,
+            "optional":attendees[attendee],
+            "granularity":granularity
+        }
+        matrix = classes.CalendarMatrix("traveltime", args)
+        if(i==0):
+            preModifiedMatrix = matrix
+        else:
+            preModifiedMatrix = classes.CalendarMatrix("union", {"self":preModifiedMatrix,"other":matrix})
+        i+=1
+    
+    modifiedMatrix = copy.deepcopy(preModifiedMatrix)
+    if(settings["useDefault"]!=True):
+        if(settings["blacklist"]!=False):
+            rawDays = settings["blacklist"]["days"].split(",")
+            if(not (len(rawDays) == 1 and rawDays[0]=="")):
+                days = {
+                    "MO":   0,
+                    "TU":   1,
+                    "WE":   2,
+                    "TH":   3,
+                    "FR":   4,
+                    "SA":   5,
+                    "SU":   6
+                }
+                chopDays = [days[rawDays[x]] for x in range(len(rawDays))]
+                modifiedMatrix.delete("days", {"days":chopDays})
+        if(settings["date"]!=False):
+            if(settings["date"]["furthest"] != ""):
+                furthest = strpdate(settings["date"]["furthest"], "%Y-%m-%d")
+                lastdate = modifiedMatrix.dates[-1]
+                modifiedMatrix.delete("dRange", {"startdate":furthest,"enddate":lastdate})
+    return modifiedMatrix
 
 #returns the position in a list of a given item, -1 if not found
 def index(list, search):
@@ -80,6 +124,32 @@ def mintime(times):
         if(when<mintime):
             mintime = when
     return mintime
+
+#parses blSettings into a dictionary of priorities
+def parsePriorities(blSettings):
+    priorities = {
+        "time":         1,
+        "date":         2,
+        "duration":     3,
+        "repeat":       4,
+        "location":     5,
+        "granularity":  6,
+        "attendees":    7,
+    }
+    if(not blSettings["useDefault"]):
+        if(blSettings["time"]):
+            priorities["time"] = priorities["time"]*int(blSettings["time"]["prioritization"])
+        if(blSettings["date"]):
+            priorities["date"] = priorities["date"]*int(blSettings["date"]["prioritization"])
+        if(blSettings["duration"]):
+            priorities["duration"] = priorities["duration"]*int(blSettings["duration"]["prioritization"])
+        if(blSettings["repeat"]):
+            priorities["repeat"] = priorities["repeat"]*int(blSettings["repeat"]["prioritization"])
+        if(blSettings["location"]):
+            priorities["location"] = priorities["location"]*int(blSettings["location"]["prioritization"])
+        if(blSettings["attendees"]):
+            priorities["attendees"] = priorities["attendees"]*int(blSettings["attendees"]["prioritization"])
+    return priorities
 
 #parses txRRule into a dictionary
 def parseRRule(txRRule):
