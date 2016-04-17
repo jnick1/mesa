@@ -47,7 +47,46 @@ if(isset($scrubbed["optimize"])) {
         file_put_contents($homedir."python/temp1.json", $calendars);
         file_put_contents($homedir."python/temp2.json", $blSettings);
         exec("python \"".$homedir."python/optimize.py\" \"$dtStart\" \"$dtEnd\" \"$txLocation\" \"$txRRule\" 2>&1", $output, $err);
-        $blOptiSuggestion = implode("\n",$output);
+//        $blOptiSuggestion = implode("\n",$output);
+        
+//        $blOptiSuggestion = "
+//        {
+//            \"0\": { 
+//                \"0\": {
+//                    \"start\":\"2016-04-06T16:00:00Z\",
+//                    \"end\":\"2016-04-06T17:00:00Z\",
+//                    \"location\":\"Location1\",
+//                    \"cost\":\"3\",
+//                    \"id\":\"0\",
+//                    \"attendees\": {
+//                        \"janick@oakland.edu\":true,
+//                        \"in7.4.1776@gmail.com\":true
+//                    }
+//                },
+//                \"1\": {
+//                    \"start\":\"2016-04-07T17:00:00Z\",
+//                    \"end\":\"2016-04-07T18:00:00Z\",
+//                    \"location\":\"location2\",
+//                    \"cost\":\"7\",
+//                    \"id\":\"1\",
+//                    \"attendees\": {
+//                        \"janick@oakland.edu\":true,
+//                        \"in7.4.1776@gmail.com\":true
+//                    }
+//                },
+//                \"2\": {
+//                    \"start\":\"2016-04-06T13:00:00Z\",
+//                    \"end\":\"2016-04-06T13:30:00Z\",
+//                    \"location\":\"location3\",
+//                    \"cost\":\"4\",
+//                    \"id\":\"2\",
+//                    \"attendees\": {
+//                        \"janick@oakland.edu\":true,
+//                        \"in7.4.1776@gmail.com\":true
+//                    }
+//                }
+//            }
+//        }";
         
         var_dump($output);
 //        $q3 = "UPDATE tblevents SET blOptiSuggestion = ? WHERE pkEventid = ?";

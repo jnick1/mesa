@@ -32,6 +32,7 @@ print ("RRule: ")
 print (RRule)
 print("\n")
 
+priorities = functions.parsePriorities(blSettings)
+originalEvent = classes.Event("blevent", {"blEvent":{"start_time":dtStart.replace(" ", "T")+"Z", "end_time":dtEnd.replace(" ", "T")+"Z", "location":txLocation, "travel_time":0}})
 modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, 30)
 
-print(modifiedMatrix.print_labelled())

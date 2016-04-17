@@ -193,7 +193,7 @@ class Event:
     #
     #required args: start, duration, location, travelTime
     #
-    #requires: start must be a datetime object, duration is an int > 0 
+    #requires: start, end must be a datetime object, duration is an int > 0 
     #   (representing minutes)
     def construct_from_duration(self, args):
         self.start = args["start"]
