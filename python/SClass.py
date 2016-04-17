@@ -61,12 +61,13 @@ class PersonalMatrixFunctions:
 class MasterMatrix:
     
     timeLength = 0
-    searchWidth = 0
-    locationTime = 0
     preferedTime = 0
     TempPreferedTime = 0
     preferedDate = 0
     minimumPeople = 0
+    
+    locationTime = 0
+    searchWidth = 0
     granularity = 0
     mostPeople = 0
     BannedStart = 0
@@ -85,8 +86,20 @@ class MasterMatrix:
         self.BannedStart = BannedStart
         self.BannedEnd = BannedEnd
     
+    def get_prefered_time(self):
+        return self.preferedTime
+    
+    def get_prefered_date(self):
+        return self.preferedDate
+    
+    def get_minimumPeople(self):
+        return self.minimumPeople
+    
+    def get_timeLength(self):
+        return self.timeLength
+    
     def getGranularity(self):
-        return granularity
+        return self.granularity
     
     def findTimes(self, MasterMatrix, BannedStart, BannedEnd, granularity, locationArray):
         output = ""
@@ -184,6 +197,114 @@ class MasterMatrix:
         d1 = datetime.date(int(year1), int(month1), int(day1))
         
         return d1
+    
+        
+class CostFunction
+        
+    #sum of distance on axix * priotiy of axis
+    #Will gets me the point list, Jacob gets me
+    # order is TIME, DATE, DURATION, ATTENDE
+        #these are the points that differ from the default settings
+        #start time axis is 5: so 5 * priorityof TIME
+        #etc, then add then all together for each point
+        # POINT[1] = list of size 4
+        #calculate cost, 
+        #make a list of events with all data + cost
+        #after getting all possible points, find the with the lowest 10 dates in the matrix with that cost
+        #
+        #note look at 3.4 datetime, be more type aware
+        def make_object(self, timeAWAY, dateAWAY, duration, attendies, cost):
+            #these two are where you need to check on the datetime stuff for sure
+            self.VtimeAWAY =timeAWAY 
+            self.VdateAWAY = dateAWAY
+            #the rest are normal
+            self.Vduration = duration
+            self.Vattendies = attendies
+            self.Vcost = cost
+            
+        def get_VtimeAWAY(self):
+            return self.VtimeAWAY
+        
+        def get_VdateAWAY(self):
+            return self.VdateAWAY
+        
+        def get_Vduration(self):
+            return self.Vduration
+        
+        def get_Vattendies(self):
+            return self.attendies
+        
+        def get_Vcost(self):
+            return self.Vcost
+    
+        def get_key(item):
+            return item[4]
+    
+        def smallest_cost(self, POINT, Priority, Default-settings):
+            costList []
+            if (POINT is None):
+                return null
+            else:
+                output = ""
+                for i in range (len(POINT)):
+                    cost1 = vector_cost(POINT[i], Priority)
+                    costList.attend(cost1)
+                sorted(costList, key=getKey)
+                for i in range (0, 10, 1)
+                    stringOutput = date_of_cost(costList[i], Default-settings)
+                    output += stringOutput
+                return output    
+                
+    
+    
+        def vector_cost(self, point, Priority):
+            self.TIME = point[1] #this is in minutes? assume so for now
+            self.DATE = point[2]
+            self.DUR = point[3]
+            self.ATTEND = point[4] #ask will if this is the num of people under the minimum?, that way it is neg when over minimum
+            
+            timeCost = abs(TIME) * point[1] #what if the time and such is the other direction away from the goal time?
+            dateCost = abs(DATE) * point[2] #so take the absolute value
+            durCost = DUR * point[3]
+            attendCost = ATTEND* point[4]
+            
+            cost = timeCost + dateCost + durCost + attendCost
+            costobj = make_object(TIME, DATE, DUR, ATTEND, cost)
+            return costobj
+        
+        def date_of_cost(self, objDate, Default-settings):
+            VTime = objDate.get_VtimeAWAY()
+            VDay = objDate.get_VdateAWAY()
+            VDur = objDate.get_Vduration()
+            Vattend = objDate.get_Vattendies()
+            Vcost = objDate.Vcost()
+        
+            defaultTime = Default-settings.get_prefered_time()
+            defaultDate = Default-settings.get_prefered_date()
+            defaultMinPeople = Default-settings.get_minimumPeople()
+            defaultDur = Default-settings.get_timeLength()
+            
+            #this assumes that the defaults are already in datetime
+            daysAway = datetime.timedelta(days = VDay)
+            newDay = defaultDate + daysAway #works when its pos or neg 
+            i = newDay.date()
+            
+            timeAway = datetime.timedelta(hours = VTime)
+            newTime = defaultTime + timeAway
+            
+            j = newTime.time()
+            D = datetime.timedelta(hours = VDur)
+            
+            return to_string(i, j, D, Vcost)
+            
+            
+        def to_string(self, i, j, D, cost):
+            return "{'Day':" + i + ",'StartTimre':" + j + "','EndTime':'" + j+D + "','Duratiion':'" + D  + "','Cost:" + cost + "]"
+            #double check code to input location + "','Location':'" + self.locationTime
+            
+            
+            
+        
         
         
     [10: "time", 200 : "durration"] #etc
@@ -192,9 +313,9 @@ class MasterMatrix:
         for key in dictionary:
             return minikey
         
-    def modify_time(self, priority, discrete events, matrix):
+    def modify_time(self, priority, discrete events, matrix, duration):
         for time in matrix:
-            if not is busy for duration(time, duration):
+            if not is_busy_for_duration(time, duration):
                 good event [].append new event(time)
                 cost[].append (cost of time)
                 
