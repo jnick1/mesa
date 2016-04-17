@@ -5,10 +5,12 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-import functions
 import datetime
 
-def construct_point_list(masterMatrix):
+def construct_point_list(masterMatrix, granularity, baseEvent):
+    startTime = baseEvent.start - -timedelta(minutes=start.minute%granularity)
+    startingDuration = (baseEvent.end - startTime).seconds()/60
+    startingDuration = startingDuration + (granularity - startingDuration%granularity)
     
     canModulateAttendees = true;
     canModulateDuration = true;
