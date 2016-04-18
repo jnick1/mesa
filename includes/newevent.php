@@ -1222,22 +1222,22 @@ and open the template in the editor.
                                                     ?>
                                                     <tr>
                                                         <td class="ne-opti-startdate">
-                                                            <?php echo strtotime($sorted[$i]["start"]) ?>
+                                                            <?php echo strtotime($sorted[$i]["start"]); ?>
                                                         </td>
                                                         <td class="ne-opti-starttime">
-                                                            <?php echo strtotime($sorted[$i]["start"]) ?>
+                                                            <?php echo strtotime($sorted[$i]["start"]); ?>
                                                         </td>
                                                         <td>
                                                             -
                                                         </td>
                                                         <td class="ne-opti-endtime">
-                                                            <?php echo strtotime($sorted[$i]["end"]) ?>
+                                                            <?php echo strtotime($sorted[$i]["end"]); ?>
                                                         </td>
                                                         <td class="ne-opti-enddate">
-                                                            <?php echo strtotime($sorted[$i]["end"]) ?>
+                                                            <?php echo strtotime($sorted[$i]["end"]); ?>
                                                         </td>
                                                         <td class="ne-opti-location">
-                                                            <?php echo $sorted[$i]["location"] ?>
+                                                            <?php echo $sorted[$i]["location"]; ?>
                                                         </td>
                                                         <td class="ne-opti-attendees">
                                                             <div class="ne-opti-table-accordion-attendees-header ui-unselectabletext">
@@ -1250,18 +1250,20 @@ and open the template in the editor.
                                                                 <table>
                                                                     <tbody>
                                                                         <?php
-                                                                        foreach($sorted[$i]["attendees"] as $email => $available) {
+                                                                        foreach($attendees as $attendee) { //$sorted[$i]["attendees"] as $email => $available
+                                                                            if($attendee["responseStatus"]=="accepted") {
                                                                         ?>
                                                                         <tr>
                                                                             <td class="ne-opti-table-accordion-attendees-email">
-                                                                                <div class="goog-icon ui-container-inline <?php echo ($available?"goog-icon-guest-yes":"goog-icon-guest-no"); ?>" title="<?php echo ($available?"This guest is able to attend":"This guest is unable to attend") ?>"></div>
-                                                                                <?php echo $email ?>
+                                                                                <div class="goog-icon ui-container-inline <?php echo (in_array($attendee["email"], $sorted[$i]["attendees"])?"goog-icon-guest-yes":"goog-icon-guest-no"); ?>" title="<?php echo (in_array($attendee["email"], $sorted[$i]["attendees"])?"This guest is able to attend":"This guest is unable to attend"); ?>"></div>
+                                                                                <?php echo $attendee["email"]; ?>
                                                                             </td>
                                                                             <td class="ne-opti-table-accordion-attendees-available">
-                                                                                <?php echo $available?"Yes":"No"; ?>
+                                                                                <?php echo in_array($attendee["email"], $sorted[$i]["attendees"])?"Yes":"No"; ?>
                                                                             </td>
                                                                         </tr>
-                                                                        <?php } ?>
+                                                                            <?php }
+                                                                            } ?>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
