@@ -378,7 +378,7 @@ class Matrix:
     def construct_from_additive_intersection(self, args):
         A = args["self"]
         B = args["other"]
-        if(not (math.isclose(A.length(),B.length()) and A.times == B.times and A.dates == B.dates)):
+        if(not ((A.length()-B.length()<0.0000000001) and A.times == B.times and A.dates == B.dates)):
             for i in range(len(A.matrix)):
                 for j in range(len(A.matrix[0])):
                     when = A.get("datetime",{"row":i,"col":j})
@@ -462,7 +462,7 @@ class Matrix:
     def construct_from_union(self, args):
         A = args["self"]
         B = args["other"]
-        if(not (math.isclose(A.length(),B.length()) and A.times == B.times and A.dates == B.dates)):
+        if(not ((A.length()-B.length()<0.0000000001) and A.times == B.times and A.dates == B.dates)):
             dates = A.dates + B.dates
             times = A.times + B.times
             startdate = functions.mindate(dates)
