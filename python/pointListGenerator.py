@@ -10,7 +10,7 @@ import classes
 import math
 
 def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
-    startTime = baseEvent.start - timedelta(minutes=baseEvent.start.minute%granularity)
+    startTime = baseEvent.start - timedelta(minutes=(granularity - baseEvent.start.minute%granularity)%granularity)
     startingDuration = (baseEvent.end - baseEvent.start).seconds//60
     startingDuration = startingDuration + (granularity - startingDuration%granularity)%granularity
     
@@ -63,10 +63,9 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
                 if(len(attendees) < minAttendees):
                     continue
                 diffDates = (datetime.combine(startTime.date(),time(0,0,0)) - datetime.combine(eventTime.date(), time(0,0,0))).days
-                timeDirection = 1 if (datetime.combine(date(1,1,1),startTime.time()) < datetime.combine(date(1,1,1),eventTime.time())) else -1
-                diffTimes = (datetime.combine(date(1,1,1),startTime.time()) - datetime.combine(date(1,1,1),eventTime.time())).seconds
+                diffTimes = (datetime.combine(date(1,1,1),startTime.time()) - datetime.combine(date(1,1,1),eventTime.time())).total_seconds()
                 diffTimes = math.ceil(diffTimes/(60*granularity)) #Only thing I don't know if works
-                datetimePoint = [timeDirection * diffTimes,diffDates,durationIncrement,(len(masterMatrix.attendees) - len(attendees))]
+                datetimePoint = [-1 * diffTimes,diffDates,durationIncrement,(len(masterMatrix.attendees) - len(attendees))]
                 finalPointList.append(datetimePoint)
             durationIncrement += 1
     return finalPointList

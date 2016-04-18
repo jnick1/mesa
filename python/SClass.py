@@ -70,7 +70,7 @@ def date_of_cost(objDate, originalEvent, granularity, solution, location, Matrix
     VDur = objDate["duration"]
     Vcost = objDate["cost"]
 
-    startTime = originalEvent.start - timedelta(minutes=originalEvent.start.minute%granularity)
+    startTime = originalEvent.start - timedelta(minutes=(granularity - originalEvent.start.minute%granularity)%granularity)
     startingDuration = (originalEvent.end - originalEvent.start).seconds//60
     startingDuration = startingDuration + ((granularity - startingDuration%granularity)%granularity)
 
