@@ -10,7 +10,6 @@ __date__ ="$Apr 10, 2016 3:30:13 AM$"
 
 import sys
 import json
-from datetime import datetime, date, time
 import functions
 import classes
 import pointListGenerator
@@ -40,5 +39,3 @@ pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity,
 
 costOutput = SClass.smallest_cost(pointList, priorities, originalEvent, granularity, txLocation, modifiedMatrix)  
 print (costOutput)
-
-

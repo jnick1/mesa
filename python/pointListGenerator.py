@@ -11,8 +11,8 @@ import math
 
 def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
     startTime = baseEvent.start - timedelta(minutes=baseEvent.start.minute%granularity)
-    startingDuration = (baseEvent.end - startTime).seconds/60
-    startingDuration = startingDuration + (granularity - startingDuration%granularity)
+    startingDuration = (baseEvent.end - baseEvent.start).seconds//60
+    startingDuration = startingDuration + (granularity - startingDuration%granularity)%granularity
     
     canModulateAttendees = True
     canModulateDuration = True
@@ -28,6 +28,7 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
             canModulateDuration = blSettings["duration"]["durationallow"]
         if(blSettings["attendees"] != False):
             canModulateTime = blSettings["attendees"]["attendeesallow"]
+            minAttendees = int(blSettings["attendees"]["minattendees"])
             
     finalPointList = []
 
@@ -37,7 +38,7 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
             return None
         if(time.date() != startTime.date()):
             return None
-        attendees = masterMatrix #(GET ATTENDEES FOR DURATION AND STARTTIME)
+        attendees = masterMatrix.available_attendees(starttime, startingDuration) #(GET ATTENDEES FOR DURATION AND STARTTIME)
         if(len(attendees) < len(masterMatrix.attendees)):
             return None
         return [0][0,0,0,0]
@@ -57,7 +58,7 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
                 if(masterMatrix.is_required_attendees_busy(eventTime, duration)):
                     continue
                 if(not canModulateAttendees):
-                    if(len(attendees) < masterMatrix.attendees):
+                    if(len(attendees) < len(masterMatrix.attendees)):
                         continue
                 if(len(attendees) < minAttendees):
                     continue
