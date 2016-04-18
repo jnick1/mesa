@@ -1250,18 +1250,20 @@ and open the template in the editor.
                                                                 <table>
                                                                     <tbody>
                                                                         <?php
-                                                                        foreach($sorted[$i]["attendees"] as $email => $available) {
+                                                                        foreach($attendees as $attendee) { //$sorted[$i]["attendees"] as $email => $available
+                                                                            if($attendee["responseStatus"]=="accepted") {
                                                                         ?>
                                                                         <tr>
                                                                             <td class="ne-opti-table-accordion-attendees-email">
-                                                                                <div class="goog-icon ui-container-inline <?php echo ($available?"goog-icon-guest-yes":"goog-icon-guest-no"); ?>" title="<?php echo ($available?"This guest is able to attend":"This guest is unable to attend") ?>"></div>
-                                                                                <?php echo $email ?>
+                                                                                <div class="goog-icon ui-container-inline <?php echo (in_array($attendee["email"], $sorted[$i]["attendees"])?"goog-icon-guest-yes":"goog-icon-guest-no"); ?>" title="<?php echo (in_array($attendee["email"], $sorted[$i]["attendees"])?"This guest is able to attend":"This guest is unable to attend") ?>"></div>
+                                                                                <?php echo $attendee["email"] ?>
                                                                             </td>
                                                                             <td class="ne-opti-table-accordion-attendees-available">
-                                                                                <?php echo $available?"Yes":"No"; ?>
+                                                                                <?php echo in_array($attendee["email"], $sorted[$i]["attendees"])?"Yes":"No"; ?>
                                                                             </td>
                                                                         </tr>
-                                                                        <?php } ?>
+                                                                            <?php }
+                                                                            } ?>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
