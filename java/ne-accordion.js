@@ -25,7 +25,7 @@ $(document).ready(function(){
     $(".ne-opti-starttime").each(function(){
         var timestamp = $(this).html();
         var date = new Date(parseInt(timestamp)*1000);
-        var hour = (date.getHours()>12?date.getHours()-12:date.getHours());
+        var hour = (date.getHours()>12?date.getHours()-12:date.getHours()===0?12:date.getHours());
         var minute = "0"+date.getMinutes();
         var suffix = (date.getHours()>=12?"pm":"am");
         $(this).html(hour+":"+minute.substr(-2)+suffix)
@@ -41,7 +41,7 @@ $(document).ready(function(){
     $(".ne-opti-endtime").each(function(){
         var timestamp = $(this).html();
         var date = new Date(parseInt(timestamp)*1000);
-        var hour = (date.getHours()>12?date.getHours()-12:date.getHours());
+        var hour = (date.getHours()>12?date.getHours()-12:date.getHours()===0?12:date.getHours());
         var minute = "0"+date.getMinutes();
         var suffix = (date.getHours()>=12?"pm":"am");
         $(this).html(hour+":"+minute.substr(-2)+suffix)
