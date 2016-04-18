@@ -61,7 +61,7 @@ if(isset($scrubbed["optimize"])) {
         unlink($homedir."python/temp1.json");
         unlink($homedir."python/temp2.json");
         rrmdir($homedir."python/__pycache__");
-        $blOptiSuggestion = "{".$output."}}";
+        $blOptiSuggestion = "{".$output."}";
         
         $q3 = "UPDATE tblevents SET blOptiSuggestion = ? WHERE pkEventid = ?";
         $q4 = "SELECT nmTitle FROM tblevents WHERE pkEventid = ?";
