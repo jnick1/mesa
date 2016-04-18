@@ -184,7 +184,9 @@ function save_event(destination, addonParameters){
             temp["dateallow"] = $("#ne-evt-settings-dayallow").is(":checked");
             var prior = $("#ne-evt-settings-date-prior-low").is(":checked")?1:$("#ne-evt-settings-date-prior-med").is(":checked")?10:100;
             temp["prioritization"] = prior;
-            temp["furthest"] = $("#ne-evt-settings-maxdate").val();
+            var date = new Date();
+            date = time_parser($("#ne-evt-settings-maxdate").val()+" 12:00pm");
+            temp["furthest"] = date.getUTCFullYear()+"-"+(date.getUTCMonth()+1<10?"0"+(date.getUTCMonth()+1):date.getUTCMonth()+1)+"-"+(date.getUTCDate()<10?"0"+date.getUTCDate():date.getUTCDate());
             blSettings["date"] = temp;
         } else {
             blSettings["date"] = false;
@@ -309,18 +311,23 @@ $(document).on("click", "#ne-btn-save", function save_evt_request() {
 
 $(document).on("click", "#ne-btn-send", function send_evt_request() {
     if($("#wpg").attr("data-optiran")) {
-        var chosen = "";
-        $(".ne-opti-table-checkbox:checked").each(function() {
-            chosen+=$(this).attr("id").substring(21,1)+",";
-        });
-        chosen = chosen.substr(0, chosen.length-1);
-        var parameters = {
-            "send":true,
-            "optiran":true,
-            "optichosen":chosen,
-            "pkEventid":$("#wpg").attr("data-eventid")
-        };
-        post("eventlist.php",parameters,"POST");
+        if($(".ne-opti-table-checkbox:checked").length>0) {
+            var chosen = "";
+            $(".ne-opti-table-checkbox:checked").each(function() {
+                chosen+=$(this).attr("id").substring(23)+",";
+            });
+            chosen = chosen.substring(0, chosen.length-1);
+            var parameters = {
+                "send":true,
+                "optiran":true,
+                "optichosen":chosen,
+                "pkEventid":$("#wpg").attr("data-eventid")
+            };
+            post("eventlist.php",parameters,"POST");
+        } else {
+            $("#wpg-header-warning").append("<div><span class=\"ui-icon ui-icon-info wpg-header-errordisplay-icon\"></span>\n<b>Warning: </b>Please select at least one solution before sending out event.</div>");
+            $("#wpg-header-errordisplay-warningwrapper").removeClass("wpg-nodisplay");
+        }
     } else {
         show_send_dialogbox();
         $("#ne-send-dialogbox").center();
@@ -362,4 +369,11 @@ $(document).on("click", "#ne-opti-btn-yes", function() {
 $(document).on("click", "#ne-opti-btn-done", function(){
     save_state("#ne-opti-table-wrapper", optimizestate);
     hide_opti_dialogbox();
+});
+$(document).on("click", "#ne-opti-btn-redo", function() {
+    var parameters = {
+        "optimize":true,
+        "pkEventid":$("#wpg").attr("data-eventid")
+    };
+    post("eventlist.php",parameters,"POST");
 });

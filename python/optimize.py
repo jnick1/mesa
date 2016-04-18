@@ -1,3 +1,4 @@
+
 #! /usr/bin/python
 
 # To change this license header, choose License Headers in Project Properties.
@@ -7,12 +8,16 @@
 __author__="Jacob"
 __date__ ="$Apr 10, 2016 3:30:13 AM$"
 
-print ("test")
 import sys
 import json
 from datetime import datetime, date, time
 import functions
 import classes
+import pointListGenerator
+import SClass
+#import SOptCode
+
+granularity = 15
 
 dtStart = sys.argv[1]
 dtEnd = sys.argv[2]
@@ -24,16 +29,16 @@ temp.close()
 temp = open("C:/wamp/www/mesa/python/temp2.json", "r")
 blSettings = json.loads(temp.read())
 temp.close()
-print("settings: ")
-print(blSettings)
-print("calendars: ")
-print(calendars)
 
 RRule = functions.parseRRule(txRRule)
-print ("RRule: ")
-print (RRule)
 
-test = classes.Calendar(calendars["janick@oakland.edu"], "in7.4.1776@gmail.com")
-test2 = classes.CalendarMatrix(test, datetime.strptime("2016-04-04T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T18:30:00Z", "%Y-%m-%dT%H:%M:%SZ"), datetime.strptime("2016-04-08T08:00:00Z", "%Y-%m-%dT%H:%M:%SZ"),datetime.strptime("2016-04-08T23:59:59Z", "%Y-%m-%dT%H:%M:%SZ"),30)
+priorities = functions.parsePriorities(blSettings)
+originalEvent = classes.Event("blevent", {"blEvent":{"start_time":dtStart.replace(" ", "T")+"Z", "end_time":dtEnd.replace(" ", "T")+"Z", "location":txLocation, "travel_time":0}})
+modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, granularity)
 
-print (test)
+pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent, blSettings)
+
+costOutput = SClass.smallest_cost(pointList, priorities, originalEvent, granularity, txLocation, modifiedMatrix)  
+print (costOutput)
+
+

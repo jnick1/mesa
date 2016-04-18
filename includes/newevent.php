@@ -57,6 +57,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery-ui.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/jquery/jquery.dropdown.js"?>"></script>
         
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-accordion.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-buttons.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-colors-selector.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-guest.js"?>"></script>
@@ -794,7 +795,7 @@ and open the template in the editor.
                                                                 <td>
                                                                     <label id="ne-label-settings-maxdate" for="ne-evt-settings-maxdate">
                                                                         Furthest search date
-                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput"<?php if(!empty($settings["date"])) { echo " data-date=\"".$settings["date"]["furthest"]."\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput"<?php if(!empty($settings["date"])) { echo " data-date=\"".(substr($settings["date"]["furthest"],5,2)."/".substr($settings["date"]["furthest"],8,2)."/".substr($settings["date"]["furthest"],0,4))."\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
@@ -1175,33 +1176,106 @@ and open the template in the editor.
                                     </th>
                                 </tr>
                                 <?php
-                                $suggestions = json_decode($blOptiSuggestion);
-                                for($i=0; $i<count($suggestions); $i++) {
+                                $suggestions = json_decode($blOptiSuggestion, true);
+                                foreach($suggestions as $setid => $suggestion) {
                                 ?>
                                 <tr>
-                                    <td> <?php // start date ?>
-                                        
-                                    </td>
-                                    <td><?php // start time ?>
-                                        
-                                    </td>
                                     <td>
-                                        -
-                                    </td>
-                                    <td><?php // end date ?>
-                                        
-                                    </td>
-                                    <td><?php // end time ?>
-                                        
-                                    </td>
-                                    <td><?php // location ?>
-                                        
-                                    </td>
-                                    <td><?php // attendees ?>
-                                        
-                                    </td>
-                                    <td><?php // checkbox ?>
-                                        <input id="ne-opti-table-checkbox<?php echo $i; ?>" class="ne-opti-table-checkbox ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                        <div class="ne-opti-table-accordion-header ui-unselectabletext">
+                                            <div class="goog-icon goog-icon-dropdown-arrow-right ui-container-inline"></div>
+                                            <span class="ne-opti-table-accordion-header-title">
+                                                Solutions near 
+                                                <span>
+                                                <?php
+                                                $averagetime = 0;
+                                                foreach($suggestion as $event){
+                                                    $averagetime += strtotime($event["start"]);
+                                                }
+                                                echo (int)($averagetime / count($suggestion));
+                                                ?>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="ne-opti-table-accordion-content ne-opti-table-accordion-hidden">
+                                            <table>
+                                                <tbody>
+                                                    <?php
+                                                    
+                                                    function compare($eventa,$eventb) {
+                                                        if(((int) $eventa["cost"]) == ((int) $eventb["cost"])) {
+                                                            return 0;
+                                                        } else if(((int) $eventa["cost"]) > ((int) $eventb["cost"])) {
+                                                            return 1;
+                                                        } else {
+                                                            return -1;
+                                                        }
+                                                    }
+                                                    
+                                                    $sorted = [];
+                                                    foreach($suggestion as $event){
+                                                        $sorted[] = $event;
+                                                    }
+                                                    usort($sorted,"compare");
+                                                    ?>
+                                                    <?php
+                                                    for($i = 0; $i<count($sorted); $i++){
+                                                    ?>
+                                                    <tr>
+                                                        <td class="ne-opti-startdate">
+                                                            <?php echo strtotime($sorted[$i]["start"]) ?>
+                                                        </td>
+                                                        <td class="ne-opti-starttime">
+                                                            <?php echo strtotime($sorted[$i]["start"]) ?>
+                                                        </td>
+                                                        <td>
+                                                            -
+                                                        </td>
+                                                        <td class="ne-opti-endtime">
+                                                            <?php echo strtotime($sorted[$i]["end"]) ?>
+                                                        </td>
+                                                        <td class="ne-opti-enddate">
+                                                            <?php echo strtotime($sorted[$i]["end"]) ?>
+                                                        </td>
+                                                        <td class="ne-opti-location">
+                                                            <?php echo $sorted[$i]["location"] ?>
+                                                        </td>
+                                                        <td class="ne-opti-attendees">
+                                                            <div class="ne-opti-table-accordion-attendees-header ui-unselectabletext">
+                                                                <div class="goog-icon goog-icon-dropdown-arrow-right ui-container-inline"></div>
+                                                                <span class="ne-opti-table-accordion-header-title">
+                                                                    Attendees available
+                                                                </span>
+                                                            </div>
+                                                            <div class="ne-opti-table-accordion-attendees-content ne-opti-table-accordion-attendees-hidden">
+                                                                <table>
+                                                                    <tbody>
+                                                                        <?php
+                                                                        foreach($attendees as $attendee) { //$sorted[$i]["attendees"] as $email => $available
+                                                                            if($attendee["responseStatus"]=="accepted") {
+                                                                        ?>
+                                                                        <tr>
+                                                                            <td class="ne-opti-table-accordion-attendees-email">
+                                                                                <div class="goog-icon ui-container-inline <?php echo (in_array($attendee["email"], $sorted[$i]["attendees"])?"goog-icon-guest-yes":"goog-icon-guest-no"); ?>" title="<?php echo (in_array($attendee["email"], $sorted[$i]["attendees"])?"This guest is able to attend":"This guest is unable to attend") ?>"></div>
+                                                                                <?php echo $attendee["email"] ?>
+                                                                            </td>
+                                                                            <td class="ne-opti-table-accordion-attendees-available">
+                                                                                <?php echo in_array($attendee["email"], $sorted[$i]["attendees"])?"Yes":"No"; ?>
+                                                                            </td>
+                                                                        </tr>
+                                                                            <?php }
+                                                                            } ?>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                        <td class="ne-opti-checkbox">
+                                                            <input id="ne-opti-table-checkbox<?php echo "_".$setid."_".$sorted[$i]["id"]?>" class="ne-opti-table-checkbox ui-checkbox" type="checkbox"<?php echo " tabindex=\"".$ti++."\"";?>> 
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php } ?>
@@ -1224,6 +1298,11 @@ and open the template in the editor.
                     if(isset($scrubbed["pkEventid"])) {
                         if(isset($dtRequestSent)) {
                             if(isset($blOptiSuggestion)) { ?>
+                    <div id="ne-opti-btn-redo-wrapper" class="wrapper-btn-action wrapper-btn-all ne-btns-popups">
+                        <div id="ne-opti-btn-redo"<?php echo " tabindex=\"".$ti++."\"";?>>
+                            REDO SEARCH
+                        </div>
+                    </div>
                     <div class="wrapper-btn-general wrapper-btn-all ne-btns-popups">
                         <div id="ne-opti-btn-done"<?php echo " tabindex=\"".$ti++."\"";?>>
                             Done
@@ -1254,6 +1333,7 @@ and open the template in the editor.
               <?php }
                     ?>
                 </div>
+                
             </div>
         </div>
         <?php
