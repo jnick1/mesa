@@ -7,6 +7,7 @@
 
 from datetime import datetime, date, time, timedelta
 from operator import itemgetter 
+import math
         
     #sum of distance on axix * priotiy of axis
     #Will gets me the point list, Jacob gets me
@@ -76,7 +77,7 @@ def date_of_cost(objDate, originalEvent, granularity, solution, location, Matrix
     #this assumes that the defaults are already in datetime
     newDate = (startTime + timedelta(days = VDay)).date() #works when its pos or neg 
 
-    newTime = (startTime + timedelta(minutes = VTime*granularity)).time()
+    newTime = (startTime + math.copysign(1,VTime)*timedelta(minutes = VTime*granularity)).time()
     newDuration = startingDuration - (VDur * granularity) #full duration of the event
 
     newEndTime = datetime.combine(newDate,newTime) + timedelta(minutes = newDuration)
