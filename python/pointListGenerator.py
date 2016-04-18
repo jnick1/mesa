@@ -9,30 +9,37 @@ from datetime import datetime, date, time, timedelta
 import classes
 import math
 
-def construct_point_list(masterMatrix, granularity, baseEvent):
+def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
     startTime = baseEvent.start - timedelta(minutes=baseEvent.start.minute%granularity)
     startingDuration = (baseEvent.end - startTime).seconds/60
     startingDuration = startingDuration + (granularity - startingDuration%granularity)
-    print(startTime)
-    print(startingDuration)
     
     canModulateAttendees = True
     canModulateDuration = True
     canModulateDate = True
     canModulateTime = True
     minAttendees = 1
-
+    if(blSettings["useDefault"] == False):
+        if(blSettings["time"] != False):
+            canModulateTime = blSettings["time"]["timeallow"]
+        if(blSettings["date"] != False):
+            canModulateDate = blSettings["date"]["dateallow"]
+        if(blSettings["duration"] != False):
+            canModulateDuration = blSettings["duration"]["durationallow"]
+        if(blSettings["attendees"] != False):
+            canModulateTime = blSettings["attendees"]["attendeesallow"]
+            
     finalPointList = []
 
     if(not(canModulateAttendees or canModulateDuration or canModulateDate or canModulateTime)):
         # Check if startDate and Time works, if not, return an empty list to Sierra
         if(time.time() != startTime.time()):
-            return NULL
+            return None
         if(time.date() != startTime.date()):
-            return NULL
+            return None
         attendees = masterMatrix #(GET ATTENDEES FOR DURATION AND STARTTIME)
         if(len(attendees) < len(masterMatrix.attendees)):
-            return NULL
+            return None
         return [0][0,0,0,0]
     else:
         unconstrained_list = generate_unconstrained_list(masterMatrix)
@@ -55,9 +62,10 @@ def construct_point_list(masterMatrix, granularity, baseEvent):
                 if(len(attendees) < minAttendees):
                     continue
                 diffDates = (datetime.combine(startTime.date(),time(0,0,0)) - datetime.combine(eventTime.date(), time(0,0,0))).days
+                timeDirection = 1 if (datetime.combine(date(1,1,1),startTime.time()) < datetime.combine(date(1,1,1),eventTime.time())) else -1
                 diffTimes = (datetime.combine(date(1,1,1),startTime.time()) - datetime.combine(date(1,1,1),eventTime.time())).seconds
                 diffTimes = math.ceil(diffTimes/(60*granularity)) #Only thing I don't know if works
-                datetimePoint = [diffTimes,diffDates,durationIncrement,(len(masterMatrix.attendees) - len(attendees))]
+                datetimePoint = [timeDirection * diffTimes,diffDates,durationIncrement,(len(masterMatrix.attendees) - len(attendees))]
                 finalPointList.append(datetimePoint)
             durationIncrement += 1
     return finalPointList

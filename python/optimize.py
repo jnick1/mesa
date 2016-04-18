@@ -1,3 +1,4 @@
+
 #! /usr/bin/python
 
 # To change this license header, choose License Headers in Project Properties.
@@ -7,13 +8,14 @@
 __author__="Jacob"
 __date__ ="$Apr 10, 2016 3:30:13 AM$"
 
-print ("test")
 import sys
 import json
 from datetime import datetime, date, time
 import functions
 import classes
 import pointListGenerator
+import SClass
+#import SOptCode
 
 granularity = 15
 
@@ -27,19 +29,16 @@ temp.close()
 temp = open("C:/wamp/www/mesa/python/temp2.json", "r")
 blSettings = json.loads(temp.read())
 temp.close()
-print("settings: ")
-print(blSettings)
 
 RRule = functions.parseRRule(txRRule)
-print ("RRule: ")
-print (RRule)
-print("\n")
 
 priorities = functions.parsePriorities(blSettings)
 originalEvent = classes.Event("blevent", {"blEvent":{"start_time":dtStart.replace(" ", "T")+"Z", "end_time":dtEnd.replace(" ", "T")+"Z", "location":txLocation, "travel_time":0}})
-print (originalEvent)
 modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, granularity)
 
-pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent)
+pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent, blSettings)
 
-print (str(pointList))
+costOutput = SClass.smallest_cost(pointList, priorities, originalEvent, granularity, txLocation, modifiedMatrix)  
+print (costOutput)
+
+
