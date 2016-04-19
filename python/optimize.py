@@ -36,8 +36,6 @@ originalEvent = classes.Event("blevent", {"blEvent":{"start_time":dtStart.replac
 modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, granularity)
 
 pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent, blSettings)
-temp = open("C:/wamp/www/mesa/python/pointList.txt", "w")
-temp.write(str(pointList))
-temp.close()
+
 costOutput = SClass.smallest_cost(pointList, priorities, originalEvent, granularity, txLocation, modifiedMatrix)  
 print (costOutput)
