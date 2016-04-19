@@ -184,9 +184,13 @@ function save_event(destination, addonParameters){
             temp["dateallow"] = $("#ne-evt-settings-dayallow").is(":checked");
             var prior = $("#ne-evt-settings-date-prior-low").is(":checked")?1:$("#ne-evt-settings-date-prior-med").is(":checked")?10:100;
             temp["prioritization"] = prior;
-            var date = new Date();
-            date = time_parser($("#ne-evt-settings-maxdate").val()+" 12:00pm");
-            temp["furthest"] = date.getUTCFullYear()+"-"+(date.getUTCMonth()+1<10?"0"+(date.getUTCMonth()+1):date.getUTCMonth()+1)+"-"+(date.getUTCDate()<10?"0"+date.getUTCDate():date.getUTCDate());
+            if(validate_date($("#ne-evt-settings-maxdate").val())){
+                var date = new Date();
+                date = time_parser($("#ne-evt-settings-maxdate").val()+" 12:00pm");
+                temp["furthest"] = date.getUTCFullYear()+"-"+(date.getUTCMonth()+1<10?"0"+(date.getUTCMonth()+1):date.getUTCMonth()+1)+"-"+(date.getUTCDate()<10?"0"+date.getUTCDate():date.getUTCDate());
+            } else {
+                temp["furthest"] = "";
+            }
             blSettings["date"] = temp;
         } else {
             blSettings["date"] = false;

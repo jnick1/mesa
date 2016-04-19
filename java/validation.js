@@ -5,7 +5,7 @@
  */
 
 function validate_date(string) {
-    return /^\d{2}\/\d{2}\/\d{4}&/.test(string);
+    return /^\d{2}\/\d{2}\/\d{4}$/.test(string);
 }
 function validate_natural_number(string){
     return /^[1-9]\d*$/.test(string);
