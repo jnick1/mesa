@@ -29,7 +29,7 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
         if(blSettings["attendees"] != False):
             canModulateTime = blSettings["attendees"]["attendeesallow"]
             minAttendees = int(blSettings["attendees"]["minattendees"])
-            
+
     finalPointList = []
 
     if(not(canModulateAttendees or canModulateDuration or canModulateDate or canModulateTime)):
@@ -65,7 +65,7 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
                 diffDates = (datetime.combine(startTime.date(),time(0,0,0)) - datetime.combine(eventTime.date(), time(0,0,0))).days
                 diffTimes = (datetime.combine(date(1,1,1),startTime.time()) - datetime.combine(date(1,1,1),eventTime.time())).total_seconds()
                 diffTimes = math.ceil(diffTimes/(60*granularity)) #Only thing I don't know if works
-                datetimePoint = [-1 * diffTimes,diffDates,durationIncrement,(len(masterMatrix.attendees) - len(attendees))]
+                datetimePoint = [-1 * diffTimes,-1 * diffDates,durationIncrement,(len(masterMatrix.attendees) - len(attendees))]
                 finalPointList.append(datetimePoint)
             durationIncrement += 1
     return finalPointList
