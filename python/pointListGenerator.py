@@ -5,7 +5,7 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time, date
 import math
 
 def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
@@ -45,9 +45,9 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
         durationIncrement = 0
         duration_list = generate_duration_list(canModulateDuration, granularity, startingDuration)
         for duration in duration_list:
-            for date in masterMatrix.dates:
-                for time in masterMatrix.times:
-                    eventTime = datetime.combine(date, time)
+            for matrixDate in masterMatrix.dates:
+                for matrixTime in masterMatrix.times:
+                    eventTime = datetime.combine(matrixDate, matrixTime)
                     if(not canModulateTime):
                         if(eventTime.time() != startTime.time()):
                             continue
