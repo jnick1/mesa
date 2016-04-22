@@ -54,14 +54,14 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
                     if(not canModulateDate):
                         if(eventTime.date() != startTime.date()):
                             continue
-                    attendees = masterMatrix.available_attendees(eventTime, duration);
                     if(masterMatrix.is_required_attendees_busy(eventTime, duration)):
+                        continue
+                    attendees = masterMatrix.available_attendees(eventTime, duration);
+                    if(len(attendees) < minAttendees):
                         continue
                     if(not canModulateAttendees):
                         if(len(attendees) < len(masterMatrix.attendees)):
                             continue
-                    if(len(attendees) < minAttendees):
-                        continue
                     diffDates = (datetime.combine(startTime.date(),time(0,0,0)) - datetime.combine(eventTime.date(), time(0,0,0))).days
                     diffTimes = (datetime.combine(date(1,1,1),startTime.time()) - datetime.combine(date(1,1,1),eventTime.time())).total_seconds()
                     diffTimes = math.ceil(diffTimes/(60*granularity))
