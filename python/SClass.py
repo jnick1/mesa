@@ -70,16 +70,15 @@ def date_of_cost(objDate, originalEvent, granularity, solution, location, Matrix
     VDur = objDate["duration"]
     Vcost = objDate["cost"]
 
-    startTime = originalEvent.start - timedelta(minutes=originalEvent.start.minute%granularity)
+    startTime = originalEvent.start - timedelta(minutes=(granularity - originalEvent.start.minute%granularity)%granularity)
     startingDuration = (originalEvent.end - originalEvent.start).seconds//60
     startingDuration = startingDuration + ((granularity - startingDuration%granularity)%granularity)
-
+    
     #this assumes that the defaults are already in datetime
     newDate = (startTime + timedelta(days = VDay)).date() #works when its pos or neg 
-
-    newTime = (startTime + math.copysign(1,VTime)*timedelta(minutes = VTime*granularity)).time()
+    newTime = (startTime + timedelta(minutes = VTime*granularity)).time()
     newDuration = startingDuration - (VDur * granularity) #full duration of the event
-
+    
     newEndTime = datetime.combine(newDate,newTime) + timedelta(minutes = newDuration)
     people = Matrix.available_attendees(datetime.combine(newDate,newTime), newDuration) 
 
