@@ -37,7 +37,7 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
             return None
         if(time.date() != startTime.date()):
             return None
-        attendees = masterMatrix.available_attendees(starttime, startingDuration) #(GET ATTENDEES FOR DURATION AND STARTTIME)
+        attendees = masterMatrix.available_attendees(startTime, startingDuration) #(GET ATTENDEES FOR DURATION AND STARTTIME)
         if(len(attendees) < len(masterMatrix.attendees)):
             return None
         return [0][0,0,0,0]
