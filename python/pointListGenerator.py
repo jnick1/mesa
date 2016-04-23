@@ -10,7 +10,7 @@ import math
 
 def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
     startTime = baseEvent.start - timedelta(minutes=(granularity - baseEvent.start.minute%granularity)%granularity)
-    startingDuration = (baseEvent.end - baseEvent.start).seconds//60
+    startingDuration = (baseEvent.end - baseEvent.start).total_seconds()//60
     startingDuration = startingDuration + (granularity - startingDuration%granularity)%granularity
     
     canModulateAttendees = True
