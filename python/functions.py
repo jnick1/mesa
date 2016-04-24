@@ -72,6 +72,22 @@ def construct_modified_matrix(blCalendar, settings, granularity):
                 modifiedMatrix.delete("dRange", {"startdate":furthest,"enddate":lastdate})
     return modifiedMatrix
 
+#performs the same function as index, but performs a binary search at O(log(n))
+#   Assume that list is sorted from lowest to highest.
+def binary_index(list, search):
+#    return _rbinary_index(list, 0, len(list)-1, search)
+    start = 0
+    end = len(list)-1
+    while(start<end):
+        mid = (start+end)//2
+        if(list[mid]==search):
+            return mid
+        elif(list[mid]<search):
+            start = mid+1
+        else:
+            end = mid-1
+    return -1
+
 #returns the position in a list of a given item, -1 if not found
 def index(list, search):
     index = 0

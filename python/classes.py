@@ -53,6 +53,8 @@ class Calendar:
         prototime = self.earliest_time()
         startdate = self.earliest_date()
         enddate = self.latest_date()
+        
+        prototime = (datetime.combine(startdate, prototime)+timedelta(minutes=(granularity-prototime.minute%granularity)%granularity)).time()
         starttime = copy.deepcopy(prototime)
         width = (enddate - startdate).days+2
         for i in range(width):
@@ -600,7 +602,7 @@ class Matrix:
             chopBlock = []
             for day in self.dates:
                 if(functions.index(args["days"], day.weekday()) != -1):
-                    chopBlock.append(functions.index(self.dates, day)-len(chopBlock))
+                    chopBlock.append(functions.binary_index(self.dates, day)-len(chopBlock))
             for chop in chopBlock:
                 self.delete("column",{"col":chop})
 
@@ -624,7 +626,7 @@ class Matrix:
             chopBlock = []
             for time in self.times:
                 if(functions.index(args["times"], time) != -1):
-                    chopBlock.append(functions.index(self.times, time)-len(chopBlock))
+                    chopBlock.append(functions.binary_index(self.times, time)-len(chopBlock))
             for chop in chopBlock:
                 self.delete("row",{"row":chop})
         
@@ -761,7 +763,7 @@ class Matrix:
         #retuires: date must be a date object
         def get_col_from_date():
             if(isinstance(args["date"], date)):
-                return functions.index(self.dates, args["date"])
+                return functions.binary_index(self.dates, args["date"])
             else:
                 raise TypeError("Erroneous argument type supplied. Please use a time object")
 
@@ -778,7 +780,7 @@ class Matrix:
         #retuires: time must be a time object
         def get_row_from_time():
             if(isinstance(args["time"], time)):
-                return functions.index(self.times, args["time"])
+                return functions.binary_index(self.times, args["time"])
             else:
                 raise TypeError("Erroneous argument type supplied. Please use a date object")
 
@@ -791,8 +793,8 @@ class Matrix:
         #retuires: when must be a datetime object
         def get_value_from_datetime():
             if(isinstance(args["when"], datetime)):
-                row = functions.index(self.times, args["when"].time())
-                col = functions.index(self.dates, args["when"].date())
+                row = functions.binary_index(self.times, args["when"].time())
+                col = functions.binary_index(self.dates, args["when"].date())
                 if(row!=-1 and col!=-1):
                     return self.matrix[row][col]
                 else:
