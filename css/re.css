@@ -19,8 +19,11 @@ and open the template in the editor.
 /*====================================*/
 
 #re-content {
-    
-} /*empty*/
+    margin-bottom: 45px;
+}
+#re-content td {
+    padding: 0.5em 3%;
+}
 
 #re-header {
     margin-top: 0px;

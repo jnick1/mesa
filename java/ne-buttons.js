@@ -365,10 +365,10 @@ $(document).on("click", "#ne-opti-x, #ne-opti-btn-cancel", function() {
 });
 $(document).on("click", "#ne-opti-btn-yes", function() {
     var parameters = {
-        "optimize":true,
+        "optimizeedit":true,
         "pkEventid":$("#wpg").attr("data-eventid")
     };
-    post("eventlist.php",parameters,"POST");
+    post("newevent.php",parameters,"POST");
 });
 $(document).on("click", "#ne-opti-btn-done", function(){
     save_state("#ne-opti-table-wrapper", optimizestate);
@@ -376,8 +376,8 @@ $(document).on("click", "#ne-opti-btn-done", function(){
 });
 $(document).on("click", "#ne-opti-btn-redo", function() {
     var parameters = {
-        "optimize":true,
+        "optimizeedit":true,
         "pkEventid":$("#wpg").attr("data-eventid")
     };
-    post("eventlist.php",parameters,"POST");
+    post("newevent.php",parameters,"POST");
 });

@@ -24,6 +24,7 @@ if(empty($_SESSION["pkUserid"])){
 include $homedir."includes/protocols/changeemail.php";
 include $homedir."includes/protocols/changepassword.php";
 
+include $homedir."includes/protocols/optimizeedit.php";
 include $homedir."includes/protocols/editevent.php";
 ?>
 <!DOCTYPE html>
@@ -866,10 +867,10 @@ and open the template in the editor.
                                                 </th>
                                                 <td>
                                                     <label id="ne-label-settings-repeatgate" for="ne-evt-settings-repeatgate">
-                                                        <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["repeat"])?" checked":""; }?><?php if(isset($scrubbed["pkEventid"]) && $txRRule=="") { echo " disabled"; } else { echo " disabled"; }?><?php echo " tabindex=\"".$ti++."\"";?>>
+                                                        <input id="ne-evt-settings-repeatgate" class="ui-checkbox" type="checkbox"<?php if(isset($scrubbed["pkEventid"])) { echo !empty($settings["repeat"])?" checked":""; }?><?php if(isset($scrubbed["pkEventid"]) && $txRRule=="") { echo " disabled"; } else if(!isset($scrubbed["pkEventid"])) { echo " disabled"; }?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                         Custom repetition settings
                                                     </label>
-                                                    <span id="ne-settings-repetition-annotation" class="ui-container-block ui-smallfont<?php if(isset($scrubbed["pkEventid"]) && $txRRule!="") { echo " wpg-nodisplay"; } ?>">(disabled when repeat is not set)</span>
+                                                    <span id="ne-settings-repetition-annotation" class="ui-smallfont<?php if((isset($scrubbed["pkEventid"]) && $txRRule!="")) { echo " wpg-nodisplay"; } else { echo " ui-container-block"; } ?>">(disabled when repeat is not set)</span>
                                                     <table id="ne-settings-repeats-table"<?php if(empty($settings["repeat"])) { echo " class=\"wpg-nodisplay\""; } ?>>
                                                         <tbody>
                                                             <tr id="ne-settings-repeats-table-0">
