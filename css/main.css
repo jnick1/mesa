@@ -166,7 +166,7 @@ body {
     -webkit-border-bottom-left-radius:8px;
     -moz-border-radius-bottomleft:8px;
     border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.1);
     border: 1px solid #444;
 }
 #wpg-account-notification-email {
@@ -190,7 +190,7 @@ body {
     -webkit-border-bottom-left-radius:8px;
     -moz-border-radius-bottomleft:8px;
     border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.1);
     border: 1px solid #444;
 }
 #wpg-account-notification-newpassword {
@@ -214,7 +214,7 @@ body {
     -webkit-border-bottom-left-radius:8px;
     -moz-border-radius-bottomleft:8px;
     border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.1);
     border: 1px solid #444;
 }
 #wpg-account-notification-password {
@@ -238,7 +238,7 @@ body {
     -webkit-border-bottom-left-radius:8px;
     -moz-border-radius-bottomleft:8px;
     border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.1);
     border: 1px solid #444;
 }
 #wpg-account-table-wrapper {
@@ -349,7 +349,7 @@ body {
     -webkit-border-bottom-left-radius:8px;
     -moz-border-radius-bottomleft:8px;
     border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.1);
     border: 1px solid #444;
 }
 #wpg-forgotpassword-table-wrapper {
@@ -546,7 +546,7 @@ body {
     -webkit-border-bottom-left-radius:8px;
     -moz-border-radius-bottomleft:8px;
     border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.1);
     border: 1px solid #444;
 }
 #wpg-signin-notification-password {
@@ -570,7 +570,7 @@ body {
     -webkit-border-bottom-left-radius:8px;
     -moz-border-radius-bottomleft:8px;
     border-bottom-left-radius:8px;
-    box-shadow: 0 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.1);
     border: 1px solid #444;
 }
 #wpg-signin-table-wrapper {

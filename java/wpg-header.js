@@ -104,11 +104,15 @@ $(document).on("click keyup", "#wpg-account-btn-changeemail", function(event) {
 $(document).on("click keyup", "#wpg-account-btn-resetpassword", function(event) {
     if(event.type === "click" || (event.type === "keyup" && (event.which===13))) {
         if($("#wpg-evt-account-newpassword").val()===$("#wpg-evt-account-confirmnewpassword").val()) {
-            post((location.protocol + '//' + location.host + location.pathname),{
-                "changepassword":true,
-                "wpg-evt-account-password":$("#wpg-evt-account-password").val(),
-                "wpg-evt-account-newpassword":$("#wpg-evt-account-newpassword").val()
-            }, "POST");
+            if($("#wpg-evt-account-newpassword").val()!==$("#wpg-evt-account-password").val()) {
+                post((location.protocol + '//' + location.host + location.pathname),{
+                    "changepassword":true,
+                    "wpg-evt-account-password":$("#wpg-evt-account-password").val(),
+                    "wpg-evt-account-newpassword":$("#wpg-evt-account-newpassword").val()
+                }, "POST");
+            } else {
+                $("#wpg-account-notification-newpassword").removeClass("wpg-nodisplay").html("Your new password may not match your old password");
+            }
         } else {
             $("#wpg-account-notification-confirmnewpassword").removeClass("wpg-nodisplay").html("Please ensure your passwords match");
         }
