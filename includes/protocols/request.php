@@ -43,7 +43,7 @@ if(isset($scrubbed["request"])) {
     $mailfail = false;
     $mailnotsofail = 0;
 
-    include $homedir."config/phpmailer_init.php";
+    include $homedir."../../secure/phpmailer_init.php";
     
     foreach($attendees as $attendee) {
         $mail->clearAddresses();
@@ -183,7 +183,7 @@ if(isset($scrubbed["request"])) {
     $mailfail = false;
     $mailnotsofail = 0;
 
-    include $homedir."config/phpmailer_init.php";
+    include $homedir."../../secure/phpmailer_init.php";
     
     foreach($attendees as $attendee) {
         $mail->clearAddresses();

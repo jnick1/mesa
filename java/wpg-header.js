@@ -139,14 +139,17 @@ $(document).on("blur","#wpg-evt-account-email,#wpg-evt-account-newpassword,#wpg-
 });
 
 $(document).on("keyup","#wpg-evt-account-newpassword",function() {
-    if($(this).val()!=="") { //need to implement real password strength checker here
-        var temp = Math.floor(Math.random()*3)+1;
-        $("#wpg-account-notification-newpassword").removeClass("wpg-nodisplay").html(temp===1?"Weak":temp===2?"Medium":"Hard");
+    if($(this).val()!=="") {
+        var entropy = validate_Rentropy($("#wpg-evt-account-newpassword").val());
+        var weak = "<span style=\"color: #f00\">Weak</span>";
+        var medium = "<span style=\"color: #ffa600\">Medium</span>";
+        var strong = "<span style=\"color: #289f28\">Strong</span>";
+        var veryStrong = "<span style=\"color: #0080ff\">Very strong</span>";
+        $("#wpg-account-notification-newpassword").removeClass("wpg-nodisplay").html(entropy<40?weak:entropy<60?medium:entropy<90?strong:veryStrong);
     } else {
         $("#wpg-account-notification-newpassword").addClass("wpg-nodisplay");
     }
 });
-
 
 
 $(document).on("click", "#wpg-header-btn-signout", function() {

@@ -33,7 +33,7 @@ if(isset($scrubbed["forgotpassword"])) {
             $stmt->close();
         }
 
-        include $homedir."config/phpmailer_init.php";
+        include $homedir."../../secure/phpmailer_init.php";
 
         $mail->addAddress($email);
 

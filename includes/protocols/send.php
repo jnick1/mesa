@@ -81,7 +81,7 @@ function send_noopti_event($dbc, $scrubbed) {
     $mailfail = false;
     $mailnotsofail = 0;
     
-    include $homedir."config/phpmailer_init.php";
+    include $homedir."../../secure/phpmailer_init.php";
     
     foreach($attendees as $attendee) {
         $mail->clearAddresses();
@@ -236,7 +236,7 @@ if(isset($scrubbed["send"])) {
         $mailfail = false;
         $mailnotsofail = 0;
         
-        include $homedir."config/phpmailer_init.php";
+        include $homedir."../../secure/phpmailer_init.php";
         foreach($dbattendees as $attendee) {
             if($attendee["responseStatus"]=="accepted"){
                 $mail->clearAddresses();

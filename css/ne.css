@@ -49,12 +49,15 @@ and open the template in the editor.
     cursor: pointer;
 }
 .ne-guest-name {
+    display: inline-block;
     overflow: hidden;
     white-space: normal;
     text-overflow: ellipsis;
     color: #222;
     font-weight: bold;
     font-size: 12px;
+    vertical-align: middle;
+    max-width: 105%;
 }
 .ne-guest-name-wrapper {
     padding: 2.5px 4px 3px 4px;
@@ -693,4 +696,9 @@ and open the template in the editor.
     font-size: 16px;
     font-weight: bold;
     border-bottom: none;
+}
+
+#ne-where-maplink {
+    display: inline-block;
+    margin-top: 5px;
 }

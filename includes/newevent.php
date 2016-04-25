@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 $homedir = "../";
-require_once $homedir."config/mysqli_connect.php";
+require_once $homedir."../../secure/mysqli_connect.php";
 $ti = 1;
 
 //these should get their values from a failed attempt at a POST request
@@ -70,6 +70,7 @@ and open the template in the editor.
         <script type="text/javascript" src="<?php echo $homedir."java/ne-ui-placeholder.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/validation.js"?>"></script>
         <script type="text/javascript" src="<?php echo $homedir."java/ne-visibility.js"?>"></script>
+        <script type="text/javascript" src="<?php echo $homedir."java/ne-where.js"?>"></script>
         
         <title>Meeting and Event Scheduling Assistant: New Event</title>
     </head>
@@ -330,6 +331,7 @@ and open the template in the editor.
                                 </th>
                                 <td>
                                     <input id="ne-evt-where" name="ne-evt-where"class="ui-textinput" placeholder="Enter a location"<?php echo " tabindex=\"".$ti++."\"";?><?php echo (isset($txLocation))?" value=\"".$txLocation."\"":""; ?>>
+                                    <a id="ne-where-maplink" class="ui-revisitablelink" href="" target="_blank">map</a>
                                 </td>
                             </tr>
                             <tr>
