@@ -10,8 +10,10 @@ import math
 
 def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
     startTime = baseEvent.start - timedelta(minutes=(granularity - baseEvent.start.minute%granularity)%granularity)
-    startingDuration = (baseEvent.end - baseEvent.start).seconds//60
+    startingDuration = (baseEvent.end - baseEvent.start).total_seconds()//60
     startingDuration = startingDuration + (granularity - startingDuration%granularity)%granularity
+    trackerRequiredBusy = {}
+    trackerAvailableAttendees = {}
     
     canModulateAttendees = True
     canModulateDuration = True
@@ -54,14 +56,17 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
                     if(not canModulateDate):
                         if(eventTime.date() != startTime.date()):
                             continue
-                    attendees = masterMatrix.available_attendees(eventTime, duration);
-                    if(masterMatrix.is_required_attendees_busy(eventTime, duration)):
+                    #requiredBusy = masterMatrix.is_required_attendees_busy(eventTime, duration)
+                    requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, eventTime, duration, granularity)
+                    if(requiredBusy):
+                        continue
+                    #attendees = masterMatrix.available_attendees(eventTime, duration)
+                    attendees = tracker_available_attendees(trackerAvailableAttendees, masterMatrix, eventTime, duration);
+                    if(len(attendees) < minAttendees):
                         continue
                     if(not canModulateAttendees):
                         if(len(attendees) < len(masterMatrix.attendees)):
                             continue
-                    if(len(attendees) < minAttendees):
-                        continue
                     diffDates = (datetime.combine(startTime.date(),time(0,0,0)) - datetime.combine(eventTime.date(), time(0,0,0))).days
                     diffTimes = (datetime.combine(date(1,1,1),startTime.time()) - datetime.combine(date(1,1,1),eventTime.time())).total_seconds()
                     diffTimes = math.ceil(diffTimes/(60*granularity))
@@ -78,3 +83,34 @@ def generate_duration_list(canModulateDuration, granularity, startingDuration):
             duration_list.append(duration)
             duration -= granularity
     return duration_list
+
+def tracker_check_required_busy(tracker, masterMatrix, eventTime, duration, granularity):
+    #If all required are free for a certain eventTime and duration, they're free for eventTime with smaller duration
+    eventTimeStr = str(eventTime)
+    if eventTimeStr in tracker:
+        if(tracker[eventTimeStr]): #No need to check duration because all durations are in descending order
+            nextEventTime = eventTime + timedelta(minutes=granularity) #calculate next time within duration
+            tracker[str(nextEventTime)] = True #set also true because still within same previous duration
+            return True
+    busy = masterMatrix.is_required_attendees_busy(eventTime, duration)
+    tracker[eventTimeStr] = busy
+    return busy
+
+def tracker_available_attendees(tracker, masterMatrix, eventTime, duration):
+    #If an attendee is free for eventTime and duration, they're free for eventTime with smaller duration
+    eventTimeStr = str(eventTime)
+    available = []
+    if eventTimeStr in tracker:
+        for attendee in masterMatrix.attendees:
+            if (attendee["email"] in tracker[eventTimeStr] and tracker[eventTimeStr][attendee["email"]]):
+                available.append(attendee["email"])
+            else:
+                attendeeAvailable = masterMatrix.attendee_available(eventTime, duration, attendee["email"])
+                if(attendeeAvailable):
+                    available.append(attendee["email"])
+                tracker[eventTimeStr][attendee["email"]] = attendeeAvailable
+    else:
+        available = masterMatrix.available_attendees(eventTime, duration)
+        for availableAttendee in available:
+            tracker[eventTimeStr] = {availableAttendee: True}
+    return available

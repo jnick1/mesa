@@ -1,0 +1,372 @@
+Sat Apr 23 22:30:31 2016    C:/Temp/profile.txt
+
+         1676513 function calls (1673899 primitive calls) in 1.762 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+     12/1    0.000    0.000    1.763    1.763 {built-in method builtins.exec}
+        1    0.001    0.001    1.763    1.763 optimize.py:8(<module>)
+        1    0.029    0.029    1.607    1.607 C:\wamp\www\mesa\python\pointListGenerator.py:11(construct_point_list)
+     5710    0.306    0.000    1.269    0.000 C:\wamp\www\mesa\python\classes.py:1129(available_attendees)
+   182726    0.250    0.000    1.222    0.000 C:\wamp\www\mesa\python\classes.py:759(get)
+   181902    0.245    0.000    0.955    0.000 C:\wamp\www\mesa\python\classes.py:794(get_value_from_datetime)
+   364628    0.675    0.000    0.675    0.000 C:\wamp\www\mesa\python\functions.py:76(index)
+     5700    0.097    0.000    0.296    0.000 C:\wamp\www\mesa\python\classes.py:1146(is_required_attendees_busy)
+        1    0.000    0.000    0.118    0.118 C:\wamp\www\mesa\python\functions.py:32(construct_modified_matrix)
+        9    0.000    0.000    0.114    0.013 C:\wamp\www\mesa\python\classes.py:939(__init__)
+        9    0.000    0.000    0.094    0.010 C:\wamp\www\mesa\python\classes.py:283(__init__)
+        4    0.000    0.000    0.091    0.023 C:\wamp\www\mesa\python\classes.py:1122(construct_from_union_cm)
+        4    0.013    0.003    0.091    0.023 C:\wamp\www\mesa\python\classes.py:464(construct_from_union)
+    51834    0.029    0.000    0.029    0.000 {built-in method combine}
+        5    0.003    0.001    0.023    0.005 C:\wamp\www\mesa\python\classes.py:1029(construct_from_rawcalendar_with_traveltimes)
+     14/6    0.000    0.000    0.022    0.004 <frozen importlib._bootstrap>:966(_find_and_load)
+     14/6    0.000    0.000    0.022    0.004 <frozen importlib._bootstrap>:939(_find_and_load_unlocked)
+     14/6    0.000    0.000    0.021    0.003 <frozen importlib._bootstrap>:659(_load_unlocked)
+     11/6    0.000    0.000    0.020    0.003 <frozen importlib._bootstrap_external>:656(exec_module)
+     19/7    0.000    0.000    0.017    0.002 <frozen importlib._bootstrap>:214(_call_with_frames_removed)
+   188357    0.015    0.000    0.015    0.000 {method 'get' of 'dict' objects}
+       11    0.000    0.000    0.015    0.001 <frozen importlib._bootstrap_external>:726(get_code)
+   190939    0.013    0.000    0.013    0.000 {method 'date' of 'datetime.datetime' objects}
+   184189    0.013    0.000    0.013    0.000 {built-in method builtins.isinstance}
+   191900    0.013    0.000    0.013    0.000 {method 'time' of 'datetime.datetime' objects}
+        1    0.001    0.001    0.012    0.012 C:\wamp\www\mesa\python\SClass.py:27(smallest_cost)
+        1    0.000    0.000    0.009    0.009 <frozen importlib._bootstrap_external>:718(source_to_code)
+        1    0.009    0.009    0.009    0.009 {built-in method builtins.compile}
+      104    0.000    0.000    0.008    0.000 C:\wamp\www\mesa\python\classes.py:173(__init__)
+      104    0.000    0.000    0.008    0.000 C:\wamp\www\mesa\python\classes.py:190(construct_from_blevent)
+      208    0.000    0.000    0.008    0.000 {built-in method strptime}
+ 2292/136    0.003    0.000    0.006    0.000 C:\Program Files\Python35\lib\copy.py:137(deepcopy)
+        5    0.002    0.000    0.006    0.001 C:\wamp\www\mesa\python\classes.py:79(calculate_time_bound_end)
+     3844    0.005    0.000    0.005    0.000 C:\wamp\www\mesa\python\SClass.py:52(vector_cost)
+  246/136    0.000    0.000    0.005    0.000 C:\Program Files\Python35\lib\copy.py:270(_reconstruct)
+      208    0.000    0.000    0.005    0.000 C:\Program Files\Python35\lib\_strptime.py:497(_strptime_datetime)
+        5    0.000    0.000    0.004    0.001 C:\wamp\www\mesa\python\classes.py:22(__init__)
+       10    0.000    0.000    0.004    0.000 C:\wamp\www\mesa\python\SClass.py:67(date_of_cost)
+      208    0.002    0.000    0.004    0.000 C:\Program Files\Python35\lib\_strptime.py:298(_strptime)
+        5    0.001    0.000    0.004    0.001 C:\wamp\www\mesa\python\classes.py:51(calculate_time_bound_start)
+      6/1    0.000    0.000    0.004    0.004 C:\Program Files\Python35\lib\copy.py:240(_deepcopy_dict)
+     99/4    0.001    0.000    0.004    0.001 C:\Program Files\Python35\lib\copy.py:215(_deepcopy_list)
+    36795    0.004    0.000    0.004    0.000 {method 'append' of 'list' objects}
+      547    0.002    0.000    0.004    0.000 C:\wamp\www\mesa\python\classes.py:120(is_busy)
+       14    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap>:879(_find_spec)
+        1    0.000    0.000    0.003    0.003 C:\Program Files\Python35\lib\json\__init__.py:97(<module>)
+       11    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap_external>:1130(find_spec)
+       11    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap_external>:1098(_get_spec)
+       23    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap_external>:1212(find_spec)
+        5    0.001    0.000    0.003    0.001 C:\wamp\www\mesa\python\classes.py:415(construct_from_bounds)
+       50    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap_external>:68(_path_stat)
+       50    0.002    0.000    0.002    0.000 {built-in method nt.stat}
+33644/33622    0.002    0.000    0.002    0.000 {built-in method builtins.len}
+        1    0.000    0.000    0.002    0.002 C:\Program Files\Python35\lib\_strptime.py:12(<module>)
+       15    0.000    0.000    0.002    0.000 C:\Program Files\Python35\lib\re.py:222(compile)
+       15    0.000    0.000    0.002    0.000 C:\Program Files\Python35\lib\re.py:278(_compile)
+        9    0.000    0.000    0.002    0.000 C:\Program Files\Python35\lib\sre_compile.py:531(compile)
+       12    0.002    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:813(get_data)
+        1    0.002    0.002    0.002    0.002 {built-in method builtins.print}
+        1    0.000    0.000    0.002    0.002 C:\wamp\www\mesa\python\classes.py:7(<module>)
+    10917    0.002    0.000    0.002    0.000 C:\wamp\www\mesa\python\classes.py:241(is_busy)
+     3844    0.002    0.000    0.002    0.000 {method 'total_seconds' of 'datetime.timedelta' objects}
+     3956    0.002    0.000    0.002    0.000 {built-in method math.ceil}
+      412    0.000    0.000    0.002    0.000 C:\wamp\www\mesa\python\classes.py:781(get_row_from_time)
+        1    0.000    0.000    0.001    0.001 C:\Program Files\Python35\lib\json\decoder.py:2(<module>)
+       10    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:471(_compile_bytecode)
+        9    0.000    0.000    0.001    0.000 C:\Program Files\Python35\lib\sre_parse.py:819(parse)
+        5    0.000    0.000    0.001    0.000 C:\wamp\www\mesa\python\classes.py:430(<listcomp>)
+       10    0.001    0.000    0.001    0.000 {built-in method marshal.loads}
+        7    0.001    0.000    0.001    0.000 {built-in method builtins.sorted}
+     23/9    0.000    0.000    0.001    0.000 C:\Program Files\Python35\lib\sre_parse.py:429(_parse_sub)
+     36/9    0.000    0.000    0.001    0.000 C:\Program Files\Python35\lib\sre_parse.py:491(_parse)
+    35/34    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap>:996(_handle_fromlist)
+        1    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap_external>:828(_cache_bytecode)
+       15    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:78(_path_is_mode_type)
+        1    0.000    0.000    0.001    0.001 {built-in method builtins.__import__}
+        1    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap_external>:833(set_data)
+        1    0.000    0.000    0.001    0.001 C:\Program Files\Python35\lib\_strptime.py:266(compile)
+        1    0.000    0.000    0.001    0.001 C:\Program Files\Python35\lib\_strptime.py:181(__init__)
+       13    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:87(_path_isfile)
+        1    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap_external>:99(_write_atomic)
+        9    0.000    0.000    0.001    0.000 C:\Program Files\Python35\lib\sre_compile.py:516(_code)
+      246    0.000    0.000    0.001    0.000 C:\Program Files\Python35\lib\copy.py:223(_deepcopy_tuple)
+      210    0.000    0.000    0.001    0.000 C:\Program Files\Python35\lib\_strptime.py:29(_getlang)
+      210    0.000    0.000    0.001    0.000 C:\Program Files\Python35\lib\locale.py:562(getlocale)
+     53/9    0.000    0.000    0.001    0.000 C:\Program Files\Python35\lib\sre_compile.py:64(_compile)
+        1    0.000    0.000    0.001    0.001 C:\Program Files\Python35\lib\datetime.py:5(<module>)
+       14    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap>:570(module_from_spec)
+       25    0.000    0.000    0.001    0.000 {built-in method builtins.__build_class__}
+        1    0.000    0.000    0.001    0.001 C:\Program Files\Python35\lib\json\scanner.py:2(<module>)
+      412    0.000    0.000    0.001    0.000 C:\wamp\www\mesa\python\classes.py:764(get_col_from_date)
+    15448    0.001    0.000    0.001    0.000 {built-in method builtins.abs}
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:823(path_stats)
+        7    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\__init__.py:271(loads)
+        7    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\decoder.py:334(decode)
+      246    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\copy.py:224(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\encoder.py:2(<module>)
+        1    0.000    0.000    0.000    0.000 {built-in method nt.replace}
+        4    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:477(<listcomp>)
+       10    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\SClass.py:87(to_string)
+        4    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:243(pattern)
+       40    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_compile.py:221(_compile_charset)
+        7    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\decoder.py:345(raw_decode)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:510(_init_module_attrs)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:52(__init__)
+       12    0.000    0.000    0.000    0.000 {method 'read' of '_io.FileIO' objects}
+       58    0.000    0.000    0.000    0.000 {method 'strftime' of 'datetime.date' objects}
+      210    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\locale.py:459(_parse_localename)
+      222    0.000    0.000    0.000    0.000 {method 'match' of '_sre.SRE_Pattern' objects}
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:610(find_spec)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:595(_search_registry)
+       40    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_compile.py:248(_optimize_charset)
+      351    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\copy.py:254(_keep_alive)
+       22    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:243(cache_from_source)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:588(_open_registry)
+      116    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:50(_path_join)
+      210    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\locale.py:376(normalize)
+       22    0.000    0.000    0.000    0.000 {built-in method winreg.OpenKey}
+      210    0.000    0.000    0.000    0.000 {built-in method _locale.setlocale}
+      570    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+        1    0.000    0.000    0.000    0.000 {built-in method nt.open}
+      208    0.000    0.000    0.000    0.000 {method 'groupdict' of '_sre.SRE_Match' objects}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:6(<module>)
+       22    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:406(cached)
+     3377    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:339(_get_cached)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:483(_code_to_bytecode)
+        3    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:737(create_module)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:163(__enter__)
+      276    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:226(__next)
+    76/32    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:167(getwidth)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:416(_validate_bytecode_header)
+       10    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\__init__.py:182(dumps)
+        3    0.000    0.000    0.000    0.000 {built-in method _imp.create_builtin}
+      185    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:247(get)
+       10    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\encoder.py:182(encode)
+        1    0.000    0.000    0.000    0.000 {built-in method marshal.dumps}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:98(__calc_month)
+      116    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:52(<listcomp>)
+  200/156    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+        6    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:224(__seqToRE)
+       27    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1061(_path_importer_cache)
+        9    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_compile.py:412(_compile_info)
+       13    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:90(closegroup)
+        2    0.000    0.000    0.000    0.000 {built-in method io.open}
+        9    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:338(__new__)
+      246    0.000    0.000    0.000    0.000 {method '__reduce_ex__' of 'object' objects}
+       10    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\encoder.py:204(iterencode)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:90(__calc_weekday)
+       26    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:55(__getitem__)
+        2    0.000    0.000    0.000    0.000 {method 'read' of '_io.TextIOWrapper' objects}
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:92(_path_isdir)
+      169    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:157(__getitem__)
+       16    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:176(_get_module_lock)
+       23    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:56(_path_split)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1044(_path_hooks)
+     1695    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\copy.py:192(_deepcopy_atomic)
+       15    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:143(latest_date)
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\encodings\cp437.py:18(encode)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:351(_calc_mode)
+        2    0.000    0.000    0.000    0.000 {built-in method _codecs.charmap_encode}
+       50    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:239(<genexpr>)
+       14    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:74(__getitem__)
+      141    0.000    0.000    0.000    0.000 {method 'format' of 'str' objects}
+      154    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:242(match)
+        8    0.000    0.000    0.000    0.000 {method 'sub' of '_sre.SRE_Pattern' objects}
+       15    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:102(earliest_date)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1207(_get_spec)
+       44    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\re.py:240(escape)
+        1    0.000    0.000    0.000    0.000 {method 'write' of '_io.FileIO' objects}
+       95    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:100(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:101(<listcomp>)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:321(__exit__)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:93(<listcomp>)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1257(_fill_cache)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1298(path_hook_for_FileFinder)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:716(find_spec)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:74(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:117(__calc_date_time)
+        8    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\re.py:323(_subx)
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\encodings\cp1252.py:22(decode)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:170(__exit__)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:510(spec_from_file_location)
+       21    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:312(_class_escape)
+        8    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\re.py:306(_compile_repl)
+        5    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_compile.py:374(_mk_bitmap)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:94(<listcomp>)
+        2    0.000    0.000    0.000    0.000 {built-in method _codecs.charmap_decode}
+       16    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:94(acquire)
+       16    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:119(release)
+      246    0.000    0.000    0.000    0.000 {built-in method builtins.issubclass}
+      254    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+      114    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:363(_verbose_message)
+      134    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+        4    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\functions.py:102(maxtime)
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:846(parse_template)
+        1    0.000    0.000    0.000    0.000 {built-in method nt.listdir}
+       29    0.000    0.000    0.000    0.000 {built-in method _thread.allocate_lock}
+        2    0.000    0.000    0.000    0.000 {method 'close' of '_io.TextIOWrapper' objects}
+        5    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:110(earliest_time)
+       76    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:165(append)
+       13    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:78(opengroup)
+        4    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\functions.py:120(mintime)
+        5    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:151(latest_time)
+      417    0.000    0.000    0.000    0.000 {method 'toordinal' of 'datetime.date' objects}
+       23    0.000    0.000    0.000    0.000 {method 'rsplit' of 'str' objects}
+       70    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:276(tell)
+       11    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:217(__init__)
+      268    0.000    0.000    0.000    0.000 {method 'lower' of 'str' objects}
+      104    0.000    0.000    0.000    0.000 {method 'find' of 'bytearray' objects}
+        3    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:436(spec_from_loader)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:1814(timezone)
+       53    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:105(__init__)
+       14    0.000    0.000    0.000    0.000 {built-in method builtins.any}
+        4    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\functions.py:111(mindate)
+       72    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_compile.py:101(fixup)
+        3    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:1318(__new__)
+       47    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:856(__exit__)
+        5    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_compile.py:376(<listcomp>)
+       21    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:45(_r_long)
+        8    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:847(length)
+       75    0.000    0.000    0.000    0.000 {method 'rpartition' of 'str' objects}
+       61    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:153(__len__)
+       11    0.000    0.000    0.000    0.000 {built-in method _imp.is_builtin}
+      208    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:47(_localized_month)
+      222    0.000    0.000    0.000    0.000 {method 'end' of '_sre.SRE_Match' objects}
+      208    0.000    0.000    0.000    0.000 {method 'weekday' of 'datetime.date' objects}
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:419(parent)
+       69    0.000    0.000    0.000    0.000 {method 'replace' of 'str' objects}
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:35(_new_module)
+       10    0.000    0.000    0.000    0.000 {built-in method _imp._fix_co_filename}
+       47    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:852(__enter__)
+       44    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:75(groups)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:372(__init__)
+        8    0.000    0.000    0.000    0.000 {built-in method time.strftime}
+       10    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_compile.py:386(_simple)
+        4    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\functions.py:93(maxdate)
+        5    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:432(<listcomp>)
+        5    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:264(_check_date_fields)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:195(_lock_unlock_module)
+       16    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:362(_escape)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\copyreg.py:96(_slotnames)
+        9    0.000    0.000    0.000    0.000 {built-in method _sre.compile}
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1175(__init__)
+       85    0.000    0.000    0.000    0.000 {built-in method _sre.getlower}
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:314(__enter__)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:783(__init__)
+        4    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:479(<listcomp>)
+        4    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:251(getwhile)
+        3    0.000    0.000    0.000    0.000 {method 'extend' of 'bytearray' objects}
+       23    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:30(_relax_case)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:379(_check_name_wrapper)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:49(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\SClass.py:8(<module>)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:789(find_spec)
+        6    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:260(getuntil)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:159(__init__)
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:1029(__new__)
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_bootlocale.py:11(getpreferredencoding)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:513(__neg__)
+       18    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_compile.py:513(isstring)
+        9    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:797(fix_flags)
+       21    0.000    0.000    0.000    0.000 {built-in method from_bytes}
+       35    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:247(_check_int_field)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:1310(datetime)
+        5    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:277(_check_time_fields)
+        9    0.000    0.000    0.000    0.000 {built-in method builtins.round}
+       63    0.000    0.000    0.000    0.000 {built-in method _imp.release_lock}
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:671(__new__)
+       12    0.000    0.000    0.000    0.000 {built-in method nt.getcwd}
+       56    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:324(<genexpr>)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:105(__calc_am_pm)
+        9    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:70(__init__)
+       10    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\decoder.py:283(__init__)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:310(__init__)
+        3    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:745(exec_module)
+       11    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:66(_localized_day)
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\pointListGenerator.py:8(<module>)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:162(__calc_timezone)
+        2    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:40(_w_long)
+       20    0.000    0.000    0.000    0.000 {built-in method builtins.max}
+        9    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:225(_verbose_message)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:319(timedelta)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:641(date)
+        3    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:235(_requires_builtin_wrapper)
+        2    0.000    0.000    0.000    0.000 {built-in method _locale._getdefaultlocale}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:1004(time)
+       45    0.000    0.000    0.000    0.000 {built-in method builtins.divmod}
+        1    0.000    0.000    0.000    0.000 {method 'get' of 'mappingproxy' objects}
+       34    0.000    0.000    0.000    0.000 {built-in method builtins.chr}
+       69    0.000    0.000    0.000    0.000 {built-in method builtins.ord}
+       11    0.000    0.000    0.000    0.000 {built-in method _imp.is_frozen}
+       32    0.000    0.000    0.000    0.000 {method 'setdefault' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:126(Calendar)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:69(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\functions.py:7(<module>)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:190(cb)
+       32    0.000    0.000    0.000    0.000 {built-in method _thread.get_ident}
+       47    0.000    0.000    0.000    0.000 {built-in method _imp.acquire_lock}
+       20    0.000    0.000    0.000    0.000 {built-in method __new__ of type object at 0x00000000614FCBA0}
+       19    0.000    0.000    0.000    0.000 {method 'index' of 'str' objects}
+       10    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:161(__setitem__)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:259(TextCalendar)
+        5    0.000    0.000    0.000    0.000 {method 'translate' of 'bytearray' objects}
+        3    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:40(_days_before_year)
+        5    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:45(_days_in_month)
+        5    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:431(<listcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:178(TimeRE)
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:250(Matrix)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:376(HTMLCalendar)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:653(create_module)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\sre_parse.py:855(addgroup)
+       11    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:808(get_filename)
+        4    0.000    0.000    0.000    0.000 {built-in method math.isclose}
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:15(Calendar)
+       14    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:427(has_location)
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\pointListGenerator.py:73(generate_duration_list)
+        4    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:478(<listcomp>)
+        1    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1286(<setcomp>)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\encoder.py:105(__init__)
+        3    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:1837(_create)
+       15    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:132(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\copyreg.py:87(__newobj__)
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:901(CalendarMatrix)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:138(<listcomp>)
+        6    0.000    0.000    0.000    0.000 {method 'partition' of 'str' objects}
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\codecs.py:259(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:934(tzinfo)
+        5    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:215(<genexpr>)
+        6    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+        3    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\encoder.py:74(JSONEncoder)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\_strptime.py:33(LocaleTime)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\decoder.py:253(JSONDecoder)
+        3    0.000    0.000    0.000    0.000 {built-in method _imp.exec_builtin}
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\classes.py:158(Event)
+        5    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\datetime.py:292(_check_tzinfo_arg)
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:71(__init__)
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\functions.py:129(parsePriorities)
+        2    0.000    0.000    0.000    0.000 {method 'to_bytes' of 'int' objects}
+        1    0.000    0.000    0.000    0.000 C:\wamp\www\mesa\python\functions.py:155(parseRRule)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:21(IllegalMonthError)
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:52(__init__)
+        8    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1181(<genexpr>)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:500(LocaleTextCalendar)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:531(LocaleHTMLCalendar)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:138(setfirstweekday)
+        1    0.000    0.000    0.000    0.000 {method 'insert' of 'list' objects}
+        6    0.000    0.000    0.000    0.000 {method 'isidentifier' of 'str' objects}
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\json\decoder.py:20(JSONDecodeError)
+        1    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method '__getitem__' of 'dict' objects}
+        3    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:762(is_package)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:28(IllegalWeekdayError)
+        1    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:488(different_locale)
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        2    0.000    0.000    0.000    0.000 C:\Program Files\Python35\lib\calendar.py:50(<lambda>)
+
+

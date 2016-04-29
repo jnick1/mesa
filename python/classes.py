@@ -53,6 +53,8 @@ class Calendar:
         prototime = self.earliest_time()
         startdate = self.earliest_date()
         enddate = self.latest_date()
+        
+        prototime = (datetime.combine(startdate, prototime)+timedelta(minutes=(granularity-prototime.minute%granularity)%granularity)).time()
         starttime = copy.deepcopy(prototime)
         width = (enddate - startdate).days+2
         for i in range(width):
@@ -600,7 +602,7 @@ class Matrix:
             chopBlock = []
             for day in self.dates:
                 if(functions.index(args["days"], day.weekday()) != -1):
-                    chopBlock.append(functions.index(self.dates, day)-len(chopBlock))
+                    chopBlock.append(functions.binary_index(self.dates, day)-len(chopBlock))
             for chop in chopBlock:
                 self.delete("column",{"col":chop})
 
@@ -624,7 +626,7 @@ class Matrix:
             chopBlock = []
             for time in self.times:
                 if(functions.index(args["times"], time) != -1):
-                    chopBlock.append(functions.index(self.times, time)-len(chopBlock))
+                    chopBlock.append(functions.binary_index(self.times, time)-len(chopBlock))
             for chop in chopBlock:
                 self.delete("row",{"row":chop})
         
@@ -761,7 +763,7 @@ class Matrix:
         #retuires: date must be a date object
         def get_col_from_date():
             if(isinstance(args["date"], date)):
-                return functions.index(self.dates, args["date"])
+                return functions.binary_index(self.dates, args["date"])
             else:
                 raise TypeError("Erroneous argument type supplied. Please use a time object")
 
@@ -778,7 +780,7 @@ class Matrix:
         #retuires: time must be a time object
         def get_row_from_time():
             if(isinstance(args["time"], time)):
-                return functions.index(self.times, args["time"])
+                return functions.binary_index(self.times, args["time"])
             else:
                 raise TypeError("Erroneous argument type supplied. Please use a date object")
 
@@ -791,8 +793,8 @@ class Matrix:
         #retuires: when must be a datetime object
         def get_value_from_datetime():
             if(isinstance(args["when"], datetime)):
-                row = functions.index(self.times, args["when"].time())
-                col = functions.index(self.dates, args["when"].date())
+                row = functions.binary_index(self.times, args["when"].time())
+                col = functions.binary_index(self.dates, args["when"].date())
                 if(row!=-1 and col!=-1):
                     return self.matrix[row][col]
                 else:
@@ -1137,6 +1139,35 @@ class CalendarMatrix(Matrix):
             if(busyString != "" and int(busyString)==0):
                 availableList.append(self.attendees[j]["email"])
         return availableList
+    
+    #returns the index of the attendee in the self.attendees list
+    #
+    #requires: attendee is a string (attendee email)
+    def get_attendee_index(self, attendee):
+        for j in range(len(self.attendees)):
+            if(self.attendees[j]["email"] == attendee):
+                return j
+        return -1
+    
+    #returns if the attendee is available for the duration
+    #
+    #requires: when is a datetime object, duration is an int (representing minutes), attendee is a string (attendee email)
+    def attendee_available(self, when, duration, attendee):
+        granularity = (datetime.combine(self.dates[0],self.times[1])-datetime.combine(self.dates[0],self.times[0])).seconds/60
+        start = when+timedelta(minutes=(granularity-when.minute%granularity)%granularity)
+        attendeeNumber = self.get_attendee_index(attendee)
+        if(attendeeNumber == -1):
+            return False
+        busyString = ""
+        for i in range(int(duration//granularity)):
+            check = start+timedelta(minutes = i*granularity)
+            if(self.get("value_dt",{"when":check}) != -1):
+                busyString += list(self.get("value_dt",{"when":check}))[attendeeNumber]
+        if(busyString != "" and int(busyString)==0):
+            return True
+        return False
+    
+    
     
     #returns True if any required attendees are busy for a duration at a given datetime
     #
