@@ -56,12 +56,12 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
                     if(not canModulateDate):
                         if(eventTime.date() != startTime.date()):
                             continue
-                    requiredBusy = masterMatrix.is_required_attendees_busy(eventTime, duration)
-                    #requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, eventTime, duration)
+                    #requiredBusy = masterMatrix.is_required_attendees_busy(eventTime, duration)
+                    requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, eventTime, duration)
                     if(requiredBusy):
                         continue
-                    attendees = masterMatrix.available_attendees(eventTime, duration)
-                    #attendees = tracker_available_attendees(trackerAvailableAttendees, masterMatrix, eventTime, duration);
+                    #attendees = masterMatrix.available_attendees(eventTime, duration)
+                    attendees = tracker_available_attendees(trackerAvailableAttendees, masterMatrix, eventTime, duration);
                     if(len(attendees) < minAttendees):
                         continue
                     if(not canModulateAttendees):
