@@ -1140,6 +1140,35 @@ class CalendarMatrix(Matrix):
                 availableList.append(self.attendees[j]["email"])
         return availableList
     
+    #returns the index of the attendee in the self.attendees list
+    #
+    #requires: attendee is a string (attendee email)
+    def get_attendee_index(self, attendee):
+        for j in range(len(self.attendees)):
+            if(self.attendees[j]["email"] == attendee):
+                return j
+        return -1
+    
+    #returns if the attendee is available for the duration
+    #
+    #requires: when is a datetime object, duration is an int (representing minutes), attendee is a string (attendee email)
+    def attendee_available(self, when, duration, attendee):
+        granularity = (datetime.combine(self.dates[0],self.times[1])-datetime.combine(self.dates[0],self.times[0])).seconds/60
+        start = when+timedelta(minutes=(granularity-when.minute%granularity)%granularity)
+        attendeeNumber = self.get_attendee_index(attendee)
+        if(attendeeNumber == -1):
+            return False
+        busyString = ""
+        for i in range(int(duration//granularity)):
+            check = start+timedelta(minutes = i*granularity)
+            if(self.get("value_dt",{"when":check}) != -1):
+                busyString += list(self.get("value_dt",{"when":check}))[attendeeNumber]
+        if(busyString != "" and int(busyString)==0):
+            return True
+        return False
+    
+    
+    
     #returns True if any required attendees are busy for a duration at a given datetime
     #
     #requires: when is a datetime object, duration is an int (representing minutes)
