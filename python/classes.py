@@ -1173,7 +1173,6 @@ class CalendarMatrix(Matrix):
     #
     #requires: when is a datetime object, duration is an int (representing minutes)
     def is_required_attendees_busy(self, when, duration):
-        busyString = ""
         granularity = (datetime.combine(self.dates[0],self.times[1])-datetime.combine(self.dates[0],self.times[0])).seconds/60
         start = when+timedelta(minutes=(granularity-when.minute%granularity)%granularity)
         for i in range(int(duration//granularity)):
@@ -1181,10 +1180,8 @@ class CalendarMatrix(Matrix):
             if(self.get("value_dt",{"when":check}) != -1):
                 string = list(self.get("value_dt",{"when":check}))
                 for j in range(len(self.attendees)):
-                    if(self.attendees[j]["optional"] == False):
-                        busyString += string[j]
-        if(busyString != "" and int(busyString)!=0):
-            return True
+                    if(self.attendees[j]["optional"] == False and string[j]=="1"):
+                        return True
         return False
         
     #Sets the value of a cell for an attendee at the given row and column to value
