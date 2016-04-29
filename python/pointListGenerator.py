@@ -57,7 +57,7 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
                         if(eventTime.date() != startTime.date()):
                             continue
                     #requiredBusy = masterMatrix.is_required_attendees_busy(eventTime, duration)
-                    requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, eventTime, duration)
+                    requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, eventTime, duration, granularity)
                     if(requiredBusy):
                         continue
                     #attendees = masterMatrix.available_attendees(eventTime, duration)
@@ -84,11 +84,13 @@ def generate_duration_list(canModulateDuration, granularity, startingDuration):
             duration -= granularity
     return duration_list
 
-def tracker_check_required_busy(tracker, masterMatrix, eventTime, duration):
+def tracker_check_required_busy(tracker, masterMatrix, eventTime, duration, granularity):
     #If all required are free for a certain eventTime and duration, they're free for eventTime with smaller duration
     eventTimeStr = str(eventTime)
     if eventTimeStr in tracker:
         if(tracker[eventTimeStr]): #No need to check duration because all durations are in descending order
+            nextEventTime = eventTime + timedelta(minutes=granularity) #calculate next time within duration
+            tracker[str(nextEventTime)] = True #set also true because still within same previous duration
             return True
     busy = masterMatrix.is_required_attendees_busy(eventTime, duration)
     tracker[eventTimeStr] = busy
