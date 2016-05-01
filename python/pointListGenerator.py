@@ -34,12 +34,8 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
     finalPointList = []
 
     if(not(canModulateAttendees or canModulateDuration or canModulateDate or canModulateTime)):
-        # Check if startDate and Time works, if not, return an empty list to Sierra
-        if(time.time() != startTime.time()):
-            return None
-        if(time.date() != startTime.date()):
-            return None
-        attendees = masterMatrix.available_attendees(startTime, startingDuration) #(GET ATTENDEES FOR DURATION AND STARTTIME)
+        # Check if start works, if not, return an empty list to Sierra
+        attendees = masterMatrix.available_attendees(startTime, startingDuration)
         if(len(attendees) < len(masterMatrix.attendees)):
             return None
         return [0][0,0,0,0]
@@ -85,16 +81,33 @@ def generate_duration_list(canModulateDuration, granularity, startingDuration):
     return duration_list
 
 def tracker_check_required_busy(tracker, masterMatrix, eventTime, duration, granularity):
-    #If all required are free for a certain eventTime and duration, they're free for eventTime with smaller duration
+    #Tracker format: {eventTime: [list of durations]}
     eventTimeStr = str(eventTime)
     if eventTimeStr in tracker:
-        if(tracker[eventTimeStr]): #No need to check duration because all durations are in descending order
-            nextEventTime = eventTime + timedelta(minutes=granularity) #calculate next time within duration
-            tracker[str(nextEventTime)] = True #set also true because still within same previous duration
+        if(duration <= tracker[eventTimeStr]):
             return True
-    busy = masterMatrix.is_required_attendees_busy(eventTime, duration)
-    tracker[eventTimeStr] = busy
-    return busy
+    requiredBusy = masterMatrix.is_required_attendees_busy(eventTime, duration)
+    if(not requiredBusy): #If all required are free (A.K.A. masterMatrix.is_required_attendees_busy returns False) for a certain eventTime and duration, they're free for eventTime with smaller duration
+        if(eventTimeStr in tracker):
+            if(duration > tracker[eventTimeStr]):
+                tracker[eventTimeStr] = duration
+        else:
+            tracker[eventTimeStr] = duration
+        fill_tracker_from_duration(tracker, eventTime, duration, granularity)
+    return requiredBusy
+
+def fill_tracker_from_duration(tracker, eventTime, originalDuration, granularity): #Note, recursion does not work
+    durationList = generate_duration_list(True, granularity, originalDuration)
+    durationIncrement = timedelta(minutes=granularity)
+    for durationIndex, duration in enumerate(durationList):
+        nextTime = eventTime
+        for _ in range(0, durationIndex):
+            nextTime += durationIncrement
+            if(str(nextTime) in tracker):
+                if(duration > tracker[str(nextTime)]):
+                    tracker[str(nextTime)] = duration
+            else:
+                tracker[str(nextTime)] = duration
 
 def tracker_available_attendees(tracker, masterMatrix, eventTime, duration):
     #If an attendee is free for eventTime and duration, they're free for eventTime with smaller duration
@@ -102,13 +115,13 @@ def tracker_available_attendees(tracker, masterMatrix, eventTime, duration):
     available = []
     if eventTimeStr in tracker:
         for attendee in masterMatrix.attendees:
-            if (attendee["email"] in tracker[eventTimeStr] and tracker[eventTimeStr][attendee["email"]]):
+            if (attendee["email"] in tracker[eventTimeStr]):
                 available.append(attendee["email"])
             else:
                 attendeeAvailable = masterMatrix.attendee_available(eventTime, duration, attendee["email"])
                 if(attendeeAvailable):
                     available.append(attendee["email"])
-                tracker[eventTimeStr][attendee["email"]] = attendeeAvailable
+                    tracker[eventTimeStr][attendee["email"]] = True
     else:
         available = masterMatrix.available_attendees(eventTime, duration)
         for availableAttendee in available:
