@@ -5,10 +5,9 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-from datetime import datetime, date, time, timedelta
+from datetime import datetime, timedelta
 import heapq
-from operator import itemgetter 
-import math
+from operator import itemgetter
         
     #sum of distance on axix * priotiy of axis
     #Will gets me the point list, Jacob gets me
@@ -74,7 +73,7 @@ def date_of_cost(objDate, originalEvent, granularity, solution, location, Matrix
 
     startTime = originalEvent.start - timedelta(minutes=(granularity - originalEvent.start.minute%granularity)%granularity)
     startingDuration = (originalEvent.end - originalEvent.start).total_seconds()//60
-    startingDuration = startingDuration + ((granularity - startingDuration%granularity)%granularity)
+    startingDuration += (granularity - startingDuration % granularity) % granularity
     
     #this assumes that the defaults are already in datetime
     newDate = (startTime + timedelta(days = VDay)).date() #works when its pos or neg 
