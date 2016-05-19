@@ -14,7 +14,6 @@ import functions
 import classes
 import pointListGenerator
 import SClass
-#import SOptCode
 
 granularity = 15
 

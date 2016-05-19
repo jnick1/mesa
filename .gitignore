@@ -2,3 +2,5 @@
 /composer.lock
 /vendor/
 /client_secret*.json
+.idea/
+/python/__pycache__/
