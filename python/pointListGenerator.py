@@ -59,11 +59,15 @@ def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
                     if not canModulateDate and matrixDate != startDate:
                         continue
                     matrixDateTime = datetime.combine(matrixDate, matrixTime)
-                    requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, matrixDateTime,
-                                                               duration, granularity)
+                    #requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, matrixDateTime, duration, granularity)
+                    requiredBusy = masterMatrix.is_required_attendees_busy(matrixDateTime, duration)
                     if requiredBusy:
+                        print(str(matrixDateTime) + " : " + str(duration) + " : " + str(requiredBusy))
                         continue
-                    lenAttendees = len(tracker_available_attendees(trackerAvailableAttendees, masterMatrix, matrixDateTime, duration))
+                    #availableAttendees = tracker_available_attendees(trackerAvailableAttendees, masterMatrix, matrixDateTime, duration)
+                    availableAttendees = masterMatrix.available_attendees(matrixDateTime, duration)
+                    lenAttendees = len(availableAttendees)
+                    print(str(matrixDateTime) + " : " + str(duration) + " : " + str(availableAttendees) + " : " + str(lenMatrixAttendees - lenAttendees) + " : " + str(requiredBusy))
                     if lenAttendees < minAttendees:
                         continue
                     if not canModulateAttendees:
@@ -98,9 +102,10 @@ def tracker_check_required_busy(tracker, masterMatrix, eventDateTime, duration, 
         if eventDateTimeStr in tracker:
             if duration > tracker[eventDateTimeStr]:
                 tracker[eventDateTimeStr] = duration
+                fill_tracker_from_duration(tracker, eventDateTime, duration, granularity)
         else:
             tracker[eventDateTimeStr] = duration
-        fill_tracker_from_duration(tracker, eventDateTime, duration, granularity)
+            fill_tracker_from_duration(tracker, eventDateTime, duration, granularity)
     return requiredBusy
 
 

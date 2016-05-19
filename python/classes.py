@@ -1136,7 +1136,7 @@ class CalendarMatrix(Matrix):
                 check = start+timedelta(minutes = i*granularity)
                 if(self.get("value_dt",{"when":check}) != -1):
                     busyString += list(self.get("value_dt",{"when":check}))[j]
-            if(busyString != "" and int(busyString)==0):
+            if(len(busyString) == 0 or int(busyString)==0):
                 availableList.append(self.attendees[j]["email"])
         return availableList
     
@@ -1163,7 +1163,7 @@ class CalendarMatrix(Matrix):
             check = start+timedelta(minutes = i*granularity)
             if(self.get("value_dt",{"when":check}) != -1):
                 busyString += list(self.get("value_dt",{"when":check}))[attendeeNumber]
-        if(busyString != "" and int(busyString)==0):
+        if(len(busyString) == 0 or int(busyString)==0):
             return True
         return False
     
