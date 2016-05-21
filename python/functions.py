@@ -11,7 +11,6 @@ def construct_calendar_set(blCalendar):
     attendees = blCalendar["attendance"]
     attendeesCalendarData = {}
     for attendee in attendees:
-        print(str(attendee) + " : " + str(attendees[attendee]))
         attendeesCalendarData[attendee] = classes.Calendar(blCalendar[attendee], attendee, attendees[attendee])
     calendarSet = classes.CalendarSet(attendeesCalendarData)
     return calendarSet

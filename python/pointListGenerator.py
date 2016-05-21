@@ -62,12 +62,10 @@ def construct_point_list(calendarSet, granularity, baseEvent, blSettings):
                 #requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, matrixDateTime, duration, granularity)
                 requiredBusy = calendarSet.is_required_attendees_busy(searchPos, duration)
                 if requiredBusy:
-                    print(str(searchPos) + " : " + str(duration) + " : " + str(requiredBusy))
                     continue
                 #availableAttendees = tracker_available_attendees(trackerAvailableAttendees, masterMatrix, matrixDateTime, duration)
                 availableAttendees = calendarSet.available_attendees(searchPos, duration)
                 lenAttendees = len(availableAttendees)
-                print(str(searchPos) + " : " + str(duration) + " : " + str(availableAttendees) + " : " + str(lenMatrixAttendees - lenAttendees) + " : " + str(requiredBusy))
                 if lenAttendees < minAttendees:
                     continue
                 if not canModulateAttendees:
