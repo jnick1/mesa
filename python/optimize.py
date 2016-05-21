@@ -5,15 +5,12 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-__author__="Jacob"
-__date__ ="$Apr 10, 2016 3:30:13 AM$"
-
 import sys
 import json
 import functions
 import classes
 import pointListGenerator
-import SClass
+import costFinder
 
 granularity = 15
 
@@ -22,7 +19,7 @@ dtEnd = sys.argv[2]
 txLocation = sys.argv[3]
 txRRule = sys.argv[4]
 temp = open("C:/wamp/www/mesa/python/temp1.json", "r")
-calendars = json.loads(temp.read())
+blCalendars = json.loads(temp.read())
 temp.close()
 temp = open("C:/wamp/www/mesa/python/temp2.json", "r")
 blSettings = json.loads(temp.read())
@@ -32,9 +29,8 @@ RRule = functions.parseRRule(txRRule)
 
 priorities = functions.parsePriorities(blSettings)
 originalEvent = classes.Event("blevent", {"blEvent":{"start_time":dtStart.replace(" ", "T")+"Z", "end_time":dtEnd.replace(" ", "T")+"Z", "location":txLocation, "travel_time":0}})
-modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, granularity)
+calendarSet = functions.construct_calendar_set(blCalendars)
+pointList = pointListGenerator.construct_point_list(calendarSet, granularity, originalEvent, blSettings)
 
-pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent, blSettings)
-
-costOutput = SClass.smallest_cost(pointList, priorities, originalEvent, granularity, txLocation, modifiedMatrix)  
+costOutput = costFinder.smallest_cost(pointList, priorities, originalEvent, granularity, txLocation, calendarSet)  
 print (costOutput)
