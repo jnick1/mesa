@@ -15,9 +15,6 @@ def construct_point_list(calendarSet, granularity, baseEvent, blSettings):
     startingDuration = (baseEvent.end - baseEvent.start).total_seconds() // 60
     startingDuration += (granularity - startingDuration % granularity) % granularity
 
-    trackerRequiredBusy = {}
-    trackerAvailableAttendees = {}
-
     canModulateAttendees = True
     canModulateDuration = True
     canModulateDate = True
@@ -89,55 +86,3 @@ def generate_duration_list(canModulateDuration, granularity, startingDuration):
             duration_list.append(duration)
             duration -= granularity
     return duration_list
-
-
-def tracker_check_required_busy(tracker, masterMatrix, eventDateTime, duration, granularity):
-    # Tracker format: {eventDateTime: duration free}
-    eventDateTimeStr = str(eventDateTime)
-    if eventDateTimeStr in tracker and duration <= tracker[eventDateTimeStr]:
-        return False
-    requiredBusy = masterMatrix.is_required_attendees_busy(eventDateTime, duration)
-    if not requiredBusy:  # If all required are free (A.K.A. masterMatrix.is_required_attendees_busy returns False) for a certain eventDateTime and duration, they're free for eventDateTime with smaller duration
-        if eventDateTimeStr in tracker:
-            if duration > tracker[eventDateTimeStr]:
-                tracker[eventDateTimeStr] = duration
-                fill_tracker_from_duration(tracker, eventDateTime, duration, granularity)
-        else:
-            tracker[eventDateTimeStr] = duration
-            fill_tracker_from_duration(tracker, eventDateTime, duration, granularity)
-    return requiredBusy
-
-
-def fill_tracker_from_duration(tracker, eventDateTime, originalDuration, granularity):
-    # Note: recursion does not work, too many calls required
-    durationList = generate_duration_list(True, granularity, originalDuration)
-    durationIncrement = timedelta(minutes=granularity)
-    for durationIndex, duration in enumerate(durationList):
-        nextTime = eventDateTime
-        for _ in range(0, durationIndex):
-            nextTime += durationIncrement
-            if str(nextTime) in tracker:
-                if duration > tracker[str(nextTime)]:
-                    tracker[str(nextTime)] = duration
-            else:
-                tracker[str(nextTime)] = duration
-
-
-def tracker_available_attendees(tracker, masterMatrix, eventDateTime, duration):
-    # If an attendee is free for eventDateTime and duration, they're free for eventDateTime with smaller duration
-    eventDateTimeStr = str(eventDateTime)
-    available = []
-    if eventDateTimeStr in tracker:
-        for attendee in masterMatrix.attendees:
-            if attendee["email"] in tracker[eventDateTimeStr]:
-                available.append(attendee["email"])
-            else:
-                attendeeAvailable = masterMatrix.attendee_available(eventDateTime, duration, attendee["email"])
-                if attendeeAvailable:
-                    available.append(attendee["email"])
-                    tracker[eventDateTimeStr][attendee["email"]] = True
-    else:
-        available = masterMatrix.available_attendees(eventDateTime, duration)
-        for availableAttendee in available:
-            tracker[eventDateTimeStr] = {availableAttendee: True}
-    return available
