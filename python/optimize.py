@@ -13,7 +13,7 @@ import json
 import functions
 import classes
 import pointListGenerator
-import SClass
+import costFinder
 
 granularity = 15
 
@@ -36,5 +36,5 @@ modifiedMatrix = functions.construct_modified_matrix(calendars, blSettings, gran
 
 pointList = pointListGenerator.construct_point_list(modifiedMatrix, granularity, originalEvent, blSettings)
 
-costOutput = SClass.smallest_cost(pointList, priorities, originalEvent, granularity, txLocation, modifiedMatrix)  
+costOutput = costFinder.smallest_cost(pointList, priorities, originalEvent, granularity, txLocation, modifiedMatrix)  
 print (costOutput)
