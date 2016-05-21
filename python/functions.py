@@ -4,73 +4,17 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-__author__="Jacob"
-__date__ ="$Apr 9, 2016 11:56:14 PM$"
-
-#constructs the master matrix from semi-json-semi-raw calendar data
-def construct_master_matrix(blCalendar, granularity):
-    import classes
-    attendees = blCalendar["attendance"]
-    MasterMatrix = []
-    i = 0
-    for attendee in attendees:
-        args = {
-            "rawcalendar":blCalendar[attendee],
-            "owner":attendee,
-            "optional":attendees[attendee],
-            "granularity":granularity
-        }
-        matrix = classes.CalendarMatrix("rawcalendar", args)
-        if(i==0):
-            MasterMatrix = matrix
-        else:
-            MasterMatrix = classes.CalendarMatrix("union", {"self":MasterMatrix,"other":matrix})
-        i+=1
-    return MasterMatrix
-
-#constructs the modified matrix from the master matrix, and blSettings
-def construct_modified_matrix(blCalendar, settings, granularity):
+#constructs the calendar set from calendar data
+def construct_calendar_set(blCalendar):
     import classes
     import copy
     attendees = blCalendar["attendance"]
-    preModifiedMatrix = []
-    i = 0
+    attendeesCalendarData = {}
     for attendee in attendees:
-        args = {
-            "rawcalendar":blCalendar[attendee],
-            "owner":attendee,
-            "optional":attendees[attendee],
-            "granularity":granularity
-        }
-        matrix = classes.CalendarMatrix("traveltime", args)
-        if(i==0):
-            preModifiedMatrix = matrix
-        else:
-            preModifiedMatrix = classes.CalendarMatrix("union", {"self":preModifiedMatrix,"other":matrix})
-        i+=1
-    
-    modifiedMatrix = copy.deepcopy(preModifiedMatrix)
-    if(settings["useDefault"]!=True):
-        if(settings["blacklist"]!=False):
-            rawDays = settings["blacklist"]["days"].split(",")
-            if(not (len(rawDays) == 1 and rawDays[0]=="")):
-                days = {
-                    "MO":   0,
-                    "TU":   1,
-                    "WE":   2,
-                    "TH":   3,
-                    "FR":   4,
-                    "SA":   5,
-                    "SU":   6
-                }
-                chopDays = [days[rawDays[x]] for x in range(len(rawDays))]
-                modifiedMatrix.delete("days", {"days":chopDays})
-        if(settings["date"]!=False):
-            if(settings["date"]["furthest"] != ""):
-                furthest = strpdate(settings["date"]["furthest"], "%Y-%m-%d")
-                lastdate = modifiedMatrix.dates[-1]
-                modifiedMatrix.delete("dRange", {"startdate":furthest,"enddate":lastdate})
-    return modifiedMatrix
+        print(str(attendee) + " : " + str(attendees[attendee]))
+        attendeesCalendarData[attendee] = classes.Calendar(blCalendar[attendee], attendee, attendees[attendee])
+    calendarSet = classes.CalendarSet(attendeesCalendarData)
+    return calendarSet
 
 #performs the same function as index, but performs a binary search at O(log(n))
 #   Assume that list is sorted from lowest to highest.
