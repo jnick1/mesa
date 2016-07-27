@@ -795,7 +795,7 @@ and open the template in the editor.
                                                                 <td>
                                                                     <label id="ne-label-settings-maxdate" for="ne-evt-settings-maxdate">
                                                                         Furthest search date
-                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput"<?php if(!empty($settings["date"])) { echo " data-date=\"".(substr($settings["date"]["furthest"],5,2)."/".substr($settings["date"]["furthest"],8,2)."/".substr($settings["date"]["furthest"],0,4))."\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
+                                                                        <input id="ne-evt-settings-maxdate" class="ui-date ui-textinput"<?php if(!empty($settings["date"]) && !empty($settings["date"]["furthest"])) { echo " data-date=\"".(substr($settings["date"]["furthest"],5,2)."/".substr($settings["date"]["furthest"],8,2)."/".substr($settings["date"]["furthest"],0,4))."\""; } ?><?php echo " tabindex=\"".$ti++."\"";?>>
                                                                     </label>
                                                                 </td>
                                                             </tr>
