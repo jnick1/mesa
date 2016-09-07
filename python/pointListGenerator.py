@@ -1,144 +1,117 @@
-#!/usr/bin/env python2
-# encoding: UTF-8
-
-# To change this license header, choose License Headers in Project Properties.
-# To change this template file, choose Tools | Templates
-# and open the template in the editor.
-
-from datetime import datetime, timedelta, time, date
+from datetime import timedelta
+from functions import diffdate, difftime
 import math
 
 
-def construct_point_list(masterMatrix, granularity, baseEvent, blSettings):
-    startEvent = baseEvent.start - timedelta(minutes=(granularity - baseEvent.start.minute % granularity) % granularity)
-    startTime = startEvent.time()
-    startDate = startEvent.date()
-    startingDuration = (baseEvent.end - baseEvent.start).total_seconds() // 60
-    startingDuration += (granularity - startingDuration % granularity) % granularity
+def construct_point_list(calendar_set, granularity, base_event, bl_settings):
+    """
+    Constructs list of points representing the coordinates away from the original event
+    :param calendar_set: Set of calendar event data
+    :param granularity: Granularity of search
+    :param base_event: Starting event to reference as origin
+    :param bl_settings: Settings of search
+    :return: list of points representing all possible events within the settings given
+    """
+    start_event = base_event.start - \
+                  timedelta(minutes=((granularity -
+                                      base_event.start.minute %
+                                      granularity) %
+                                     granularity))
+    start_time = start_event.time()
+    start_date = start_event.date()
+    starting_duration = (base_event.end - base_event.start).total_seconds() // 60
+    starting_duration += (granularity - starting_duration % granularity) % granularity
 
-    trackerRequiredBusy = {}
-    trackerAvailableAttendees = {}
+    can_modulate = interpret_modulatable(bl_settings)
 
-    canModulateAttendees = True
-    canModulateDuration = True
-    canModulateDate = True
-    canModulateTime = True
-    minAttendees = 1
-    if blSettings["useDefault"] is False:
-        if blSettings["time"]:
-            canModulateTime = blSettings["time"]["timeallow"]
-        if blSettings["date"]:
-            canModulateDate = blSettings["date"]["dateallow"]
-        if blSettings["duration"]:
-            canModulateDuration = blSettings["duration"]["durationallow"]
-        if blSettings["attendees"]:
-            canModulateTime = blSettings["attendees"]["attendeesallow"]
-            minAttendees = int(blSettings["attendees"]["minattendees"])
+    final_point_list = []
 
-    finalPointList = []
-
-    if not (canModulateAttendees or canModulateDuration or canModulateDate or canModulateTime):
-        # Check if start works, if not, return an empty list to Sierra
-        attendees = masterMatrix.available_attendees(startEvent, startingDuration)
-        if len(attendees) < len(masterMatrix.attendees):
+    if not (can_modulate["attendees"] or
+            can_modulate["duration"] or
+            can_modulate["date"] or
+            can_modulate["time"]):
+        # Now check if original event works, if not, return None
+        attendees = calendar_set.available_attendees(start_event, starting_duration)
+        if len(attendees) < len(calendar_set.attendees):
             return None
-        finalPointList.append([0, 0, 0, 0])
-        return finalPointList
+        final_point_list.append([0, 0, 0, 0])
+        return final_point_list
     else:
-        durationIncrement = 0
-        durationList = generate_duration_list(canModulateDuration, granularity, startingDuration)
-        # duration_list = (duration for duration in range(startingDuration,granularity, -1*granularity) if canModulateDuration) #may be faster
-        dates = masterMatrix.dates
-        times = masterMatrix.times
-        lenMatrixAttendees = len(masterMatrix.attendees)  # externalize len call as much as possible
-        for duration in durationList:
-            for matrixDate in dates:
-                for matrixTime in times:
-                    if not canModulateTime and matrixTime != startTime:
+        duration_list = generate_duration_list(can_modulate["duration"],
+                                               granularity,
+                                               starting_duration)
+        len_matrix_attendees = len(calendar_set.calendarList)  # Externalize len call
+        for duration_increment, duration in enumerate(duration_list):
+            search_pos = calendar_set.calculate_time_bound_start(granularity) - \
+                         timedelta(minutes=granularity)
+            search_end = calendar_set.calculate_time_bound_end(granularity)
+            while search_pos < search_end:
+                search_pos = search_pos + timedelta(minutes=granularity)
+                search_pos_time = search_pos.time()
+                if not can_modulate["time"] and search_pos_time != start_time:
+                    continue
+                search_pos_date = search_pos.date()
+                if not can_modulate["date"] and search_pos_date != start_date:
+                    continue
+                required_busy = calendar_set.is_required_attendees_busy(search_pos,
+                                                                        duration)
+                if required_busy:
+                    continue
+                available_attendees = calendar_set.available_attendees(search_pos,
+                                                                       duration)
+                len_attendees = len(available_attendees)
+                if len_attendees < can_modulate["minAttendees"]:
+                    continue
+                if not can_modulate["attendees"]:
+                    if len_attendees < len_matrix_attendees:
                         continue
-                    if not canModulateDate and matrixDate != startDate:
-                        continue
-                    matrixDateTime = datetime.combine(matrixDate, matrixTime)
-                    #requiredBusy = tracker_check_required_busy(trackerRequiredBusy, masterMatrix, matrixDateTime, duration, granularity)
-                    requiredBusy = masterMatrix.is_required_attendees_busy(matrixDateTime, duration)
-                    if requiredBusy:
-                        print(str(matrixDateTime) + " : " + str(duration) + " : " + str(requiredBusy))
-                        continue
-                    #availableAttendees = tracker_available_attendees(trackerAvailableAttendees, masterMatrix, matrixDateTime, duration)
-                    availableAttendees = masterMatrix.available_attendees(matrixDateTime, duration)
-                    lenAttendees = len(availableAttendees)
-                    print(str(matrixDateTime) + " : " + str(duration) + " : " + str(availableAttendees) + " : " + str(lenMatrixAttendees - lenAttendees) + " : " + str(requiredBusy))
-                    if lenAttendees < minAttendees:
-                        continue
-                    if not canModulateAttendees:
-                        if lenAttendees < lenMatrixAttendees:
-                            continue
-                    diffDates = (datetime.combine(startDate, time(0, 0, 0)) - datetime.combine(matrixDate, time(0, 0, 0))).days
-                    diffTimes = (datetime.combine(date(1, 1, 1), startTime) - datetime.combine(date(1, 1, 1), matrixTime)).total_seconds()
-                    diffTimes = math.ceil(diffTimes / (60 * granularity))
-                    datetimePoint = [-1 * diffTimes, -1 * diffDates, durationIncrement, lenMatrixAttendees - lenAttendees]
-                    finalPointList.append(datetimePoint)
-            durationIncrement += 1
-    return finalPointList
+                diff_dates = diffdate(start_date, search_pos_date)
+                diff_times = math.ceil(difftime(start_time, search_pos_time) /
+                                       (60 * granularity))
+                datetime_point = [-1 * diff_times,
+                                  -1 * diff_dates,
+                                  duration_increment,
+                                  len_matrix_attendees - len_attendees]
+                final_point_list.append(datetime_point)
+    return final_point_list
 
 
-def generate_duration_list(canModulateDuration, granularity, startingDuration):
-    duration_list = [startingDuration]
-    if canModulateDuration:
-        duration = startingDuration - granularity
+def generate_duration_list(can_modulate_duration, granularity, starting_duration):
+    """
+    Generates a list of durations to check through
+    :param can_modulate_duration: If the duration is modulatable
+    :param granularity: Granularity to decrease duration by
+    :param starting_duration: Maximum duration to check
+    :return: List of possible durations
+    """
+    duration_list = [starting_duration]
+    if can_modulate_duration:
+        duration = starting_duration - granularity
         while duration >= granularity:
             duration_list.append(duration)
             duration -= granularity
     return duration_list
 
 
-def tracker_check_required_busy(tracker, masterMatrix, eventDateTime, duration, granularity):
-    # Tracker format: {eventDateTime: duration free}
-    eventDateTimeStr = str(eventDateTime)
-    if eventDateTimeStr in tracker and duration <= tracker[eventDateTimeStr]:
-        return False
-    requiredBusy = masterMatrix.is_required_attendees_busy(eventDateTime, duration)
-    if not requiredBusy:  # If all required are free (A.K.A. masterMatrix.is_required_attendees_busy returns False) for a certain eventDateTime and duration, they're free for eventDateTime with smaller duration
-        if eventDateTimeStr in tracker:
-            if duration > tracker[eventDateTimeStr]:
-                tracker[eventDateTimeStr] = duration
-                fill_tracker_from_duration(tracker, eventDateTime, duration, granularity)
-        else:
-            tracker[eventDateTimeStr] = duration
-            fill_tracker_from_duration(tracker, eventDateTime, duration, granularity)
-    return requiredBusy
-
-
-def fill_tracker_from_duration(tracker, eventDateTime, originalDuration, granularity):
-    # Note: recursion does not work, too many calls required
-    durationList = generate_duration_list(True, granularity, originalDuration)
-    durationIncrement = timedelta(minutes=granularity)
-    for durationIndex, duration in enumerate(durationList):
-        nextTime = eventDateTime
-        for _ in range(0, durationIndex):
-            nextTime += durationIncrement
-            if str(nextTime) in tracker:
-                if duration > tracker[str(nextTime)]:
-                    tracker[str(nextTime)] = duration
-            else:
-                tracker[str(nextTime)] = duration
-
-
-def tracker_available_attendees(tracker, masterMatrix, eventDateTime, duration):
-    # If an attendee is free for eventDateTime and duration, they're free for eventDateTime with smaller duration
-    eventDateTimeStr = str(eventDateTime)
-    available = []
-    if eventDateTimeStr in tracker:
-        for attendee in masterMatrix.attendees:
-            if attendee["email"] in tracker[eventDateTimeStr]:
-                available.append(attendee["email"])
-            else:
-                attendeeAvailable = masterMatrix.attendee_available(eventDateTime, duration, attendee["email"])
-                if attendeeAvailable:
-                    available.append(attendee["email"])
-                    tracker[eventDateTimeStr][attendee["email"]] = True
-    else:
-        available = masterMatrix.available_attendees(eventDateTime, duration)
-        for availableAttendee in available:
-            tracker[eventDateTimeStr] = {availableAttendee: True}
-    return available
+def interpret_modulatable(bl_settings):
+    """
+    Expands bl_settings into a keyed list
+    :param bl_settings: Settings from database
+    :return: Keyed list expanded from settings in database
+    """
+    can_modulate = {"time": True,
+                    "date": True,
+                    "duration": True,
+                    "attendees": True,
+                    "minattendees": 1}
+    if bl_settings["useDefault"] is False:
+        if bl_settings["time"]:
+            can_modulate["time"] = bl_settings["time"]["timeallow"]
+        if bl_settings["date"]:
+            can_modulate["date"] = bl_settings["date"]["dateallow"]
+        if bl_settings["duration"]:
+            can_modulate["duration"] = bl_settings["duration"]["durationallow"]
+        if bl_settings["attendees"]:
+            can_modulate["attendees"] = bl_settings["attendees"]["attendeesallow"]
+            can_modulate["minattendees"] = int(bl_settings["attendees"]["minattendees"])
+    return can_modulate
