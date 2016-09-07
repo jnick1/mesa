@@ -7,12 +7,14 @@ def construct_calendar_set(bl_calendar):
     :param bl_calendar: Calendar data blob from database
     :return: CalendarSet representing calendar data
     """
-    import classes
+    from classes import Calendar, CalendarSet
     attendees = bl_calendar["attendance"]
     attendees_calendar_data = {}
     for attendee in attendees:
-        attendees_calendar_data[attendee] = classes.Calendar(bl_calendar[attendee], attendee, attendees[attendee])
-    calendar_set = classes.CalendarSet(attendees_calendar_data)
+        attendees_calendar_data[attendee] = Calendar(bl_calendar[attendee],
+                                                     attendee,
+                                                     attendees[attendee])
+    calendar_set = CalendarSet(attendees_calendar_data)
     return calendar_set
 
 
@@ -56,7 +58,6 @@ def maxdate(dates):
     :param dates: List of dates
     :return: Latest date
     """
-    from datetime import date
     maxdate = date.min
     for when in dates:
         if when > maxdate:
@@ -70,7 +71,6 @@ def maxtime(times):
     :param times: List of times
     :return: Latest time
     """
-    from datetime import time
     maxtime = time.min
     for when in times:
         if when > maxtime:
@@ -84,7 +84,6 @@ def mindate(dates):
     :param dates: List of dates
     :return: Earliest date
     """
-    from datetime import date
     mindate = date.max
     for when in dates:
         if when < mindate:
@@ -98,7 +97,6 @@ def mintime(times):
     :param times: List of times
     :return: Earliest time
     """
-    from datetime import time
     mintime = time.max
     for when in times:
         if when < mintime:
@@ -175,7 +173,6 @@ def strpdate(string, new_format):
     :param new_format: Format of the datetime conversion
     :return: DateTime object representing the string passed in
     """
-    from datetime import datetime
     new_format += "T%H:%M:%S"
     return datetime.strptime(string + "T00:00:00", new_format).date()
 
@@ -187,7 +184,6 @@ def strptime(string, new_format):
     :param new_format: Format of the datetime conversion
     :return: DateTime object representing the string passed in
     """
-    from datetime import datetime
     new_format = "%Y-%m-%dT" + new_format
     return datetime.strptime("2016-01-01T" + string, new_format).time()
 
