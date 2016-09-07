@@ -182,7 +182,7 @@ def strptime(string, new_format):
     Converts a string representing a time into a time based on a given format
     :param string: String representing a time
     :param new_format: Format of the datetime conversion
-    :return:
+    :return: DateTime object representing the string passed in
     """
     new_format = "%Y-%m-%dT" + new_format
     return datetime.strptime("2016-01-01T" + string, new_format).time()
