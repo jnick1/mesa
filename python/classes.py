@@ -1,270 +1,319 @@
-#! /usr/bin/python
-
-# To change this license header, choose License Headers in Project Properties.
-# To change this template file, choose Tools | Templates
-# and open the template in the editor.
-
 import json
 from datetime import datetime, date, time, timedelta
 
+
 class CalendarSet:
+    """
+    Set of user calendar data, used to determine whether attendees are available
+    at a certain time.
+    """
     def __init__(self, calendarList):
         self.calendarList = calendarList
-    
+
     def is_required_attendees_busy(self, when, duration):
+        """
+        Checks if required attendees are busy
+        :param when: Time to check
+        :param duration: Duration after the time
+        :return: True if a required attendee is busy,
+                 False if no required attendees are busy
+        """
         for attendee in self.calendarList:
-            if not self.calendarList[attendee].optional and self.calendarList[attendee].is_busy_for_duration(when, duration):
+            if not self.calendarList[attendee].optional and \
+                    self.calendarList[attendee].is_busy_for_duration(when, duration):
                 return True
         return False
-    
+
     def available_attendees(self, when, duration):
-        availableAttendees = []
+        """
+        Returns all available attendees for a given duration
+        :param when: Time to check
+        :param duration: Duration after the time
+        :return: A list of all available attendees at the given time
+        """
+        available_attendees = []
         for attendee in self.calendarList:
             if not self.calendarList[attendee].is_busy_for_duration(when, duration):
-                availableAttendees.append(attendee)
-        return availableAttendees
-    
+                available_attendees.append(attendee)
+        return available_attendees
+
     def calculate_time_bound_start(self, granularity):
+        """
+        Calculates the earliest time in a CalendarSet
+        :param granularity: Time interval to search with
+        :return: Earliest time in the CalendarSet
+        """
         start = datetime.max
         for attendee in self.calendarList:
             earliestInCalendar = datetime.combine(self.calendarList[attendee].earliest_date(), self.calendarList[attendee].calculate_time_bound_start(granularity))
-            if(earliestInCalendar < start):
+            if earliestInCalendar < start:
                 start = earliestInCalendar
         return start
     
     def calculate_time_bound_end(self, granularity):
+        """
+        Calculates the latest time in a CalendarSet
+        :param granularity: Time interval to search with
+        :return: Latest time in the CalendarSet
+        """
         end = datetime.min
         for attendee in self.calendarList:
             latestInCalendar = datetime.combine(self.calendarList[attendee].latest_date(), self.calendarList[attendee].calculate_time_bound_end(granularity))
-            if(latestInCalendar > end):
+            if latestInCalendar > end:
                 end = latestInCalendar
         return end
 
+
 class Calendar:
-    #instantiates a new Calendar object from raw json data
-    #
-    #requires:
-    #   blCalendar is raw json data
-    #   owner is a string
-    #   optional is True or False
-    def __init__(self, blCalendar, owner, optional):
-        calendar = json.loads(blCalendar)
+
+    def __init__(self, bl_calendar, owner, optional):
+        """
+        Instantiates a new Calendar object from raw json data
+        :param bl_calendar: raw json data of a user's calendar
+        :param owner: owner of the calendar
+        :param optional: if the owner is optional to the event or not
+        """
+        calendar = json.loads(bl_calendar)
         self.email = owner
         self.optional = optional
         self.events = []
         for event in calendar:
-            self.events.append(Event("blevent", {"blEvent":event}))
-    
-    #returns the number of events in this Calendar object
+            self.events.append(Event("blevent", {"blEvent": event}))
+
     def __len__(self):
+        """
+        Calculates the number of events in the Calendar
+        :return: the number of events in this Calendar object
+        """
         return len(self.events)
-    
-    #returns a json-formatted string representing this Calendar object
+
     def __str__(self):
+        """
+        Creates a json-formatted string representation of the object
+        :return: json-formatted string representing this Calendar object
+        """
         output = "["
         for event in self.events:
-            output+="{\"calendar_email\":\""+self.email+"\","+str(event)+"},"
-        output = output[:-1]+"]";
+            output += "{\"calendar_email\":\"" + self.email + "\"," + str(event) + "},"
+        output = output[:-1] + "]"
         return output
-    
-    #Performs a more advanced/thorough search of the earliest time in a calendar
-    #   While the below functions do well to find the earliest time that any
-    #   event starts at in a calendar, they only consider when an event starts.
-    #   If an event starts too close to the end of the day, i.e. 23:30:00, and
-    #   runs until, say 01:00:00, the below methods won't consider the time
-    #   between as the earliest time an event occurs (the desired answer of
-    #   00:00:00 should be returned). This method corrects this.
-    #
-    #requires: granularity is an int > 0, < 1440
+
     def calculate_time_bound_start(self, granularity):
+        """
+        Performs a more advanced/thorough search of the earliest time in a calendar
+        While the below functions do well to find the earliest time that any
+        event starts at in a calendar, they only consider when an event starts.
+        If an event starts too close to the end of the day, i.e. 23:30:00, and
+        runs until, say 01:00:00, the below methods won't consider the time
+        between as the earliest time an event occurs (the desired answer of
+        00:00:00 should be returned). This method corrects this.
+        :param granularity: Spacing to round to in time interval: > 0, < 1440
+        :return:
+        """
         import copy
         prototime = self.earliest_time()
-        startdate = self.earliest_date()
-        enddate = self.latest_date()
+        start_date = self.earliest_date()
+        end_date = self.latest_date()
         
-        prototime = (datetime.combine(startdate, prototime)+timedelta(minutes=(granularity-prototime.minute%granularity)%granularity)).time()
+        prototime = (datetime.combine(start_date, prototime) + timedelta(minutes=(granularity - prototime.minute % granularity) % granularity)).time()
         starttime = copy.deepcopy(prototime)
-        width = (enddate - startdate).days+2
+        width = (end_date - start_date).days+2
         for i in range(width):
-            while(True):
-                if(self.is_busy(datetime.combine(startdate, prototime)+timedelta(days=i))):
+            while True:
+                if self.is_busy(datetime.combine(start_date, prototime)+timedelta(days=i)):
                     starttime = copy.deepcopy(prototime)
-                if(prototime == time(hour=0,minute=0)):
+                if prototime == time(hour=0, minute=0):
                     break
-                prototime = (datetime.combine(startdate, prototime)-timedelta(minutes=granularity)).time()
-            if(starttime == time(hour=0,minute=0)):
+                prototime = (datetime.combine(start_date, prototime) - timedelta(minutes=granularity)).time()
+            if starttime == time(hour=0, minute=0):
                 break
             prototime = copy.deepcopy(starttime)
         return starttime
-    
-    #Performs a more advanced/thorough search of the latest time in a calendar
-    #   Similar to calculate_time_bound_start, this method will perform a check
-    #   for busy-ness to find the latest time any event in a calendar occurs.
-    #
-    #requires: granularity is an int > 0, < 1440
-    #
-    #See also: calculate_time_bound_start
+
     def calculate_time_bound_end(self, granularity):
+        """
+        Performs a more advanced/thorough search of the latest time in a calendar
+        Similar to calculate_time_bound_start, this method will perform a check
+        for busy-ness to find the latest time any event in a calendar occurs.
+        :param granularity: Spacing to round to in time interval: > 0, < 1440
+        :return:
+        """
         import copy
         prototime = self.latest_time()
-        startdate = self.earliest_date()
-        enddate = self.latest_date()
+        start_date = self.earliest_date()
+        end_date = self.latest_date()
         
-        prototime = (datetime.combine(startdate, prototime)-timedelta(minutes=prototime.minute%granularity)).time()
-        endtime = copy.deepcopy(prototime)
-        width = (enddate - startdate).days+2
+        prototime = (datetime.combine(start_date, prototime) - timedelta(minutes=prototime.minute % granularity)).time()
+        end_time = copy.deepcopy(prototime)
+        width = (end_date - start_date).days+2
         for i in range(width):
-            while(True):
-                if(self.is_busy(datetime.combine(startdate, prototime)+timedelta(days=i))):
-                    endtime = copy.deepcopy(prototime)
-                if(prototime == (datetime.combine(startdate,time(hour=23,minute=59))-timedelta(minutes=granularity-1)).time()):
+            while True:
+                if self.is_busy(datetime.combine(start_date, prototime) + timedelta(days=i)):
+                    end_time = copy.deepcopy(prototime)
+                if prototime == (datetime.combine(start_date, time(hour=23, minute=59)) - timedelta(minutes=granularity - 1)).time():
                     break
-                prototime = (datetime.combine(startdate, prototime)+timedelta(minutes=granularity)).time()
+                prototime = (datetime.combine(start_date, prototime) + timedelta(minutes=granularity)).time()
                 
-            if(endtime == (datetime.combine(startdate,time(hour=23,minute=59))-timedelta(minutes=granularity-1)).time()):
+            if end_time == (datetime.combine(start_date, time(hour=23, minute=59)) - timedelta(minutes=granularity - 1)).time():
                 break
-            prototime = copy.deepcopy(endtime)
-        return endtime
-    
-    #returns a date object representing the earliest start date of any event in this Calendar object
+            prototime = copy.deepcopy(end_time)
+        return end_time
+
     def earliest_date(self):
-        mindate = date.max
+        """
+        Finds the earliest date in the Calendar object
+        :return: Date object, the earliest start date of any event in this Calendar object
+        """
+        min_date = date.max
         for event in self.events:
-            if(event.start.date()<mindate):
-                mindate = event.start.date()
-        return mindate
-    
-    #returns a time object representing the earliest start time of any event in this Calendar object
+            if event.start.date() < min_date:
+                min_date = event.start.date()
+        return min_date
+
     def earliest_time(self):
-        mintime = time.max
+        """
+        Finds the earliest time in the Calendar object
+        :return: Time object, the earliest start time of any event in this Calendar object
+        """
+        min_time = time.max
         for event in self.events:
-            if(event.start.time()<mintime):
-                mintime = event.start.time()
-        return mintime
-    
-    #returns True if any event in the Calendar occurs during the specified time, otherwise False
-    #
-    #requires: when must be a datetime object
+            if event.start.time() < min_time:
+                min_time = event.start.time()
+        return min_time
+
     def is_busy(self, when):
+        """
+        Calculates if the owner is busy at the specified time
+        :param when: DateTime to check
+        :return: True if any event in the Calendar occurs during the specified time
+        """
         for event in self.events:
-            if(event.is_busy(when)):
+            if event.is_busy(when):
                 return True
         return False
     
-    #returns True if any event in the calendar occurs during the specified time, for a given duration
-    #   In this instance of this method, the busy-ness is checked continuously,
-    #   whereas in the CalendarMatrix class's implementation, a discrete check
-    #   is performed.
-    #
-    #requires: when must be a datetime object, duration must be an int > 0
-    #   (representing minutes)
     def is_busy_for_duration(self, when, duration):
-        tempevent = Event("duration", {"start":when, "duration":duration, "location":"", "travelTime":0})
+        """
+        Checks if any events in this calendar occur over the specified time + duration
+        :param when: DateTime to check
+        :param duration: Duration to check
+        :return: True if any event in the calendar occurs during the specified time for a given duration
+        """
+        temp_event = Event("duration", {"start": when, "duration": duration, "location": "", "travelTime": 0})
         for event in self.events:
-            if(tempevent.conflict(event)):
+            if temp_event.conflict(event):
                 return True
         return False
-    
-    #returns a date object representing the latest end date of any event in this Calendar object
+
     def latest_date(self):
-        maxdate = date.min
+        """
+        Finds the latest end date of any event in this Calendar object
+        :return: A Date object with the latest end date of any event in this Calendar
+        """
+        max_date = date.min
         for event in self.events:
-            if(event.end.date() > maxdate):
-                maxdate = event.end.date()
-        return maxdate
-    
-    #returns a time object representing the latest end time of any event in this Calendar object
+            if event.end.date() > max_date:
+                max_date = event.end.date()
+        return max_date
+
     def latest_time(self):
-        maxtime = time.min
+        """
+        Finds the latest end time of any event in this Calendar object
+        :return: A Time object with the latest end date of any event in this Calendar
+        """
+        max_time = time.min
         for event in self.events:
-            if(event.end.time() > maxtime):
-                maxtime = event.end.time()
-        return maxtime
-    
+            if event.end.time() > max_time:
+                max_time = event.end.time()
+        return max_time
+
+
 class Event:
-    
-    #instantiates a new Event object
-    #   This method, similar to Matrix.__init__, allows for multiple constructors
-    #   to be called based off of what is passed to inittype. An Event is
-    #   most commonly constructed from raw event data.
-    #   
-    #required args: varies
-    #   inittype: blevent
-    #       blEvent                         json formatted string of event data, non-parsed
-    #   inittype: duration
-    #       duration                        int representing minutes
-    #       location                        string
-    #       start                           datetime object
-    #       travelTime                      int representing ???
+
     def __init__(self, inittype, args):
+        """
+        Instantiates a new Event object
+        :param inittype: Type of initialization either "blevent" or "duration"
+        :param args: Required args varies depending on inittype
+            inittype: blevent
+                blEvent                         json formatted string of event data, non-parsed
+            inittype: duration
+                duration                        int representing minutes
+                location                        string
+                start                           datetime object
+                travelTime                      int representing minutes of travel time
+        """
         constructors = {
             "blevent":       self.construct_from_blevent,
             "duration":      self.construct_from_duration
         }
         constructor = constructors.get(inittype, -1)
         
-        if(constructor != -1):
+        if constructor != -1:
             constructor(args)
         else:
             raise ValueError("Invalid inittype passed. Please refer to documentation to see valid inittypes")
-    
-    #constructs a new Event object based on raw event data
-    #   This method assumes much about the structure of the data passed to it,
-    #   i.e. the format being saved to in the database.
-    #
-    #required args: blEvent
+
     def construct_from_blevent(self, args):
+        """
+        Constructs the event object based on raw event data
+        :param args: The args would only have "blEvent", containing start_time, end_time, location, and travel_time
+        :return: None
+        """
         self.start = datetime.strptime(args["blEvent"]["start_time"], "%Y-%m-%dT%H:%M:%SZ")
         self.end = datetime.strptime(args["blEvent"]["end_time"], "%Y-%m-%dT%H:%M:%SZ")
         self.location = args["blEvent"]["location"]
         self.travelTime = int(args["blEvent"]["travel_time"])
-    
-    #constructs a new Event object based on various parameters
-    #
-    #required args: start, duration, location, travelTime
-    #
-    #requires: start, end must be a datetime object, duration is an int > 0 
-    #   (representing minutes)
+
     def construct_from_duration(self, args):
+        """
+        Constructs the event object from the args
+        :param args: The args contain start, duration, location, and travelTime
+        :return: None
+        """
         self.start = args["start"]
         self.end = args["start"]+timedelta(minutes=args["duration"])
         self.location = args["location"]
         self.travelTime = args["travelTime"]
-    
-    #returns the duration of the event in seconds
+
     def __len__(self):
-        return (self.end-self.start).seconds
-    
-    #returns a rough (incomplete/unbounded) json formatted string representing this event
+        """
+        Calculates the duration of the event in seconds
+        :return: The duration of the event in seconds
+        """
+        return (self.end - self.start).seconds
+
     def __str__(self):
-        output = "\"start_time\":\""+self.start.strftime("%Y-%m-%dT%H:%M:%SZ")+"\",\"end_time\":\""+self.end.strftime("%Y-%m-%dT%H:%M:%SZ")+"\",\"location\":\""+self.location+",\"travel_time\":"+str(self.travelTime)+""
+        """
+        Returns a rough (incomplete/unbounded) json formatted string representing this event
+        :return: rough (incomplete/unbounded) json formatted string representing this event
+        """
+        output = "\"start_time\":\"" + self.start.strftime("%Y-%m-%dT%H:%M:%SZ") + \
+                 "\",\"end_time\":\"" + self.end.strftime("%Y-%m-%dT%H:%M:%SZ") + \
+                 "\",\"location\":\"" + self.location + \
+                 ",\"travel_time\":" + str(self.travelTime) + ""
         return output
-    
-    #returns True if a given event "conflicts" with the current event
-    #   To explain further, if there is any instant of time taken up by both
-    #   events, this method will return True.
-    #
-    #Note: start times are considered inclusively, whereas end times are considered
-    #   exclusively
-    #
-    #requires: other must be and Event object
+
     def conflict(self, other):
-        if(not isinstance(other, Event)):
+        """
+        Checks for conflict with this event and another event
+        :param other: The other event to compare with
+        :return: True if there is a conflict, False otherwise
+        """
+        if not isinstance(other, Event):
             raise TypeError("Erroneous argument type supplied. Please use an Event object")
-        if(
-        (self.start >= other.start and self.start < other.end) or 
-        (self.end > other.start and self.end < other.end) or 
-        (self.start <= other.start and self.end >= other.end)):
+        if (other.start <= self.start < other.end) or \
+           (other.start < self.end < other.end) or \
+           (self.start <= other.start and self.end >= other.end):
             return True
         return False
-    
-    #returns True if the given datetime occurs during this event, otherwise False
-    #
-    #Note: start times are considered inclusively, whereas end times are considered
-    #   exclusively
-    #
-    #requires: when must be a datetime object
+
     def is_busy(self, when):
-        if(when >= self.start and when < self.end):
+        """
+        Checks if a given datetime ocurrs during this event
+        :param when: datetime object to check
+        :return: True if the datetime occurrs during the event, False otherwise
+        """
+        if self.start <= when < self.end:
             return True
         return False
