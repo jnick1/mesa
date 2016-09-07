@@ -77,6 +77,13 @@ def construct_point_list(calendar_set, granularity, base_event, bl_settings):
 
 
 def generate_duration_list(can_modulate_duration, granularity, starting_duration):
+    """
+    Generates a list of durations to check through
+    :param can_modulate_duration: If the duration is modulatable
+    :param granularity: Granularity to decrease duration by
+    :param starting_duration: Maximum duration to check
+    :return: List of possible durations
+    """
     duration_list = [starting_duration]
     if can_modulate_duration:
         duration = starting_duration - granularity
@@ -87,6 +94,11 @@ def generate_duration_list(can_modulate_duration, granularity, starting_duration
 
 
 def interpret_modulatable(bl_settings):
+    """
+    Expands bl_settings into a keyed list
+    :param bl_settings: Settings from database
+    :return: Keyed list expanded from settings in database
+    """
     can_modulate = {"time": True,
                     "date": True,
                     "duration": True,

@@ -7,7 +7,7 @@ import costFinder
 
 
 def main():
-    granularity = 15  #TODO allow change of granularity
+    granularity = 15  # TODO allow change of granularity
 
     dt_start = sys.argv[1]
     dt_end = sys.argv[2]
@@ -20,7 +20,7 @@ def main():
     bl_settings = json.loads(temp.read())
     temp.close()
 
-    rrule = functions.parse_rrule(tx_rrule)
+    rrule = functions.parse_rrule(tx_rrule)  # TODO create use for rrule
 
     priorities = functions.parse_priorities(bl_settings)
     original_event = classes.Event("blevent", {"blEvent":
