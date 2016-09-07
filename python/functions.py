@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, time, date
+from datetime import datetime, time, date
 
 
 def construct_calendar_set(bl_calendar):
@@ -114,6 +114,7 @@ def diffdate(date_a, date_b):
 def difftime(time_a, time_b):
     return (datetime.combine(date(1, 1, 1), time_a) -
             datetime.combine(date(1, 1, 1), time_b)).total_seconds()
+
 
 def parse_priorities(bl_settings):
     """

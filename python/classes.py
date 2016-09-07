@@ -7,8 +7,8 @@ class CalendarSet:
     Set of user calendar data, used to determine whether attendees are available
     at a certain time.
     """
-    def __init__(self, calendarList):
-        self.calendarList = calendarList
+    def __init__(self, calendar_list):
+        self.calendar_list = calendar_list
 
     def is_required_attendees_busy(self, when, duration):
         """
@@ -18,9 +18,9 @@ class CalendarSet:
         :return: True if a required attendee is busy,
                  False if no required attendees are busy
         """
-        for attendee in self.calendarList:
-            if not self.calendarList[attendee].optional and \
-                    self.calendarList[attendee].is_busy_for_duration(when, duration):
+        for attendee in self.calendar_list:
+            if not self.calendar_list[attendee].optional and \
+                    self.calendar_list[attendee].is_busy_for_duration(when, duration):
                 return True
         return False
 
@@ -32,8 +32,8 @@ class CalendarSet:
         :return: A list of all available attendees at the given time
         """
         available_attendees = []
-        for attendee in self.calendarList:
-            if not self.calendarList[attendee].is_busy_for_duration(when, duration):
+        for attendee in self.calendar_list:
+            if not self.calendar_list[attendee].is_busy_for_duration(when, duration):
                 available_attendees.append(attendee)
         return available_attendees
 
@@ -44,10 +44,12 @@ class CalendarSet:
         :return: Earliest time in the CalendarSet
         """
         start = datetime.max
-        for attendee in self.calendarList:
-            earliestInCalendar = datetime.combine(self.calendarList[attendee].earliest_date(), self.calendarList[attendee].calculate_time_bound_start(granularity))
-            if earliestInCalendar < start:
-                start = earliestInCalendar
+        for attendee in self.calendar_list:
+            earliest_in_calendar = datetime.combine(
+                self.calendar_list[attendee].earliest_date(),
+                self.calendar_list[attendee].calculate_time_bound_start(granularity))
+            if earliest_in_calendar < start:
+                start = earliest_in_calendar
         return start
     
     def calculate_time_bound_end(self, granularity):
@@ -57,10 +59,12 @@ class CalendarSet:
         :return: Latest time in the CalendarSet
         """
         end = datetime.min
-        for attendee in self.calendarList:
-            latestInCalendar = datetime.combine(self.calendarList[attendee].latest_date(), self.calendarList[attendee].calculate_time_bound_end(granularity))
-            if latestInCalendar > end:
-                end = latestInCalendar
+        for attendee in self.calendar_list:
+            latest_in_calendar = datetime.combine(
+                self.calendar_list[attendee].latest_date(),
+                self.calendar_list[attendee].calculate_time_bound_end(granularity))
+            if latest_in_calendar > end:
+                end = latest_in_calendar
         return end
 
 
@@ -115,16 +119,20 @@ class Calendar:
         start_date = self.earliest_date()
         end_date = self.latest_date()
         
-        prototime = (datetime.combine(start_date, prototime) + timedelta(minutes=(granularity - prototime.minute % granularity) % granularity)).time()
+        prototime = (datetime.combine(start_date, prototime) +
+                     timedelta(minutes=((granularity - prototime.minute % granularity) %
+                                        granularity))).time()
         starttime = copy.deepcopy(prototime)
         width = (end_date - start_date).days+2
         for i in range(width):
             while True:
-                if self.is_busy(datetime.combine(start_date, prototime)+timedelta(days=i)):
+                if self.is_busy(datetime.combine(start_date, prototime) +
+                                timedelta(days=i)):
                     starttime = copy.deepcopy(prototime)
                 if prototime == time(hour=0, minute=0):
                     break
-                prototime = (datetime.combine(start_date, prototime) - timedelta(minutes=granularity)).time()
+                prototime = (datetime.combine(start_date, prototime) -
+                             timedelta(minutes=granularity)).time()
             if starttime == time(hour=0, minute=0):
                 break
             prototime = copy.deepcopy(starttime)
@@ -143,18 +151,23 @@ class Calendar:
         start_date = self.earliest_date()
         end_date = self.latest_date()
         
-        prototime = (datetime.combine(start_date, prototime) - timedelta(minutes=prototime.minute % granularity)).time()
+        prototime = (datetime.combine(start_date, prototime) -
+                     timedelta(minutes=prototime.minute % granularity)).time()
         end_time = copy.deepcopy(prototime)
         width = (end_date - start_date).days+2
         for i in range(width):
             while True:
-                if self.is_busy(datetime.combine(start_date, prototime) + timedelta(days=i)):
+                if self.is_busy(datetime.combine(start_date, prototime) +
+                                timedelta(days=i)):
                     end_time = copy.deepcopy(prototime)
-                if prototime == (datetime.combine(start_date, time(hour=23, minute=59)) - timedelta(minutes=granularity - 1)).time():
+                if prototime == (datetime.combine(start_date, time(hour=23, minute=59)) -
+                                 timedelta(minutes=granularity - 1)).time():
                     break
-                prototime = (datetime.combine(start_date, prototime) + timedelta(minutes=granularity)).time()
+                prototime = (datetime.combine(start_date, prototime) +
+                             timedelta(minutes=granularity)).time()
                 
-            if end_time == (datetime.combine(start_date, time(hour=23, minute=59)) - timedelta(minutes=granularity - 1)).time():
+            if end_time == (datetime.combine(start_date, time(hour=23, minute=59)) -
+                            timedelta(minutes=granularity - 1)).time():
                 break
             prototime = copy.deepcopy(end_time)
         return end_time
@@ -197,9 +210,13 @@ class Calendar:
         Checks if any events in this calendar occur over the specified time + duration
         :param when: DateTime to check
         :param duration: Duration to check
-        :return: True if any event in the calendar occurs during the specified time for a given duration
+        :return: True if any event in the calendar occurs during the specified time for a
+                 given duration
         """
-        temp_event = Event("duration", {"start": when, "duration": duration, "location": "", "travelTime": 0})
+        temp_event = Event("duration", {"start": when,
+                                        "duration": duration,
+                                        "location": "",
+                                        "travelTime": 0})
         for event in self.events:
             if temp_event.conflict(event):
                 return True
@@ -236,7 +253,7 @@ class Event:
         :param inittype: Type of initialization either "blevent" or "duration"
         :param args: Required args varies depending on inittype
             inittype: blevent
-                blEvent                         json formatted string of event data, non-parsed
+                blEvent                         json formatted string of event data
             inittype: duration
                 duration                        int representing minutes
                 location                        string
@@ -257,11 +274,14 @@ class Event:
     def construct_from_blevent(self, args):
         """
         Constructs the event object based on raw event data
-        :param args: The args would only have "blEvent", containing start_time, end_time, location, and travel_time
+        :param args: The args would only have "blEvent", containing start_time, end_time,
+                     location, and travel_time
         :return: None
         """
-        self.start = datetime.strptime(args["blEvent"]["start_time"], "%Y-%m-%dT%H:%M:%SZ")
-        self.end = datetime.strptime(args["blEvent"]["end_time"], "%Y-%m-%dT%H:%M:%SZ")
+        self.start = datetime.strptime(args["blEvent"]["start_time"],
+                                       "%Y-%m-%dT%H:%M:%SZ")
+        self.end = datetime.strptime(args["blEvent"]["end_time"],
+                                     "%Y-%m-%dT%H:%M:%SZ")
         self.location = args["blEvent"]["location"]
         self.travelTime = int(args["blEvent"]["travel_time"])
 
@@ -285,8 +305,8 @@ class Event:
 
     def __str__(self):
         """
-        Returns a rough (incomplete/unbounded) json formatted string representing this event
-        :return: rough (incomplete/unbounded) json formatted string representing this event
+        Returns a rough (incomplete/unbounded) json formatted string representing the event
+        :return: rough (incomplete/unbounded) json formatted string representing the event
         """
         output = "\"start_time\":\"" + self.start.strftime("%Y-%m-%dT%H:%M:%SZ") + \
                  "\",\"end_time\":\"" + self.end.strftime("%Y-%m-%dT%H:%M:%SZ") + \
@@ -310,9 +330,9 @@ class Event:
 
     def is_busy(self, when):
         """
-        Checks if a given datetime ocurrs during this event
+        Checks if a given datetime occurs during this event
         :param when: datetime object to check
-        :return: True if the datetime occurrs during the event, False otherwise
+        :return: True if the datetime occurs during the event, False otherwise
         """
         if self.start <= when < self.end:
             return True
